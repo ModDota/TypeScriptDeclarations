@@ -1,0 +1,36 @@
+{
+  "name": "types-dota-vscripts",
+  "version": "1.0.0",
+  "description": "Dota 2 VScripts API TypeScript definitions.",
+  "repository": "https://github.com/ark120202/types-dota-vscripts.git",
+  "author": "ark120202",
+  "license": "MIT",
+  "scripts": {
+    "build": "node -r ts-node/register src/index.ts",
+    "lint": "tslint --project .",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "@types/got": "^7.1.6",
+    "@types/json5": "^0.0.29",
+    "@types/node": "^8.5.1",
+    "got": "^8.0.0",
+    "json5": "^0.5.1",
+    "prettier": "^1.9.2",
+    "ts-node": "^4.0.2",
+    "tslint": "^5.8.0",
+    "tslint-config-airbnb": "^5.4.2",
+    "tslint-config-prettier": "^1.6.0",
+    "tslint-plugin-prettier": "^1.3.0",
+    "typescript": "^2.6.2",
+    "vdf-extra": "^1.0.1"
+  },
+  "files": [
+    "types"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100
+  }
+}

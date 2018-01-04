@@ -1,6 +1,6 @@
 {
   "name": "types-dota-vscripts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dota 2 VScripts API TypeScript definitions.",
   "repository": "https://github.com/ark120202/types-dota-vscripts.git",
   "author": "ark120202",

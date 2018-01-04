@@ -551,6 +551,10 @@ tslint-config-airbnb@^5.4.2:
     tslint-eslint-rules "^4.1.1"
     tslint-microsoft-contrib "~5.0.1"
 
+tslint-config-ark120202@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tslint-config-ark120202/-/tslint-config-ark120202-1.0.0.tgz#682d98f37af26e147fbd9d6146743e653f70c467"
+
 tslint-config-prettier@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/tslint-config-prettier/-/tslint-config-prettier-1.6.0.tgz#fec1ee8fb07e8f033c63fed6b135af997f31962a"

@@ -151,9 +151,6 @@
       },
       "CreateUnitByName": {
         "generics": ["$return"]
-      },
-      "CreateUnitByNameAsync": {
-        "generics": ["callback$CDOTA_BaseNPC"]
       }
     }
   },

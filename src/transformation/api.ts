@@ -40,7 +40,7 @@ function functionParameters(
 
   return args.map((argType, argIndex) => {
     const argName = argNames![argIndex];
-    if (parametersTypeMap[argName]) {
+    if (parametersTypeMap[argName] != null) {
       argType = parametersTypeMap[argName];
     }
 
@@ -62,7 +62,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
   const typeParameters: ts.TypeParameterDeclaration[] = [];
   const parametersTypeMap: { [key: string]: string } = {};
 
-  if (func.generics) {
+  if (func.generics != null) {
     func.generics.forEach(genericExp => {
       const genericName = genericNames.shift();
       if (genericName == null) throw new Error(`Too many generics: ${func.generics!.join(', ')}`);
@@ -82,7 +82,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
         }
         const argType = func.args[argNames.findIndex(x => x === base)];
 
-        if (path) {
+        if (path != null) {
           const newType = argType.replace(path, genericName);
           typeParameters.push(
             ts.createTypeParameterDeclaration(genericName, typeReference(path), undefined),

@@ -15,6 +15,11 @@ async function gotJSON(url: string) {
   return result.body;
 }
 
+async function gotVDF(url: string) {
+  const result = await got(url);
+  return vdf.parse(result.body);
+}
+
 function mergeAPI(...files: APIFile[]) {
   const result: APIFile = {};
   files.forEach(file => {
@@ -43,26 +48,12 @@ function mergeAPI(...files: APIFile[]) {
   return result;
 }
 
-function mergeEvents(
-  base: { [event: string]: { [key: string]: string } },
-  ...overrides: EventsFile[]
-) {
+function mergeEvents(...files: EventsFile[]) {
   const result: EventsFile = {};
-  Object.entries(base).forEach(([event, args]) => {
-    result[event] = { args };
-  });
-  overrides.forEach(file => {
+  files.forEach(file => {
     Object.entries(file).forEach(([event, eventDef]) => {
-      const oldEventDef = result[event];
-      if (oldEventDef == null) {
-        result[event] = eventDef;
-      } else {
-        if (eventDef.description == null) oldEventDef.description = eventDef.description;
-        if (eventDef.args != null) {
-          if (oldEventDef.args == null) oldEventDef.args = {};
-          Object.assign(oldEventDef.args, eventDef.args);
-        }
-      }
+      if (result[event] == null) result[event] = {};
+      Object.assign(result[event], eventDef);
     });
   });
   return result;
@@ -75,7 +66,6 @@ async function makeDeclarations() {
     overrideLuaServer,
     localOverrideLuaServer,
     events,
-    // eventsOverride,
   ] = await Promise.all([
     gotJSON('https://github.com/SteamDatabase/GameTracking-Dota2/raw/master/_dump/lua/out0.json'),
     gotJSON(
@@ -86,19 +76,19 @@ async function makeDeclarations() {
       JSON5.parse(
         await readFileP(path.resolve(__dirname, './override_lua_server.json'), 'utf8'),
       ))(),
-    (async () => {
-      const result = await got(
-        'https://raw.githubusercontent.com/SteamDatabase/GameTracking-Dota2/master/game/dota/pak01_dir/resource/modevents.res',
-      );
-      return vdf.parse(result.body);
-    })(),
-    // (async () => JSON5.parse(await readFileP('./modevents_override.json', 'utf8')))(),
+    Promise.all(
+      ['gameevents', 'hltvevents', 'modevents', 'port_gameevents', 'serverevents'].map(file =>
+        gotVDF(
+          `https://raw.githubusercontent.com/SteamDatabase/GameTracking-Dota2/master/game/dota/pak01_dir/resource/${file}.res`,
+        ),
+      ),
+    ),
   ]);
 
   return transform(
     mergeAPI(luaServer, overrideLuaServer, localOverrideLuaServer),
     luaServerEnums,
-    mergeEvents(events /*, eventsOverride */),
+    mergeEvents(...events),
   );
 }
 

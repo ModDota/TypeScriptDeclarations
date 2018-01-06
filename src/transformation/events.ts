@@ -6,22 +6,21 @@ export interface File {
 }
 
 interface EventDeclaration {
-  description?: string;
-  args: { [key: string]: string };
+  [key: string]: string;
 }
 
-function functionParameters(args: { [key: string]: string }) {
+function functionParameters(args: EventDeclaration) {
   return Object.entries(args)
-    .filter(([key]) => key !== 'local')
+    .filter(([key]) => !['local', '_description'].includes(key))
     .map(([key, value]) =>
       ts.createPropertySignature(undefined, key, undefined, typeReference(value), undefined),
     );
 }
 
 function eventDeclaration(name: string, event: EventDeclaration) {
-  const parameters = ts.createTypeLiteralNode(functionParameters(event.args));
+  const parameters = ts.createTypeLiteralNode(functionParameters(event));
   let comment = 'Register as a listener for a game event from script.';
-  if (event.description != null) comment += '\n' + event.description;
+  if (event._description != null) comment += '\n' + event._description;
 
   return attachComment(
     ts.createFunctionDeclaration(

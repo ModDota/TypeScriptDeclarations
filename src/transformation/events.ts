@@ -1,5 +1,6 @@
 import { attachComment, typeReference } from './utils';
 import * as ts from '../../node_modules/typescript/lib/typescript'; // ???
+import { pascalCase } from '../../node_modules/change-case/change-case';
 
 export interface File {
   [name: string]: EventDeclaration;
@@ -9,7 +10,7 @@ interface EventDeclaration {
   [key: string]: string;
 }
 
-function functionParameters(args: EventDeclaration) {
+function interfaceProperties(args: EventDeclaration) {
   return Object.entries(args)
     .filter(([key]) => !['local', '_description'].includes(key))
     .map(([key, value]) =>
@@ -18,11 +19,28 @@ function functionParameters(args: EventDeclaration) {
 }
 
 function eventDeclaration(name: string, event: EventDeclaration) {
-  const parameters = ts.createTypeLiteralNode(functionParameters(event));
   let comment = 'Register as a listener for a game event from script.';
   if (event._description != null) comment += '\n' + event._description;
 
-  return attachComment(
+  const interfaceName = pascalCase(name) + 'Event';
+
+  const interfaceProps = interfaceProperties(event);
+
+  const interfaceDef = attachComment(
+    ts.createInterfaceDeclaration(
+      undefined,
+      undefined,
+      interfaceName,
+      undefined,
+      undefined,
+      interfaceProps,
+    ),
+    event._description,
+  );
+
+  const isEmpty = interfaceProps.length === 0;
+
+  const method = attachComment(
     ts.createFunctionDeclaration(
       undefined,
       [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
@@ -46,7 +64,16 @@ function eventDeclaration(name: string, event: EventDeclaration) {
           undefined,
           ts.createFunctionTypeNode(
             undefined,
-            [ts.createParameter(undefined, undefined, undefined, 'event', undefined, parameters)],
+            [
+              ts.createParameter(
+                undefined,
+                undefined,
+                undefined,
+                'event',
+                undefined,
+                isEmpty ? ts.createTypeLiteralNode([]) : typeReference(interfaceName),
+              ),
+            ],
             ts.createKeywordTypeNode(ts.SyntaxKind.VoidKeyword),
           ),
         ),
@@ -64,10 +91,13 @@ function eventDeclaration(name: string, event: EventDeclaration) {
     ),
     comment,
   );
+
+  return isEmpty ? [method] : [method, interfaceDef];
 }
 
 export default function file(file: File) {
-  return Object.entries(file).map(([name, event]) => {
-    return eventDeclaration(name, event);
-  });
+  return Object.entries(file).reduce(
+    (acc, [name, event]) => acc.concat(eventDeclaration(name, event)),
+    [] as ts.Statement[],
+  );
 }

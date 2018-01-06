@@ -145,6 +145,15 @@
       "PrecacheUnitByNameAsync": {
         // TODO: Describe id
         "args": ["cstring", "fun(id: int): void", "int"]
+      },
+      "EntIndexToHScript": {
+        "generics": ["$return"]
+      },
+      "CreateUnitByName": {
+        "generics": ["$return"]
+      },
+      "CreateUnitByNameAsync": {
+        "generics": ["callback$CDOTA_BaseNPC"]
       }
     }
   },

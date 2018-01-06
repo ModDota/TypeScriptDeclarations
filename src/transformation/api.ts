@@ -19,10 +19,19 @@ export interface FunctionDeclaration {
   args: string[];
   description?: string;
   return: string;
+  generics?: string[];
 }
 
-function functionParameters(args: string[], argNames?: string[]) {
-  if (argNames == null) argNames = args.map((t, i) => `arg${i + 1}`);
+function makeArgNames(args: string[]) {
+  return args.map((t, i) => `arg${i + 1}`);
+}
+
+function functionParameters(
+  args: string[],
+  argNames: string[] | undefined,
+  parametersTypeMap: { [key: string]: string },
+) {
+  if (argNames == null) argNames = makeArgNames(args);
   if (argNames.length !== args.length) {
     throw new Error(
       `Number of arg_names (${argNames.length}) not matches number of args (${args.length})`,
@@ -31,6 +40,10 @@ function functionParameters(args: string[], argNames?: string[]) {
 
   return args.map((argType, argIndex) => {
     const argName = argNames![argIndex];
+    if (parametersTypeMap[argName]) {
+      argType = parametersTypeMap[argName];
+    }
+
     return ts.createParameter(
       undefined,
       undefined,
@@ -43,16 +56,66 @@ function functionParameters(args: string[], argNames?: string[]) {
   });
 }
 
+function makeGenerics(func: FunctionDeclaration, returns: string) {
+  const genericNames = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  const parametersTypeMap: { [key: string]: string } = {};
+
+  if (func.generics) {
+    func.generics.forEach(genericExp => {
+      const genericName = genericNames.shift();
+      if (genericName == null) throw new Error(`Too many generics: ${func.generics!.join(', ')}`);
+
+      if (genericExp === '$return') {
+        typeParameters.push(
+          ts.createTypeParameterDeclaration(genericName, typeReference(returns), undefined),
+        );
+
+        returns = genericName;
+      } else {
+        const [base, path] = genericExp.split(/\$/);
+        let argNames = func.arg_names;
+        if (argNames == null) argNames = makeArgNames(func.args);
+        if (!argNames.includes(base)) {
+          throw new Error(`Invalid generic: ${genericExp}, no such base type`);
+        }
+        const argType = func.args[argNames.findIndex(x => x === base)];
+
+        if (path) {
+          const newType = argType.replace(path, genericName);
+          typeParameters.push(
+            ts.createTypeParameterDeclaration(genericName, typeReference(path), undefined),
+          );
+          parametersTypeMap[base] = newType;
+        } else {
+          typeParameters.push(
+            ts.createTypeParameterDeclaration(genericName, typeReference(base), undefined),
+          );
+          parametersTypeMap[base] = genericName;
+        }
+      }
+    });
+  }
+
+  return {
+    parametersTypeMap,
+    typeParameters,
+    returns,
+  };
+}
+
 function methodDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
+  const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, returnType);
   return attachComment(
     ts.createFunctionDeclaration(
       undefined,
       [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
       undefined,
       name,
-      undefined,
-      functionParameters(func.args, func.arg_names),
-      typeReference(returnType),
+      typeParameters,
+      functionParameters(func.args, func.arg_names, parametersTypeMap),
+      typeReference(returns),
       undefined,
     ),
     func.description,
@@ -60,11 +123,13 @@ function methodDeclaration(name: string, returnType: string, func: FunctionDecla
 }
 
 function functionDeclarationMethodSignature(name: string, func: FunctionDeclaration) {
+  const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, func.return);
+
   return attachComment(
     ts.createMethodSignature(
       undefined,
-      functionParameters(func.args, func.arg_names),
-      typeReference(func.return),
+      functionParameters(func.args, func.arg_names, parametersTypeMap),
+      typeReference(returns),
       ts.createIdentifier(name),
       undefined,
     ),

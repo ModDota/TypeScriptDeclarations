@@ -1,5 +1,6 @@
 {
   "Vector": {
+    "interface": true,
     "description": "Vector class",
     "call": {
       "arg_names": ["x", "y", "z"],
@@ -121,11 +122,21 @@
     }
   },
   "Convars": {
+    "interface": true,
     "functions": {
       "RegisterCommand": {
         "args": ["cstring", "fun(commandName: cstring, ...args: string[]): void", "cstring", "int"]
       }
     }
+  },
+  "GlobalSys": {
+    "interface": true
+  },
+  "GridNav": {
+    "interface": true
+  },
+  "ProjectileManager": {
+    "interface": true
   },
   "Global": {
     "functions": {

@@ -12,6 +12,7 @@ export interface ScopeDeclaration {
 
   ignore?: boolean;
   call?: FunctionDeclaration;
+  interface?: boolean;
 }
 
 export interface FunctionDeclaration {
@@ -105,7 +106,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
   };
 }
 
-function methodDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
+function functionDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
   const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, returnType);
   return attachComment(
     ts.createFunctionDeclaration(
@@ -113,6 +114,24 @@ function methodDeclaration(name: string, returnType: string, func: FunctionDecla
       [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
       undefined,
       name,
+      typeParameters,
+      functionParameters(func.args, func.arg_names, parametersTypeMap),
+      typeReference(returns),
+      undefined,
+    ),
+    func.description,
+  );
+}
+
+function methodDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
+  const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, returnType);
+  return attachComment(
+    ts.createMethod(
+      undefined,
+      undefined,
+      undefined,
+      name,
+      undefined,
       typeParameters,
       functionParameters(func.args, func.arg_names, parametersTypeMap),
       typeReference(returns),
@@ -139,29 +158,56 @@ function functionDeclarationMethodSignature(name: string, func: FunctionDeclarat
 
 function scopeDeclaration(scopeName: string, scope: ScopeDeclaration): ts.Statement[] {
   const nodes = [];
-  if (scope.call != null) nodes.push(methodDeclaration(scopeName, scopeName, scope.call));
+  if (scope.call != null) nodes.push(functionDeclaration(scopeName, scopeName, scope.call));
 
-  nodes.push(
-    attachComment(
-      ts.createInterfaceDeclaration(
-        undefined,
-        undefined,
-        scopeName,
-        undefined,
-        scope.extends != null
-          ? [
-              ts.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [
-                ts.createExpressionWithTypeArguments([], ts.createIdentifier(scope.extends)),
-              ]),
-            ]
-          : undefined,
-        Object.entries(scope.functions).map(([funcName, func]) =>
-          functionDeclarationMethodSignature(funcName, func),
+  if (scope.interface != null) {
+    nodes.push(
+      attachComment(
+        ts.createInterfaceDeclaration(
+          undefined,
+          undefined,
+          scopeName,
+          undefined,
+          scope.extends != null
+            ? [
+                ts.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [
+                  ts.createExpressionWithTypeArguments([], ts.createIdentifier(scope.extends)),
+                ]),
+              ]
+            : undefined,
+          Object.entries(scope.functions).map(([funcName, func]) =>
+            functionDeclarationMethodSignature(funcName, func),
+          ),
         ),
+        scope.description,
       ),
-      scope.description,
-    ),
-  );
+    );
+  } else {
+    nodes.push(
+      attachComment(
+        ts.createClassDeclaration(
+          undefined,
+          [
+            ts.createToken(ts.SyntaxKind.DeclareKeyword),
+            ts.createToken(ts.SyntaxKind.AbstractKeyword),
+          ],
+          scopeName,
+          undefined,
+          scope.extends != null
+            ? [
+                ts.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [
+                  ts.createExpressionWithTypeArguments([], ts.createIdentifier(scope.extends)),
+                ]),
+              ]
+            : [],
+          Object.entries(scope.functions).map(([funcName, func]) =>
+            methodDeclaration(funcName, func.return, func),
+          ),
+        ),
+        scope.description,
+      ),
+    );
+  }
 
   return nodes;
 }
@@ -172,7 +218,7 @@ export default function file(file: File) {
       if (scopeName === 'Global') {
         acc.push(
           ...Object.entries(scope.functions).map(([funcName, func]) =>
-            methodDeclaration(funcName, func.return, func),
+            functionDeclaration(funcName, func.return, func),
           ),
         );
       } else {

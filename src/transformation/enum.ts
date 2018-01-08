@@ -1,5 +1,4 @@
-import { attachComment, typeReference } from './utils';
-import * as ts from '../../node_modules/typescript/lib/typescript'; // ???
+import { topLevel, getType, makeComment } from './utils';
 
 export interface File {
   [name: string]: EnumDeclaration;
@@ -31,51 +30,42 @@ const globalHandles: { [key: string]: string } = {
 };
 
 function enumValue(value: EnumValue) {
-  return attachComment(
-    ts.createEnumMember(value.key, ts.createNumericLiteral(String(value.value))),
-    value.description,
-  );
+  let declaration = '';
+  if (value.description != null) declaration += makeComment(value.description, 1);
+  declaration += `${value.key} = ${String(value.value)},`;
+  return declaration;
 }
 
 function enumDeclaration(name: string, values: EnumDeclaration) {
-  return ts.createEnumDeclaration(
-    undefined,
-    [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
-    name,
-    values.map(value => enumValue(value)),
-  );
+  const enums = values.map(value => enumValue(value)).join('\n');
+  return `declare enum ${name} {\n${enums}\n}`;
 }
 
 function varDeclaration(value: EnumValue) {
-  let type;
+  let declaration = '';
+  if (value.description != null) declaration += makeComment(value.description, 1);
 
+  let type;
   if (globalHandles[value.key] != null) {
-    type = typeReference(globalHandles[value.key]);
+    type = getType(globalHandles[value.key]);
   } else if (Array.isArray(value.value)) {
-    type = typeReference('Vector');
+    type = getType('Vector');
   } else {
-    type = typeReference('number');
+    type = getType('number');
   }
 
-  return attachComment(
-    ts.createVariableStatement(
-      [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
-      [ts.createVariableDeclaration(value.key, type)],
-    ),
-    value.description,
-  );
+  declaration += `declare var ${value.key}: ${type};`;
+
+  return declaration;
 }
 
 export default function file(file: File) {
-  return Object.entries(file).reduce(
-    (acc, [name, values]) => {
-      if (name === '_Unscoped') {
-        acc.push(...values.map(value => varDeclaration(value)));
-      } else {
-        acc.push(enumDeclaration(name, values));
-      }
-      return acc;
-    },
-    [] as ts.Statement[],
+  return topLevel(
+    Object.entries(file).map(
+      ([name, values]) =>
+        name === '_Unscoped'
+          ? values.map(value => varDeclaration(value))
+          : enumDeclaration(name, values),
+    ),
   );
 }

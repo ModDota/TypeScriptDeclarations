@@ -1,5 +1,4 @@
-import { attachComment, typeReference } from './utils';
-import * as ts from '../../node_modules/typescript/lib/typescript'; // ???
+import { topLevel, getType, makeComment } from './utils';
 
 export interface File {
   [name: string]: ScopeDeclaration;
@@ -38,28 +37,22 @@ function functionParameters(
     );
   }
 
-  return args.map((argType, argIndex) => {
-    const argName = argNames![argIndex];
-    if (parametersTypeMap[argName] != null) {
-      argType = parametersTypeMap[argName];
-    }
+  return args
+    .map((argType, argIndex) => {
+      const argName = argNames![argIndex];
+      if (parametersTypeMap[argName] != null) {
+        argType = parametersTypeMap[argName];
+      }
 
-    return ts.createParameter(
-      undefined,
-      undefined,
-      undefined,
-      argName,
-      undefined,
-      typeReference(argType),
-      undefined,
-    );
-  });
+      return `${argName}: ${getType(argType)}`;
+    })
+    .join(', ');
 }
 
 function makeGenerics(func: FunctionDeclaration, returns: string) {
   const genericNames = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-  const typeParameters: ts.TypeParameterDeclaration[] = [];
+  let typeParameters = '<';
   const parametersTypeMap: { [key: string]: string } = {};
 
   if (func.generics != null) {
@@ -68,10 +61,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
       if (genericName == null) throw new Error(`Too many generics: ${func.generics!.join(', ')}`);
 
       if (genericExp === '$return') {
-        typeParameters.push(
-          ts.createTypeParameterDeclaration(genericName, typeReference(returns), undefined),
-        );
-
+        typeParameters += `${genericName} extends ${returns}`;
         returns = genericName;
       } else {
         const [base, path] = genericExp.split(/\$/);
@@ -80,106 +70,75 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
         if (!argNames.includes(base)) {
           throw new Error(`Invalid generic: ${genericExp}, no such base type`);
         }
-        const argType = func.args[argNames.findIndex(x => x === base)];
 
         if (path != null) {
-          const newType = argType.replace(path, genericName);
-          typeParameters.push(
-            ts.createTypeParameterDeclaration(genericName, typeReference(path), undefined),
-          );
-          parametersTypeMap[base] = newType;
+          const argType = func.args[argNames.findIndex(x => x === base)];
+          typeParameters += `${genericName} extends ${path}`;
+          parametersTypeMap[base] = argType.replace(path, genericName);
         } else {
-          typeParameters.push(
-            ts.createTypeParameterDeclaration(genericName, typeReference(base), undefined),
-          );
+          typeParameters += `${genericName} extends ${base}`;
           parametersTypeMap[base] = genericName;
         }
       }
     });
   }
+  typeParameters += '>';
 
   return {
     parametersTypeMap,
-    typeParameters,
     returns,
+    typeParameters: typeParameters === '<>' ? '' : typeParameters,
   };
 }
 
-function methodDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
-  const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, returnType);
-  return attachComment(
-    ts.createFunctionDeclaration(
-      undefined,
-      [ts.createToken(ts.SyntaxKind.DeclareKeyword)],
-      undefined,
-      name,
-      typeParameters,
-      functionParameters(func.args, func.arg_names, parametersTypeMap),
-      typeReference(returns),
-      undefined,
-    ),
-    func.description,
-  );
-}
-
-function functionDeclarationMethodSignature(name: string, func: FunctionDeclaration) {
+function functionDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
+  let declaration = '';
+  if (func.description != null) declaration += makeComment(func.description, 1);
   const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, func.return);
+  const parameters = functionParameters(func.args, func.arg_names, parametersTypeMap);
 
-  return attachComment(
-    ts.createMethodSignature(
-      undefined,
-      functionParameters(func.args, func.arg_names, parametersTypeMap),
-      typeReference(returns),
-      ts.createIdentifier(name),
-      undefined,
-    ),
-    func.description,
-  );
+  declaration += `declare function ${name}${typeParameters}(${parameters}): ${getType(returns)}`;
+  return declaration;
 }
 
-function scopeDeclaration(scopeName: string, scope: ScopeDeclaration): ts.Statement[] {
-  const nodes = [];
-  if (scope.call != null) nodes.push(methodDeclaration(scopeName, scopeName, scope.call));
+function methodSignatureOrDeclaration(name: string, func: FunctionDeclaration) {
+  let declaration = '';
+  if (func.description != null) declaration += makeComment(func.description, 1);
+  const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, func.return);
+  const parameters = functionParameters(func.args, func.arg_names, parametersTypeMap);
 
-  nodes.push(
-    attachComment(
-      ts.createInterfaceDeclaration(
-        undefined,
-        undefined,
-        scopeName,
-        undefined,
-        scope.extends != null
-          ? [
-              ts.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [
-                ts.createExpressionWithTypeArguments([], ts.createIdentifier(scope.extends)),
-              ]),
-            ]
-          : undefined,
-        Object.entries(scope.functions).map(([funcName, func]) =>
-          functionDeclarationMethodSignature(funcName, func),
-        ),
-      ),
-      scope.description,
-    ),
+  declaration += `${name}${typeParameters}(${parameters}): ${getType(returns)}`;
+  return declaration;
+}
+
+function scopeDeclaration(scopeName: string, scope: ScopeDeclaration) {
+  let declaration = '';
+  if (scope.call != null) {
+    declaration += functionDeclaration(scopeName, scopeName, scope.call) + '\n';
+  }
+  const extended = scope.extends != null ? ` extends ${scope.extends} ` : ' ';
+  if (scope.description != null) declaration += makeComment(scope.description, 0);
+
+  declaration += `interface ${scopeName}${extended} {\n`;
+  Object.entries(scope.functions).map(
+    ([funcName, func]) => (declaration += methodSignatureOrDeclaration(funcName, func) + '\n'),
   );
 
-  return nodes;
+  declaration += `}`;
+
+  return declaration;
 }
 
 export default function file(file: File) {
-  return Object.entries(file).reduce(
-    (acc, [scopeName, scope]) => {
+  return topLevel(
+    Object.entries(file).map(([scopeName, scope]) => {
       if (scopeName === 'Global') {
-        acc.push(
-          ...Object.entries(scope.functions).map(([funcName, func]) =>
-            methodDeclaration(funcName, func.return, func),
-          ),
-        );
-      } else {
-        acc.push(...scopeDeclaration(scopeName, scope));
+        return Object.entries(scope.functions).map(([funcName, func]) => {
+          return functionDeclaration(funcName, func.return, func) + '\n';
+        });
       }
-      return acc;
-    },
-    [] as ts.Statement[],
+
+      return scopeDeclaration(scopeName, scope);
+    }),
   );
 }

@@ -1,17 +1,13 @@
-import * as ts from '../../node_modules/typescript/lib/typescript'; // ???
+import * as prettier from 'prettier';
 import transformApi from './api';
 import transformEnum from './enum';
 import transformEvents from './events';
 
 export default function generate(apiDef: any, enumDef: any, eventsDef: any) {
-  const file = ts.createSourceFile('', '', ts.ScriptTarget.Latest, false, ts.ScriptKind.TS);
-  file.statements = ts.createNodeArray(
-    transformApi(apiDef)
-      .concat(transformEnum(enumDef))
-      .concat(transformEvents(eventsDef)),
-  );
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-  return printer.printFile(file);
+  const generated = transformApi(apiDef) + transformEnum(enumDef) + transformEvents(eventsDef);
+  return prettier.format(generated, {
+    parser: 'typescript',
+  });
 }
 
 export { File as APIFile } from './api';

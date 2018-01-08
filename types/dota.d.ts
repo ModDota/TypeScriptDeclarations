@@ -66,8 +66,3 @@ interface CDOTA_PlayerResource {
    */
   GetTeam(): DOTATeam_t;
 }
-
-/**
- * Turn an entity index integer to an HScript representing that entity's script instance.
- */
-declare function EntIndexToHScript<T extends CBaseEntity>(entIndex: number): T;

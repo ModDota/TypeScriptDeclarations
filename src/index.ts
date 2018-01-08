@@ -32,7 +32,6 @@ function mergeAPI(...files: APIFile[]) {
         if (scope.description != null) oldScope.description = scope.description;
         if (scope.extends != null) oldScope.extends = scope.extends;
         if (scope.ignore != null) oldScope.ignore = scope.ignore;
-        if (scope.interface != null) oldScope.interface = scope.interface;
         if (scope.functions != null) {
           Object.entries(scope.functions).map(([funcName, func]) => {
             const oldFunc = oldScope.functions[funcName];

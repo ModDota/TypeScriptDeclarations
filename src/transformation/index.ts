@@ -4,10 +4,12 @@ import transformEnum from './enum';
 import transformEvents from './events';
 
 export default function generate(apiDef: any, enumDef: any, eventsDef: any) {
-  const generated = transformApi(apiDef) + transformEnum(enumDef) + transformEvents(eventsDef);
-  return prettier.format(generated, {
-    parser: 'typescript',
-  });
+  const prettierOptions: prettier.Options = { parser: 'typescript' };
+  return {
+    api: prettier.format(transformApi(apiDef), prettierOptions),
+    enum: prettier.format(transformEnum(enumDef), prettierOptions),
+    events: prettier.format(transformEvents(eventsDef), prettierOptions),
+  };
 }
 
 export { File as APIFile } from './api';

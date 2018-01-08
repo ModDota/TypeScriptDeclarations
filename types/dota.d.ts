@@ -1,3 +1,5 @@
+/// <reference path="enum.generated.d.ts" />
+
 declare var PlayerResource: CDOTA_PlayerResource;
 
 type QAngle = number;

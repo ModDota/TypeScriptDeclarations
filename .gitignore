@@ -61,4 +61,4 @@ typings/
 .next
 
 
-types/dota.generated.d.ts
+types/*.generated.d.ts

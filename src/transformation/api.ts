@@ -130,15 +130,18 @@ function scopeDeclaration(scopeName: string, scope: ScopeDeclaration) {
 }
 
 export default function file(file: File) {
-  return topLevel(
-    Object.entries(file).map(([scopeName, scope]) => {
-      if (scopeName === 'Global') {
-        return Object.entries(scope.functions).map(([funcName, func]) => {
-          return functionDeclaration(funcName, func.return, func) + '\n';
-        });
-      }
+  return (
+    '/// <reference path="enum.generated.d.ts" />\n\n' +
+    topLevel(
+      Object.entries(file).map(([scopeName, scope]) => {
+        if (scopeName === 'Global') {
+          return Object.entries(scope.functions).map(([funcName, func]) => {
+            return functionDeclaration(funcName, func.return, func) + '\n';
+          });
+        }
 
-      return scopeDeclaration(scopeName, scope);
-    }),
+        return scopeDeclaration(scopeName, scope);
+      }),
+    )
   );
 }

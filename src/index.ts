@@ -93,6 +93,10 @@ async function makeDeclarations() {
 }
 
 (async () => {
-  const dts = await makeDeclarations();
-  await writeFileP(path.resolve(__dirname, '../types/dota.generated.d.ts'), dts);
+  const declarations = await makeDeclarations();
+  await Promise.all(
+    Object.entries(declarations).map(([type, dts]) =>
+      writeFileP(path.resolve(__dirname, `../types/${type}.generated.d.ts`), dts),
+    ),
+  );
 })().catch(({ stack }) => console.error(stack));

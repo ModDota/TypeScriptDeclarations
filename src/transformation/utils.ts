@@ -13,7 +13,6 @@ export function topLevel(elements: (string | string[])[]) {
   let declaration = '';
   elements.forEach(element => {
     declaration += Array.isArray(element) ? element.join('') : element;
-    declaration += '\n\n\n';
   });
   return declaration;
 }

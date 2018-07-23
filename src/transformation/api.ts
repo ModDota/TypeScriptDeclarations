@@ -93,7 +93,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
 
 function functionDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
   let declaration = '';
-  if (func.description != null) declaration += makeComment(func.description, 1);
+  if (func.description != null) declaration += makeComment(func.description, 0);
   const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, func.return);
   const parameters = functionParameters(func.args, func.arg_names, parametersTypeMap);
 

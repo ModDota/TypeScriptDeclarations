@@ -1,4 +1,4 @@
-import * as prettier from 'prettier';
+import prettier from 'prettier';
 import transformApi from './api';
 import transformEnum from './enum';
 import transformEvents from './events';

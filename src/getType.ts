@@ -1,6 +1,6 @@
 const map: { [key: string]: string } = {
-  nil: 'void',
   '<unknown>': 'any',
+  nil: 'void',
   cstring: 'string',
 
   float: 'number',

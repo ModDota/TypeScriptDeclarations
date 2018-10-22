@@ -22,7 +22,7 @@ export interface FunctionDeclaration {
 }
 
 function makeArgNames(args: string[]) {
-  return args.map((t, i) => `arg${i + 1}`);
+  return args.map((_t, i) => `arg${i + 1}`);
 }
 
 function functionParameters(
@@ -91,7 +91,7 @@ function makeGenerics(func: FunctionDeclaration, returns: string) {
   };
 }
 
-function functionDeclaration(name: string, returnType: string, func: FunctionDeclaration) {
+function functionDeclaration(name: string, func: FunctionDeclaration) {
   let declaration = '';
   if (func.description != null) declaration += makeComment(func.description, 0);
   const { returns, parametersTypeMap, typeParameters } = makeGenerics(func, func.return);
@@ -114,7 +114,7 @@ function methodSignatureOrDeclaration(name: string, func: FunctionDeclaration) {
 function scopeDeclaration(scopeName: string, scope: ScopeDeclaration) {
   let declaration = '';
   if (scope.call != null) {
-    declaration += functionDeclaration(scopeName, scopeName, scope.call) + '\n';
+    declaration += functionDeclaration(scopeName, scope.call) + '\n';
   }
   const extended = scope.extends != null ? ` extends ${scope.extends} ` : ' ';
   if (scope.description != null) declaration += makeComment(scope.description, 0);
@@ -136,7 +136,7 @@ export default function file(file: File) {
       Object.entries(file).map(([scopeName, scope]) => {
         if (scopeName === 'Global') {
           return Object.entries(scope.functions).map(([funcName, func]) => {
-            return functionDeclaration(funcName, func.return, func) + '\n';
+            return functionDeclaration(funcName, func) + '\n';
           });
         }
 

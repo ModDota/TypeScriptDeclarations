@@ -1,9 +1,7 @@
 {
+  "extends": "./node_modules/@ark120202/typescript-config/node10.json",
   "compilerOptions": {
-    "strict": true,
-    "target": "es2017"
-  },
-  "include": [
-    "src/**/*.ts"
-  ]
+    "rootDir": "./src",
+    "outDir": "./lib"
+  }
 }

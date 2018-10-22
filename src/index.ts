@@ -1,11 +1,10 @@
-import * as got from 'got';
-import * as path from 'path';
-import * as JSON5 from 'json5';
+import got from 'got';
+import path from 'path';
+import JSON5 from 'json5';
 import { promisify } from 'util';
-// @ts-ignore
-import * as vdf from 'vdf-extra';
+import vdf from 'vdf-extra';
 import { readFile, writeFile } from 'fs';
-import transform, { APIFile, EnumFile, EventsFile } from './transformation/index';
+import transform, { APIFile, EventsFile } from './transformation/index';
 
 const readFileP = promisify(readFile);
 const writeFileP = promisify(writeFile);
@@ -17,7 +16,7 @@ async function gotJSON(url: string) {
 
 async function gotVDF(url: string) {
   const result = await got(url);
-  return vdf.parse(result.body);
+  return vdf.parse<any>(result.body);
 }
 
 function mergeAPI(...files: APIFile[]) {

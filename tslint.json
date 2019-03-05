@@ -1,3 +1,1 @@
-{
-  "extends": ["@ark120202/tslint-config", "@ark120202/tslint-config/prettier"]
-}
+{ "extends": ["@ark120202/tslint-config"] }

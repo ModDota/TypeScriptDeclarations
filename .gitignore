@@ -1,6 +1,5 @@
-/node_modules
-/.vscode
+.vscode
+node_modules
 yarn-error.log
-
 /lib
 /types/*.generated.d.ts

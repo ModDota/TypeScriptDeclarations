@@ -1,4 +1,4 @@
-# Dota 2 VScripts Types
+# Dota Lua Types
 
 TypeScript definitions for Dota 2 Lua API, designed to be used with
 [TypeScriptToLua](https://github.com/TypeScriptToLua/TypeScriptToLua).
@@ -8,9 +8,9 @@ TypeScript definitions for Dota 2 Lua API, designed to be used with
 1. Get package from npm
 
 ```shell
-yarn add -D types-dota-vscripts
+yarn add -D dota-lua-types
 # or
-npm install -D types-dota-vscripts
+npm install -D dota-lua-types
 ```
 
 2. Modify your `tsconfig.json`
@@ -18,7 +18,7 @@ npm install -D types-dota-vscripts
 ```json
 {
   "compilerOptions": {
-    "types": ["types-dota-vscripts"]
+    "types": ["dota-lua-types"]
   }
 }
 ```

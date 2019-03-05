@@ -27,14 +27,14 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "dota-data": "^0.1.0",
-    "lua-types": "^2.1.1"
+    "dota-data": "^0.2.1",
+    "lua-types": "^2.2.0"
   },
   "devDependencies": {
     "@ark120202/tslint-config": "^3.1.0",
     "@ark120202/typescript-config": "^1.4.2",
     "@types/fs-extra": "^5.0.5",
-    "@types/lodash": "^4.14.121",
+    "@types/lodash": "^4.14.122",
     "@types/node": "^11.9.4",
     "@types/prettier": "^1.16.1",
     "@types/wordwrap": "^1.0.0",

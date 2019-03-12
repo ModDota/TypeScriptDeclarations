@@ -27,7 +27,7 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "dota-data": "^0.2.1",
+    "dota-data": "^0.3.0",
     "lua-types": "^2.2.0"
   },
   "devDependencies": {

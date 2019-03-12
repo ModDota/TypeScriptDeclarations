@@ -1,5 +1,7 @@
-import enums from 'dota-data/files/vscripts/enums';
 import * as ts from 'typescript';
+
+// tslint:disable-next-line: no-require-imports no-var-requires
+const enumMappings: Record<string, Record<string, string>> = require('../enum-mappings.json');
 
 const createError = (messageText: string) =>
   ts.createCall(ts.createIdentifier('error'), undefined, [ts.createStringLiteral(messageText)]);
@@ -11,8 +13,8 @@ export default (): ts.TransformerFactory<ts.SourceFile> => context => file => {
     const { expression } = node;
     if (!ts.isIdentifier(expression)) return;
 
-    const enumDeclaration = enums.find(x => x.name === expression.escapedText);
-    if (!enumDeclaration || enumDeclaration.kind !== 'enum') return;
+    const enumMembers = enumMappings[String(expression.escapedText)];
+    if (enumMembers == null) return;
 
     let nameText: string;
     if (ts.isPropertyAccessExpression(node)) {
@@ -27,10 +29,10 @@ export default (): ts.TransformerFactory<ts.SourceFile> => context => file => {
       return;
     }
 
-    const member = enumDeclaration.members.find(x => x.name === nameText);
-    return member
-      ? ts.createIdentifier(member.originalName)
-      : createError(`${nameText} is not a valid ${enumDeclaration.name} member`);
+    const originalName = enumMembers[nameText];
+    return originalName != null
+      ? ts.createIdentifier(originalName)
+      : createError(`${nameText} is not a valid ${enumMembers.name} member`);
   }
 
   const visit: ts.Visitor = (node: ts.Node) => {

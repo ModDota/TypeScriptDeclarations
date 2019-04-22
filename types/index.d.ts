@@ -84,8 +84,9 @@ declare const vec3_origin: Vector;
 declare const vec3_invalid: Vector;
 
 // Declared in core addon scripts
-declare function DeepPrintTable(table?: object | null): void;
+declare function DeepPrintTable(this: void, table?: object | null): void;
 declare function Dynamic_Wrap<T extends object, K extends keyof T>(
+  this: void,
   context: T,
   name: K,
 ): T[K] extends ((this: infer This, ...args: infer Args) => infer R)

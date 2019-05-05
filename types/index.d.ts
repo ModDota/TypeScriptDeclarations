@@ -85,14 +85,15 @@ declare const vec3_invalid: Vector;
 
 // Declared in core addon scripts
 declare function DeepPrintTable(this: void, table?: object | null): void;
-declare function Dynamic_Wrap<T extends object, K extends keyof T>(
-  this: void,
-  context: T,
-  name: K,
-): T[K] extends ((this: infer This, ...args: infer Args) => infer R)
-  ? This extends T // This is compatible with T
-    ? (this: T, ...args: Args) => R
-    : {} extends This // `{}` is the type inferred when it's not specified
-    ? (this: T, ...args: Args) => R
-    : never
-  : never;
+declare function Dynamic_Wrap<
+  T extends object,
+  K extends {
+    [P in keyof T]: T[P] extends (this: infer This, ...args: any[]) => any
+      ? {} extends This // Include properties with not specified `this`
+        ? P
+        : This extends T // Include properties with `this` specified as `T`
+        ? P
+        : never
+      : never
+  }[keyof T]
+>(this: void, context: T, name: K): T[K];

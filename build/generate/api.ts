@@ -56,10 +56,7 @@ export const generatedApi = emit(
 
     if (rootElement.kind === 'class') {
       interfaceDeclaration.members.push(
-        withDescription(
-          dom.create.property('__instance__', dom.create.namedTypeReference('never')),
-          "@deprecated Internal type, don't use",
-        ),
+        dom.create.property('__instance__', dom.create.namedTypeReference('never')),
       );
 
       const constructorTypes = dom.create.intersection([]);

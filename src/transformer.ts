@@ -6,8 +6,8 @@ const enumMappings: Record<string, Record<string, string>> = require('../enum-ma
 const createError = (messageText: string) =>
   ts.createCall(ts.createIdentifier('error'), undefined, [ts.createStringLiteral(messageText)]);
 
-export default (): ts.TransformerFactory<ts.SourceFile> => context => file => {
-  function getNodeReplacement(node: ts.Node): ts.Expression | undefined {
+export default (): ts.TransformerFactory<ts.SourceFile> => context => {
+  const replaceNode: ts.Visitor = node => {
     // Would be handled as a part of main process of const enum transform
     if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) return;
     const { expression } = node;
@@ -33,13 +33,9 @@ export default (): ts.TransformerFactory<ts.SourceFile> => context => file => {
     return originalName != null
       ? ts.createIdentifier(originalName)
       : createError(`${nameText} is not a valid ${enumMembers.name} member`);
-  }
-
-  const visit: ts.Visitor = (node: ts.Node) => {
-    const replacement = getNodeReplacement(node);
-    return replacement || ts.visitEachChild(node, visit, context);
   };
 
+  const visit: ts.Visitor = node => replaceNode(node) || ts.visitEachChild(node, visit, context);
   // TODO: https://github.com/Microsoft/TypeScript/pull/29871
-  return ts.visitNode(file, visit);
+  return file => ts.visitNode(file, visit);
 };

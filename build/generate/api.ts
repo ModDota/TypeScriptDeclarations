@@ -22,16 +22,9 @@ export const generatedApi = emit(
     }
 
     const declarations: dom.TopLevelDeclaration[] = [];
+    const typeName = rootElement.name;
 
-    const interfaceDeclaration = withDescription(
-      dom.create.interface(rootElement.name),
-      rootElement.description,
-    );
-    if (rootElement.kind === 'class' && rootElement.extend != null) {
-      interfaceDeclaration.baseTypes = [dom.create.interface(rootElement.extend)];
-    }
-
-    interfaceDeclaration.members = _.flatMap(
+    const mainDeclarationMembers = _.flatMap(
       rootElement.members,
       (member): dom.ObjectTypeMember[] =>
         member.kind === 'field'
@@ -49,58 +42,69 @@ export const generatedApi = emit(
             ]
           : getFunction(
               (p, r) => dom.create.method(member.name, p, r),
-              `${rootElement.name}.${member.name}`,
+              `${typeName}.${member.name}`,
               member,
             ),
     );
 
     if (rootElement.kind === 'class') {
-      interfaceDeclaration.members.push(
+      mainDeclarationMembers.push(
         dom.create.property('__instance__', dom.create.namedTypeReference('never')),
       );
 
       const constructorTypes = dom.create.intersection([]);
-      if (rootElement.name !== rootElement.instance) {
+      if (typeName !== rootElement.instance) {
         constructorTypes.members.push(
-          dom.create.namedTypeReference(`__InstanceGlobalType<${interfaceDeclaration.name}>`),
+          dom.create.namedTypeReference(`__InstanceGlobalType<${typeName}>`),
         );
       }
 
       if (rootElement.call != null) {
         constructorTypes.members.push(
           dom.create.functionType(
-            getFunctionParameters(rootElement.name, rootElement.call.args, false, 'void'),
+            getFunctionParameters(typeName, rootElement.call.args, false, 'void'),
             getReturnType(rootElement.call.returns),
           ),
         );
       }
 
       if (rootElement.instance != null) {
-        if (rootElement.name === rootElement.instance) {
-          constructorTypes.members.push(interfaceDeclaration);
+        const typeNameReference = dom.create.namedTypeReference(typeName);
+        if (typeName === rootElement.instance) {
+          constructorTypes.members.push(typeNameReference);
         } else {
-          declarations.push(dom.create.const(rootElement.instance, interfaceDeclaration));
+          declarations.push(dom.create.const(rootElement.instance, typeNameReference));
         }
       }
 
-      declarations.push(dom.create.const(rootElement.name, constructorTypes));
+      declarations.push(dom.create.const(typeName, constructorTypes));
     }
 
+    const extendedType =
+      rootElement.kind === 'class' && rootElement.extend != null
+        ? dom.create.interface(rootElement.extend)
+        : undefined;
+
+    let mainTypeDeclaration: dom.ModuleMember;
     const hasOverloadedOperators = rootElement.members.some(m => m.name === '__add');
     if (hasOverloadedOperators) {
-      interfaceDeclaration.name += 'Type';
-      declarations.push(
-        dom.create.alias(
-          rootElement.name,
-          dom.create.intersection([
-            dom.create.namedTypeReference('__NumberLike'),
-            interfaceDeclaration,
-          ]),
-        ),
+      mainTypeDeclaration = dom.create.alias(
+        typeName,
+        dom.create.intersection([
+          dom.create.namedTypeReference('__NumberLike'),
+          ...(extendedType ? [extendedType] : []),
+          dom.create.objectType(mainDeclarationMembers),
+        ]),
       );
+    } else {
+      mainTypeDeclaration = dom.create.interface(typeName);
+      mainTypeDeclaration.members = mainDeclarationMembers;
+      if (extendedType) {
+        mainTypeDeclaration.baseTypes = [extendedType];
+      }
     }
 
-    declarations.push(interfaceDeclaration);
+    declarations.push(withDescription(mainTypeDeclaration, rootElement.description));
     return declarations;
   }),
 );

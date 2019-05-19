@@ -48,10 +48,10 @@ declare interface CEntityInstance {
   IsNull(): boolean;
 }
 
-declare type ProjectileID = number;
-declare type ParticleID = number;
-declare type EventListenerID = number;
-declare type CustomGameEventListenerID = number;
+declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };
+declare type ParticleID = number & { readonly __tag__: 'ParticleID' };
+declare type EventListenerID = number & { readonly __tag__: 'EventListenerID' };
+declare type CustomGameEventListenerID = number & { readonly __tag__: 'CustomGameEventListenerID' };
 declare type PlayerID =
   | -1
   | 0

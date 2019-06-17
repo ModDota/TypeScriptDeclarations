@@ -19,7 +19,9 @@
     "dev": "run-p dev:transformer dev:types",
     "dev:transformer": "tsc --watch",
     "dev:types": "cd build && nodemon -e ts -x ts-node .",
-    "lint": "tslint -p .",
+    "lint": "run-s lint:prettier lint:tslint",
+    "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
+    "lint:tslint": "tslint -p .",
     "prepublishOnly": "yarn build"
   },
   "prettier": {
@@ -29,28 +31,27 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "lua-types": "^2.2.0",
-    "tslib": "^1.9.3"
+    "lua-types": "^2.5.1",
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@ark120202/tslint-config": "^3.1.0",
-    "@ark120202/typescript-config": "^1.4.2",
-    "@types/fs-extra": "^5.0.5",
-    "@types/lodash": "^4.14.122",
-    "@types/node": "^11.9.4",
-    "@types/prettier": "^1.16.1",
+    "@ark120202/tslint-config": "^4.0.2",
+    "@ark120202/typescript-config": "^2.0.0",
+    "@types/fs-extra": "^7.0.0",
+    "@types/lodash": "^4.14.134",
+    "@types/node": "^12.0.8",
+    "@types/prettier": "^1.16.4",
     "@types/wordwrap": "^1.0.0",
     "dota-data": "^0.3.0",
-    "dts-dom": "^3.1.1",
-    "fs-extra": "^7.0.1",
+    "dts-dom": "^3.3.0",
+    "fs-extra": "^8.0.1",
     "lodash": "^4.17.11",
-    "nodemon": "^1.18.10",
+    "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.16.4",
-    "ts-node": "8.0.2",
-    "tslint": "^5.13.1",
-    "typescript": "^3.3.3",
-    "typescript-tslint-plugin": "^0.3.1",
+    "prettier": "^1.18.2",
+    "ts-node": "8.3.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2",
     "wordwrap": "^1.0.0"
   }
 }

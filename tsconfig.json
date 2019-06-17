@@ -1,5 +1,5 @@
 {
-  "extends": "@ark120202/typescript-config/node10.json",
+  "extends": "@ark120202/typescript-config/node/10.json",
   "files": ["transformer.ts"],
   "compilerOptions": {
     "declarationMap": false

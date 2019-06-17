@@ -18,7 +18,7 @@
 type __BindThisType<T extends object> = {
   [K in keyof T]: T[K] extends (...args: infer Args) => infer R
     ? (this: T, ...args: Args) => R
-    : T[K]
+    : T[K];
 };
 
 type __InstanceGlobalType<T extends object> = Pick<
@@ -109,6 +109,6 @@ declare function Dynamic_Wrap<
         : This extends T // Include properties with `this` specified as `T`
         ? P
         : never
-      : never
+      : never;
   }[keyof T]
 >(this: void, context: T, name: K): T[K];

@@ -1,6 +1,7 @@
 .vscode
 node_modules
 yarn-error.log
-/lib
 /enum-mappings.json
+/transformer.js
+/transformer.d.ts
 /types/*.generated.d.ts

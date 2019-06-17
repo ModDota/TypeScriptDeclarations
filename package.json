@@ -6,17 +6,18 @@
   "license": "MIT",
   "author": "ark120202",
   "files": [
-    "lib",
+    "transformer.js",
+    "transformer.d.ts",
     "types",
     "enum-mappings.json"
   ],
   "types": "types/index.d.js",
   "scripts": {
-    "build": "run-p build:src build:types",
-    "build:src": "tsc",
+    "build": "run-p build:transformer build:types",
+    "build:transformer": "tsc",
     "build:types": "cd build && ts-node .",
-    "dev": "run-p dev:src dev:types",
-    "dev:src": "tsc --watch",
+    "dev": "run-p dev:transformer dev:types",
+    "dev:transformer": "tsc --watch",
     "dev:types": "cd build && nodemon -e ts -x ts-node .",
     "lint": "tslint -p .",
     "prepublishOnly": "yarn build"

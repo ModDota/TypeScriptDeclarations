@@ -1,8 +1,7 @@
 {
   "extends": "@ark120202/typescript-config/node10.json",
-  "include": ["src"],
+  "files": ["transformer.ts"],
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./lib"
+    "declarationMap": false
   }
 }

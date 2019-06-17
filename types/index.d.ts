@@ -48,6 +48,21 @@ declare interface CEntityInstance {
   IsNull(): boolean;
 }
 
+declare interface CCustomGameEventManager {
+  /**
+   * Register a callback to be called when a particular custom event arrives.
+   * Returns a listener ID that can be used to unregister later.
+   */
+  RegisterListener<T extends object>(
+    eventName: string,
+    listener: (
+      this: void,
+      playerId: PlayerID,
+      event: Omit<T, 'PlayerID'> & { PlayerID: PlayerID },
+    ) => void,
+  ): CustomGameEventListenerID;
+}
+
 declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };
 declare type ParticleID = number & { readonly __tag__: 'ParticleID' };
 declare type EventListenerID = number & { readonly __tag__: 'EventListenerID' };

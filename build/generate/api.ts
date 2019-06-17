@@ -10,24 +10,25 @@ import {
   withDescription,
 } from './utils';
 
+const omittedNames = ['ListenToGameEvent', 'CCustomGameEventManager.RegisterListener'];
+
 export const generatedApi = emit(
   api.map(rootElement => {
+    const typeName = rootElement.name;
+    if (omittedNames.includes(typeName)) return [];
+
     if (rootElement.kind === 'function') {
-      if (rootElement.name === 'ListenToGameEvent') return [];
-      return getFunction(
-        (p, r) => dom.create.function(rootElement.name, p, r),
-        rootElement.name,
-        rootElement,
-      );
+      return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, rootElement);
     }
 
     const declarations: dom.TopLevelDeclaration[] = [];
-    const typeName = rootElement.name;
-
     const mainDeclarationMembers = _.flatMap(
       rootElement.members,
-      (member): dom.ObjectTypeMember[] =>
-        member.kind === 'field'
+      (member): dom.ObjectTypeMember[] => {
+        const fullName = `${typeName}.${member.name}`;
+        if (omittedNames.includes(fullName)) return [];
+
+        return member.kind === 'field'
           ? [
               withDescription(
                 dom.create.property(
@@ -40,11 +41,8 @@ export const generatedApi = emit(
                 member.description,
               ),
             ]
-          : getFunction(
-              (p, r) => dom.create.method(member.name, p, r),
-              `${typeName}.${member.name}`,
-              member,
-            ),
+          : getFunction((p, r) => dom.create.method(member.name, p, r), fullName, member);
+      },
     );
 
     if (rootElement.kind === 'class') {

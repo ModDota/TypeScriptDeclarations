@@ -18,20 +18,11 @@ npm install -D dota-lua-types
 ```json
 {
   "compilerOptions": {
-    "types": ["dota-lua-types"]
+    "types": ["dota-lua-types"],
+    "plugins": [{ "transform": "dota-lua-types/transformer" }]
   }
 }
 ```
-
-3. Add transformer
-
-This step is optional, but strongly recommended. This transformer rewrites enums to their original
-global names. If it's not added, regular TypeScript const enum handling is used, which may cause
-issues if enum values are different from version package was built with.
-
-Currently the only way to do it is using transpiler API directly. See
-[TypeScriptToLua issue](https://github.com/TypeScriptToLua/TypeScriptToLua/issues/433) for current
-implementation status.
 
 ## Notes
 

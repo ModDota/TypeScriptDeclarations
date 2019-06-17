@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 // tslint:disable-next-line: no-require-imports no-var-requires
-const enumMappings: Record<string, Record<string, string>> = require('../enum-mappings.json');
+const enumMappings: Record<string, Record<string, string>> = require('./enum-mappings.json');
 
 const createError = (messageText: string) =>
   ts.createCall(ts.createIdentifier('error'), undefined, [ts.createStringLiteral(messageText)]);

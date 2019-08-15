@@ -114,7 +114,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Get the world position of the screen position, or null if the cursor is out of the world.
      */
-    GetScreenWorldPosition(screenPos: [number, number]): [number, number, number];
+    GetScreenWorldPosition(screenPos: [number, number]): [number, number, number] | null;
 
     /**
      * Install a mouse input filter

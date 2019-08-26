@@ -103,11 +103,13 @@ declare function DeepPrintTable(this: void, table?: object | null): void;
 declare function Dynamic_Wrap<
   T extends object,
   K extends {
-    [P in keyof T]: T[P] extends (this: infer This, ...args: any[]) => any
-      ? {} extends This // Include properties with not specified `this`
-        ? P
-        : This extends T // Include properties with `this` specified as `T`
-        ? P
+    [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
+      ? [T[P]] extends [((this: infer This, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
+        ? {} extends This // Has no specified `this`
+          ? P
+          : This extends T // Has `this` specified as `T`
+          ? P
+          : never
         : never
       : never;
   }[keyof T]

@@ -18,8 +18,8 @@ const returnsMap = new Map<Exclude<modifierProperties.ReturnsType, 'void'>, dom.
 
 export const generatedModifierProperties = (() => {
   const mainInterface = dom.create.interface('CDOTA_Modifier_Lua');
-  mainInterface.members.push(
-    ...modifierProperties.map(({ functionName, argument, returns, description }) =>
+  mainInterface.members = modifierProperties.map(
+    ({ functionName, argument, returns, description }) =>
       withDescription(
         dom.create.method(
           functionName,
@@ -29,7 +29,6 @@ export const generatedModifierProperties = (() => {
         ),
         description,
       ),
-    ),
   );
   return emit([mainInterface]);
 })();

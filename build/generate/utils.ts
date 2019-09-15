@@ -1,4 +1,10 @@
-import { FunctionDeclaration, FunctionType, Parameter, Type } from 'dota-data/files/vscripts/api';
+import {
+  Availability,
+  FunctionDeclaration,
+  FunctionType,
+  Parameter,
+  Type,
+} from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
 import wordwrap from 'wordwrap';
@@ -105,6 +111,7 @@ export function getFunction<T extends DeclarationWithTypeParameters>(
   createType: (parameters: dom.Parameter[], returnType: dom.Type) => T,
   identifier: string,
   func: FunctionType | FunctionDeclaration,
+  defaultAvailability: Availability = 'server',
 ): T[] {
   const comments: string[] = [];
   if ('description' in func && func.description) comments.push(wrapDescription(func.description));
@@ -113,6 +120,9 @@ export function getFunction<T extends DeclarationWithTypeParameters>(
     .filter(x => x.description != null)
     .forEach(x => comments.push(wrapJsDoc(`@param ${x.name}`, x.description!)));
   if ('deprecated' in func) comments.push(wrapJsDoc('@deprecated', func.deprecated!));
+  if ('available' in func && func.available !== defaultAvailability) {
+    comments.push(`@${func.available}`);
+  }
 
   if (comments.length > 1) comments.splice(1, 0, '');
 
@@ -138,7 +148,11 @@ export function getFunction<T extends DeclarationWithTypeParameters>(
   return [withContext, withoutContext];
 }
 
-export const emit = (declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration>) =>
+export const emit = (
+  declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration>,
+  serverDefault: boolean,
+) =>
+  (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
   _.flattenDeep(declarations)
     .map(x => dom.emit(x))
     .join('');

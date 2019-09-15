@@ -23,18 +23,23 @@ const ltgeMethod = api.find(
 )!;
 
 const ltgeFunction = (eventName: string, interfaceName: string, eventDescription?: string) =>
-  getFunction((p, r) => dom.create.function('ListenToGameEvent', p, r), 'ListenToGameEvent', {
-    ...ltgeMethod,
-    description: eventDescription,
-    args: [
-      { ...ltgeMethod.args[0], types: [JSON.stringify(eventName)] },
-      {
-        ...ltgeMethod.args[1],
-        types: [{ returns: ['void'], args: [{ name: 'event', types: [interfaceName] }] }],
-      },
-      ltgeMethod.args[2],
-    ],
-  });
+  getFunction(
+    (p, r) => dom.create.function('ListenToGameEvent', p, r),
+    'ListenToGameEvent',
+    {
+      ...ltgeMethod,
+      description: eventDescription,
+      args: [
+        { ...ltgeMethod.args[0], types: [JSON.stringify(eventName)] },
+        {
+          ...ltgeMethod.args[1],
+          types: [{ returns: ['void'], args: [{ name: 'event', types: [interfaceName] }] }],
+        },
+        ltgeMethod.args[2],
+      ],
+    },
+    'both',
+  );
 
 export const generatedEvents = emit(
   _.flatMap(Object.values(events), group =>
@@ -57,4 +62,5 @@ export const generatedEvents = emit(
       return [...ltgeFunction(eventName, interfaceName, description), type];
     }),
   ),
+  false,
 );

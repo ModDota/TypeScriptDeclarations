@@ -30,5 +30,6 @@ export const generatedModifierProperties = (() => {
         description,
       ),
   );
-  return emit([mainInterface]);
+
+  return emit([mainInterface], true);
 })();

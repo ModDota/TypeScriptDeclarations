@@ -37,8 +37,6 @@ declare interface CDOTA_BaseNPC {
 
 declare interface CDOTA_PlayerResource {
   /**
-   * Get the team number of this entity.
-   *
    * @deprecated Left for compatibility with CBaseEntity interface. Invalid at the runtime.
    */
   GetTeam(): DotaTeam;
@@ -52,6 +50,8 @@ declare interface CCustomGameEventManager {
   /**
    * Register a callback to be called when a particular custom event arrives.
    * Returns a listener ID that can be used to unregister later.
+   *
+   * @server
    */
   RegisterListener<T extends object>(
     eventName: string,

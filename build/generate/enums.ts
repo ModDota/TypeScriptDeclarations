@@ -19,4 +19,5 @@ export const generatedEnums = emit(
     });
     return declaration;
   }),
+  false,
 );

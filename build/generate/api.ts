@@ -105,4 +105,5 @@ export const generatedApi = emit(
     declarations.push(withDescription(mainTypeDeclaration, rootElement.description));
     return declarations;
   }),
+  true,
 );

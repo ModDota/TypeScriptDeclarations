@@ -155,4 +155,13 @@ export const emit = (
   (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
   _.flattenDeep(declarations)
     .map(x => dom.emit(x))
-    .join('');
+    .join('')
+
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .map(line => line.trimRight())
+    .join('\n')
+    .trimRight()
+
+    .replace(/\)=>/g, ') => ')
+    .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */');

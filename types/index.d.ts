@@ -15,18 +15,13 @@
 /// <reference types="./methods.generated" />
 /// <reference types="./modifier-properties.generated" />
 
+type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
+type __InstanceGlobalType<T extends object> = Omit<__BindThisType<T>, '__instance__'>;
 type __BindThisType<T extends object> = {
   [K in keyof T]: T[K] extends (...args: infer Args) => infer R
     ? (this: T, ...args: Args) => R
     : T[K];
 };
-
-type __InstanceGlobalType<T extends object> = Pick<
-  __BindThisType<T>,
-  Exclude<keyof T, '__instance__'>
->;
-
-type __NumberLike = number & { [K in Exclude<keyof number, 'toString'>]: never };
 
 declare interface CDOTA_BaseNPC {
   /**

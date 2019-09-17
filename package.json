@@ -31,27 +31,26 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "lua-types": "^2.5.1",
+    "lua-types": "^2.6.1",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@ark120202/tslint-config": "^4.0.2",
-    "@ark120202/typescript-config": "^2.0.0",
-    "@types/fs-extra": "^7.0.0",
-    "@types/lodash": "^4.14.134",
-    "@types/node": "^12.0.8",
-    "@types/prettier": "^1.16.4",
+    "@ark120202/typescript-config": "^2.1.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/lodash": "^4.14.138",
+    "@types/node": "^12.7.5",
     "@types/wordwrap": "^1.0.0",
-    "dota-data": "^0.3.0",
-    "dts-dom": "^3.3.0",
-    "fs-extra": "^8.0.1",
-    "lodash": "^4.17.11",
-    "nodemon": "^1.19.1",
+    "dota-data": "^0.4.0",
+    "dts-dom": "^3.4.0",
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^1.19.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
-    "ts-node": "8.3.0",
+    "ts-node": "8.4.1",
     "tslint": "^5.17.0",
-    "typescript": "^3.5.2",
+    "typescript": "^3.6.3",
     "wordwrap": "^1.0.0"
   }
 }

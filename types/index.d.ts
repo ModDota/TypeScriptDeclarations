@@ -16,7 +16,11 @@
 /// <reference types="./modifier-properties.generated" />
 
 type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
-type __InstanceGlobalType<T extends object> = Omit<__BindThisType<T>, '__instance__'>;
+
+type __InstanceGlobalType<T extends object> = Omit<__BindThisType<T>, '__instance__'> & {
+  __instance_global_type__: never;
+};
+
 type __BindThisType<T extends object> = {
   [K in keyof T]: T[K] extends (...args: infer Args) => infer R
     ? (this: T, ...args: Args) => R

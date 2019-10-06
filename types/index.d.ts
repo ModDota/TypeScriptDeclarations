@@ -54,11 +54,7 @@ declare interface CCustomGameEventManager {
    */
   RegisterListener<T extends object>(
     eventName: string,
-    listener: (
-      this: void,
-      playerId: PlayerID,
-      event: Omit<T, 'PlayerID'> & { PlayerID: PlayerID },
-    ) => void,
+    listener: (this: void, playerId: PlayerID, event: T & { PlayerID: PlayerID }) => void,
   ): CustomGameEventListenerID;
 }
 

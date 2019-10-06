@@ -3,7 +3,6 @@ import * as ts from 'typescript';
 // tslint:disable-next-line: no-require-imports no-var-requires
 const enumMappings: Record<string, Record<string, string>> = require('./enum-mappings.json');
 
-const createError = (messageText: string) => ts.createThrow(ts.createStringLiteral(messageText));
 const replaceNode: ts.Visitor = node => {
   // Would be handled as a part of main process of const enum transform
   if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) return;
@@ -18,7 +17,7 @@ const replaceNode: ts.Visitor = node => {
     nameText = node.name.text;
   } else if (ts.isElementAccessExpression(node)) {
     if (!ts.isStringLiteral(node.argumentExpression)) {
-      return createError(`A const enum member can only be accessed using a string literal.`);
+      return;
     }
 
     nameText = node.argumentExpression.text;
@@ -27,9 +26,9 @@ const replaceNode: ts.Visitor = node => {
   }
 
   const enumMembers = enumMappings[enumName];
-  return enumMembers.hasOwnProperty(nameText)
-    ? ts.createIdentifier(enumMembers[nameText])
-    : createError(`${nameText} is not a valid ${enumName} member`);
+  if (enumMembers.hasOwnProperty(nameText)) {
+    return ts.createIdentifier(enumMembers[nameText]);
+  }
 };
 
 export default (): ts.TransformerFactory<ts.SourceFile> => context => {

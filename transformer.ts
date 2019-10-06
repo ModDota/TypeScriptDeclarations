@@ -11,8 +11,7 @@ const replaceNode: ts.Visitor = node => {
   if (!ts.isIdentifier(expression)) return;
 
   const enumName = expression.text;
-  const enumMembers = enumMappings[enumName];
-  if (enumMembers == null) return;
+  if (!enumMappings.hasOwnProperty(enumName)) return;
 
   let nameText: string;
   if (ts.isPropertyAccessExpression(node)) {
@@ -27,9 +26,9 @@ const replaceNode: ts.Visitor = node => {
     return;
   }
 
-  const originalName = enumMembers[nameText];
-  return originalName != null
-    ? ts.createIdentifier(originalName)
+  const enumMembers = enumMappings[enumName];
+  return enumMembers.hasOwnProperty(nameText)
+    ? ts.createIdentifier(enumMembers[nameText])
     : createError(`${nameText} is not a valid ${enumName} member`);
 };
 

@@ -6,6 +6,6 @@ import { generatedModifierProperties } from './modifier-properties';
 export const generated = {
   enums: generatedEnums,
   events: generatedEvents,
-  methods: generatedApi,
+  api: generatedApi,
   'modifier-properties': generatedModifierProperties,
 };

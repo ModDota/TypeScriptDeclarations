@@ -1,8 +1,8 @@
 /// <reference types="lua-types/jit" />
-/// <reference types="./modifier" />
+/// <reference types="./api.generated" />
 /// <reference types="./enums.generated" />
 /// <reference types="./events.generated" />
-/// <reference types="./methods.generated" />
+/// <reference types="./modifier" />
 /// <reference types="./modifier-properties.generated" />
 
 type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;

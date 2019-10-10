@@ -57,30 +57,32 @@ const typeMap: Record<string, string> = {
   handle: 'object',
   table: 'object',
   variant: 'any',
-  nil: 'null', // All properties containing `nil` should be marked as optional, so undefined is granted
+  nil: 'undefined',
   function: 'Function',
 
   // TODO:
   Vector2D: 'any',
 };
 
-export const getType = (types: Type[], nilType: string, thisType?: string): dom.Type =>
+export const getType = (types: Type[], includeUndefined: boolean, thisType?: string): dom.Type =>
   dom.create.union(
-    types.map(x =>
-      typeof x === 'string'
-        ? dom.create.namedTypeReference(x === 'nil' ? nilType : typeMap[x] || x)
-        : 'array' in x
-        ? dom.create.array(getType([x.array], nilType, thisType))
-        : // TODO: functionLike can't be used because functionType not supports typeParameters
-          dom.create.functionType(
-            getFunctionParameters('', x.args, false, thisType),
-            getReturnType(x.returns),
-          ),
-    ),
+    types
+      .filter(type => type !== 'nil' || includeUndefined)
+      .map(type =>
+        typeof type === 'string'
+          ? dom.create.namedTypeReference(typeMap[type] || type)
+          : 'array' in type
+          ? dom.create.array(getType([type.array], true, thisType))
+          : // TODO: functionLike can't be used because functionType not supports typeParameters
+            dom.create.functionType(
+              getFunctionParameters('', type.args, false, thisType),
+              getReturnType(type.returns),
+            ),
+      ),
   );
 
 export const getReturnType = (types: Type[]) =>
-  _.isEqual(types, ['nil']) ? dom.type.void : getType(types, 'undefined');
+  _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
 
 export function getFunctionParameters(
   identifier: string,
@@ -93,7 +95,7 @@ export function getFunctionParameters(
 
     const isOptional = functionsWithOptionalArguments.includes(identifier);
     const argThisType = useContext ? 'T' : 'void';
-    const realType = getType(types, isOptional ? 'null' : 'null | undefined', argThisType);
+    const realType = getType(types, !isOptional, argThisType);
 
     // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
     return dom.create.parameter(name + (isOptional ? '?' : ''), realType);

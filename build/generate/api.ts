@@ -33,7 +33,7 @@ export const generatedApi = emit(
               withDescription(
                 dom.create.property(
                   member.name,
-                  getType(member.types, 'null'),
+                  getType(member.types, false),
                   member.types.includes('nil')
                     ? dom.DeclarationFlags.Optional
                     : dom.DeclarationFlags.None,

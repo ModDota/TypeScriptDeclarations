@@ -47,48 +47,21 @@ npm install -D dota-lua-types
   HeroList.GetHero(0)!.log('Hello world');
   ```
 
-- All Dota classes there are declared as interfaces. There are two ways to declare Lua abilities,
-  items, and modifiers.
-
-  - Classes with declaration merging
-    ([helper functions](https://gist.github.com/ark120202/f9ccd1076887664e8e8cb7e7d78fd7d1))
-
-    > For now this is a recommended way. In future it may be improved by decorators.
+- All Dota classes there are declared as interfaces. To extend them you can use
+  [utilities](https://gist.github.com/ark120202/f9ccd1076887664e8e8cb7e7d78fd7d1)
 
   ```ts
-  interface MyModifier extends CDOTA_Modifier_Lua {}
-  class MyModifier {
-    // ...
+  import { BaseAbility, BaseModifier, registerAbility, registerModifier } from './utils';
+
+  @registerAbility('ability_test')
+  export class Test extends BaseAbility {
+    GetIntrinsicModifierName = () => TestModifier.name;
   }
 
-  // Or use declaration merging only once
-  interface FakeLuaModifier extends CDOTA_Modifier_Lua {}
-  abstract class FakeLuaModifier {}
-  class MyModifier extends FakeLuaModifier {
-    // ...
+  @registerModifier('ability_test_modifier')
+  export class TestModifier extends BaseModifier {
+    OnCreated() {
+      print('Test modifier created');
+    }
   }
-
-  registerModifier('modifier_name', MyModifier);
-  ```
-
-  - [Helper functions](https://gist.github.com/ark120202/7826f64cc47d52cac0889ebbbeb50231)
-
-  ```ts
-  const item1 = createAbility({
-    _currentValue: 0,
-    counter: () => ++this._currentValue,
-
-    OnSpellStart() {
-      print(this.counter());
-    },
-  });
-  item1.register('item_test_1');
-
-  createAbility({
-    extend: item1,
-
-    OnSpellStart() {
-      print(this.counter() * 2);
-    },
-  }).register('item_test_2');
   ```

@@ -53,7 +53,7 @@ export const generatedApi = emit(
       const constructorTypes = dom.create.intersection([]);
       if (typeName !== rootElement.instance) {
         constructorTypes.members.push(
-          dom.create.namedTypeReference(`__InstanceGlobalType<${typeName}>`),
+          dom.create.namedTypeReference(`DotaConstructor<${typeName}>`),
         );
       }
 

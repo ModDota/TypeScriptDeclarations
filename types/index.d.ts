@@ -1,14 +1,4 @@
-/// <reference types="lua-types/core/coroutine" />
-/// <reference types="lua-types/core/debug" />
-/// <reference types="lua-types/core/global" />
-/// <reference types="lua-types/core/io" />
-/// <reference types="lua-types/core/math" />
-/// <reference types="lua-types/core/metatable" />
-/// <reference types="lua-types/core/modules" />
-// os is not defined
-/// <reference types="lua-types/core/string" />
-/// <reference types="lua-types/core/table" />
-/// <reference types="lua-types/special/jit" />
+/// <reference types="lua-types/jit" />
 /// <reference types="./modifier" />
 /// <reference types="./enums.generated" />
 /// <reference types="./events.generated" />

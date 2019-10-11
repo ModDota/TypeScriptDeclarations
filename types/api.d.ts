@@ -1,10 +1,3 @@
-type AbilityID = number;
-type BuffID = number;
-type EntityID = number;
-type ItemID = number;
-type ParticleID = number;
-type ScheduleID = number;
-
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event

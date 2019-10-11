@@ -1,0 +1,41 @@
+{
+    "name": "panorama-types",
+    "version": "0.0.0",
+    "description": "TypeScript definitions for Dota 2 Panorama API",
+    "repository": "https://github.com/ModDota/TypescriptPanoramaDeclarations",
+    "license": "MIT",
+    "author": "ark120202",
+    "files": [
+        "types/*.d.ts"
+    ],
+    "types": "types/index.d.ts",
+    "scripts": {
+        "lint": "run-s lint:prettier lint:eslint",
+        "lint:eslint": "eslint . --ext .js,.ts",
+        "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
+        "test": "tsc --project types"
+    },
+    "prettier": {
+        "printWidth": 120,
+        "proseWrap": "always",
+        "singleQuote": true,
+        "trailingComma": "all"
+    },
+    "eslintConfig": {
+        "extends": "@ark120202/eslint-config/node",
+        "parserOptions": {
+            "project": "types/tsconfig.json"
+        },
+        "rules": {
+            "@typescript-eslint/quotes": "off"
+        }
+    },
+    "devDependencies": {
+        "@ark120202/eslint-config": "^2.1.0",
+        "@ark120202/typescript-config": "^2.1.0",
+        "eslint": "^6.5.1",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^1.18.2",
+        "typescript": "^3.6.4"
+    }
+}

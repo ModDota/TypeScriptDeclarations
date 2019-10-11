@@ -1,17 +1,3 @@
-// Commit: 9137f24fb3533316df2a6c09b1a0c31f1978d500
-/*
-    Typescript definition file of the DotA 2 Panorama API.
-
-    This file contains information on the API and how it should be used. This file can be used
-    just as reference, or when writing Typescript to compile into Panorama JS.
-
-    To use this file with typescript for Panorama, install typescript and put this file at the project root.
-
-    Any javascript compiled from this typescript should be Panorama-compatible and run in Panorama.
-    Issues or bugs in the definitions can be reported by making an issue on GitHub:
-    https://github.com/ModDota/API.
-*/
-
 type AbilityId = number;
 type BuffId = number;
 type EntityId = number;

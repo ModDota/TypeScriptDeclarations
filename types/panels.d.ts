@@ -1,17 +1,3 @@
-// Commit: 9502f3127e4b115c69f37e3d0b0d6ece77edf5af
-/*
-    Typescript definition file of the DotA 2 Panorama API.
-
-    This file contains information on the Panel hierarchy and how it should be used. This file can be used
-    just as reference, or when writing Typescript to compile into Panorama JS.
-
-    To use this file with typescript for Panorama, install typescript and put this file at the project root.
-
-    Any javascript compiled from this typescript should be Panorama-compatible and run in Panorama.
-    Issues or bugs in the definitions can be reported by making an issue on GitHub:
-    https://github.com/ModDota/API.
-*/
-
 interface PanelBase {
     paneltype: string;
     rememberchildfocus: boolean;

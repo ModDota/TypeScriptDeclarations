@@ -1,17 +1,3 @@
-// Commit: 641e32bc6612df9887732d1f382670a6d521b7aa
-/*
-    Typescript definition file of the DotA 2 Panorama API.
-
-    This file contains information on the enums. This file can be used
-    just as reference, or when writing Typescript to compile into Panorama JS.
-
-    To use this file with typescript for Panorama, install typescript and put this file at the project root.
-
-    Any javascript compiled from this typescript should be Panorama-compatible and run in Panorama.
-    Issues or bugs in the definitions can be reported by making an issue on GitHub:
-    https://github.com/ModDota/API.
-*/
-
 declare enum DOTA_GameState {
     DOTA_GAMERULES_STATE_INIT = 0,
     DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD = 1,

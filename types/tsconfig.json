@@ -1,0 +1,8 @@
+{
+    "extends": "@ark120202/typescript-config/base.json",
+    "include": ["."],
+    "compilerOptions": {
+        "noEmit": true,
+        "lib": ["es5"]
+    }
+}

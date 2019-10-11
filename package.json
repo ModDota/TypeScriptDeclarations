@@ -11,7 +11,7 @@
     "types",
     "enum-mappings.json"
   ],
-  "types": "types/index.d.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "run-p build:transformer build:types",
     "build:transformer": "tsc",

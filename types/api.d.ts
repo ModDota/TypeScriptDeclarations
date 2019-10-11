@@ -81,9 +81,6 @@ interface CDOTA_PanoramaScript_GameUI {
      */
     SetMouseCallback(callbackFn: (event: MouseEvent, value: MouseButton | WheelScroll) => boolean): void;
 
-    /**
-     *
-     */
     EnableAliMode(bEnable: boolean, nPort: number, offsetVal: number, flScale: number): void;
 
     /**
@@ -394,14 +391,8 @@ interface CScriptBindingPR_Players {
      */
     GetAssists(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetClaimedDenies(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetClaimedMisses(iPlayerID: number): number;
 
     /**
@@ -424,14 +415,8 @@ interface CScriptBindingPR_Players {
      */
     GetKills(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetLastBuybackTime(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetLastHitMultikill(iPlayerID: number): number;
 
     /**
@@ -439,9 +424,6 @@ interface CScriptBindingPR_Players {
      */
     GetLastHits(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetLastHitStreak(iPlayerID: number): number;
 
     /**
@@ -449,14 +431,8 @@ interface CScriptBindingPR_Players {
      */
     GetLevel(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetMisses(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetNearbyCreepDeaths(iPlayerID: number): number;
 
     /**
@@ -464,14 +440,8 @@ interface CScriptBindingPR_Players {
      */
     GetReliableGold(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetRespawnSeconds(iPlayerID: number): number;
 
-    /**
-     *
-     */
     GetStreak(iPlayerID: number): number;
 
     /**
@@ -519,14 +489,8 @@ interface CScriptBindingPR_Players {
      */
     IsSpectator(iPlayerID: number): boolean;
 
-    /**
-     * .
-     */
     PlayerPortraitClicked(nClickedPlayerID: number, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
-    /**
-     * .
-     */
     BuffClicked(nEntity: EntityId, nBuffSerial: number, bAlert: boolean): void;
 }
 
@@ -586,564 +550,228 @@ interface CScriptBindingPR_Entities {
      */
     GetPlayerOwnerID(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     CanBeDominated(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasAttackCapability(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasCastableAbilities(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasFlyingVision(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasFlyMovementCapability(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasGroundMovementCapability(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasMovementCapability(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasScepter(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasUpgradeableAbilities(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     HasUpgradeableAbilitiesThatArentMaxed(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsAlive(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsAncient(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsAttackImmune(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsBarracks(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsBlind(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsBoss(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsRoshan(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsBuilding(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsCommandRestricted(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsConsideredHero(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsControllableByAnyPlayer(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsCourier(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsCreature(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsCreep(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsCreepHero(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsDeniable(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsDominated(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsEnemy(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsEvadeDisabled(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsFort(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsFrozen(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsGeneratedByEconItem(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsHallofFame(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsDisarmed(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsHero(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsHexed(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsIllusion(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsInRangeOfFountain(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsInventoryEnabled(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsInvisible(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsInvulnerable(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsLaneCreep(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsLowAttackPriority(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsMagicImmune(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsMuted(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsNeutralUnitType(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsNightmared(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsOther(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsOutOfGame(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsOwnedByAnyPlayer(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsPhantom(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsRangedAttacker(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsRealHero(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsRooted(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsSelectable(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsShop(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsSilenced(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsSpeciallyDeniable(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsStunned(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsSummoned(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsTower(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsUnselectable(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsWard(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsZombie(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NoHealthBar(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NoTeamMoveTo(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NoTeamSelect(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NotOnMinimap(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NotOnMinimapForEnemies(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     NoUnitCollision(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     PassivesDisabled(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     ProvidesVision(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     UsesHeroAbilityNumbers(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     IsMoving(nEntityIndex: EntityId): boolean;
 
-    /**
-     *
-     */
     GetAbilityCount(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetCombatClassAttack(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetCombatClassDefend(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetCurrentVisionRange(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetDamageBonus(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetDamageMax(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetDamageMin(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetDayTimeVisionRange(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetHealth(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetHealthPercent(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetHealthThinkRegen(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetLevel(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetMaxHealth(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetNightTimeVisionRange(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetStates(nEntityIndex: EntityId): modifierstate[];
 
-    /**
-     *
-     */
     GetTotalPurchasedUpgradeGoldCost(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetTeamNumber(nEntityIndex: EntityId): DOTATeam_t;
 
-    /**
-     *
-     */
     GetAttackRange(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetAttackSpeed(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetAttacksPerSecond(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetBaseAttackTime(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetBaseMagicalResistanceValue(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetBaseMoveSpeed(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetBonusPhysicalArmor(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetCollisionPadding(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetEffectiveInvisibilityLevel(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetHasteFactor(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetHullRadius(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetIdealSpeed(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetIncreasedAttackSpeed(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetMana(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetManaThinkRegen(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetMaxMana(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetMagicalArmorValue(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetPaddedCollisionRadius(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetPercentInvisible(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetPhysicalArmorValue(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetProjectileCollisionSize(nEntityIndex: EntityId): number;
 
     /**
@@ -1151,154 +779,64 @@ interface CScriptBindingPR_Entities {
      */
     GetRingRadius(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetSecondsPerAttack(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     ManaFraction(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetClassname(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetDisplayedUnitName(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetSelectionGroup(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetSoundSet(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetUnitLabel(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetUnitName(nEntityIndex: EntityId): string;
 
-    /**
-     *
-     */
     GetTotalDamageTaken(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     IsControllableByPlayer(nEntityIndex: EntityId, nPlayerIndex: number): boolean;
 
-    /**
-     *
-     */
     GetChosenTarget(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     HasItemInInventory(nEntityIndex: EntityId, pItemName: string): boolean;
 
-    /**
-     *
-     */
     GetRangeToUnit(nEntityIndex: EntityId, nEntityIndex2: EntityId): number;
 
-    /**
-     *
-     */
     IsEntityInRange(nEntityIndex: EntityId, nEntityIndex2: EntityId, flRange: number): boolean;
 
-    /**
-     *
-     */
     GetMoveSpeedModifier(nEntityIndex: EntityId, flBaseSpeed: number): number;
 
-    /**
-     *
-     */
     CanAcceptTargetToAttack(nEntityIndex: EntityId, nEntityIndex2: EntityId): boolean;
 
-    /**
-     *
-     */
     InState(nEntityIndex: EntityId, nState: modifierstate): boolean;
 
-    /**
-     *
-     */
     GetArmorForDamageType(nEntityIndex: EntityId, iDamageType: DAMAGE_TYPES): number;
 
-    /**
-     *
-     */
     GetArmorReductionForDamageType(nEntityIndex: EntityId, iDamageType: DAMAGE_TYPES): number;
 
-    /**
-     *
-     */
     IsInRangeOfShop(nEntityIndex: EntityId, iShopType: number, bSpecific: boolean): boolean;
 
-    /**
-     *
-     */
     GetNumItemsInStash(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetNumItemsInInventory(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetItemInSlot(nEntityIndex: EntityId, nSlotIndex: number): ItemId;
 
-    /**
-     *
-     */
     GetAbility(nEntityIndex: EntityId, nSlotIndex: number): AbilityId;
 
-    /**
-     *
-     */
     GetAbilityByName(nEntityIndex: EntityId, pszAbilityName: string): AbilityId;
 
-    /**
-     *
-     */
     GetNumBuffs(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetBuff(nEntityIndex: EntityId, nBufIndex: number): BuffId;
 
-    /**
-     *
-     */
     GetAbilityPoints(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetCurrentXP(nEntityIndex: EntityId): number;
 
-    /**
-     *
-     */
     GetNeededXPToLevel(nEntityIndex: EntityId): number;
 
     /**
@@ -1323,44 +861,20 @@ interface CScriptBindingPR_Entities {
 }
 
 interface CScriptBindingPR_Abilities {
-    /**
-     *
-     */
     GetAbilityName(nEntityIndex: AbilityId): string;
 
-    /**
-     *
-     */
     GetAbilityTextureName(nEntityIndex: AbilityId): string;
 
-    /**
-     *
-     */
     GetAssociatedPrimaryAbilities(nEntityIndex: AbilityId): AbilityId[];
 
-    /**
-     *
-     */
     GetAssociatedSecondaryAbilities(nEntityIndex: AbilityId): AbilityId[];
 
-    /**
-     *
-     */
     GetHotkeyOverride(nEntityIndex: AbilityId): string;
 
-    /**
-     *
-     */
     GetIntrinsicModifierName(nEntityIndex: AbilityId): string;
 
-    /**
-     *
-     */
     GetSharedCooldownName(nEntityIndex: AbilityId): string;
 
-    /**
-     *
-     */
     AbilityReady(nEntityIndex: AbilityId): number;
 
     /**
@@ -1368,279 +882,114 @@ interface CScriptBindingPR_Abilities {
      */
     CanAbilityBeUpgraded(nEntityIndex: AbilityId): AbilityLearnResult_t;
 
-    /**
-     *
-     */
     CanBeExecuted(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     GetAbilityDamage(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetAbilityDamageType(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetAbilityTargetFlags(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetAbilityTargetTeam(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetAbilityTargetType(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetAbilityType(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetBehavior(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCastRange(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetChannelledManaCostPerSecond(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCurrentCharges(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetEffectiveLevel(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetHeroLevelRequiredToUpgrade(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetLevel(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetManaCost(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetMaxLevel(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     AttemptToUpgrade(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     CanLearn(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     GetAutoCastState(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     GetToggleState(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     HasScepterUpgradeTooltip(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsActivated(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsActivatedChanging(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsAttributeBonus(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsAutocast(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsCooldownReady(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsDisplayedAbility(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsHidden(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsHiddenWhenStolen(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsInAbilityPhase(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsItem(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsMarkedAsDirty(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsMuted(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsOnCastbar(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsOnLearnbar(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsOwnersGoldEnough(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsOwnersGoldEnoughForUpgrade(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsOwnersManaEnough(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsPassive(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsRecipe(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsSharedWithTeammates(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsStealable(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsStolen(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     IsToggle(nEntityIndex: AbilityId): boolean;
 
-    /**
-     *
-     */
     GetAOERadius(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetBackswingTime(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCastPoint(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetChannelStartTime(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetChannelTime(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCooldown(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCooldownLength(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCooldownTime(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetCooldownTimeRemaining(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetDuration(nEntityIndex: AbilityId): number;
 
-    /**
-     *
-     */
     GetUpgradeBlend(nEntityIndex: AbilityId): number;
 
     /**
@@ -1648,29 +997,14 @@ interface CScriptBindingPR_Abilities {
      */
     GetLocalPlayerActiveAbility(): AbilityId;
 
-    /**
-     *
-     */
     GetCaster(nAbilityIndex: AbilityId): EntityId;
 
-    /**
-     *
-     */
     GetCustomValueFor(nAbilityIndex: AbilityId, pszAbilityVarName: string): number;
 
-    /**
-     *
-     */
     GetLevelSpecialValueFor(nAbilityIndex: AbilityId, szName: string, nLevel: number): number;
 
-    /**
-     *
-     */
     GetSpecialValueFor(nAbilityIndex: AbilityId, szName: string): number;
 
-    /**
-     *
-     */
     IsCosmetic(nAbilityIndex: AbilityId, nTargetEntityIndex: EntityId): boolean;
 
     /**
@@ -1695,169 +1029,70 @@ interface CScriptBindingPR_Abilities {
 }
 
 interface CScriptBindingPR_Items {
-    /**
-     *
-     */
     ShouldDisplayCharges(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     AlwaysDisplayCharges(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     ShowSecondaryCharges(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     CanBeSoldByLocalPlayer(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     CanDoubleTapCast(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     ForceHideCharges(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsAlertableItem(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsCastOnPickup(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsDisassemblable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsDroppable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsInnatelyDisassemblable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsKillable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsMuted(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsPermanent(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsPurchasable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsRecipe(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsRecipeGenerated(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsSellable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     IsStackable(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     ProRatesChargesWhenSelling(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     RequiresCharges(nEntityIndex: ItemId): boolean;
 
-    /**
-     *
-     */
     CanBeExecuted(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetCost(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetCurrentCharges(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetSecondaryCharges(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetDisplayedCharges(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetInitialCharges(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetItemColor(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetShareability(nEntityIndex: ItemId): EShareAbility;
 
-    /**
-     *
-     */
     GetAbilityTextureSF(nEntityIndex: ItemId): string;
 
-    /**
-     *
-     */
     GetAssembledTime(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetPurchaseTime(nEntityIndex: ItemId): number;
 
-    /**
-     *
-     */
     GetPurchaser(nItemID: ItemId): EntityId;
 
     /**
@@ -1931,29 +1166,14 @@ interface PrepareUnitOrdersArgument {
 }
 
 interface CScriptBindingPR_Game {
-    /**
-     *
-     */
     Time(): number;
 
-    /**
-     *
-     */
     GetGameTime(): number;
 
-    /**
-     *
-     */
     GetDOTATime(bIncludePreGame: boolean, bIncludeNegativeTime: boolean): number;
 
-    /**
-     *
-     */
     IsGamePaused(): boolean;
 
-    /**
-     *
-     */
     IsInToolsMode(): boolean;
 
     /**
@@ -1961,9 +1181,6 @@ interface CScriptBindingPR_Game {
      */
     GetGameWinner(): number;
 
-    /**
-     *
-     */
     GetStateTransitionTime(): number;
 
     /**
@@ -2006,39 +1223,18 @@ interface CScriptBindingPR_Game {
      */
     GetKeybindForAbility(iSlot: number): string;
 
-    /**
-     *
-     */
     GetNianFightTimeLeft(): number;
 
-    /**
-     *
-     */
     GetState(): DOTA_GameState;
 
-    /**
-     *
-     */
     GameStateIs(nState: DOTA_GameState): boolean;
 
-    /**
-     *
-     */
     GameStateIsBefore(nState: DOTA_GameState): boolean;
 
-    /**
-     *
-     */
     GameStateIsAfter(nState: DOTA_GameState): boolean;
 
-    /**
-     *
-     */
     AddCommand(pszCommandName: string, callback: (data: object) => void, pszDescription: string, nFlags: number): void;
 
-    /**
-     *
-     */
     GetLocalPlayerID(): number;
 
     /**
@@ -2141,14 +1337,8 @@ interface CScriptBindingPR_Game {
      */
     GetPlayerIDsOnTeam(nTeam: DOTATeam_t): number[];
 
-    /**
-     *
-     */
     ServerCmd(pMsg: string): void;
 
-    /**
-     *
-     */
     FinishGame(): void;
 
     /**
@@ -2176,19 +1366,10 @@ interface CScriptBindingPR_Game {
      */
     DropItemAtCursor(nControlledUnitEnt: EntityId, nItemEnt: ItemId): void;
 
-    /**
-     *
-     */
     EnterAbilityLearnMode(): void;
 
-    /**
-     *
-     */
     EndAbilityLearnMode(): void;
 
-    /**
-     *
-     */
     IsInAbilityLearnMode(): boolean;
 
     /**

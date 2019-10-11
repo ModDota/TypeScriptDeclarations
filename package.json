@@ -25,9 +25,6 @@
         "extends": "@ark120202/eslint-config/node",
         "parserOptions": {
             "project": "types/tsconfig.json"
-        },
-        "rules": {
-            "@typescript-eslint/quotes": "off"
         }
     },
     "devDependencies": {

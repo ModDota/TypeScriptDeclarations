@@ -72,7 +72,7 @@ interface Panel extends PanelBase {
     MoveChildBefore(child: Panel, beforeChild: Panel): void;
     MoveChildAfter(child: Panel, afterChild: Panel): void;
 
-    GetPositionWithinWindow(): {x: number, y: number};
+    GetPositionWithinWindow(): { x: number; y: number };
     /**
      * Sets whether to update panel with style changes
      */
@@ -991,7 +991,7 @@ interface VCSSStyleDeclaration {
      * position: 3% 20px 0px;
      */
     z: string | null;
-    
+
     /**
      * Sets the z-index for a panel, panels will be sorted and painted in order within a parent panel.
      * The sorting first sorts by the z-pos computed from position and transforms, then if panels have matching zpos zindex is used. z-index is different than z-pos in that it doesn't affect rendering perspective, just paint/hit-test ordering.
@@ -1000,7 +1000,7 @@ interface VCSSStyleDeclaration {
      * Example:
      * z-index: 1;
      */
-    
+
     zIndex: number | null;
 }
 
@@ -1010,23 +1010,23 @@ interface LabelPanel extends Panel {
 }
 
 declare const enum PanelEvent {
-    ON_LEFT_CLICK = "onactivate",
-    ON_RIGHT_CLICK = "oncontextmenu",
-    ON_MOUSE_OVER = "onmouseover",
-    ON_MOUSE_OUT = "onmouseout",
-    ON_ESCAPE_PRESS = "oncancel",
-    ON_INPUT_SUBMIT = "oninputsubmit"
+    ON_LEFT_CLICK = 'onactivate',
+    ON_RIGHT_CLICK = 'oncontextmenu',
+    ON_MOUSE_OVER = 'onmouseover',
+    ON_MOUSE_OUT = 'onmouseout',
+    ON_ESCAPE_PRESS = 'oncancel',
+    ON_INPUT_SUBMIT = 'oninputsubmit',
 }
 
 declare const enum ScalingFunction {
-    NONE = "none",
-    STRETCH = "stretch", // the default
-    STRETCH_X = "stretchx",
-    STRETCH_Y = "stretchy",
-    STRETCH_TO_FIT_PRESERVE_ASPECT = "stretch-to-fit-preserve-aspect",
-    STRETCH_TO_FIT_X_PRESERVE_ASPECT = "stretch-to-fit-x-preserve-aspect",
-    STRETCH_TO_FIT_Y_PRESERVE_ASPECT = "stretch-to-fit-y-preserve-aspect",
-    STRETCH_TO_COVER_PRESERVE_ASPECT = "stretch-to-cover-preserve-aspect"
+    NONE = 'none',
+    STRETCH = 'stretch', // the default
+    STRETCH_X = 'stretchx',
+    STRETCH_Y = 'stretchy',
+    STRETCH_TO_FIT_PRESERVE_ASPECT = 'stretch-to-fit-preserve-aspect',
+    STRETCH_TO_FIT_X_PRESERVE_ASPECT = 'stretch-to-fit-x-preserve-aspect',
+    STRETCH_TO_FIT_Y_PRESERVE_ASPECT = 'stretch-to-fit-y-preserve-aspect',
+    STRETCH_TO_COVER_PRESERVE_ASPECT = 'stretch-to-cover-preserve-aspect',
 }
 
 interface ImagePanel extends Panel {
@@ -1051,7 +1051,7 @@ interface ItemImage extends ImagePanel {
 interface HeroImage extends ImagePanel {
     heroid: number;
     heroname: string;
-    heroimagestyle: "icon" | "portrait" | "landscape";
+    heroimagestyle: 'icon' | 'portrait' | 'landscape';
 }
 
 interface ContextMenuScriptPanel extends Panel {
@@ -1167,31 +1167,31 @@ interface CarouselPanel extends Panel {
 
 // Only put single string literals in here, it'll be merged with the main one
 interface DollarStatic {
-    CreatePanel(type: "Label",                  root: Panel, id: string): LabelPanel;
-    CreatePanel(type: "Image",                  root: Panel, id: string): ImagePanel;
-    CreatePanel(type: "DOTAAbilityImage",       root: Panel, id: string): AbilityImage;
-    CreatePanel(type: "DOTAItemImage",          root: Panel, id: string): ItemImage;
-    CreatePanel(type: "DOTAHeroImage",          root: Panel, id: string): HeroImage;
-    CreatePanel(type: "ContextMenuScript",      root: Panel, id: string): ContextMenuScriptPanel;
-    CreatePanel(type: "DOTAScenePanel",         root: Panel, id: string): ScenePanel;
-    CreatePanel(type: "RadioButton",            root: Panel, id: string): RadioButton;
-    CreatePanel(type: "TextButton",             root: Panel, id: string): TextButton;
-    CreatePanel(type: "DOTASettingsCheckbox",   root: Panel, id: string): SettingsCheckbox;
-    CreatePanel(type: "ToggleButton",           root: Panel, id: string): ToggleButton;
-    CreatePanel(type: "DOTAHUDShopTextEntry",   root: Panel, id: string): HUDShopTextEntry;
-    CreatePanel(type: "TextEntry",              root: Panel, id: string): TextEntry;
-    CreatePanel(type: "DropDown",               root: Panel, id: string): DropDown;
-    CreatePanel(type: "SlottedSlider",          root: Panel, id: string): SlottedSlider;
-    CreatePanel(type: "Slider",                 root: Panel, id: string): SliderPanel;
-    CreatePanel(type: "ProgressBar",            root: Panel, id: string): ProgressBar;
-    CreatePanel(type: "CircularProgressBar",    root: Panel, id: string): CircularProgressBar;
-    CreatePanel(type: "DOTAUserRichPresence",   root: Panel, id: string): UserRichPresence;
-    CreatePanel(type: "DOTAUserName",           root: Panel, id: string): UserName;
-    CreatePanel(type: "DOTAHeroMovie",          root: Panel, id: string): HeroMovie;
-    CreatePanel(type: "HTML",                   root: Panel, id: string): HTML;
-    CreatePanel(type: "DOTAAccountLinkHTML",    root: Panel, id: string): AccountLinkHTML;
-    CreatePanel(type: "DOTAHTMLPanel",          root: Panel, id: string): HTMLPanel;
-    CreatePanel(type: "DOTAHeroSetList",        root: Panel, id: string): HeroSetList;
-    CreatePanel(type: "Carousel",               root: Panel, id: string): CarouselPanel;
-    CreatePanel(type: "DOTAStoreCustomControls", root: Panel, id: string): StoreCustomControls;
+    CreatePanel(type: 'Label', root: Panel, id: string): LabelPanel;
+    CreatePanel(type: 'Image', root: Panel, id: string): ImagePanel;
+    CreatePanel(type: 'DOTAAbilityImage', root: Panel, id: string): AbilityImage;
+    CreatePanel(type: 'DOTAItemImage', root: Panel, id: string): ItemImage;
+    CreatePanel(type: 'DOTAHeroImage', root: Panel, id: string): HeroImage;
+    CreatePanel(type: 'ContextMenuScript', root: Panel, id: string): ContextMenuScriptPanel;
+    CreatePanel(type: 'DOTAScenePanel', root: Panel, id: string): ScenePanel;
+    CreatePanel(type: 'RadioButton', root: Panel, id: string): RadioButton;
+    CreatePanel(type: 'TextButton', root: Panel, id: string): TextButton;
+    CreatePanel(type: 'DOTASettingsCheckbox', root: Panel, id: string): SettingsCheckbox;
+    CreatePanel(type: 'ToggleButton', root: Panel, id: string): ToggleButton;
+    CreatePanel(type: 'DOTAHUDShopTextEntry', root: Panel, id: string): HUDShopTextEntry;
+    CreatePanel(type: 'TextEntry', root: Panel, id: string): TextEntry;
+    CreatePanel(type: 'DropDown', root: Panel, id: string): DropDown;
+    CreatePanel(type: 'SlottedSlider', root: Panel, id: string): SlottedSlider;
+    CreatePanel(type: 'Slider', root: Panel, id: string): SliderPanel;
+    CreatePanel(type: 'ProgressBar', root: Panel, id: string): ProgressBar;
+    CreatePanel(type: 'CircularProgressBar', root: Panel, id: string): CircularProgressBar;
+    CreatePanel(type: 'DOTAUserRichPresence', root: Panel, id: string): UserRichPresence;
+    CreatePanel(type: 'DOTAUserName', root: Panel, id: string): UserName;
+    CreatePanel(type: 'DOTAHeroMovie', root: Panel, id: string): HeroMovie;
+    CreatePanel(type: 'HTML', root: Panel, id: string): HTML;
+    CreatePanel(type: 'DOTAAccountLinkHTML', root: Panel, id: string): AccountLinkHTML;
+    CreatePanel(type: 'DOTAHTMLPanel', root: Panel, id: string): HTMLPanel;
+    CreatePanel(type: 'DOTAHeroSetList', root: Panel, id: string): HeroSetList;
+    CreatePanel(type: 'Carousel', root: Panel, id: string): CarouselPanel;
+    CreatePanel(type: 'DOTAStoreCustomControls', root: Panel, id: string): StoreCustomControls;
 }

@@ -45,12 +45,12 @@ interface StringDictionary {
 declare const enum MouseButton {
     LEFT = 0,
     RIGHT = 1,
-    MIDDLE = 2
+    MIDDLE = 2,
 }
 
 declare const enum WheelScroll {
     UP = 1,
-    DOWN = -1
+    DOWN = -1,
 }
 
 interface MouseEntity {
@@ -58,8 +58,7 @@ interface MouseEntity {
     accurateCollision: boolean;
 }
 
-type MouseEvent =
-    "pressed" | "doublepressed" | "released" | "wheeled";
+type MouseEvent = 'pressed' | 'doublepressed' | 'released' | 'wheeled';
 
 interface CDOTA_PanoramaScript_GameUI {
     /**
@@ -251,8 +250,15 @@ interface CScriptBindingPR_Particles {
      * Set a particle's control point to an entity's attachment. Most common example is:
      * Particles.SetPerticleControlEnt(particle, controlPoint, entity, ParticleAttachment_t.PATTACH_POINT_FOLLOW, "attach_hitloc", [0,0,0], true);
      */
-    SetParticleControlEnt(particle: ParticleId, controlPoint: number, entity: EntityId, particleAttach: ParticleAttachment_t, attachmentName: string, offset: [number, number, number],
-                          unknown: boolean): void;
+    SetParticleControlEnt(
+        particle: ParticleId,
+        controlPoint: number,
+        entity: EntityId,
+        particleAttach: ParticleAttachment_t,
+        attachmentName: string,
+        offset: [number, number, number],
+        unknown: boolean,
+    ): void;
 }
 
 interface CScriptBindingPR_Buffs {
@@ -2314,15 +2320,15 @@ interface DollarStatic {
     Localize(token: string, parent?: Panel): string;
     RegisterEventHandler(event: string, parent: Panel, handler: () => void): number;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
-    Each<T>(map: {[key: string]: T}, callback: (value: T, key: string) => void): void;
-    Each<T>(map: {[key: number]: T}, callback: (value: T, key: number) => void): void;
+    Each<T>(map: { [key: string]: T }, callback: (value: T, key: string) => void): void;
+    Each<T>(map: { [key: number]: T }, callback: (value: T, key: number) => void): void;
     AsyncWebRequest(url: string, data: AsyncWebRequestData): void;
 }
 
 interface AsyncWebRequestResponse {
-  statusText: string;
-  responseText: string | null;
-  status: number;
+    statusText: string;
+    responseText: string | null;
+    status: number;
 }
 
 interface AsyncWebRequestData {
@@ -2330,9 +2336,9 @@ interface AsyncWebRequestData {
     timeout?: number;
     headers?: object;
     data?: object;
-    success?(response: any, result: "success", statusText: string): void;
-    error?(data: AsyncWebRequestResponse, result: "error", statusText: string): void;
-    complete?(data: AsyncWebRequestResponse, result: "success" | "error"): void;
+    success?(response: any, result: 'success', statusText: string): void;
+    error?(data: AsyncWebRequestResponse, result: 'error', statusText: string): void;
+    complete?(data: AsyncWebRequestResponse, result: 'success' | 'error'): void;
 }
 
 declare var GameEvents: CDOTA_PanoramaScript_GameEvents;

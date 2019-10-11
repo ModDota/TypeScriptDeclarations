@@ -1060,7 +1060,7 @@ interface ContextMenuScriptPanel extends Panel {
 
 type WeekendTourneyTrophyScene = ScenePanel;
 interface ScenePanel extends Panel {
-    FireEntityInput(EntityId: string, inputName: string, value: string): void;
+    FireEntityInput(entityID: string, inputName: string, value: string): void;
     PlayEntitySoundEvent(arg1: any, arg2: any): number;
     SetUnit(unitName: string, environment: string): void;
     GetPanoramaSurfacePanel(): Panel;
@@ -1146,7 +1146,7 @@ interface UserName extends Panel {
 
 interface HeroMovie extends Panel {
     heroname: string;
-    heroid: EntityId;
+    heroid: EntityID;
 }
 
 type HTML = HTMLPanel;

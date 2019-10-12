@@ -30,10 +30,13 @@ interface CDOTA_PanoramaScript_GameEvents {
     SendEventClientSide(pEventName: string, eventData: object): void;
 }
 
-// Define string dictionary for CustomUIConfig to return
-interface StringDictionary {
-    [key: string]: any;
-}
+/**
+ * The type of `Game.CustomUIConfig()`.
+ *
+ * If you need to declare that a given property exists in `Game.CustomUIConfig()`,
+ * this type may be augmented via interface merging.
+ */
+interface CustomUIConfig {}
 
 declare const enum MouseButton {
     LEFT = 0,
@@ -62,7 +65,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Get the current UI configuration
      */
-    CustomUIConfig(): StringDictionary;
+    CustomUIConfig(): CustomUIConfig;
 
     /**
      * Create a minimap ping at the given location

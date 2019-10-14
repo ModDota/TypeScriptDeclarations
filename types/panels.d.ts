@@ -1,3 +1,5 @@
+type PanelEvent = 'onactivate' | 'oncontextmenu' | 'onmouseover' | 'onmouseout' | 'oncancel' | 'oninputsubmit';
+
 interface PanelBase {
     paneltype: string;
     rememberchildfocus: boolean;
@@ -1009,25 +1011,15 @@ interface LabelPanel extends Panel {
     html: boolean;
 }
 
-declare const enum PanelEvent {
-    ON_LEFT_CLICK = 'onactivate',
-    ON_RIGHT_CLICK = 'oncontextmenu',
-    ON_MOUSE_OVER = 'onmouseover',
-    ON_MOUSE_OUT = 'onmouseout',
-    ON_ESCAPE_PRESS = 'oncancel',
-    ON_INPUT_SUBMIT = 'oninputsubmit',
-}
-
-declare const enum ScalingFunction {
-    NONE = 'none',
-    STRETCH = 'stretch', // the default
-    STRETCH_X = 'stretchx',
-    STRETCH_Y = 'stretchy',
-    STRETCH_TO_FIT_PRESERVE_ASPECT = 'stretch-to-fit-preserve-aspect',
-    STRETCH_TO_FIT_X_PRESERVE_ASPECT = 'stretch-to-fit-x-preserve-aspect',
-    STRETCH_TO_FIT_Y_PRESERVE_ASPECT = 'stretch-to-fit-y-preserve-aspect',
-    STRETCH_TO_COVER_PRESERVE_ASPECT = 'stretch-to-cover-preserve-aspect',
-}
+type ScalingFunction =
+    | 'none'
+    | 'stretch' // the default
+    | 'stretchx'
+    | 'stretchy'
+    | 'stretch-to-fit-preserve-aspect'
+    | 'stretch-to-fit-x-preserve-aspect'
+    | 'stretch-to-fit-y-preserve-aspect'
+    | 'stretch-to-cover-preserve-aspect';
 
 interface ImagePanel extends Panel {
     /**

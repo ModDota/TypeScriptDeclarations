@@ -38,23 +38,29 @@ interface CDOTA_PanoramaScript_GameEvents {
  */
 interface CustomUIConfig {}
 
-declare const enum MouseButton {
-    LEFT = 0,
-    RIGHT = 1,
-    MIDDLE = 2,
-}
+type MouseEvent = 'pressed' | 'doublepressed' | 'released' | 'wheeled';
 
-declare const enum WheelScroll {
-    UP = 1,
-    DOWN = -1,
-}
+/**
+ * 0 - Left
+ * 1 - Right
+ * 2 - Middle
+ * 3 - Mouse 4
+ * 4 - Mouse 5
+ * 5 - Scroll up
+ * 6 - Scroll down
+ */
+type MouseButton = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+/**
+ * 1 - Up
+ * -1 - Down
+ */
+type MouseScrollDirection = 1 | -1;
 
 interface MouseEntity {
     entityIndex: EntityID;
     accurateCollision: boolean;
 }
-
-type MouseEvent = 'pressed' | 'doublepressed' | 'released' | 'wheeled';
 
 interface CDOTA_PanoramaScript_GameUI {
     /**
@@ -75,7 +81,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Install a mouse input filter
      */
-    SetMouseCallback(callbackFn: (event: MouseEvent, value: MouseButton | WheelScroll) => boolean): void;
+    SetMouseCallback(callbackFn: (event: MouseEvent, value: MouseButton | MouseScrollDirection) => boolean): void;
 
     EnableAliMode(bEnable: boolean, nPort: number, offsetVal: number, flScale: number): void;
 

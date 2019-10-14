@@ -1,4 +1,32 @@
-type PanelEvent = 'onactivate' | 'oncontextmenu' | 'onmouseover' | 'onmouseout' | 'oncancel' | 'oninputsubmit';
+type PanelEvent =
+    | 'onactivate'
+    | 'oncancel'
+    | 'oncontextmenu'
+    | 'ondblclick'
+    | 'ondeselect'
+    | 'oneconsetloaded'
+    | 'onfilled'
+    | 'onfindmatchend'
+    | 'onfindmatchstart'
+    | 'onfocus'
+    | 'oninputsubmit'
+    | 'onload'
+    | 'onmouseactivate'
+    | 'onmouseout'
+    | 'onmouseover'
+    | 'onmovedown'
+    | 'onmoveleft'
+    | 'onmoveright'
+    | 'onmoveup'
+    | 'onnotfilled'
+    | 'onpagesetupsuccess'
+    | 'onpopupsdismissed'
+    | 'onselect'
+    | 'ontabforward'
+    | 'ontextentrychange'
+    | 'ontextentrysubmit'
+    | 'ontooltiploaded'
+    | 'onvaluechanged';
 
 interface PanelBase {
     paneltype: string;

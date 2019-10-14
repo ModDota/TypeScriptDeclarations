@@ -87,18 +87,18 @@ interface Panel extends PanelBase {
     IsDraggable(): boolean;
 
     GetChildCount(): number;
-    GetChild(index: number): Panel;
+    GetChild(index: number): Panel | null;
     GetChildIndex(child: Panel): number;
     Children(): Panel[];
 
     FindChildrenWithClassTraverse(classname: string): Panel[];
 
-    GetParent(): Panel;
+    GetParent(): Panel | null;
     SetParent(parent: Panel): void;
 
-    FindChild(childid: string): Panel;
-    FindChildTraverse(childid: string): Panel;
-    FindChildInLayoutFile(childid: string): Panel; // ??? needs layout file param?
+    FindChild(childid: string): Panel | null;
+    FindChildTraverse(childid: string): Panel | null;
+    FindChildInLayoutFile(childid: string): Panel | null;
 
     RemoveAndDeleteChildren(): void;
 
@@ -1063,12 +1063,12 @@ interface ImagePanel extends Panel {
 
 interface AbilityImage extends ImagePanel {
     abilityname: string;
-    contextEntityIndex: number;
+    contextEntityIndex: AbilityID;
 }
 
 interface ItemImage extends ImagePanel {
     itemname: string;
-    contextEntityIndex: number;
+    contextEntityIndex: ItemID;
 }
 
 interface HeroImage extends ImagePanel {
@@ -1190,6 +1190,7 @@ interface CarouselPanel extends Panel {
 
 // Only put single string literals in here, it'll be merged with the main one
 interface DollarStatic {
+    CreatePanel(type: 'Panel', root: Panel, id: string): Panel;
     CreatePanel(type: 'Label', root: Panel, id: string): LabelPanel;
     CreatePanel(type: 'Image', root: Panel, id: string): ImagePanel;
     CreatePanel(type: 'DOTAAbilityImage', root: Panel, id: string): AbilityImage;

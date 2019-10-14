@@ -57,7 +57,7 @@ type MouseButton = 0 | 1 | 2 | 3 | 4 | 5 | 6;
  */
 type MouseScrollDirection = 1 | -1;
 
-interface MouseEntity {
+interface ScreenEntity {
     entityIndex: EntityID;
     accurateCollision: boolean;
 }
@@ -93,7 +93,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Return the entity index of the entity under the given screen position.
      */
-    FindScreenEntities(screenPos: [number, number]): MouseEntity[];
+    FindScreenEntities(screenPos: [number, number]): ScreenEntity[];
 
     /**
      * Get the world position of the screen position, or null if the cursor is out of the world.
@@ -814,6 +814,7 @@ interface CScriptBindingPR_Entities {
 
     GetTotalDamageTaken(nEntityIndex: EntityID): number;
 
+    // TODO: PlayerID?
     IsControllableByPlayer(nEntityIndex: EntityID, nPlayerIndex: number): boolean;
 
     GetChosenTarget(nEntityIndex: EntityID): number;
@@ -1156,7 +1157,7 @@ interface PlayerInfo {
     player_assists: number;
     player_selected_hero_id: number;
     player_selected_hero: string;
-    player_selected_hero_entity_index: number;
+    player_selected_hero_entity_index: EntityID;
     possible_hero_selection: string;
     player_level: number;
     player_respawn_seconds: number;

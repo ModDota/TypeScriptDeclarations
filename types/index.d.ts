@@ -9,6 +9,7 @@ type EntityID = number & { readonly __tag__: 'EntityID' };
 type ItemID = number & { readonly __tag__: 'ItemID' };
 type ParticleID = number & { readonly __tag__: 'ParticleID' };
 type ScheduleID = number & { readonly __tag__: 'ScheduleID' };
+type HeroID = number & { readonly __tag__: 'HeroID' };
 type PlayerID =
     | -1
     | 0

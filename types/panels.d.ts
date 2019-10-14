@@ -1072,7 +1072,7 @@ interface ItemImage extends ImagePanel {
 }
 
 interface HeroImage extends ImagePanel {
-    heroid: number;
+    heroid: HeroID;
     heroname: string;
     heroimagestyle: 'icon' | 'portrait' | 'landscape';
 }
@@ -1169,7 +1169,7 @@ interface UserName extends Panel {
 
 interface HeroMovie extends Panel {
     heroname: string;
-    heroid: EntityID;
+    heroid: HeroID;
 }
 
 type HTML = HTMLPanel;

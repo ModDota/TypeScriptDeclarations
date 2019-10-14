@@ -1155,7 +1155,7 @@ interface PlayerInfo {
     player_kills: number;
     player_deaths: number;
     player_assists: number;
-    player_selected_hero_id: number;
+    player_selected_hero_id: HeroID;
     player_selected_hero: string;
     player_selected_hero_entity_index: EntityID;
     possible_hero_selection: string;

@@ -184,6 +184,21 @@ interface CDOTA_PanoramaScript_GameUI {
      * Set the camera target as position for the local player over specified lerp.
      */
     SetCameraTargetPosition(vec3: [number, number, number], flLerp: number): void;
+
+    /**
+     * Converts the specified x,y,z world co-ordinate into an x,y screen coordinate. Will clamp position to always be in front of camera.  Position returned as 0->1.0
+     */
+    WorldToScreenXYClamped(vec3: [number, number, number]): [number, number, 0];
+
+    /**
+     * Get the current players scoreboard score for the specified zone.
+     */
+    GetPlayerScoreboardScore(pszScoreboardName: string): number;
+
+    /**
+     * Send a custom client side error message with passed string and soundevent.
+     */
+    SendCustomHUDError(pszErrorText: string, pszErrorSound: string): void;
 }
 
 interface TableValue {
@@ -1492,6 +1507,7 @@ interface DollarStatic {
     (selector: string): Panel;
     CreatePanel(type: string, root: Panel, id: string): Panel;
     CreatePanel(type: string, root: Panel, id: string): PanelBase;
+    CreatePanelWithCurrentContext(root?: Panel): Panel;
     Msg(...args: any[]): void;
     GetContextPanel(): Panel;
     Schedule(time: number, callback: () => void): ScheduleID;

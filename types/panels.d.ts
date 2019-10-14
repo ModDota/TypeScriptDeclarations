@@ -71,8 +71,11 @@ interface Panel extends PanelBase {
     enabled: boolean;
     visible: boolean;
 
+    IsValid(): boolean;
+
     AddClass(name: string): void;
     RemoveClass(name: string): void;
+    BAscendantHasClass(name: string): boolean;
     BHasClass(name: string): boolean;
     SetHasClass(name: string, active: boolean): void;
     ToggleClass(name: string): void;

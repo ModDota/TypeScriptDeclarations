@@ -361,32 +361,32 @@ interface CScriptBindingPR_Players {
     /**
      * Get the local player ID.
      */
-    GetLocalPlayer(): number;
+    GetLocalPlayer(): PlayerID;
 
     /**
      * Is the nth player a valid player?
      */
-    IsValidPlayerID(iPlayerID: number): boolean;
+    IsValidPlayerID(iPlayerID: PlayerID): boolean;
 
     /**
      * Return the name of a player.
      */
-    GetPlayerName(iPlayerID: number): string;
+    GetPlayerName(iPlayerID: PlayerID): string;
 
     /**
      * Get the entity index of the hero controlled by this player.
      */
-    GetPlayerHeroEntityIndex(iPlayerID: number): EntityID;
+    GetPlayerHeroEntityIndex(iPlayerID: PlayerID): EntityID;
 
     /**
      * Get the entities this player has selected.
      */
-    GetSelectedEntities(iPlayerID: number): EntityID[];
+    GetSelectedEntities(iPlayerID: PlayerID): EntityID[];
 
     /**
      * Get the entities this player is querying.
      */
-    GetQueryUnit(iPlayerID: number): EntityID;
+    GetQueryUnit(iPlayerID: PlayerID): EntityID;
 
     /**
      * Get local player current portrait unit. (ie. Player's hero or primary selected unit.)
@@ -396,117 +396,117 @@ interface CScriptBindingPR_Players {
     /**
      * Can the player buy back?
      */
-    CanPlayerBuyback(iPlayerID: number): boolean;
+    CanPlayerBuyback(iPlayerID: PlayerID): boolean;
 
     /**
      * Does this player have a custom game ticket?
      */
-    HasCustomGameTicketForPlayerID(iPlayerID: number): boolean;
+    HasCustomGameTicketForPlayerID(iPlayerID: PlayerID): boolean;
 
     /**
      * The number of assists credited to a player.
      */
-    GetAssists(iPlayerID: number): number;
+    GetAssists(iPlayerID: PlayerID): number;
 
-    GetClaimedDenies(iPlayerID: number): number;
+    GetClaimedDenies(iPlayerID: PlayerID): number;
 
-    GetClaimedMisses(iPlayerID: number): number;
+    GetClaimedMisses(iPlayerID: PlayerID): number;
 
     /**
      * The number of deaths a player has suffered.
      */
-    GetDeaths(iPlayerID: number): number;
+    GetDeaths(iPlayerID: PlayerID): number;
 
     /**
      * The number of denies credited to a player.
      */
-    GetDenies(iPlayerID: number): number;
+    GetDenies(iPlayerID: PlayerID): number;
 
     /**
      * The amount of gold a player has.
      */
-    GetGold(iPlayerID: number): number;
+    GetGold(iPlayerID: PlayerID): number;
 
     /**
      * The number of kills credited to a player.
      */
-    GetKills(iPlayerID: number): number;
+    GetKills(iPlayerID: PlayerID): number;
 
-    GetLastBuybackTime(iPlayerID: number): number;
+    GetLastBuybackTime(iPlayerID: PlayerID): number;
 
-    GetLastHitMultikill(iPlayerID: number): number;
+    GetLastHitMultikill(iPlayerID: PlayerID): number;
 
     /**
      * The number of last hits credited to a player.
      */
-    GetLastHits(iPlayerID: number): number;
+    GetLastHits(iPlayerID: PlayerID): number;
 
-    GetLastHitStreak(iPlayerID: number): number;
+    GetLastHitStreak(iPlayerID: PlayerID): number;
 
     /**
      * The current level of a player.
      */
-    GetLevel(iPlayerID: number): number;
+    GetLevel(iPlayerID: PlayerID): number;
 
-    GetMisses(iPlayerID: number): number;
+    GetMisses(iPlayerID: PlayerID): number;
 
-    GetNearbyCreepDeaths(iPlayerID: number): number;
+    GetNearbyCreepDeaths(iPlayerID: PlayerID): number;
 
     /**
      * Total reliable gold for this player.
      */
-    GetReliableGold(iPlayerID: number): number;
+    GetReliableGold(iPlayerID: PlayerID): number;
 
-    GetRespawnSeconds(iPlayerID: number): number;
+    GetRespawnSeconds(iPlayerID: PlayerID): number;
 
-    GetStreak(iPlayerID: number): number;
+    GetStreak(iPlayerID: PlayerID): number;
 
     /**
      * Total gold earned in this game by this player.
      */
-    GetTotalEarnedGold(iPlayerID: number): number;
+    GetTotalEarnedGold(iPlayerID: PlayerID): number;
 
     /**
      * Total xp earned in this game by this player.
      */
-    GetTotalEarnedXP(iPlayerID: number): number;
+    GetTotalEarnedXP(iPlayerID: PlayerID): number;
 
     /**
      * Total unreliable gold for this player.
      */
-    GetUnreliableGold(iPlayerID: number): number;
+    GetUnreliableGold(iPlayerID: PlayerID): number;
 
     /**
      * Get the team this player is on.
      */
-    GetTeam(iPlayerID: number): DOTATeam_t;
+    GetTeam(iPlayerID: PlayerID): DOTATeam_t;
 
     /**
      * Average gold earned per minute for this player.
      */
-    GetGoldPerMin(iPlayerID: number): number;
+    GetGoldPerMin(iPlayerID: PlayerID): number;
 
     /**
      * Average xp earned per minute for this player.
      */
-    GetXPPerMin(iPlayerID: number): number;
+    GetXPPerMin(iPlayerID: PlayerID): number;
 
     /**
      * Return the name of the hero a player is controlling.
      */
-    GetPlayerSelectedHero(iPlayerID: number): string;
+    GetPlayerSelectedHero(iPlayerID: PlayerID): string;
 
     /**
      * Get the player color.
      */
-    GetPlayerColor(iPlayerID: number): number;
+    GetPlayerColor(iPlayerID: PlayerID): number;
 
     /**
      * Is this player a spectator.
      */
-    IsSpectator(iPlayerID: number): boolean;
+    IsSpectator(iPlayerID: PlayerID): boolean;
 
-    PlayerPortraitClicked(nClickedPlayerID: number, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
+    PlayerPortraitClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
     BuffClicked(nEntity: EntityID, nBuffSerial: number, bAlert: boolean): void;
 }
@@ -565,7 +565,7 @@ interface CScriptBindingPR_Entities {
     /**
      * Get the ID of the player owning the given entity.
      */
-    GetPlayerOwnerID(nEntityIndex: EntityID): number;
+    GetPlayerOwnerID(nEntityIndex: EntityID): PlayerID;
 
     CanBeDominated(nEntityIndex: EntityID): boolean;
 
@@ -1148,7 +1148,7 @@ interface TeamDetails {
 }
 
 interface PlayerInfo {
-    player_id: number;
+    player_id: PlayerID;
     player_name: string;
     player_connection_state: DOTAConnectionState_t;
     player_steamid: string;
@@ -1253,7 +1253,7 @@ interface CScriptBindingPR_Game {
 
     AddCommand(pszCommandName: string, callback: (data: object) => void, pszDescription: string, nFlags: number): void;
 
-    GetLocalPlayerID(): number;
+    GetLocalPlayerID(): PlayerID;
 
     /**
      * Assign the local player to the specified team
@@ -1308,27 +1308,27 @@ interface CScriptBindingPR_Game {
     /**
      * Get all player IDs
      */
-    GetAllPlayerIDs(): number[];
+    GetAllPlayerIDs(): PlayerID[];
 
     /**
      * Get unassigned player IDs
      */
-    GetUnassignedPlayerIDs(): number[];
+    GetUnassignedPlayerIDs(): PlayerID[];
 
     /**
      * Get info about the player hero ultimate ability
      */
-    GetPlayerUltimateStateOrTime(nPlayerID: number): number;
+    GetPlayerUltimateStateOrTime(nPlayerID: PlayerID): number;
 
     /**
      * Whether the local player has muted text and voice chat for the specified player id
      */
-    IsPlayerMuted(nPlayerID: number): boolean;
+    IsPlayerMuted(nPlayerID: PlayerID): boolean;
 
     /**
      * Set whether the local player has muted text and voice chat for the specified player id
      */
-    SetPlayerMuted(nPlayerID: number, bMuted: boolean): void;
+    SetPlayerMuted(nPlayerID: PlayerID, bMuted: boolean): void;
 
     /**
      * Get detailed information for the given team
@@ -1343,17 +1343,17 @@ interface CScriptBindingPR_Game {
     /**
      * Get info about the player items.
      */
-    GetPlayerItems(nPlayerID: number): ItemID[];
+    GetPlayerItems(nPlayerID: PlayerID): ItemID[];
 
     /**
      * Get info about the given player
      */
-    GetPlayerInfo(nPlayerID: number): PlayerInfo;
+    GetPlayerInfo(nPlayerID: PlayerID): PlayerInfo;
 
     /**
      * Get player IDs for the given team
      */
-    GetPlayerIDsOnTeam(nTeam: DOTATeam_t): number[];
+    GetPlayerIDsOnTeam(nTeam: DOTATeam_t): PlayerID[];
 
     ServerCmd(pMsg: string): void;
 

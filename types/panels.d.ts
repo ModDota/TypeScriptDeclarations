@@ -1063,12 +1063,12 @@ interface ImagePanel extends Panel {
 
 interface AbilityImage extends ImagePanel {
     abilityname: string;
-    contextEntityIndex: AbilityID;
+    contextEntityIndex: AbilityEntityIndex;
 }
 
 interface ItemImage extends ImagePanel {
     itemname: string;
-    contextEntityIndex: ItemID;
+    contextEntityIndex: ItemEntityIndex;
 }
 
 interface HeroImage extends ImagePanel {

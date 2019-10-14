@@ -22,7 +22,7 @@ interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Send a custom game event to the server, which will send it to all clients
      */
-    SendCustomGameEventToClient(pEventName: string, playerIndex: number, eventData: object): void;
+    SendCustomGameEventToClient(pEventName: string, playerIndex: PlayerID, eventData: object): void;
 
     /**
      * Send a client-side event using gameeventmanager (only useful for a few specific events)
@@ -58,7 +58,7 @@ type MouseButton = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type MouseScrollDirection = 1 | -1;
 
 interface ScreenEntity {
-    entityIndex: EntityID;
+    entityIndex: EntityIndex;
     accurateCollision: boolean;
 }
 
@@ -138,7 +138,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Select a unit, adding it to the group or replacing the current selection.
      */
-    SelectUnit(nEntityIndex: number, bAddToGroup: boolean): void;
+    SelectUnit(nEntityIndex: EntityIndex, bAddToGroup: boolean): void;
 
     /**
      * Set the minimum camera pitch angle.
@@ -178,7 +178,7 @@ interface CDOTA_PanoramaScript_GameUI {
     /**
      * Set the camera target for the local player, or -1 to clear.
      */
-    SetCameraTarget(nTargetEntIndex: number): void;
+    SetCameraTarget(nTargetEntIndex: EntityIndex): void;
 
     /**
      * Set the camera target as position for the local player over specified lerp.
@@ -232,7 +232,7 @@ interface CScriptBindingPR_Particles {
     /**
      * Create a particle from a file with an attachment and an owning entity.
      */
-    CreateParticle(particleName: string, particleAttach: ParticleAttachment_t, owningEntity: EntityID): ParticleID;
+    CreateParticle(particleName: string, particleAttach: ParticleAttachment_t, owningEntity: EntityIndex): ParticleID;
 
     /**
      * Release the index of a particle, will make the particle in-accessible from script. This allows another particle
@@ -267,7 +267,7 @@ interface CScriptBindingPR_Particles {
     SetParticleControlEnt(
         particle: ParticleID,
         controlPoint: number,
-        entity: EntityID,
+        entity: EntityIndex,
         particleAttach: ParticleAttachment_t,
         attachmentName: string,
         offset: [number, number, number],
@@ -279,72 +279,72 @@ interface CScriptBindingPR_Buffs {
     /**
      * Returns the name of the modifier.
      */
-    GetName(nEntityIndex: EntityID, nBuffIndex: BuffID): string;
+    GetName(nEntityIndex: EntityIndex, nBuffIndex: BuffID): string;
 
     /**
      * Returns the classname of the modifier.
      */
-    GetClass(nEntityIndex: EntityID, nBuffIndex: BuffID): string;
+    GetClass(nEntityIndex: EntityIndex, nBuffIndex: BuffID): string;
 
     /**
      * Returns the modifier icon texture.
      */
-    GetTexture(nEntityIndex: EntityID, nBuffIndex: BuffID): string;
+    GetTexture(nEntityIndex: EntityIndex, nBuffIndex: BuffID): string;
 
     /**
      * Returns the total duration of the modifier.
      */
-    GetDuration(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetDuration(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns the time at which the modifier will expire.
      */
-    GetDieTime(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetDieTime(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns the time until the modifier expires.
      */
-    GetRemainingTime(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetRemainingTime(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns the time elapsed since the creation of the modifier.
      */
-    GetElapsedTime(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetElapsedTime(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns the time at which the modifier was created.
      */
-    GetCreationTime(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetCreationTime(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns the keybind (as a string) for the specified ability.
      */
-    GetStackCount(nEntityIndex: EntityID, nBuffIndex: BuffID): number;
+    GetStackCount(nEntityIndex: EntityIndex, nBuffIndex: BuffID): number;
 
     /**
      * Returns true if the modifier is a debuff (red icon), false otherwise.
      */
-    IsDebuff(nEntityIndex: EntityID, nBuffIndex: BuffID): boolean;
+    IsDebuff(nEntityIndex: EntityIndex, nBuffIndex: BuffID): boolean;
 
     /**
      * Returns the keybind (as a string) for the specified ability.
      */
-    IsHidden(nEntityIndex: EntityID, nBuffIndex: BuffID): boolean;
+    IsHidden(nEntityIndex: EntityIndex, nBuffIndex: BuffID): boolean;
 
     /**
      * Returns the entity that created the modifier (possibly on another entity).
      */
-    GetCaster(nEntityIndex: EntityID, nBuffIndex: BuffID): EntityID;
+    GetCaster(nEntityIndex: EntityIndex, nBuffIndex: BuffID): EntityIndex;
 
     /**
      * Returns the entity to which the modifier is applied.
      */
-    GetParent(nEntityIndex: EntityID, nBuffIndex: BuffID): EntityID;
+    GetParent(nEntityIndex: EntityIndex, nBuffIndex: BuffID): EntityIndex;
 
     /**
      * Returns the ability associated with the modifier.
      */
-    GetAbility(nEntityIndex: EntityID, nBuffIndex: BuffID): AbilityID;
+    GetAbility(nEntityIndex: EntityIndex, nBuffIndex: BuffID): AbilityEntityIndex;
 }
 
 interface CScriptBindingPR_Players {
@@ -376,22 +376,22 @@ interface CScriptBindingPR_Players {
     /**
      * Get the entity index of the hero controlled by this player.
      */
-    GetPlayerHeroEntityIndex(iPlayerID: PlayerID): EntityID;
+    GetPlayerHeroEntityIndex(iPlayerID: PlayerID): EntityIndex;
 
     /**
      * Get the entities this player has selected.
      */
-    GetSelectedEntities(iPlayerID: PlayerID): EntityID[];
+    GetSelectedEntities(iPlayerID: PlayerID): EntityIndex[];
 
     /**
      * Get the entities this player is querying.
      */
-    GetQueryUnit(iPlayerID: PlayerID): EntityID;
+    GetQueryUnit(iPlayerID: PlayerID): EntityIndex;
 
     /**
      * Get local player current portrait unit. (ie. Player's hero or primary selected unit.)
      */
-    GetLocalPlayerPortraitUnit(): EntityID;
+    GetLocalPlayerPortraitUnit(): EntityIndex;
 
     /**
      * Can the player buy back?
@@ -508,635 +508,634 @@ interface CScriptBindingPR_Players {
 
     PlayerPortraitClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
-    BuffClicked(nEntity: EntityID, nBuffSerial: number, bAlert: boolean): void;
+    BuffClicked(nEntity: EntityIndex, nBuffSerial: number, bAlert: boolean): void;
 }
 
 interface CScriptBindingPR_Entities {
     /**
      * Get the world origin of the entity.
      */
-    GetAbsOrigin(nEntityIndex: EntityID): [number, number, number];
+    GetAbsOrigin(nEntityIndex: EntityIndex): [number, number, number];
 
     /**
      * Get the forward vector of the entity.
      */
-    GetForward(nEntityIndex: EntityID): [number, number, number];
+    GetForward(nEntityIndex: EntityIndex): [number, number, number];
 
     /**
      * Get the right vector of the entity.
      */
-    GetRight(nEntityIndex: EntityID): [number, number, number];
+    GetRight(nEntityIndex: EntityIndex): [number, number, number];
 
     /**
      * Get the up vector of the entity.
      */
-    GetUp(nEntityIndex: EntityID): [number, number, number];
+    GetUp(nEntityIndex: EntityIndex): [number, number, number];
 
     /**
      * Get all the building entities.
      */
-    GetAllBuildingEntities(): EntityID[];
+    GetAllBuildingEntities(): EntityIndex[];
 
     /**
      * Get all the hero entities.
      */
-    GetAllHeroEntities(): EntityID[];
+    GetAllHeroEntities(): EntityIndex[];
 
     /**
      * Get all the entities with a given name.
      */
-    GetAllEntitiesByName(pszName: string): EntityID[];
+    GetAllEntitiesByName(pszName: string): EntityIndex[];
 
     /**
      * Get all the entities with a given classname.
      */
-    GetAllEntitiesByClassname(pszName: string): EntityID[];
+    GetAllEntitiesByClassname(pszName: string): EntityIndex[];
 
     /**
      * Get all the creature entities.
      */
-    GetAllCreatureEntities(): EntityID[];
+    GetAllCreatureEntities(): EntityIndex[];
 
     /**
      * Get all the entities.
      */
-    GetAllEntities(): EntityID[];
+    GetAllEntities(): EntityIndex[];
 
     /**
      * Get the ID of the player owning the given entity.
      */
-    GetPlayerOwnerID(nEntityIndex: EntityID): PlayerID;
+    GetPlayerOwnerID(nEntityIndex: EntityIndex): PlayerID;
 
-    CanBeDominated(nEntityIndex: EntityID): boolean;
+    CanBeDominated(nEntityIndex: EntityIndex): boolean;
 
-    HasAttackCapability(nEntityIndex: EntityID): boolean;
+    HasAttackCapability(nEntityIndex: EntityIndex): boolean;
 
-    HasCastableAbilities(nEntityIndex: EntityID): boolean;
+    HasCastableAbilities(nEntityIndex: EntityIndex): boolean;
 
-    HasFlyingVision(nEntityIndex: EntityID): boolean;
+    HasFlyingVision(nEntityIndex: EntityIndex): boolean;
 
-    HasFlyMovementCapability(nEntityIndex: EntityID): boolean;
+    HasFlyMovementCapability(nEntityIndex: EntityIndex): boolean;
 
-    HasGroundMovementCapability(nEntityIndex: EntityID): boolean;
+    HasGroundMovementCapability(nEntityIndex: EntityIndex): boolean;
 
-    HasMovementCapability(nEntityIndex: EntityID): boolean;
+    HasMovementCapability(nEntityIndex: EntityIndex): boolean;
 
-    HasScepter(nEntityIndex: EntityID): boolean;
+    HasScepter(nEntityIndex: EntityIndex): boolean;
 
-    HasUpgradeableAbilities(nEntityIndex: EntityID): boolean;
+    HasUpgradeableAbilities(nEntityIndex: EntityIndex): boolean;
 
-    HasUpgradeableAbilitiesThatArentMaxed(nEntityIndex: EntityID): boolean;
+    HasUpgradeableAbilitiesThatArentMaxed(nEntityIndex: EntityIndex): boolean;
 
-    IsAlive(nEntityIndex: EntityID): boolean;
+    IsAlive(nEntityIndex: EntityIndex): boolean;
 
-    IsAncient(nEntityIndex: EntityID): boolean;
+    IsAncient(nEntityIndex: EntityIndex): boolean;
 
-    IsAttackImmune(nEntityIndex: EntityID): boolean;
+    IsAttackImmune(nEntityIndex: EntityIndex): boolean;
 
-    IsBarracks(nEntityIndex: EntityID): boolean;
+    IsBarracks(nEntityIndex: EntityIndex): boolean;
 
-    IsBlind(nEntityIndex: EntityID): boolean;
+    IsBlind(nEntityIndex: EntityIndex): boolean;
 
-    IsBoss(nEntityIndex: EntityID): boolean;
+    IsBoss(nEntityIndex: EntityIndex): boolean;
 
-    IsRoshan(nEntityIndex: EntityID): boolean;
+    IsRoshan(nEntityIndex: EntityIndex): boolean;
 
-    IsBuilding(nEntityIndex: EntityID): boolean;
+    IsBuilding(nEntityIndex: EntityIndex): boolean;
 
-    IsCommandRestricted(nEntityIndex: EntityID): boolean;
+    IsCommandRestricted(nEntityIndex: EntityIndex): boolean;
 
-    IsConsideredHero(nEntityIndex: EntityID): boolean;
+    IsConsideredHero(nEntityIndex: EntityIndex): boolean;
 
-    IsControllableByAnyPlayer(nEntityIndex: EntityID): boolean;
+    IsControllableByAnyPlayer(nEntityIndex: EntityIndex): boolean;
 
-    IsCourier(nEntityIndex: EntityID): boolean;
+    IsCourier(nEntityIndex: EntityIndex): boolean;
 
-    IsCreature(nEntityIndex: EntityID): boolean;
+    IsCreature(nEntityIndex: EntityIndex): boolean;
 
-    IsCreep(nEntityIndex: EntityID): boolean;
+    IsCreep(nEntityIndex: EntityIndex): boolean;
 
-    IsCreepHero(nEntityIndex: EntityID): boolean;
+    IsCreepHero(nEntityIndex: EntityIndex): boolean;
 
-    IsDeniable(nEntityIndex: EntityID): boolean;
+    IsDeniable(nEntityIndex: EntityIndex): boolean;
 
-    IsDominated(nEntityIndex: EntityID): boolean;
+    IsDominated(nEntityIndex: EntityIndex): boolean;
 
-    IsEnemy(nEntityIndex: EntityID): boolean;
+    IsEnemy(nEntityIndex: EntityIndex): boolean;
 
-    IsEvadeDisabled(nEntityIndex: EntityID): boolean;
+    IsEvadeDisabled(nEntityIndex: EntityIndex): boolean;
 
-    IsFort(nEntityIndex: EntityID): boolean;
+    IsFort(nEntityIndex: EntityIndex): boolean;
 
-    IsFrozen(nEntityIndex: EntityID): boolean;
+    IsFrozen(nEntityIndex: EntityIndex): boolean;
 
-    IsGeneratedByEconItem(nEntityIndex: EntityID): boolean;
+    IsGeneratedByEconItem(nEntityIndex: EntityIndex): boolean;
 
-    IsHallofFame(nEntityIndex: EntityID): boolean;
+    IsHallofFame(nEntityIndex: EntityIndex): boolean;
 
-    IsDisarmed(nEntityIndex: EntityID): boolean;
+    IsDisarmed(nEntityIndex: EntityIndex): boolean;
 
-    IsHero(nEntityIndex: EntityID): boolean;
+    IsHero(nEntityIndex: EntityIndex): boolean;
 
-    IsHexed(nEntityIndex: EntityID): boolean;
+    IsHexed(nEntityIndex: EntityIndex): boolean;
 
-    IsIllusion(nEntityIndex: EntityID): boolean;
+    IsIllusion(nEntityIndex: EntityIndex): boolean;
 
-    IsInRangeOfFountain(nEntityIndex: EntityID): boolean;
+    IsInRangeOfFountain(nEntityIndex: EntityIndex): boolean;
 
-    IsInventoryEnabled(nEntityIndex: EntityID): boolean;
+    IsInventoryEnabled(nEntityIndex: EntityIndex): boolean;
 
-    IsInvisible(nEntityIndex: EntityID): boolean;
+    IsInvisible(nEntityIndex: EntityIndex): boolean;
 
-    IsInvulnerable(nEntityIndex: EntityID): boolean;
+    IsInvulnerable(nEntityIndex: EntityIndex): boolean;
 
-    IsLaneCreep(nEntityIndex: EntityID): boolean;
+    IsLaneCreep(nEntityIndex: EntityIndex): boolean;
 
-    IsLowAttackPriority(nEntityIndex: EntityID): boolean;
+    IsLowAttackPriority(nEntityIndex: EntityIndex): boolean;
 
-    IsMagicImmune(nEntityIndex: EntityID): boolean;
+    IsMagicImmune(nEntityIndex: EntityIndex): boolean;
 
-    IsMuted(nEntityIndex: EntityID): boolean;
+    IsMuted(nEntityIndex: EntityIndex): boolean;
 
-    IsNeutralUnitType(nEntityIndex: EntityID): boolean;
+    IsNeutralUnitType(nEntityIndex: EntityIndex): boolean;
 
-    IsNightmared(nEntityIndex: EntityID): boolean;
+    IsNightmared(nEntityIndex: EntityIndex): boolean;
 
-    IsOther(nEntityIndex: EntityID): boolean;
+    IsOther(nEntityIndex: EntityIndex): boolean;
 
-    IsOutOfGame(nEntityIndex: EntityID): boolean;
+    IsOutOfGame(nEntityIndex: EntityIndex): boolean;
 
-    IsOwnedByAnyPlayer(nEntityIndex: EntityID): boolean;
+    IsOwnedByAnyPlayer(nEntityIndex: EntityIndex): boolean;
 
-    IsPhantom(nEntityIndex: EntityID): boolean;
+    IsPhantom(nEntityIndex: EntityIndex): boolean;
 
-    IsRangedAttacker(nEntityIndex: EntityID): boolean;
+    IsRangedAttacker(nEntityIndex: EntityIndex): boolean;
 
-    IsRealHero(nEntityIndex: EntityID): boolean;
+    IsRealHero(nEntityIndex: EntityIndex): boolean;
 
-    IsRooted(nEntityIndex: EntityID): boolean;
+    IsRooted(nEntityIndex: EntityIndex): boolean;
 
-    IsSelectable(nEntityIndex: EntityID): boolean;
+    IsSelectable(nEntityIndex: EntityIndex): boolean;
 
-    IsShop(nEntityIndex: EntityID): boolean;
+    IsShop(nEntityIndex: EntityIndex): boolean;
 
-    IsSilenced(nEntityIndex: EntityID): boolean;
+    IsSilenced(nEntityIndex: EntityIndex): boolean;
 
-    IsSpeciallyDeniable(nEntityIndex: EntityID): boolean;
+    IsSpeciallyDeniable(nEntityIndex: EntityIndex): boolean;
 
-    IsStunned(nEntityIndex: EntityID): boolean;
+    IsStunned(nEntityIndex: EntityIndex): boolean;
 
-    IsSummoned(nEntityIndex: EntityID): boolean;
+    IsSummoned(nEntityIndex: EntityIndex): boolean;
 
-    IsTower(nEntityIndex: EntityID): boolean;
+    IsTower(nEntityIndex: EntityIndex): boolean;
 
-    IsUnselectable(nEntityIndex: EntityID): boolean;
+    IsUnselectable(nEntityIndex: EntityIndex): boolean;
 
-    IsWard(nEntityIndex: EntityID): boolean;
+    IsWard(nEntityIndex: EntityIndex): boolean;
 
-    IsZombie(nEntityIndex: EntityID): boolean;
+    IsZombie(nEntityIndex: EntityIndex): boolean;
 
-    NoHealthBar(nEntityIndex: EntityID): boolean;
+    NoHealthBar(nEntityIndex: EntityIndex): boolean;
 
-    NoTeamMoveTo(nEntityIndex: EntityID): boolean;
+    NoTeamMoveTo(nEntityIndex: EntityIndex): boolean;
 
-    NoTeamSelect(nEntityIndex: EntityID): boolean;
+    NoTeamSelect(nEntityIndex: EntityIndex): boolean;
 
-    NotOnMinimap(nEntityIndex: EntityID): boolean;
+    NotOnMinimap(nEntityIndex: EntityIndex): boolean;
 
-    NotOnMinimapForEnemies(nEntityIndex: EntityID): boolean;
+    NotOnMinimapForEnemies(nEntityIndex: EntityIndex): boolean;
 
-    NoUnitCollision(nEntityIndex: EntityID): boolean;
+    NoUnitCollision(nEntityIndex: EntityIndex): boolean;
 
-    PassivesDisabled(nEntityIndex: EntityID): boolean;
+    PassivesDisabled(nEntityIndex: EntityIndex): boolean;
 
-    ProvidesVision(nEntityIndex: EntityID): boolean;
+    ProvidesVision(nEntityIndex: EntityIndex): boolean;
 
-    UsesHeroAbilityNumbers(nEntityIndex: EntityID): boolean;
+    UsesHeroAbilityNumbers(nEntityIndex: EntityIndex): boolean;
 
-    IsMoving(nEntityIndex: EntityID): boolean;
+    IsMoving(nEntityIndex: EntityIndex): boolean;
 
-    GetAbilityCount(nEntityIndex: EntityID): number;
+    GetAbilityCount(nEntityIndex: EntityIndex): number;
 
-    GetCombatClassAttack(nEntityIndex: EntityID): number;
+    GetCombatClassAttack(nEntityIndex: EntityIndex): number;
 
-    GetCombatClassDefend(nEntityIndex: EntityID): number;
+    GetCombatClassDefend(nEntityIndex: EntityIndex): number;
 
-    GetCurrentVisionRange(nEntityIndex: EntityID): number;
+    GetCurrentVisionRange(nEntityIndex: EntityIndex): number;
 
-    GetDamageBonus(nEntityIndex: EntityID): number;
+    GetDamageBonus(nEntityIndex: EntityIndex): number;
 
-    GetDamageMax(nEntityIndex: EntityID): number;
+    GetDamageMax(nEntityIndex: EntityIndex): number;
 
-    GetDamageMin(nEntityIndex: EntityID): number;
+    GetDamageMin(nEntityIndex: EntityIndex): number;
 
-    GetDayTimeVisionRange(nEntityIndex: EntityID): number;
+    GetDayTimeVisionRange(nEntityIndex: EntityIndex): number;
 
-    GetHealth(nEntityIndex: EntityID): number;
+    GetHealth(nEntityIndex: EntityIndex): number;
 
-    GetHealthPercent(nEntityIndex: EntityID): number;
+    GetHealthPercent(nEntityIndex: EntityIndex): number;
 
-    GetHealthThinkRegen(nEntityIndex: EntityID): number;
+    GetHealthThinkRegen(nEntityIndex: EntityIndex): number;
 
-    GetLevel(nEntityIndex: EntityID): number;
+    GetLevel(nEntityIndex: EntityIndex): number;
 
-    GetMaxHealth(nEntityIndex: EntityID): number;
+    GetMaxHealth(nEntityIndex: EntityIndex): number;
 
-    GetNightTimeVisionRange(nEntityIndex: EntityID): number;
+    GetNightTimeVisionRange(nEntityIndex: EntityIndex): number;
 
-    GetStates(nEntityIndex: EntityID): modifierstate[];
+    GetStates(nEntityIndex: EntityIndex): modifierstate[];
 
-    GetTotalPurchasedUpgradeGoldCost(nEntityIndex: EntityID): number;
+    GetTotalPurchasedUpgradeGoldCost(nEntityIndex: EntityIndex): number;
 
-    GetTeamNumber(nEntityIndex: EntityID): DOTATeam_t;
+    GetTeamNumber(nEntityIndex: EntityIndex): DOTATeam_t;
 
-    GetAttackRange(nEntityIndex: EntityID): number;
+    GetAttackRange(nEntityIndex: EntityIndex): number;
 
-    GetAttackSpeed(nEntityIndex: EntityID): number;
+    GetAttackSpeed(nEntityIndex: EntityIndex): number;
 
-    GetAttacksPerSecond(nEntityIndex: EntityID): number;
+    GetAttacksPerSecond(nEntityIndex: EntityIndex): number;
 
-    GetBaseAttackTime(nEntityIndex: EntityID): number;
+    GetBaseAttackTime(nEntityIndex: EntityIndex): number;
 
-    GetBaseMagicalResistanceValue(nEntityIndex: EntityID): number;
+    GetBaseMagicalResistanceValue(nEntityIndex: EntityIndex): number;
 
-    GetBaseMoveSpeed(nEntityIndex: EntityID): number;
+    GetBaseMoveSpeed(nEntityIndex: EntityIndex): number;
 
-    GetBonusPhysicalArmor(nEntityIndex: EntityID): number;
+    GetBonusPhysicalArmor(nEntityIndex: EntityIndex): number;
 
-    GetCollisionPadding(nEntityIndex: EntityID): number;
+    GetCollisionPadding(nEntityIndex: EntityIndex): number;
 
-    GetEffectiveInvisibilityLevel(nEntityIndex: EntityID): number;
+    GetEffectiveInvisibilityLevel(nEntityIndex: EntityIndex): number;
 
-    GetHasteFactor(nEntityIndex: EntityID): number;
+    GetHasteFactor(nEntityIndex: EntityIndex): number;
 
-    GetHullRadius(nEntityIndex: EntityID): number;
+    GetHullRadius(nEntityIndex: EntityIndex): number;
 
-    GetIdealSpeed(nEntityIndex: EntityID): number;
+    GetIdealSpeed(nEntityIndex: EntityIndex): number;
 
-    GetIncreasedAttackSpeed(nEntityIndex: EntityID): number;
+    GetIncreasedAttackSpeed(nEntityIndex: EntityIndex): number;
 
-    GetMana(nEntityIndex: EntityID): number;
+    GetMana(nEntityIndex: EntityIndex): number;
 
-    GetManaThinkRegen(nEntityIndex: EntityID): number;
+    GetManaThinkRegen(nEntityIndex: EntityIndex): number;
 
-    GetMaxMana(nEntityIndex: EntityID): number;
+    GetMaxMana(nEntityIndex: EntityIndex): number;
 
-    GetMagicalArmorValue(nEntityIndex: EntityID): number;
+    GetMagicalArmorValue(nEntityIndex: EntityIndex): number;
 
-    GetPaddedCollisionRadius(nEntityIndex: EntityID): number;
+    GetPaddedCollisionRadius(nEntityIndex: EntityIndex): number;
 
-    GetPercentInvisible(nEntityIndex: EntityID): number;
+    GetPercentInvisible(nEntityIndex: EntityIndex): number;
 
-    GetPhysicalArmorValue(nEntityIndex: EntityID): number;
+    GetPhysicalArmorValue(nEntityIndex: EntityIndex): number;
 
-    GetProjectileCollisionSize(nEntityIndex: EntityID): number;
+    GetProjectileCollisionSize(nEntityIndex: EntityIndex): number;
 
     /**
      * Returns the radius of the bounding ring of the unit.
      */
-    GetRingRadius(nEntityIndex: EntityID): number;
+    GetRingRadius(nEntityIndex: EntityIndex): number;
 
-    GetSecondsPerAttack(nEntityIndex: EntityID): number;
+    GetSecondsPerAttack(nEntityIndex: EntityIndex): number;
 
-    ManaFraction(nEntityIndex: EntityID): number;
+    ManaFraction(nEntityIndex: EntityIndex): number;
 
-    GetClassname(nEntityIndex: EntityID): string;
+    GetClassname(nEntityIndex: EntityIndex): string;
 
-    GetDisplayedUnitName(nEntityIndex: EntityID): string;
+    GetDisplayedUnitName(nEntityIndex: EntityIndex): string;
 
-    GetSelectionGroup(nEntityIndex: EntityID): string;
+    GetSelectionGroup(nEntityIndex: EntityIndex): string;
 
-    GetSoundSet(nEntityIndex: EntityID): string;
+    GetSoundSet(nEntityIndex: EntityIndex): string;
 
-    GetUnitLabel(nEntityIndex: EntityID): string;
+    GetUnitLabel(nEntityIndex: EntityIndex): string;
 
-    GetUnitName(nEntityIndex: EntityID): string;
+    GetUnitName(nEntityIndex: EntityIndex): string;
 
-    GetTotalDamageTaken(nEntityIndex: EntityID): number;
+    GetTotalDamageTaken(nEntityIndex: EntityIndex): number;
 
-    // TODO: PlayerID?
-    IsControllableByPlayer(nEntityIndex: EntityID, nPlayerIndex: number): boolean;
+    IsControllableByPlayer(nEntityIndex: EntityIndex, nPlayerIndex: PlayerID): boolean;
 
-    GetChosenTarget(nEntityIndex: EntityID): number;
+    GetChosenTarget(nEntityIndex: EntityIndex): number;
 
-    HasItemInInventory(nEntityIndex: EntityID, pItemName: string): boolean;
+    HasItemInInventory(nEntityIndex: EntityIndex, pItemName: string): boolean;
 
-    GetRangeToUnit(nEntityIndex: EntityID, nEntityIndex2: EntityID): number;
+    GetRangeToUnit(nEntityIndex: EntityIndex, nEntityIndex2: EntityIndex): number;
 
-    IsEntityInRange(nEntityIndex: EntityID, nEntityIndex2: EntityID, flRange: number): boolean;
+    IsEntityInRange(nEntityIndex: EntityIndex, nEntityIndex2: EntityIndex, flRange: number): boolean;
 
-    GetMoveSpeedModifier(nEntityIndex: EntityID, flBaseSpeed: number): number;
+    GetMoveSpeedModifier(nEntityIndex: EntityIndex, flBaseSpeed: number): number;
 
-    CanAcceptTargetToAttack(nEntityIndex: EntityID, nEntityIndex2: EntityID): boolean;
+    CanAcceptTargetToAttack(nEntityIndex: EntityIndex, nEntityIndex2: EntityIndex): boolean;
 
-    InState(nEntityIndex: EntityID, nState: modifierstate): boolean;
+    InState(nEntityIndex: EntityIndex, nState: modifierstate): boolean;
 
-    GetArmorForDamageType(nEntityIndex: EntityID, iDamageType: DAMAGE_TYPES): number;
+    GetArmorForDamageType(nEntityIndex: EntityIndex, iDamageType: DAMAGE_TYPES): number;
 
-    GetArmorReductionForDamageType(nEntityIndex: EntityID, iDamageType: DAMAGE_TYPES): number;
+    GetArmorReductionForDamageType(nEntityIndex: EntityIndex, iDamageType: DAMAGE_TYPES): number;
 
-    IsInRangeOfShop(nEntityIndex: EntityID, iShopType: number, bSpecific: boolean): boolean;
+    IsInRangeOfShop(nEntityIndex: EntityIndex, iShopType: number, bSpecific: boolean): boolean;
 
-    GetNumItemsInStash(nEntityIndex: EntityID): number;
+    GetNumItemsInStash(nEntityIndex: EntityIndex): number;
 
-    GetNumItemsInInventory(nEntityIndex: EntityID): number;
+    GetNumItemsInInventory(nEntityIndex: EntityIndex): number;
 
-    GetItemInSlot(nEntityIndex: EntityID, nSlotIndex: number): ItemID;
+    GetItemInSlot(nEntityIndex: EntityIndex, nSlotIndex: number): ItemEntityIndex;
 
-    GetAbility(nEntityIndex: EntityID, nSlotIndex: number): AbilityID;
+    GetAbility(nEntityIndex: EntityIndex, nSlotIndex: number): AbilityEntityIndex;
 
-    GetAbilityByName(nEntityIndex: EntityID, pszAbilityName: string): AbilityID;
+    GetAbilityByName(nEntityIndex: EntityIndex, pszAbilityName: string): AbilityEntityIndex;
 
-    GetNumBuffs(nEntityIndex: EntityID): number;
+    GetNumBuffs(nEntityIndex: EntityIndex): number;
 
-    GetBuff(nEntityIndex: EntityID, nBufIndex: number): BuffID;
+    GetBuff(nEntityIndex: EntityIndex, nBufIndex: number): BuffID;
 
-    GetAbilityPoints(nEntityIndex: EntityID): number;
+    GetAbilityPoints(nEntityIndex: EntityIndex): number;
 
-    GetCurrentXP(nEntityIndex: EntityID): number;
+    GetCurrentXP(nEntityIndex: EntityIndex): number;
 
-    GetNeededXPToLevel(nEntityIndex: EntityID): number;
+    GetNeededXPToLevel(nEntityIndex: EntityIndex): number;
 
     /**
      * Get the currently selected entities
      */
-    GetSelectionEntities(): EntityID[];
+    GetSelectionEntities(): EntityIndex[];
 
     /**
      * Is this a valid entity index?
      */
-    IsValidEntity(nEntityIndex: EntityID): boolean;
+    IsValidEntity(nEntityIndex: EntityIndex): boolean;
 
     /**
      * Is this entity an item container in the world?
      */
-    IsItemPhysical(nEntityIndex: EntityID): boolean;
+    IsItemPhysical(nEntityIndex: EntityIndex): boolean;
 
     /**
      * Get the item contained in this physical item container.
      */
-    GetContainedItem(nEntityIndex: EntityID): ItemID;
+    GetContainedItem(nEntityIndex: EntityIndex): ItemEntityIndex;
 }
 
 interface CScriptBindingPR_Abilities {
-    GetAbilityName(nEntityIndex: AbilityID): string;
+    GetAbilityName(nEntityIndex: AbilityEntityIndex): string;
 
-    GetAbilityTextureName(nEntityIndex: AbilityID): string;
+    GetAbilityTextureName(nEntityIndex: AbilityEntityIndex): string;
 
-    GetAssociatedPrimaryAbilities(nEntityIndex: AbilityID): AbilityID[];
+    GetAssociatedPrimaryAbilities(nEntityIndex: AbilityEntityIndex): AbilityEntityIndex[];
 
-    GetAssociatedSecondaryAbilities(nEntityIndex: AbilityID): AbilityID[];
+    GetAssociatedSecondaryAbilities(nEntityIndex: AbilityEntityIndex): AbilityEntityIndex[];
 
-    GetHotkeyOverride(nEntityIndex: AbilityID): string;
+    GetHotkeyOverride(nEntityIndex: AbilityEntityIndex): string;
 
-    GetIntrinsicModifierName(nEntityIndex: AbilityID): string;
+    GetIntrinsicModifierName(nEntityIndex: AbilityEntityIndex): string;
 
-    GetSharedCooldownName(nEntityIndex: AbilityID): string;
+    GetSharedCooldownName(nEntityIndex: AbilityEntityIndex): string;
 
-    AbilityReady(nEntityIndex: AbilityID): number;
+    AbilityReady(nEntityIndex: AbilityEntityIndex): number;
 
     /**
      * Returns an AbilityLearnResult_t
      */
-    CanAbilityBeUpgraded(nEntityIndex: AbilityID): AbilityLearnResult_t;
+    CanAbilityBeUpgraded(nEntityIndex: AbilityEntityIndex): AbilityLearnResult_t;
 
-    CanBeExecuted(nEntityIndex: AbilityID): boolean;
+    CanBeExecuted(nEntityIndex: AbilityEntityIndex): boolean;
 
-    GetAbilityDamage(nEntityIndex: AbilityID): number;
+    GetAbilityDamage(nEntityIndex: AbilityEntityIndex): number;
 
-    GetAbilityDamageType(nEntityIndex: AbilityID): number;
+    GetAbilityDamageType(nEntityIndex: AbilityEntityIndex): number;
 
-    GetAbilityTargetFlags(nEntityIndex: AbilityID): number;
+    GetAbilityTargetFlags(nEntityIndex: AbilityEntityIndex): number;
 
-    GetAbilityTargetTeam(nEntityIndex: AbilityID): number;
+    GetAbilityTargetTeam(nEntityIndex: AbilityEntityIndex): number;
 
-    GetAbilityTargetType(nEntityIndex: AbilityID): number;
+    GetAbilityTargetType(nEntityIndex: AbilityEntityIndex): number;
 
-    GetAbilityType(nEntityIndex: AbilityID): number;
+    GetAbilityType(nEntityIndex: AbilityEntityIndex): number;
 
-    GetBehavior(nEntityIndex: AbilityID): number;
+    GetBehavior(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCastRange(nEntityIndex: AbilityID): number;
+    GetCastRange(nEntityIndex: AbilityEntityIndex): number;
 
-    GetChannelledManaCostPerSecond(nEntityIndex: AbilityID): number;
+    GetChannelledManaCostPerSecond(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCurrentCharges(nEntityIndex: AbilityID): number;
+    GetCurrentCharges(nEntityIndex: AbilityEntityIndex): number;
 
-    GetEffectiveLevel(nEntityIndex: AbilityID): number;
+    GetEffectiveLevel(nEntityIndex: AbilityEntityIndex): number;
 
-    GetHeroLevelRequiredToUpgrade(nEntityIndex: AbilityID): number;
+    GetHeroLevelRequiredToUpgrade(nEntityIndex: AbilityEntityIndex): number;
 
-    GetLevel(nEntityIndex: AbilityID): number;
+    GetLevel(nEntityIndex: AbilityEntityIndex): number;
 
-    GetManaCost(nEntityIndex: AbilityID): number;
+    GetManaCost(nEntityIndex: AbilityEntityIndex): number;
 
-    GetMaxLevel(nEntityIndex: AbilityID): number;
+    GetMaxLevel(nEntityIndex: AbilityEntityIndex): number;
 
-    AttemptToUpgrade(nEntityIndex: AbilityID): boolean;
+    AttemptToUpgrade(nEntityIndex: AbilityEntityIndex): boolean;
 
-    CanLearn(nEntityIndex: AbilityID): boolean;
+    CanLearn(nEntityIndex: AbilityEntityIndex): boolean;
 
-    GetAutoCastState(nEntityIndex: AbilityID): boolean;
+    GetAutoCastState(nEntityIndex: AbilityEntityIndex): boolean;
 
-    GetToggleState(nEntityIndex: AbilityID): boolean;
+    GetToggleState(nEntityIndex: AbilityEntityIndex): boolean;
 
-    HasScepterUpgradeTooltip(nEntityIndex: AbilityID): boolean;
+    HasScepterUpgradeTooltip(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsActivated(nEntityIndex: AbilityID): boolean;
+    IsActivated(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsActivatedChanging(nEntityIndex: AbilityID): boolean;
+    IsActivatedChanging(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsAttributeBonus(nEntityIndex: AbilityID): boolean;
+    IsAttributeBonus(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsAutocast(nEntityIndex: AbilityID): boolean;
+    IsAutocast(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsCooldownReady(nEntityIndex: AbilityID): boolean;
+    IsCooldownReady(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsDisplayedAbility(nEntityIndex: AbilityID): boolean;
+    IsDisplayedAbility(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsHidden(nEntityIndex: AbilityID): boolean;
+    IsHidden(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsHiddenWhenStolen(nEntityIndex: AbilityID): boolean;
+    IsHiddenWhenStolen(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsInAbilityPhase(nEntityIndex: AbilityID): boolean;
+    IsInAbilityPhase(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsItem(nEntityIndex: AbilityID): boolean;
+    IsItem(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsMarkedAsDirty(nEntityIndex: AbilityID): boolean;
+    IsMarkedAsDirty(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsMuted(nEntityIndex: AbilityID): boolean;
+    IsMuted(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsOnCastbar(nEntityIndex: AbilityID): boolean;
+    IsOnCastbar(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsOnLearnbar(nEntityIndex: AbilityID): boolean;
+    IsOnLearnbar(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsOwnersGoldEnough(nEntityIndex: AbilityID): boolean;
+    IsOwnersGoldEnough(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsOwnersGoldEnoughForUpgrade(nEntityIndex: AbilityID): boolean;
+    IsOwnersGoldEnoughForUpgrade(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsOwnersManaEnough(nEntityIndex: AbilityID): boolean;
+    IsOwnersManaEnough(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsPassive(nEntityIndex: AbilityID): boolean;
+    IsPassive(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsRecipe(nEntityIndex: AbilityID): boolean;
+    IsRecipe(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsSharedWithTeammates(nEntityIndex: AbilityID): boolean;
+    IsSharedWithTeammates(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsStealable(nEntityIndex: AbilityID): boolean;
+    IsStealable(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsStolen(nEntityIndex: AbilityID): boolean;
+    IsStolen(nEntityIndex: AbilityEntityIndex): boolean;
 
-    IsToggle(nEntityIndex: AbilityID): boolean;
+    IsToggle(nEntityIndex: AbilityEntityIndex): boolean;
 
-    GetAOERadius(nEntityIndex: AbilityID): number;
+    GetAOERadius(nEntityIndex: AbilityEntityIndex): number;
 
-    GetBackswingTime(nEntityIndex: AbilityID): number;
+    GetBackswingTime(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCastPoint(nEntityIndex: AbilityID): number;
+    GetCastPoint(nEntityIndex: AbilityEntityIndex): number;
 
-    GetChannelStartTime(nEntityIndex: AbilityID): number;
+    GetChannelStartTime(nEntityIndex: AbilityEntityIndex): number;
 
-    GetChannelTime(nEntityIndex: AbilityID): number;
+    GetChannelTime(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCooldown(nEntityIndex: AbilityID): number;
+    GetCooldown(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCooldownLength(nEntityIndex: AbilityID): number;
+    GetCooldownLength(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCooldownTime(nEntityIndex: AbilityID): number;
+    GetCooldownTime(nEntityIndex: AbilityEntityIndex): number;
 
-    GetCooldownTimeRemaining(nEntityIndex: AbilityID): number;
+    GetCooldownTimeRemaining(nEntityIndex: AbilityEntityIndex): number;
 
-    GetDuration(nEntityIndex: AbilityID): number;
+    GetDuration(nEntityIndex: AbilityEntityIndex): number;
 
-    GetUpgradeBlend(nEntityIndex: AbilityID): number;
+    GetUpgradeBlend(nEntityIndex: AbilityEntityIndex): number;
 
     /**
      * Get the local player's current active ability. (Pre-cast targetting state.)
      */
-    GetLocalPlayerActiveAbility(): AbilityID;
+    GetLocalPlayerActiveAbility(): AbilityEntityIndex;
 
-    GetCaster(nAbilityIndex: AbilityID): EntityID;
+    GetCaster(nAbilityIndex: AbilityEntityIndex): EntityIndex;
 
-    GetCustomValueFor(nAbilityIndex: AbilityID, pszAbilityVarName: string): number;
+    GetCustomValueFor(nAbilityIndex: AbilityEntityIndex, pszAbilityVarName: string): number;
 
-    GetLevelSpecialValueFor(nAbilityIndex: AbilityID, szName: string, nLevel: number): number;
+    GetLevelSpecialValueFor(nAbilityIndex: AbilityEntityIndex, szName: string, nLevel: number): number;
 
-    GetSpecialValueFor(nAbilityIndex: AbilityID, szName: string): number;
+    GetSpecialValueFor(nAbilityIndex: AbilityEntityIndex, szName: string): number;
 
-    IsCosmetic(nAbilityIndex: AbilityID, nTargetEntityIndex: EntityID): boolean;
+    IsCosmetic(nAbilityIndex: AbilityEntityIndex, nTargetEntityIndex: EntityIndex): boolean;
 
     /**
      * Attempt to execute the specified ability (Equivalent to clicking the ability in the HUD action bar)
      */
-    ExecuteAbility(nAbilityEntIndex: AbilityID, nCasterEntIndex: EntityID, bIsQuickCast: boolean): boolean;
+    ExecuteAbility(nAbilityEntIndex: AbilityEntityIndex, nCasterEntIndex: EntityIndex, bIsQuickCast: boolean): boolean;
 
     /**
      * Attempt to double-tap (self-cast) the specified ability (Equivalent to double-clicking the ability in the HUD action bar)
      */
-    CreateDoubleTapCastOrder(nAbilityEntIndex: AbilityID, nCasterEntIndex: EntityID): void;
+    CreateDoubleTapCastOrder(nAbilityEntIndex: AbilityEntityIndex, nCasterEntIndex: EntityIndex): void;
 
     /**
      * Ping the specified ability (Equivalent to alt-clicking the ability in the HUD action bar)
      */
-    PingAbility(nAbilityIndex: AbilityID): void;
+    PingAbility(nAbilityIndex: AbilityEntityIndex): void;
 
     /**
      * Returns the keybind (as a string) for the specified ability.
      */
-    GetKeybind(nAbilityEntIndex: AbilityID): string;
+    GetKeybind(nAbilityEntIndex: AbilityEntityIndex): string;
 }
 
 interface CScriptBindingPR_Items {
-    ShouldDisplayCharges(nEntityIndex: ItemID): boolean;
+    ShouldDisplayCharges(nEntityIndex: ItemEntityIndex): boolean;
 
-    AlwaysDisplayCharges(nEntityIndex: ItemID): boolean;
+    AlwaysDisplayCharges(nEntityIndex: ItemEntityIndex): boolean;
 
-    ShowSecondaryCharges(nEntityIndex: ItemID): boolean;
+    ShowSecondaryCharges(nEntityIndex: ItemEntityIndex): boolean;
 
-    CanBeSoldByLocalPlayer(nEntityIndex: ItemID): boolean;
+    CanBeSoldByLocalPlayer(nEntityIndex: ItemEntityIndex): boolean;
 
-    CanDoubleTapCast(nEntityIndex: ItemID): boolean;
+    CanDoubleTapCast(nEntityIndex: ItemEntityIndex): boolean;
 
-    ForceHideCharges(nEntityIndex: ItemID): boolean;
+    ForceHideCharges(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsAlertableItem(nEntityIndex: ItemID): boolean;
+    IsAlertableItem(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsCastOnPickup(nEntityIndex: ItemID): boolean;
+    IsCastOnPickup(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsDisassemblable(nEntityIndex: ItemID): boolean;
+    IsDisassemblable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsDroppable(nEntityIndex: ItemID): boolean;
+    IsDroppable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsInnatelyDisassemblable(nEntityIndex: ItemID): boolean;
+    IsInnatelyDisassemblable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsKillable(nEntityIndex: ItemID): boolean;
+    IsKillable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsMuted(nEntityIndex: ItemID): boolean;
+    IsMuted(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsPermanent(nEntityIndex: ItemID): boolean;
+    IsPermanent(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsPurchasable(nEntityIndex: ItemID): boolean;
+    IsPurchasable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsRecipe(nEntityIndex: ItemID): boolean;
+    IsRecipe(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsRecipeGenerated(nEntityIndex: ItemID): boolean;
+    IsRecipeGenerated(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsSellable(nEntityIndex: ItemID): boolean;
+    IsSellable(nEntityIndex: ItemEntityIndex): boolean;
 
-    IsStackable(nEntityIndex: ItemID): boolean;
+    IsStackable(nEntityIndex: ItemEntityIndex): boolean;
 
-    ProRatesChargesWhenSelling(nEntityIndex: ItemID): boolean;
+    ProRatesChargesWhenSelling(nEntityIndex: ItemEntityIndex): boolean;
 
-    RequiresCharges(nEntityIndex: ItemID): boolean;
+    RequiresCharges(nEntityIndex: ItemEntityIndex): boolean;
 
-    CanBeExecuted(nEntityIndex: ItemID): number;
+    CanBeExecuted(nEntityIndex: ItemEntityIndex): number;
 
-    GetCost(nEntityIndex: ItemID): number;
+    GetCost(nEntityIndex: ItemEntityIndex): number;
 
-    GetCurrentCharges(nEntityIndex: ItemID): number;
+    GetCurrentCharges(nEntityIndex: ItemEntityIndex): number;
 
-    GetSecondaryCharges(nEntityIndex: ItemID): number;
+    GetSecondaryCharges(nEntityIndex: ItemEntityIndex): number;
 
-    GetDisplayedCharges(nEntityIndex: ItemID): number;
+    GetDisplayedCharges(nEntityIndex: ItemEntityIndex): number;
 
-    GetInitialCharges(nEntityIndex: ItemID): number;
+    GetInitialCharges(nEntityIndex: ItemEntityIndex): number;
 
-    GetItemColor(nEntityIndex: ItemID): number;
+    GetItemColor(nEntityIndex: ItemEntityIndex): number;
 
-    GetShareability(nEntityIndex: ItemID): EShareAbility;
+    GetShareability(nEntityIndex: ItemEntityIndex): EShareAbility;
 
-    GetAbilityTextureSF(nEntityIndex: ItemID): string;
+    GetAbilityTextureSF(nEntityIndex: ItemEntityIndex): string;
 
-    GetAssembledTime(nEntityIndex: ItemID): number;
+    GetAssembledTime(nEntityIndex: ItemEntityIndex): number;
 
-    GetPurchaseTime(nEntityIndex: ItemID): number;
+    GetPurchaseTime(nEntityIndex: ItemEntityIndex): number;
 
-    GetPurchaser(nItemID: ItemID): EntityID;
+    GetPurchaser(nItemID: ItemEntityIndex): EntityIndex;
 
     /**
      * Attempt to have the local player disassemble the specified item. Returns false if the order wasn't issued.
      */
-    LocalPlayerDisassembleItem(nItem: ItemID): boolean;
+    LocalPlayerDisassembleItem(nItem: ItemEntityIndex): boolean;
 
     /**
      * Attempt to have the local player drop the specified item from its stash. Returns false if the order wasn't issued.
      */
-    LocalPlayerDropItemFromStash(nItem: ItemID): boolean;
+    LocalPlayerDropItemFromStash(nItem: ItemEntityIndex): boolean;
 
     /**
      * Attempt to have the local player alert allies about the specified item. Returns false if the order wasn't issued.
      */
-    LocalPlayerItemAlertAllies(nItem: ItemID): boolean;
+    LocalPlayerItemAlertAllies(nItem: ItemEntityIndex): boolean;
 
     /**
      * Attempt to have the local player move the specified item to its stash. Returns false if the order wasn't issued.
      */
-    LocalPlayerMoveItemToStash(nItem: ItemID): boolean;
+    LocalPlayerMoveItemToStash(nItem: ItemEntityIndex): boolean;
 
     /**
      * Attempt to have the local player sell the specified item. Returns false if the order wasn't issued.
      */
-    LocalPlayerSellItem(nItem: ItemID): boolean;
+    LocalPlayerSellItem(nItem: ItemEntityIndex): boolean;
 }
 
 interface TeamDetails {
@@ -1157,7 +1156,7 @@ interface PlayerInfo {
     player_assists: number;
     player_selected_hero_id: HeroID;
     player_selected_hero: string;
-    player_selected_hero_entity_index: EntityID;
+    player_selected_hero_entity_index: EntityIndex;
     possible_hero_selection: string;
     player_level: number;
     player_respawn_seconds: number;
@@ -1343,7 +1342,7 @@ interface CScriptBindingPR_Game {
     /**
      * Get info about the player items.
      */
-    GetPlayerItems(nPlayerID: PlayerID): ItemID[];
+    GetPlayerItems(nPlayerID: PlayerID): ItemEntityIndex[];
 
     /**
      * Get info about the given player
@@ -1382,7 +1381,7 @@ interface CScriptBindingPR_Game {
     /**
      * Order a unit to drop the specified item at the current cursor location.
      */
-    DropItemAtCursor(nControlledUnitEnt: EntityID, nItemEnt: ItemID): void;
+    DropItemAtCursor(nControlledUnitEnt: EntityIndex, nItemEnt: ItemEntityIndex): void;
 
     EnterAbilityLearnMode(): void;
 

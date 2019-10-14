@@ -3,10 +3,10 @@
 /// <reference types="./object-observe" />
 /// <reference types="./panels" />
 
-type AbilityID = number & { readonly __tag__: 'AbilityID' };
+type EntityIndex = number & { _entityIndex: never };
+type AbilityEntityIndex = EntityIndex & { _abilityEntityIndex: never };
+type ItemEntityIndex = AbilityEntityIndex & { _itemEntityIndex: never };
 type BuffID = number & { readonly __tag__: 'BuffID' };
-type EntityID = number & { readonly __tag__: 'EntityID' };
-type ItemID = number & { readonly __tag__: 'ItemID' };
 type ParticleID = number & { readonly __tag__: 'ParticleID' };
 type ScheduleID = number & { readonly __tag__: 'ScheduleID' };
 type HeroID = number & { readonly __tag__: 'HeroID' };

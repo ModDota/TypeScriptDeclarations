@@ -36,7 +36,7 @@ interface CDOTA_PanoramaScript_GameEvents {
  * If you need to declare that a given property exists in `Game.CustomUIConfig()`,
  * this type may be augmented via interface merging.
  */
-interface CustomUIConfig {}
+interface CustomUIConfig {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 type MouseEvent = 'pressed' | 'doublepressed' | 'released' | 'wheeled';
 

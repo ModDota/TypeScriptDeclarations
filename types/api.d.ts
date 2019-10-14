@@ -1157,11 +1157,11 @@ interface MapInfo {
 }
 
 interface PrepareUnitOrdersArgument {
-    OrderType?: dotaunitorder_t;
+    OrderType: dotaunitorder_t;
     TargetIndex?: number;
     Position?: [number, number, number];
     AbilityIndex?: number;
-    OrderIssuer?: any; // TODO: OrderIssuer_t - not in enums, EntityID?
+    OrderIssuer?: PlayerOrderIssuer_t;
     UnitIndex?: number;
     QueueBehavior?: OrderQueueBehavior_t;
     ShowEffects?: boolean;

@@ -1,6 +1,4 @@
-.vscode
 node_modules
-yarn-error.log
 /enum-mappings.json
 /transformer.*
 !/transformer.ts

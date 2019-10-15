@@ -140,14 +140,14 @@ export function getFunction<T extends DeclarationWithTypeParameters>(
     return [fn];
   }
 
-  const [withContext, withoutContext] = [true, false].map(useContext =>
+  const [withoutContext, withContext] = [true, false].map(useContext =>
     createType(getFunctionParameters(identifier, func.args, useContext, thisType), returnedType),
   );
 
   withContext.typeParameters.push(dom.create.typeParameter('T'));
-  [withContext, withoutContext].forEach(d => (d.jsDocComment = comments.join('\n')));
+  [withoutContext, withContext].forEach(d => (d.jsDocComment = comments.join('\n')));
 
-  return [withContext, withoutContext];
+  return [withoutContext, withContext];
 }
 
 export const emit = (

@@ -60,7 +60,7 @@ export const generatedApi = emit(
       if (rootElement.call != null) {
         constructorTypes.members.push(
           dom.create.functionType(
-            getFunctionParameters(typeName, rootElement.call.args, false, 'void'),
+            getFunctionParameters(typeName, rootElement.call.args, 'void'),
             getReturnType(rootElement.call.returns),
           ),
         );

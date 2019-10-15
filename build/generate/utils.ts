@@ -64,22 +64,23 @@ const typeMap: Record<string, string> = {
   Vector2D: 'any',
 };
 
-export const getType = (types: Type[], includeUndefined: boolean, thisType?: string): dom.Type =>
-  dom.create.union(
-    types
-      .filter(type => type !== 'nil' || includeUndefined)
-      .map(type =>
-        typeof type === 'string'
-          ? dom.create.namedTypeReference(typeMap[type] || type)
-          : 'array' in type
-          ? dom.create.array(getType([type.array], true, thisType))
-          : // TODO: functionLike can't be used because functionType not supports typeParameters
-            dom.create.functionType(
-              getFunctionParameters('', type.args, false, thisType),
-              getReturnType(type.returns),
-            ),
-      ),
-  );
+export function getType(types: Type[], includeUndefined: boolean, thisType?: string): dom.Type {
+  const domTypes = types
+    .filter(type => type !== 'nil' || includeUndefined)
+    .map(type =>
+      typeof type === 'string'
+        ? dom.create.namedTypeReference(typeMap[type] || type)
+        : 'array' in type
+        ? dom.create.array(getType([type.array], true, thisType))
+        : // TODO: functionLike can't be used because functionType not supports typeParameters
+          dom.create.functionType(
+            getFunctionParameters('', type.args, thisType),
+            getReturnType(type.returns),
+          ),
+    );
+
+  return domTypes.length === 1 ? domTypes[0] : dom.create.union(domTypes);
+}
 
 export const getReturnType = (types: Type[]) =>
   _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
@@ -87,29 +88,25 @@ export const getReturnType = (types: Type[]) =>
 export function getFunctionParameters(
   identifier: string,
   parameters: Parameter[],
-  useContext: boolean,
   thisType?: string,
 ) {
-  const newParameters = parameters.map(({ name, types }) => {
-    if (_.isEqual(types, ['*this'])) types = [useContext ? 'T' : 'nil'];
-
+  const domParameters = parameters.map(({ name, types }) => {
     const isOptional = functionsWithOptionalArguments.includes(identifier);
-    const argThisType = useContext ? 'T' : 'void';
-    const realType = getType(types, !isOptional, argThisType);
-
-    // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
-    return dom.create.parameter(name + (isOptional ? '?' : ''), realType);
+    return dom.create.parameter(
+      // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
+      name + (isOptional ? '?' : ''),
+      getType(types, !isOptional, 'void'),
+    );
   });
 
   if (thisType != null) {
-    newParameters.unshift(dom.create.parameter('this', dom.create.namedTypeReference(thisType)));
+    domParameters.unshift(dom.create.parameter('this', dom.create.namedTypeReference(thisType)));
   }
 
-  return newParameters;
+  return domParameters;
 }
 
-type DeclarationWithTypeParameters = dom.DeclarationBase & { typeParameters: dom.TypeParameter[] };
-export function getFunction<T extends DeclarationWithTypeParameters>(
+export function getFunction<T extends dom.MethodDeclaration | dom.FunctionDeclaration>(
   createType: (parameters: dom.Parameter[], returnType: dom.Type) => T,
   identifier: string,
   func: FunctionType | FunctionDeclaration,
@@ -128,26 +125,34 @@ export function getFunction<T extends DeclarationWithTypeParameters>(
 
   if (comments.length > 1) comments.splice(1, 0, '');
 
-  // TODO: https://github.com/TypeScriptToLua/TypeScriptToLua/pull/465
   const thisType = !identifier.includes('.') ? 'void' : undefined;
-  const returnedType = getTypeGuard(identifier) || getReturnType(func.returns);
-  if (!func.args.some(x => _.isEqual(x.types, ['*this']))) {
-    const fn = createType(
-      getFunctionParameters(identifier, func.args, false, thisType),
-      returnedType,
-    );
-    fn.jsDocComment = comments.join('\n');
-    return [fn];
+  const returnType = getTypeGuard(identifier) || getReturnType(func.returns);
+  const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
+  fn.jsDocComment = comments.join('\n');
+
+  if (identifier === 'ListenToGameEvent') {
+    const [withoutContext, withContext] = _.times(2, () => _.cloneDeep(fn));
+
+    // TODO:
+    const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
+    (withContext.parameters[2].type as dom.FunctionType).parameters[0].type = generic;
+    withContext.typeParameters.push(generic);
+    withContext.parameters[3].type = generic;
+
+    withoutContext.parameters[3].type = dom.type.undefined;
+
+    return [withoutContext, withContext];
   }
 
-  const [withoutContext, withContext] = [true, false].map(useContext =>
-    createType(getFunctionParameters(identifier, func.args, useContext, thisType), returnedType),
-  );
+  if (identifier.match(/CDOTABaseGameMode\.Set.+Filter/)) {
+    // TODO:
+    const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
+    (fn.parameters[0].type as dom.FunctionType).parameters[0].type = generic;
+    fn.parameters[1].type = generic;
+    fn.typeParameters.push(generic);
+  }
 
-  withContext.typeParameters.push(dom.create.typeParameter('T'));
-  [withoutContext, withContext].forEach(d => (d.jsDocComment = comments.join('\n')));
-
-  return [withoutContext, withContext];
+  return [fn];
 }
 
 export const emit = (

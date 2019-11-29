@@ -140,5 +140,5 @@ declare const json: {
     arrayMeta?: LuaMetatable<any[]>,
   ): [any, number] | [undefined, number, string];
 
-  encode(this: void, object: any, options: json.EncodeOptions): string;
+  encode(this: void, object: any, options?: json.EncodeOptions): string;
 };

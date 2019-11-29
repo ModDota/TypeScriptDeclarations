@@ -1,14 +1,11 @@
 import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
-import _ from 'lodash';
 import { emit, getFunction, getType, withDescription } from './utils';
-
-const omittedNames = ['ListenToGameEvent', 'CCustomGameEventManager.RegisterListener'];
 
 export const generatedApi = emit(
   api.map(rootElement => {
     const typeName = rootElement.name;
-    if (omittedNames.includes(typeName)) return [];
+    if (typeName === 'ListenToGameEvent') return [];
 
     if (rootElement.kind === 'function') {
       return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, rootElement);
@@ -17,8 +14,6 @@ export const generatedApi = emit(
     const declarations: dom.TopLevelDeclaration[] = [];
     const mainDeclarationMembers = rootElement.members.flatMap<dom.ObjectTypeMember>(member => {
       const fullName = `${typeName}.${member.name}`;
-      if (omittedNames.includes(fullName)) return [];
-
       return member.kind === 'field'
         ? withDescription(
             dom.create.property(

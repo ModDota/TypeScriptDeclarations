@@ -136,6 +136,15 @@ export function getFunction<T extends CallableDeclaration>(
   const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
   fn.jsDocComment = comments.join('\n');
 
+  if (identifier === 'CCustomGameEventManager.RegisterListener') {
+    const generic = dom.create.typeParameter('T', dom.type.object as any);
+    fn.typeParameters.push(generic);
+    (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
+      generic,
+      dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
+    ]);
+  }
+
   // Callback with optional context
   if (identifier === 'ListenToGameEvent') {
     const [withoutContext, withContext] = _.times(2, () => _.cloneDeep(fn));

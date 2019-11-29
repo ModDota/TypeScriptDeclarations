@@ -77,7 +77,15 @@ function getReturnType(identifier: string, types: Type[]): dom.Type {
     return dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`);
   }
 
-  return _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
+  const domType = _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
+
+  if (identifier.includes('.On') && typeof domType === 'object' && domType.kind === 'union') {
+    domType.members = domType.members.map(x =>
+      typeof x === 'object' && x.kind === 'name' && x.name === 'undefined' ? 'void' : x,
+    );
+  }
+
+  return domType;
 }
 
 const functionsWithOptionalParameters = ['Vector'];

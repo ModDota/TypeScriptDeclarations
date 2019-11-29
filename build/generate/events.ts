@@ -41,26 +41,40 @@ const ltgeFunction = (eventName: string, interfaceName: string, eventDescription
     'both',
   );
 
+const commonGameEventProperties: dom.InterfaceDeclaration = {
+  kind: 'interface',
+  name: 'CommonGameEventProperties',
+  members: [
+    dom.create.property('game_event_listener', dom.create.namedTypeReference('EventListenerID')),
+    dom.create.property('game_event_name', dom.type.string),
+    dom.create.property('splitscreenplayer', dom.type.number),
+  ],
+};
+
 export const generatedEvents = emit(
-  Object.values(events)
-    .flatMap(group => Object.entries(group))
-    .map(([eventName, event]) => {
-      const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
-      const description = event.description;
+  [
+    commonGameEventProperties,
+    ...Object.values(events)
+      .flatMap(group => Object.entries(group))
+      .map(([eventName, event]) => {
+        const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
+        const description = event.description;
 
-      if (event.fields.length === 0) {
-        return ltgeFunction(eventName, '{}', description);
-      }
+        if (event.fields.length === 0) {
+          return ltgeFunction(eventName, commonGameEventProperties.name, description);
+        }
 
-      const type = withDescription(dom.create.interface(interfaceName), description);
-      type.members = event.fields.map(field =>
-        withDescription(
-          dom.create.property(field.name, getEventType(field.type)),
-          field.description,
-        ),
-      );
+        const type = withDescription(dom.create.interface(interfaceName), description);
+        type.baseTypes = [commonGameEventProperties];
+        type.members = event.fields.map(field =>
+          withDescription(
+            dom.create.property(field.name, getEventType(field.type)),
+            field.description,
+          ),
+        );
 
-      return [...ltgeFunction(eventName, interfaceName, description), type];
-    }),
+        return [...ltgeFunction(eventName, interfaceName, description), type];
+      }),
+  ],
   false,
 );

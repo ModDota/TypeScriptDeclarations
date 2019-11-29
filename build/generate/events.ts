@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { emit, getFunction, withDescription } from './utils';
 
 const eventTypeMap: Record<string, string> = {
-  bool: 'boolean',
+  bool: '0 | 1',
   byte: 'number',
   short: 'number',
   int: 'number',

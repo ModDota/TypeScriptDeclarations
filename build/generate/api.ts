@@ -1,14 +1,7 @@
 import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
-import {
-  emit,
-  getFunction,
-  getFunctionParameters,
-  getReturnType,
-  getType,
-  withDescription,
-} from './utils';
+import { emit, getFunction, getType, withDescription } from './utils';
 
 const omittedNames = ['ListenToGameEvent', 'CCustomGameEventManager.RegisterListener'];
 
@@ -22,28 +15,23 @@ export const generatedApi = emit(
     }
 
     const declarations: dom.TopLevelDeclaration[] = [];
-    const mainDeclarationMembers = _.flatMap(
-      rootElement.members,
-      (member): dom.ObjectTypeMember[] => {
-        const fullName = `${typeName}.${member.name}`;
-        if (omittedNames.includes(fullName)) return [];
+    const mainDeclarationMembers = rootElement.members.flatMap<dom.ObjectTypeMember>(member => {
+      const fullName = `${typeName}.${member.name}`;
+      if (omittedNames.includes(fullName)) return [];
 
-        return member.kind === 'field'
-          ? [
-              withDescription(
-                dom.create.property(
-                  member.name,
-                  getType(member.types, false),
-                  member.types.includes('nil')
-                    ? dom.DeclarationFlags.Optional
-                    : dom.DeclarationFlags.None,
-                ),
-                member.description,
-              ),
-            ]
-          : getFunction((p, r) => dom.create.method(member.name, p, r), fullName, member);
-      },
-    );
+      return member.kind === 'field'
+        ? withDescription(
+            dom.create.property(
+              member.name,
+              getType(member.types, false),
+              member.types.includes('nil')
+                ? dom.DeclarationFlags.Optional
+                : dom.DeclarationFlags.None,
+            ),
+            member.description,
+          )
+        : getFunction((p, r) => dom.create.method(member.name, p, r), fullName, member);
+    });
 
     if (rootElement.kind === 'class') {
       mainDeclarationMembers.push(
@@ -59,10 +47,7 @@ export const generatedApi = emit(
 
       if (rootElement.call != null) {
         constructorTypes.members.push(
-          dom.create.functionType(
-            getFunctionParameters(typeName, rootElement.call.args, 'void'),
-            getReturnType(rootElement.call.returns),
-          ),
+          ...getFunction(dom.create.functionType, typeName, rootElement.call),
         );
       }
 

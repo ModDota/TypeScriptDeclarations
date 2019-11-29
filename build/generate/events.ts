@@ -42,8 +42,9 @@ const ltgeFunction = (eventName: string, interfaceName: string, eventDescription
   );
 
 export const generatedEvents = emit(
-  _.flatMap(Object.values(events), group =>
-    Object.entries(group).map(([eventName, event]) => {
+  Object.values(events)
+    .flatMap(group => Object.entries(group))
+    .map(([eventName, event]) => {
       const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
       const description = event.description;
 
@@ -61,6 +62,5 @@ export const generatedEvents = emit(
 
       return [...ltgeFunction(eventName, interfaceName, description), type];
     }),
-  ),
   false,
 );

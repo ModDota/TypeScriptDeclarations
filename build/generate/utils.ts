@@ -20,31 +20,6 @@ export function withDescription<T extends dom.DeclarationBase>(declaration: T, d
   return declaration;
 }
 
-const functionsWithOptionalArguments = ['Vector'];
-const typeGuards: Record<string, string> = {
-  // 'CBaseEntity.IsNPC': 'CDOTA_BaseNPC',
-  'CBaseEntity.IsPlayer': 'CDOTAPlayer',
-  'CDOTABaseAbility.IsItem': 'CDOTA_Item',
-  // 'CDOTA_BaseNPC.IsAncient': creep?
-  // 'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsBuilding': 'CDOTA_BaseNPC_Building',
-  // 'CDOTA_BaseNPC.IsClone': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsCourier': 'CDOTA_Unit_Courier',
-  'CDOTA_BaseNPC.IsCreature': 'CDOTA_BaseNPC_Creature',
-  // 'CDOTA_BaseNPC.IsCreep': creep?
-  // 'CDOTA_BaseNPC.IsFort': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsHero': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsRealHero': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsShrine': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsTempestDouble': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsTower': 'CDOTA_BaseNPC_Building',
-};
-
-const getTypeGuard = (identifier: string) =>
-  typeGuards[identifier] != null
-    ? dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`)
-    : undefined;
-
 const typeMap: Record<string, string> = {
   bool: 'boolean',
   byte: 'number',
@@ -65,33 +40,50 @@ const typeMap: Record<string, string> = {
 };
 
 export function getType(types: Type[], includeUndefined: boolean, thisType?: string): dom.Type {
-  const domTypes = types
-    .filter(type => type !== 'nil' || includeUndefined)
-    .map(type =>
-      typeof type === 'string'
-        ? dom.create.namedTypeReference(typeMap[type] || type)
-        : 'array' in type
-        ? dom.create.array(getType([type.array], true, thisType))
-        : // TODO: functionLike can't be used because functionType not supports typeParameters
-          dom.create.functionType(
-            getFunctionParameters('', type.args, thisType),
-            getReturnType(type.returns),
-          ),
-    );
+  const domTypes = types.flatMap<dom.Type>(type =>
+    type === 'nil' && !includeUndefined
+      ? []
+      : typeof type === 'string'
+      ? dom.create.namedTypeReference(typeMap[type] || type)
+      : 'array' in type
+      ? dom.create.array(getType([type.array], true, thisType))
+      : getFunction(dom.create.functionType, '', type),
+  );
 
   return domTypes.length === 1 ? domTypes[0] : dom.create.union(domTypes);
 }
 
-export const getReturnType = (types: Type[]) =>
-  _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
+const typeGuards: Record<string, string> = {
+  // 'CBaseEntity.IsNPC': 'CDOTA_BaseNPC',
+  'CBaseEntity.IsPlayer': 'CDOTAPlayer',
+  'CDOTABaseAbility.IsItem': 'CDOTA_Item',
+  // 'CDOTA_BaseNPC.IsAncient': creep?
+  // 'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsBuilding': 'CDOTA_BaseNPC_Building',
+  // 'CDOTA_BaseNPC.IsClone': 'CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsCourier': 'CDOTA_Unit_Courier',
+  'CDOTA_BaseNPC.IsCreature': 'CDOTA_BaseNPC_Creature',
+  // 'CDOTA_BaseNPC.IsCreep': creep?
+  // 'CDOTA_BaseNPC.IsFort': 'CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsHero': 'CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsRealHero': 'CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsShrine': 'CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsTempestDouble': 'CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsTower': 'CDOTA_BaseNPC_Building',
+};
 
-export function getFunctionParameters(
-  identifier: string,
-  parameters: Parameter[],
-  thisType?: string,
-) {
+function getReturnType(identifier: string, types: Type[]): dom.Type {
+  if (typeGuards[identifier]) {
+    return dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`);
+  }
+
+  return _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
+}
+
+const functionsWithOptionalParameters = ['Vector'];
+function getFunctionParameters(identifier: string, parameters: Parameter[], thisType?: string) {
   const domParameters = parameters.map(({ name, types }) => {
-    const isOptional = functionsWithOptionalArguments.includes(identifier);
+    const isOptional = functionsWithOptionalParameters.includes(identifier);
     return dom.create.parameter(
       // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
       name + (isOptional ? '?' : ''),
@@ -106,7 +98,13 @@ export function getFunctionParameters(
   return domParameters;
 }
 
-export function getFunction<T extends dom.MethodDeclaration | dom.FunctionDeclaration>(
+interface CallableDeclaration extends dom.DeclarationBase {
+  parameters: dom.Parameter[];
+  returnType: dom.Type;
+  typeParameters: dom.TypeParameter[];
+}
+
+export function getFunction<T extends CallableDeclaration>(
   createType: (parameters: dom.Parameter[], returnType: dom.Type) => T,
   identifier: string,
   func: FunctionType | FunctionDeclaration,
@@ -126,7 +124,7 @@ export function getFunction<T extends dom.MethodDeclaration | dom.FunctionDeclar
   if (comments.length > 1) comments.splice(1, 0, '');
 
   const thisType = !identifier.includes('.') ? 'void' : undefined;
-  const returnType = getTypeGuard(identifier) || getReturnType(func.returns);
+  const returnType = getReturnType(identifier, func.returns);
   const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
   fn.jsDocComment = comments.join('\n');
 

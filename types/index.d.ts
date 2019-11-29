@@ -103,6 +103,9 @@ declare function Dynamic_Wrap<
 >(this: void, context: T, name: K): T[K];
 
 declare namespace json {
+  type DecodeSuccess = [any, number];
+  type DecodeFailure = [undefined, number, string];
+
   interface EncodeOptions {
     /**
      * When indent is set, the created string will contain newlines and
@@ -138,7 +141,7 @@ declare const json: {
     nullValue?: any,
     objectMeta?: LuaMetatable<object>,
     arrayMeta?: LuaMetatable<any[]>,
-  ): [any, number] | [undefined, number, string];
+  ): json.DecodeSuccess | json.DecodeFailure;
 
   encode(this: void, object: any, options?: json.EncodeOptions): string;
 };

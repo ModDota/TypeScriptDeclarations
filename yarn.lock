@@ -520,12 +520,12 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-dota-data@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.4.1.tgz#6e80557834bf953f5d28d8c30c67c413915d78a0"
-  integrity sha512-1QBWNe/Y6PNtLYPN6lPw5imlxOs9jj2+JE9Cm/dfMehuQUpX4ybaurf4NzbUjm3p66BD27j2WthMaHteOP0QGQ==
+dota-data@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.6.0.tgz#061a0597195c67802ab1fb5d01cfc4f60bd84f9f"
+  integrity sha512-JnmEA/ivGv1CYw4v1Q8WUYRJSvK4KceCuaHvCtCj0w3O02GZg7H4Yc8GLkmGGhmWhYIws/YGl4Wc2PmZBqp+Jg==
   dependencies:
-    lodash "^4.17.11"
+    lodash "^4.17.15"
 
 dts-dom@^3.5.0:
   version "3.5.0"
@@ -1186,10 +1186,6 @@ load-json-file@^4.0.0:
     parse-json "^4.0.0"
     pify "^3.0.0"
     strip-bom "^3.0.0"
-
-lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 lodash@^4.17.15:
   version "4.17.15"

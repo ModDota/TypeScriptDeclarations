@@ -130,6 +130,7 @@ export function getFunction<T extends dom.MethodDeclaration | dom.FunctionDeclar
   const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
   fn.jsDocComment = comments.join('\n');
 
+  // Callback with optional context
   if (identifier === 'ListenToGameEvent') {
     const [withoutContext, withContext] = _.times(2, () => _.cloneDeep(fn));
 
@@ -144,7 +145,11 @@ export function getFunction<T extends dom.MethodDeclaration | dom.FunctionDeclar
     return [withoutContext, withContext];
   }
 
-  if (identifier.match(/CDOTABaseGameMode\.Set.+Filter/)) {
+  // Callback with required context
+  if (
+    identifier.match(/^CDOTABaseGameMode\.Set.+Filter$/) ||
+    identifier.startsWith('CDOTABaseGameMode.ListenForQuery')
+  ) {
     // TODO:
     const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
     (fn.parameters[0].type as dom.FunctionType).parameters[0].type = generic;

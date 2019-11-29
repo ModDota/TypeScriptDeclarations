@@ -52,6 +52,7 @@ declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };
 declare type ParticleID = number & { readonly __tag__: 'ParticleID' };
 declare type EventListenerID = number & { readonly __tag__: 'EventListenerID' };
 declare type CustomGameEventListenerID = number & { readonly __tag__: 'CustomGameEventListenerID' };
+declare type CombatAnalyzerQueryID = number & { readonly __tag__: 'CombatAnalyzerQueryID' };
 declare type EntityIndex = number & { readonly __tag__: 'EntityIndex' };
 declare type PlayerID =
   | -1

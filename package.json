@@ -18,11 +18,24 @@
     "build:types": "cd build && ts-node .",
     "dev": "run-p dev:transformer dev:types",
     "dev:transformer": "tsc --watch",
-    "dev:types": "cd build && nodemon -e ts -x ts-node .",
+    "dev:types": "nodemon",
     "lint": "run-s lint:prettier lint:tslint",
     "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
     "lint:tslint": "tslint -p .",
     "prepublishOnly": "yarn build"
+  },
+  "nodemonConfig": {
+    "delay": 500,
+    "exec": "cd build && ts-node --transpile-only .",
+    "ext": "ts,json",
+    "ignoreRoot": [
+      ".git"
+    ],
+    "watch": [
+      "build",
+      "node_modules/dota-data/files/vscripts",
+      "node_modules/dota-data/files/events.json"
+    ]
   },
   "prettier": {
     "printWidth": 100,

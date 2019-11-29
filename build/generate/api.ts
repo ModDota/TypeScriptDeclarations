@@ -55,7 +55,24 @@ export const generatedApi = emit(
         }
       }
 
-      declarations.push(dom.create.const(typeName, constructorTypes));
+      declarations.push(
+        withDescription(
+          dom.create.const(typeName, constructorTypes),
+          rootElement.clientName === typeName ? '@both' : undefined,
+        ),
+      );
+
+      if (rootElement.clientName != null && rootElement.clientName !== typeName) {
+        declarations.push(
+          withDescription(
+            dom.create.const(
+              rootElement.clientName,
+              dom.create.typeof(dom.create.namedTypeReference(typeName)),
+            ),
+            '@client',
+          ),
+        );
+      }
     }
 
     const extendedType =

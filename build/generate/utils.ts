@@ -54,17 +54,14 @@ export function getType(types: Type[], includeUndefined: boolean, thisType?: str
 }
 
 const typeGuards: Record<string, string> = {
-  // 'CBaseEntity.IsNPC': 'CDOTA_BaseNPC',
   'CBaseEntity.IsPlayer': 'CDOTAPlayer',
   'CDOTABaseAbility.IsItem': 'CDOTA_Item',
-  // 'CDOTA_BaseNPC.IsAncient': creep?
-  // 'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
   'CDOTA_BaseNPC.IsBuilding': 'CDOTA_BaseNPC_Building',
-  // 'CDOTA_BaseNPC.IsClone': 'CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsClone': 'CDOTA_BaseNPC_Hero',
   'CDOTA_BaseNPC.IsCourier': 'CDOTA_Unit_Courier',
   'CDOTA_BaseNPC.IsCreature': 'CDOTA_BaseNPC_Creature',
-  // 'CDOTA_BaseNPC.IsCreep': creep?
-  // 'CDOTA_BaseNPC.IsFort': 'CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsFort': 'CDOTA_BaseNPC_Building',
   'CDOTA_BaseNPC.IsHero': 'CDOTA_BaseNPC_Hero',
   'CDOTA_BaseNPC.IsRealHero': 'CDOTA_BaseNPC_Hero',
   'CDOTA_BaseNPC.IsShrine': 'CDOTA_BaseNPC_Building',

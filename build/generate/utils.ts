@@ -1,10 +1,4 @@
-import {
-  Availability,
-  FunctionDeclaration,
-  FunctionType,
-  Parameter,
-  Type,
-} from 'dota-data/files/vscripts/api';
+import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
 import wordwrap from 'wordwrap';
@@ -33,13 +27,12 @@ const typeMap: Record<string, string> = {
   table: 'object',
   variant: 'any',
   nil: 'undefined',
-  function: 'Function',
 
   // TODO:
   Vector2D: 'any',
 };
 
-export function getType(types: Type[], includeUndefined: boolean, thisType?: string): dom.Type {
+export function getType(types: api.Type[], includeUndefined: boolean, thisType?: string): dom.Type {
   const domTypes = types.flatMap<dom.Type>(type =>
     type === 'nil' && !includeUndefined
       ? []
@@ -54,6 +47,7 @@ export function getType(types: Type[], includeUndefined: boolean, thisType?: str
 }
 
 const typeGuards: Record<string, string> = {
+  'CBaseEntity.IsBaseNPC': 'CDOTA_BaseNPC',
   'CBaseEntity.IsPlayer': 'CDOTAPlayer',
   'CDOTABaseAbility.IsItem': 'CDOTA_Item',
   'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
@@ -69,7 +63,7 @@ const typeGuards: Record<string, string> = {
   'CDOTA_BaseNPC.IsTower': 'CDOTA_BaseNPC_Building',
 };
 
-function getReturnType(identifier: string, types: Type[]): dom.Type {
+function getReturnType(identifier: string, types: api.Type[]): dom.Type {
   if (typeGuards[identifier]) {
     return dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`);
   }
@@ -85,13 +79,22 @@ function getReturnType(identifier: string, types: Type[]): dom.Type {
   return domType;
 }
 
+const parameterNamesMap: Record<string, string> = {
+  default: 'defaultValue',
+  function: 'func',
+};
+
 const functionsWithOptionalParameters = ['Vector'];
-function getFunctionParameters(identifier: string, parameters: Parameter[], thisType?: string) {
+function getFunctionParameters(
+  identifier: string,
+  parameters: api.FunctionParameter[],
+  thisType?: string,
+) {
   const domParameters = parameters.map(({ name, types }) => {
     const isOptional = functionsWithOptionalParameters.includes(identifier);
     return dom.create.parameter(
       // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
-      name + (isOptional ? '?' : ''),
+      (parameterNamesMap[name] ?? name) + (isOptional ? '?' : ''),
       getType(types, !isOptional, 'void'),
     );
   });
@@ -112,8 +115,8 @@ interface CallableDeclaration extends dom.DeclarationBase {
 export function getFunction<T extends CallableDeclaration>(
   createType: (parameters: dom.Parameter[], returnType: dom.Type) => T,
   identifier: string,
-  func: FunctionType | FunctionDeclaration,
-  defaultAvailability: Availability = 'server',
+  func: api.FunctionType | api.FunctionDeclaration,
+  defaultAvailability: api.Availability = 'server',
 ): T[] {
   const comments: string[] = [];
   if ('description' in func && func.description) comments.push(wrapDescription(func.description));

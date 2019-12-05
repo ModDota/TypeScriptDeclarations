@@ -31,10 +31,6 @@ declare interface CDOTA_PlayerResource {
   GetTeam(): DotaTeam;
 }
 
-declare interface CEntityInstance {
-  IsNull(): boolean;
-}
-
 declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };
 declare type ParticleID = number & { readonly __tag__: 'ParticleID' };
 declare type EventListenerID = number & { readonly __tag__: 'EventListenerID' };

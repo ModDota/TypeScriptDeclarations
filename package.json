@@ -6,9 +6,8 @@
   "license": "MIT",
   "author": "ark120202",
   "files": [
-    "transformer.js",
-    "transformer.d.ts",
-    "types",
+    "transformer.{js,d.ts}",
+    "types/*.d.ts",
     "enum-mappings.json"
   ],
   "types": "types/index.d.ts",
@@ -22,7 +21,8 @@
     "lint": "run-s lint:prettier lint:tslint",
     "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
     "lint:tslint": "tslint -p .",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "test": "tsc --project types"
   },
   "nodemonConfig": {
     "delay": 500,

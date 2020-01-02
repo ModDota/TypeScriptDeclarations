@@ -2,12 +2,12 @@ interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event
      */
-    Subscribe(pEventName: string, funcVal: (data: object) => void): number;
+    Subscribe(pEventName: string, funcVal: (data: object) => void): GameEventListenerID;
 
     /**
      * Unsubscribe from a game event
      */
-    Unsubscribe(nCallbackHandle: number): void;
+    Unsubscribe(nCallbackHandle: GameEventListenerID): void;
 
     /**
      * Send a custom game event
@@ -220,12 +220,15 @@ interface CDOTA_PanoramaScript_CustomNetTables {
     /**
      * Register a callback when a particular custom net table changes
      */
-    SubscribeNetTableListener(tableName: string, callback: (table_name: string, key: string, value: any) => void): void;
+    SubscribeNetTableListener(
+        tableName: string,
+        callback: (tableName: string, key: string, value: any) => void,
+    ): NetTableListenerID;
 
     /**
      * Unsubscribe from a game event
      */
-    UnsubscribeNetTableListener(nCallbackHandle: number): void;
+    UnsubscribeNetTableListener(nCallbackHandle: NetTableListenerID): void;
 }
 
 interface CScriptBindingPR_Particles {

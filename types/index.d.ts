@@ -6,9 +6,13 @@
 type EntityIndex = number & { _entityIndex: never };
 type AbilityEntityIndex = EntityIndex & { _abilityEntityIndex: never };
 type ItemEntityIndex = AbilityEntityIndex & { _itemEntityIndex: never };
+
+type ScheduleID = number & { readonly __tag__: 'ScheduleID' };
+type NetTableListenerID = number & { readonly __tag__: 'NetTableListenerID' };
+type GameEventListenerID = number & { readonly __tag__: 'GameEventListenerID' };
+
 type BuffID = number & { readonly __tag__: 'BuffID' };
 type ParticleID = number & { readonly __tag__: 'ParticleID' };
-type ScheduleID = number & { readonly __tag__: 'ScheduleID' };
 type HeroID = number & { readonly __tag__: 'HeroID' };
 type PlayerID =
     | -1

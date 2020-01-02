@@ -1,6 +1,5 @@
 /// <reference types="./api" />
 /// <reference types="./enums.generated" />
-/// <reference types="./object-observe" />
 /// <reference types="./panels" />
 
 type EntityIndex = number & { _entityIndex: never };

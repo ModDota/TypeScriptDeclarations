@@ -1,6 +1,6 @@
 {
     "name": "panorama-types",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "TypeScript definitions for Dota 2 Panorama API",
     "repository": "https://github.com/ModDota/TypescriptPanoramaDeclarations",
     "license": "MIT",

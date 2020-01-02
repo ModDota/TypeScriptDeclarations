@@ -178,6 +178,17 @@ export function getFunction<T extends CallableDeclaration>(
     return [withoutContext, withContext];
   }
 
+  if (identifier.startsWith('FireGameEvent')) {
+    const nameType = dom.create.typeParameter(
+      'TName',
+      dom.create.namedTypeReference('keyof GameEventDeclarations') as any,
+    );
+
+    fn.typeParameters.push(nameType);
+    fn.parameters[1].type = nameType;
+    fn.parameters[2].type = dom.create.namedTypeReference('GameEventDeclarations[TName]');
+  }
+
   // Callback with required context
   if (
     identifier.match(/^CDOTABaseGameMode\.Set.+Filter$/) ||

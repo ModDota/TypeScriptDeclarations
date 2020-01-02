@@ -3,6 +3,7 @@
         "no-var": "off",
         "vars-on-top": "off",
         "@typescript-eslint/camelcase": "off",
-        "@typescript-eslint/class-name-casing": "off"
+        "@typescript-eslint/class-name-casing": "off",
+        "unicorn/prevent-abbreviations": "off"
     }
 }

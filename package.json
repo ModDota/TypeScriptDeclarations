@@ -10,10 +10,19 @@
     ],
     "types": "types/index.d.ts",
     "scripts": {
+        "build": "cd build && ts-node .",
+        "dev": "nodemon",
         "lint": "run-s lint:prettier lint:eslint",
         "lint:eslint": "eslint . --ext .js,.ts",
         "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
+        "prepublishOnly": "yarn build",
         "test": "tsc --project types"
+    },
+    "nodemonConfig": {
+        "delay": 500,
+        "exec": "cd build && ts-node --transpile-only .",
+        "ext": "ts",
+        "watch": "build"
     },
     "prettier": {
         "printWidth": 120,
@@ -24,15 +33,21 @@
     "eslintConfig": {
         "extends": "@ark120202/eslint-config/node",
         "parserOptions": {
-            "project": "types/tsconfig.json"
+            "project": [
+                "build/tsconfig.json",
+                "types/tsconfig.json"
+            ]
         }
     },
     "devDependencies": {
         "@ark120202/eslint-config": "^2.1.0",
         "@ark120202/typescript-config": "^2.1.0",
+        "@types/node": "^13.1.2",
         "eslint": "^6.5.1",
+        "nodemon": "^2.0.2",
         "npm-run-all": "^4.1.5",
         "prettier": "^1.18.2",
+        "ts-node": "^8.5.4",
         "typescript": "^3.6.4"
     }
 }

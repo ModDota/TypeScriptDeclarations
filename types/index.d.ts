@@ -1,5 +1,5 @@
 /// <reference types="./api" />
-/// <reference types="./enums" />
+/// <reference types="./enums.generated" />
 /// <reference types="./object-observe" />
 /// <reference types="./panels" />
 

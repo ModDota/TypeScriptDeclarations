@@ -31,7 +31,10 @@ interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Send a client-side event using gameeventmanager (only useful for a few specific events)
      */
-    SendEventClientSide(pEventName: string, eventData: object): void;
+    SendEventClientSide<TName extends keyof GameEventDeclarations>(
+        pEventName: TName,
+        eventData: GameEventDeclarations[TName],
+    ): void;
 }
 
 /**

@@ -31,8 +31,8 @@ function parseDump() {
 export const generatedEnums = emit(
     parseDump()
         .map(({ name: enumName, members }) => {
-            const memberTypes = members.map(({ name, value }) => `    ${name} = ${value},`).join('\n');
-            return `declare enum ${enumName} {\n${memberTypes}\n}`;
+            const memberTypes = members.map(({ name, value }) => `${name} = ${value}`).join(',');
+            return `declare enum ${enumName} {${memberTypes}}`;
         })
         .join('\n\n'),
 );

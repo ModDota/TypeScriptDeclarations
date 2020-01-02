@@ -2,7 +2,11 @@ interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event
      */
-    Subscribe(pEventName: string, funcVal: (data: object) => void): GameEventListenerID;
+    Subscribe<TName extends keyof GameEventDeclarations>(
+        pEventName: TName,
+        funcVal: (event: GameEventDeclarations[TName]) => void,
+    ): GameEventListenerID;
+    Subscribe<T>(this: void, pEventName: string, funcVal: (event: T) => void): GameEventListenerID;
 
     /**
      * Unsubscribe from a game event

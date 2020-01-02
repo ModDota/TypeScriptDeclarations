@@ -1,6 +1,8 @@
 import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
+import path from 'path';
+import prettier from 'prettier';
 import wordwrap from 'wordwrap';
 
 export const wrapDescription = (desc: string, start = 0) =>
@@ -204,20 +206,24 @@ export function getFunction<T extends CallableDeclaration>(
   return [fn];
 }
 
+const prettierConfig: prettier.Options = {
+  parser: 'typescript',
+  ...prettier.resolveConfig.sync(path.resolve(__dirname, '../../types/_.generated.d.ts'), {
+    editorconfig: true,
+  }),
+};
+
 export const emit = (
   declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration>,
   serverDefault: boolean,
 ) =>
-  (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
-  _.flattenDeep(declarations)
-    .map(x => dom.emit(x))
-    .join('')
+  prettier.format(
+    (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
+      _.flattenDeep(declarations)
+        .map(x => dom.emit(x))
+        .join('')
 
-    .replace(/\r\n/g, '\n')
-    .split('\n')
-    .map(line => line.trimRight())
-    .join('\n')
-    .trimRight()
-
-    .replace(/\)=>/g, ') => ')
-    .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */');
+        .replace(/\r\n/g, '\n')
+        .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */'),
+    prettierConfig,
+  );

@@ -1,5 +1,5 @@
 node_modules
+/types/*.generated.d.ts
 /enum-mappings.json
 /transformer.*
 !/transformer.ts
-/types/*.generated.d.ts

@@ -1,8 +1,7 @@
 import events from 'dota-data/files/events';
-import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
-import { emit, getFunction, withDescription } from './utils';
+import { emit, withDescription, wrapDescription } from './utils';
 
 const eventTypeMap: Record<string, string> = {
   bool: '0 | 1',
@@ -16,34 +15,11 @@ const eventTypeMap: Record<string, string> = {
 };
 
 export const getEventType = (type: string) =>
-  dom.create.namedTypeReference(eventTypeMap[type] || type);
+  dom.create.namedTypeReference(eventTypeMap[type] ?? type);
 
-const ltgeMethod = api.find(
-  (x): x is api.FunctionDeclaration => x.kind === 'function' && x.name === 'ListenToGameEvent',
-)!;
-
-const ltgeFunction = (eventName: string, interfaceName: string, eventDescription?: string) =>
-  getFunction(
-    (p, r) => dom.create.function('ListenToGameEvent', p, r),
-    'ListenToGameEvent',
-    {
-      ...ltgeMethod,
-      description: eventDescription,
-      args: [
-        { ...ltgeMethod.args[0], types: [JSON.stringify(eventName)] },
-        {
-          ...ltgeMethod.args[1],
-          types: [{ returns: ['void'], args: [{ name: 'event', types: [interfaceName] }] }],
-        },
-        ltgeMethod.args[2],
-      ],
-    },
-    'both',
-  );
-
-const commonGameEventProperties: dom.InterfaceDeclaration = {
+const providedProperties: dom.InterfaceDeclaration = {
   kind: 'interface',
-  name: 'CommonGameEventProperties',
+  name: 'GameEventProvidedProperties',
   members: [
     dom.create.property('game_event_listener', dom.create.namedTypeReference('EventListenerID')),
     dom.create.property('game_event_name', dom.type.string),
@@ -51,30 +27,49 @@ const commonGameEventProperties: dom.InterfaceDeclaration = {
   ],
 };
 
+const gameEventDeclarations: dom.InterfaceDeclaration = {
+  kind: 'interface',
+  name: 'GameEventDeclarations',
+  members: _.uniqBy(
+    Object.values(events).flatMap(group => Object.entries(group)),
+    // `player_connect` and `hltv_chat` are duplicated
+    ([name]) => name,
+  ).map(
+    ([eventName, event]): dom.ObjectTypeMember => ({
+      kind: 'property',
+      name: eventName,
+      jsDocComment: event.description && wrapDescription(event.description),
+      type:
+        event.fields.length === 0
+          ? dom.type.object
+          : dom.create.namedTypeReference(_.upperFirst(_.camelCase(eventName)) + 'Event'),
+    }),
+  ),
+};
+
+const eventTypes = Object.values(events)
+  .flatMap(group => Object.entries(group))
+  .flatMap<dom.InterfaceDeclaration>(([eventName, event]) => {
+    const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
+
+    if (event.fields.length === 0) {
+      return [];
+    }
+
+    return {
+      kind: 'interface',
+      name: interfaceName,
+      jsDocComment: event.description && wrapDescription(event.description),
+      members: event.fields.map(field =>
+        withDescription(
+          dom.create.property(field.name, getEventType(field.type)),
+          field.description,
+        ),
+      ),
+    };
+  });
+
 export const generatedEvents = emit(
-  [
-    commonGameEventProperties,
-    ...Object.values(events)
-      .flatMap(group => Object.entries(group))
-      .map(([eventName, event]) => {
-        const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
-        const description = event.description;
-
-        if (event.fields.length === 0) {
-          return ltgeFunction(eventName, commonGameEventProperties.name, description);
-        }
-
-        const type = withDescription(dom.create.interface(interfaceName), description);
-        type.baseTypes = [commonGameEventProperties];
-        type.members = event.fields.map(field =>
-          withDescription(
-            dom.create.property(field.name, getEventType(field.type)),
-            field.description,
-          ),
-        );
-
-        return [...ltgeFunction(eventName, interfaceName, description), type];
-      }),
-  ],
+  [providedProperties, gameEventDeclarations, ...eventTypes],
   false,
 );

@@ -5,7 +5,6 @@ import { emit, getFunction, getType, withDescription } from './utils';
 export const generatedApi = emit(
   api.map(declaration => {
     const typeName = declaration.name;
-    if (typeName === 'ListenToGameEvent') return [];
 
     if (declaration.kind === 'function') {
       return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, declaration);

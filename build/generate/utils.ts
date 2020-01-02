@@ -3,7 +3,7 @@ import * as dom from 'dts-dom';
 import _ from 'lodash';
 import wordwrap from 'wordwrap';
 
-const wrapDescription = (desc: string, start = 0) =>
+export const wrapDescription = (desc: string, start = 0) =>
   wordwrap({ stop: 80, start })(desc.replace(/\n/g, '\n\n'));
 
 const wrapJsDoc = (start: string, description: string) =>
@@ -147,13 +147,31 @@ export function getFunction<T extends CallableDeclaration>(
 
   // Callback with optional context
   if (identifier === 'ListenToGameEvent') {
-    const [withoutContext, withContext] = _.times(2, () => _.cloneDeep(fn));
+    const [withoutContext, withContext] = _.times(2, () => {
+      const nameType = dom.create.typeParameter(
+        'TName',
+        dom.create.namedTypeReference('keyof GameEventDeclarations') as any,
+      );
+
+      const eventType = dom.create.namedTypeReference(
+        'GameEventProvidedProperties & GameEventDeclarations[TName]',
+      );
+
+      const declaration = _.cloneDeep(fn);
+      declaration.typeParameters.push(nameType);
+      declaration.parameters[1].type = nameType;
+      (declaration.parameters[2].type as dom.FunctionType).parameters[1].type = eventType;
+      return declaration;
+    });
 
     // TODO:
-    const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
-    (withContext.parameters[2].type as dom.FunctionType).parameters[0].type = generic;
-    withContext.typeParameters.push(generic);
-    withContext.parameters[3].type = generic;
+    const contextType = dom.create.typeParameter(
+      'TContext',
+      dom.create.namedTypeReference('{}') as any,
+    );
+    (withContext.parameters[2].type as dom.FunctionType).parameters[0].type = contextType;
+    withContext.typeParameters.push(contextType);
+    withContext.parameters[3].type = contextType;
 
     withoutContext.parameters[3].type = dom.type.undefined;
 

@@ -229,28 +229,42 @@ interface CDOTA_PanoramaScript_GameUI {
     SendCustomHUDError(pszErrorText: string, pszErrorSound: string): void;
 }
 
-interface TableValue {
-    key: string;
-    value: any;
-}
+/**
+ * The type used for validation of custom net tables.
+ *
+ * This type may be augmented via interface merging.
+ */
+interface CustomNetTableDeclarations {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 interface CDOTA_PanoramaScript_CustomNetTables {
     /**
      * Get a key from a custom net table
      */
-    GetTableValue(pTableName: string, pKeyName: string): any;
+    GetTableValue<
+        TName extends keyof CustomNetTableDeclarations,
+        T extends CustomNetTableDeclarations[TName],
+        K extends keyof T
+    >(
+        pTableName: TName,
+        pKeyName: K,
+    ): T[K];
 
     /**
      * Get all values from a custom net table
      */
-    GetAllTableValues(pTableName: string): TableValue[];
+    GetAllTableValues<TName extends keyof CustomNetTableDeclarations, T extends CustomNetTableDeclarations[TName]>(
+        pTableName: TName,
+    ): { [K in keyof T]: { key: K; value: T[K] } }[keyof T][];
 
     /**
      * Register a callback when a particular custom net table changes
      */
-    SubscribeNetTableListener(
-        tableName: string,
-        callback: (tableName: string, key: string, value: any) => void,
+    SubscribeNetTableListener<
+        TName extends keyof CustomNetTableDeclarations,
+        T extends CustomNetTableDeclarations[TName]
+    >(
+        tableName: TName,
+        callback: (tableName: TName, key: keyof T, value: T[keyof T]) => void,
     ): NetTableListenerID;
 
     /**

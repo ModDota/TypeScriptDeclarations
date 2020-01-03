@@ -2,7 +2,7 @@ import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import { emit, getFunction, getType, withDescription } from './utils';
 
-const declarationOverrides = {
+const declarationOverrides: Record<string, string> = {
   ListenToGameEvent: `
     /**
      * Register as a listener for a game event from script.
@@ -54,28 +54,44 @@ const declarationOverrides = {
   `,
 };
 
+const precedingDeclarations: Record<string, string> = {
+  CCustomGameEventManager: `
+    /**
+      * The type used for validation of custom events.
+      *
+      * This type may be augmented via interface merging.
+      */
+    interface CustomGameEventDeclarations {}
+  `,
+  CCustomNetTableManager: `
+    /**
+      * The type used for validation of custom net tables.
+      *
+      * This type may be augmented via interface merging.
+      */
+    interface CustomNetTableDeclarations {}
+  `,
+};
+
 export const generatedApi = emit(
   api.map(declaration => {
     const typeName = declaration.name;
 
-    if (declaration.kind === 'function') {
-      if (declaration.name in declarationOverrides) {
-        return (declarationOverrides as any)[declaration.name];
-      }
-
-      return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, declaration);
+    if (typeName in declarationOverrides) {
+      return declarationOverrides[typeName];
     }
 
     const declarations: (dom.TopLevelDeclaration | string)[] = [];
-    if (declaration.name === 'CCustomGameEventManager') {
-      declarations.push(`
-        /**
-        * The type used for validation of custom events.
-        *
-        * This type may be augmented via interface merging.
-        */
-      interface CustomGameEventDeclarations {}
-    `);
+    if (typeName in precedingDeclarations) {
+      declarations.push(precedingDeclarations[typeName]);
+    }
+
+    if (declaration.kind === 'function') {
+      declarations.push(
+        ...getFunction((p, r) => dom.create.function(typeName, p, r), typeName, declaration),
+      );
+
+      return declarations;
     }
 
     const mainDeclarationMembers = [...declaration.members].flatMap<dom.ObjectTypeMember>(

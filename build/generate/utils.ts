@@ -1,3 +1,4 @@
+import assert from 'assert';
 import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
@@ -151,6 +152,7 @@ export function getFunction<T extends CallableDeclaration>(
       dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
     ]);
   }
+
   if (identifier.startsWith('CCustomGameEventManager.Send_')) {
     const nameType = dom.create.typeParameter(
       'TName',
@@ -162,6 +164,33 @@ export function getFunction<T extends CallableDeclaration>(
     fn.parameters.find(x => x.name === 'eventData')!.type = dom.create.namedTypeReference(
       'CustomGameEventDeclarations[TName]',
     );
+  }
+
+  if (identifier.startsWith('CCustomNetTableManager.')) {
+    const nameType = dom.create.typeParameter(
+      'TName',
+      dom.create.namedTypeReference('keyof CustomNetTableDeclarations') as any,
+    );
+
+    const tableType = dom.create.typeParameter(
+      'T',
+      dom.create.namedTypeReference('CustomNetTableDeclarations[TName]') as any,
+    );
+
+    const keyType = dom.create.typeParameter('K', dom.create.namedTypeReference('keyof T') as any);
+    const valueType = dom.create.namedTypeReference(`T[K]`);
+
+    fn.typeParameters.push(nameType, tableType, keyType);
+
+    fn.parameters[0].type = nameType;
+    fn.parameters[1].type = keyType;
+    if (identifier === 'CCustomNetTableManager.GetTableValue') {
+      fn.returnType = valueType;
+    } else if (identifier === 'CCustomNetTableManager.SetTableValue') {
+      fn.parameters[2].type = valueType;
+    } else {
+      assert(false);
+    }
   }
 
   // Callback with required context
@@ -187,13 +216,13 @@ const prettierConfig: prettier.Options = {
 };
 
 export const emit = (
-  declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration>,
+  declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration | string>,
   serverDefault: boolean,
 ) =>
   prettier.format(
     (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
       _.flattenDeep(declarations)
-        .map(x => dom.emit(x))
+        .map(x => dom.emit(x as any))
         .join('')
 
         .replace(/\r\n/g, '\n')

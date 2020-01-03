@@ -28,4 +28,19 @@ ListenToGameEvent('custom_event', event => assertType<string>(event.foo), undefi
 FireGameEvent('custom_event', { foo: 'bar' });
 FireGameEventLocal('custom_event', { foo: 'bar' });
 
+declare global {
+  interface CustomNetTableDeclarations {
+    custom_net_table: {
+      foo: string;
+      bar: number;
+    };
+  }
+}
+
+CustomNetTables.SetTableValue('custom_net_table', 'foo', 'value');
+assertType<string>(CustomNetTables.GetTableValue('custom_net_table', 'foo'));
+
+CustomNetTables.SetTableValue('custom_net_table', 'bar', 100);
+assertType<number>(CustomNetTables.GetTableValue('custom_net_table', 'bar'));
+
 export {};

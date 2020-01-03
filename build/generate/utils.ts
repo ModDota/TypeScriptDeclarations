@@ -139,12 +139,29 @@ export function getFunction<T extends CallableDeclaration>(
   fn.jsDocComment = comments.join('\n');
 
   if (identifier === 'CCustomGameEventManager.RegisterListener') {
-    const generic = dom.create.typeParameter('T', dom.type.object as any);
-    fn.typeParameters.push(generic);
+    const nameType = dom.create.typeParameter(
+      'TName',
+      dom.create.namedTypeReference('keyof CustomGameEventDeclarations') as any,
+    );
+
+    fn.typeParameters.push(nameType);
+    fn.parameters[0].type = nameType;
     (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
-      generic,
+      dom.create.namedTypeReference('CustomGameEventDeclarations[TName]'),
       dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
     ]);
+  }
+  if (identifier.startsWith('CCustomGameEventManager.Send_')) {
+    const nameType = dom.create.typeParameter(
+      'TName',
+      dom.create.namedTypeReference('keyof CustomGameEventDeclarations') as any,
+    );
+
+    fn.typeParameters.push(nameType);
+    fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
+    fn.parameters.find(x => x.name === 'eventData')!.type = dom.create.namedTypeReference(
+      'CustomGameEventDeclarations[TName]',
+    );
   }
 
   // Callback with required context

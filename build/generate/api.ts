@@ -66,7 +66,18 @@ export const generatedApi = emit(
       return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, declaration);
     }
 
-    const declarations: dom.TopLevelDeclaration[] = [];
+    const declarations: (dom.TopLevelDeclaration | string)[] = [];
+    if (declaration.name === 'CCustomGameEventManager') {
+      declarations.push(`
+        /**
+        * The type used for validation of custom events.
+        *
+        * This type may be augmented via interface merging.
+        */
+      interface CustomGameEventDeclarations {}
+    `);
+    }
+
     const mainDeclarationMembers = [...declaration.members].flatMap<dom.ObjectTypeMember>(
       member => {
         const fullName = `${typeName}.${member.name}`;

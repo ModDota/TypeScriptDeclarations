@@ -1,12 +1,23 @@
+/**
+ * The type used for validation of custom events.
+ *
+ * This type may be augmented via interface merging.
+ */
+interface CustomGameEventDeclarations {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event
      */
+    Subscribe<TName extends keyof CustomGameEventDeclarations>(
+        pEventName: TName,
+        funcVal: (event: CustomGameEventDeclarations[TName]) => void,
+    ): GameEventListenerID;
     Subscribe<TName extends keyof GameEventDeclarations>(
         pEventName: TName,
+        // eslint-disable-next-line @typescript-eslint/unified-signatures
         funcVal: (event: GameEventDeclarations[TName]) => void,
     ): GameEventListenerID;
-    Subscribe<T>(this: void, pEventName: string, funcVal: (event: T) => void): GameEventListenerID;
 
     /**
      * Unsubscribe from a game event
@@ -16,17 +27,27 @@ interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Send a custom game event
      */
-    SendCustomGameEventToServer(pEventName: string, eventData: object): void;
+    SendCustomGameEventToServer<TName extends keyof CustomGameEventDeclarations>(
+        pEventName: TName,
+        eventData: CustomGameEventDeclarations[TName],
+    ): void;
 
     /**
      * Send a custom game event to the server, which will send it to all clients
      */
-    SendCustomGameEventToAllClients(pEventName: string, eventData: object): void;
+    SendCustomGameEventToAllClients<TName extends keyof CustomGameEventDeclarations>(
+        pEventName: TName,
+        eventData: CustomGameEventDeclarations[TName],
+    ): void;
 
     /**
      * Send a custom game event to the server, which will send it to all clients
      */
-    SendCustomGameEventToClient(pEventName: string, playerIndex: PlayerID, eventData: object): void;
+    SendCustomGameEventToClient<TName extends keyof CustomGameEventDeclarations>(
+        pEventName: TName,
+        playerIndex: PlayerID,
+        eventData: CustomGameEventDeclarations[TName],
+    ): void;
 
     /**
      * Send a client-side event using gameeventmanager (only useful for a few specific events)

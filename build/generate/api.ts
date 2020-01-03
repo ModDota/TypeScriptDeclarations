@@ -2,11 +2,67 @@ import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import { emit, getFunction, getType, withDescription } from './utils';
 
+const declarationOverrides = {
+  ListenToGameEvent: `
+    /**
+     * Register as a listener for a game event from script.
+     *
+     * @both
+     */
+    declare function ListenToGameEvent<TName extends keyof GameEventDeclarations>(
+        this: void,
+        eventName: TName,
+        listener: (this: void, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
+        context: undefined,
+    ): EventListenerID;
+
+    /**
+     * Register as a listener for a game event from script.
+     *
+     * @both
+     */
+    declare function ListenToGameEvent<TName extends keyof GameEventDeclarations, TContext extends {}>(
+        this: void,
+        eventName: TName,
+        listener: (this: TContext, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
+        context: TContext,
+    ): EventListenerID;
+  `,
+  FireGameEvent: `
+    /**
+     * Fire a game event.
+     *
+     * @both
+     */
+    declare function FireGameEvent<TName extends keyof GameEventDeclarations>(
+        this: void,
+        eventName: TName,
+        eventData: GameEventDeclarations[TName],
+    ): void;
+  `,
+  FireGameEventLocal: `
+    /**
+     * Fire a game event without broadcasting to the client.
+     *
+     * @both
+     */
+    declare function FireGameEventLocal<TName extends keyof GameEventDeclarations>(
+        this: void,
+        eventName: TName,
+        eventData: GameEventDeclarations[TName],
+    ): void;
+  `,
+};
+
 export const generatedApi = emit(
   api.map(declaration => {
     const typeName = declaration.name;
 
     if (declaration.kind === 'function') {
+      if (declaration.name in declarationOverrides) {
+        return (declarationOverrides as any)[declaration.name];
+      }
+
       return getFunction((p, r) => dom.create.function(typeName, p, r), typeName, declaration);
     }
 

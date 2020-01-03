@@ -147,50 +147,6 @@ export function getFunction<T extends CallableDeclaration>(
     ]);
   }
 
-  // Callback with optional context
-  if (identifier === 'ListenToGameEvent') {
-    const [withoutContext, withContext] = _.times(2, () => {
-      const nameType = dom.create.typeParameter(
-        'TName',
-        dom.create.namedTypeReference('keyof GameEventDeclarations') as any,
-      );
-
-      const eventType = dom.create.namedTypeReference(
-        'GameEventProvidedProperties & GameEventDeclarations[TName]',
-      );
-
-      const declaration = _.cloneDeep(fn);
-      declaration.typeParameters.push(nameType);
-      declaration.parameters[1].type = nameType;
-      (declaration.parameters[2].type as dom.FunctionType).parameters[1].type = eventType;
-      return declaration;
-    });
-
-    // TODO:
-    const contextType = dom.create.typeParameter(
-      'TContext',
-      dom.create.namedTypeReference('{}') as any,
-    );
-    (withContext.parameters[2].type as dom.FunctionType).parameters[0].type = contextType;
-    withContext.typeParameters.push(contextType);
-    withContext.parameters[3].type = contextType;
-
-    withoutContext.parameters[3].type = dom.type.undefined;
-
-    return [withoutContext, withContext];
-  }
-
-  if (identifier.startsWith('FireGameEvent')) {
-    const nameType = dom.create.typeParameter(
-      'TName',
-      dom.create.namedTypeReference('keyof GameEventDeclarations') as any,
-    );
-
-    fn.typeParameters.push(nameType);
-    fn.parameters[1].type = nameType;
-    fn.parameters[2].type = dom.create.namedTypeReference('GameEventDeclarations[TName]');
-  }
-
   // Callback with required context
   if (
     identifier.match(/^CDOTABaseGameMode\.Set.+Filter$/) ||

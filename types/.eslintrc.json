@@ -4,6 +4,7 @@
         "vars-on-top": "off",
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/class-name-casing": "off",
+        "@typescript-eslint/no-empty-interface": "off",
         "unicorn/prevent-abbreviations": "off"
     }
 }

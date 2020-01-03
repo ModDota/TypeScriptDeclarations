@@ -3,7 +3,7 @@
  *
  * This type may be augmented via interface merging.
  */
-interface CustomGameEventDeclarations {} // eslint-disable-line @typescript-eslint/no-empty-interface
+interface CustomGameEventDeclarations {}
 
 interface CDOTA_PanoramaScript_GameEvents {
     /**
@@ -64,7 +64,7 @@ interface CDOTA_PanoramaScript_GameEvents {
  * If you need to declare that a given property exists in `Game.CustomUIConfig()`,
  * this type may be augmented via interface merging.
  */
-interface CustomUIConfig {} // eslint-disable-line @typescript-eslint/no-empty-interface
+interface CustomUIConfig {}
 
 type MouseEvent = 'pressed' | 'doublepressed' | 'released' | 'wheeled';
 
@@ -234,7 +234,7 @@ interface CDOTA_PanoramaScript_GameUI {
  *
  * This type may be augmented via interface merging.
  */
-interface CustomNetTableDeclarations {} // eslint-disable-line @typescript-eslint/no-empty-interface
+interface CustomNetTableDeclarations {}
 
 interface CDOTA_PanoramaScript_CustomNetTables {
     /**

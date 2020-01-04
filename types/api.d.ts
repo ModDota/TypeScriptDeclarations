@@ -5,48 +5,55 @@
  */
 interface CustomGameEventDeclarations {}
 
+declare namespace GameEvents {
+    type InferCustomGameEventType<T extends string | object> = T extends keyof CustomGameEventDeclarations
+        ? CustomGameEventDeclarations[T]
+        : T extends string
+        ? object
+        : T;
+
+    type InferGameEventType<T extends string | object> = T extends keyof GameEventDeclarations
+        ? GameEventDeclarations[T]
+        : InferCustomGameEventType<T>;
+}
+
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event
      */
-    Subscribe<TName extends keyof CustomGameEventDeclarations>(
-        pEventName: TName,
-        funcVal: (event: CustomGameEventDeclarations[TName]) => void,
-    ): GameEventListenerID;
-    Subscribe<TName extends keyof GameEventDeclarations>(
-        pEventName: TName,
-        // eslint-disable-next-line @typescript-eslint/unified-signatures
-        funcVal: (event: GameEventDeclarations[TName]) => void,
+    Subscribe<T extends string | object>(
+        pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations | keyof GameEventDeclarations,
+        funcVal: (event: GameEvents.InferGameEventType<T>) => void,
     ): GameEventListenerID;
 
     /**
-     * Unsubscribe from a game event
+     * Unsubscribe from a game event.
      */
     Unsubscribe(nCallbackHandle: GameEventListenerID): void;
 
     /**
      * Send a custom game event
      */
-    SendCustomGameEventToServer<TName extends keyof CustomGameEventDeclarations>(
-        pEventName: TName,
-        eventData: CustomGameEventDeclarations[TName],
+    SendCustomGameEventToServer<T extends string | object>(
+        pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
+        eventData: GameEvents.InferCustomGameEventType<T>,
     ): void;
 
     /**
      * Send a custom game event to the server, which will send it to all clients
      */
-    SendCustomGameEventToAllClients<TName extends keyof CustomGameEventDeclarations>(
-        pEventName: TName,
-        eventData: CustomGameEventDeclarations[TName],
+    SendCustomGameEventToAllClients<T extends string | object>(
+        pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
+        eventData: GameEvents.InferCustomGameEventType<T>,
     ): void;
 
     /**
      * Send a custom game event to the server, which will send it to all clients
      */
-    SendCustomGameEventToClient<TName extends keyof CustomGameEventDeclarations>(
-        pEventName: TName,
+    SendCustomGameEventToClient<T extends string | object>(
+        pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
         playerIndex: PlayerID,
-        eventData: CustomGameEventDeclarations[TName],
+        eventData: GameEvents.InferCustomGameEventType<T>,
     ): void;
 
     /**

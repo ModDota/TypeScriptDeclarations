@@ -6,12 +6,26 @@ GameEvents.Subscribe('npc_spawned', event => {
 
 declare global {
     interface GameEventDeclarations {
-        custom_event: { foo: string };
+        game_event: { foo: string };
     }
 }
 
-GameEvents.Subscribe('custom_event', event => assertType<string>(event.foo));
-GameEvents.SendEventClientSide('custom_event', { foo: 'bar' });
+GameEvents.Subscribe('game_event', event => assertType<string>(event.foo));
+GameEvents.SendEventClientSide('game_event', { foo: 'bar' });
+
+declare global {
+    interface CustomGameEventDeclarations {
+        declared_event: { foo: string };
+    }
+}
+
+GameEvents.Subscribe('declared_event', event => assertType<string>(event.foo));
+GameEvents.Subscribe('untyped_event', event => assertType<object>(event));
+GameEvents.Subscribe<{ foo: string }>('inline_event', event => assertType<string>(event.foo));
+
+GameEvents.SendCustomGameEventToServer('declared_event', { foo: 'bar' });
+GameEvents.SendCustomGameEventToServer('untyped_event', {});
+GameEvents.SendCustomGameEventToServer<{ foo: 'bar' }>('inline_event', { foo: 'bar' });
 
 declare global {
     interface CustomNetTableDeclarations {

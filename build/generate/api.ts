@@ -64,10 +64,10 @@ const precedingDeclarations: Record<string, string> = {
     interface CustomGameEventDeclarations {}
 
     declare namespace CCustomGameEventManager {
-        type InferEventType<T extends string | object> = T extends string
+        type InferEventType<T extends string | object, TUntyped> = T extends string
             ? T extends keyof CustomGameEventDeclarations
                 ? CustomGameEventDeclarations[T]
-                : object
+                : TUntyped
             : T;
     }
   `,

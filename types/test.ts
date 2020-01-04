@@ -35,18 +35,24 @@ declare global {
 }
 
 CustomGameEventManager.RegisterListener('declared_event', (_, e) => assertType<string>(e.foo));
-CustomGameEventManager.RegisterListener('untyped_event', (_, e) => assertType<object>(e));
-CustomGameEventManager.RegisterListener<{ foo: string }>('inline_event', (_, e) =>
-  assertType<string>(e.foo),
-);
+CustomGameEventManager.RegisterListener<{ foo: string }>('inline_event', (_, event) => {
+  assertType<string>(event.foo);
+});
+CustomGameEventManager.RegisterListener('untyped_event', (_, event) => {
+  assertType<object>(event);
+  assertType<PlayerID>(event.PlayerID);
+  // @ts-ignore TODO: Expect error
+  event.foo;
+});
 
 CustomGameEventManager.RegisterListener('', (_, event) => {
   assertType<PlayerID>(event.PlayerID);
 });
 
 CustomGameEventManager.Send_ServerToAllClients('declared_event', { foo: 'bar' });
-CustomGameEventManager.Send_ServerToAllClients('untyped_event', {});
 CustomGameEventManager.Send_ServerToAllClients<{ foo: 'bar' }>('inline_event', { foo: 'bar' });
+// @ts-ignore TODO: Expect error
+CustomGameEventManager.Send_ServerToAllClients('untyped_event', {});
 
 declare global {
   interface CustomNetTableDeclarations {

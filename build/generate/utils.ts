@@ -150,13 +150,11 @@ export function getFunction<T extends CallableDeclaration>(
       dom.create.namedTypeReference('keyof CustomGameEventDeclarations'),
     ]);
 
-    const eventType = dom.create.namedTypeReference('CCustomGameEventManager.InferEventType<T>');
-
     if (identifier === 'CCustomGameEventManager.RegisterListener') {
       fn.typeParameters.push(generic);
       fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
       (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
-        eventType,
+        dom.create.namedTypeReference('CCustomGameEventManager.InferEventType<T, object>'),
         dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
       ]);
     }
@@ -164,7 +162,9 @@ export function getFunction<T extends CallableDeclaration>(
     if (identifier.startsWith('CCustomGameEventManager.Send_')) {
       fn.typeParameters.push(generic);
       fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
-      fn.parameters.find(x => x.name === 'eventData')!.type = eventType;
+      fn.parameters.find(x => x.name === 'eventData')!.type = dom.create.namedTypeReference(
+        'CCustomGameEventManager.InferEventType<T, never>',
+      );
     }
   }
 

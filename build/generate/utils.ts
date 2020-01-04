@@ -139,31 +139,33 @@ export function getFunction<T extends CallableDeclaration>(
   const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
   fn.jsDocComment = comments.join('\n');
 
-  if (identifier === 'CCustomGameEventManager.RegisterListener') {
-    const nameType = dom.create.typeParameter(
-      'TName',
-      dom.create.namedTypeReference('keyof CustomGameEventDeclarations') as any,
+  if (identifier.startsWith('CCustomGameEventManager.')) {
+    const generic = dom.create.typeParameter(
+      'T',
+      dom.create.union([dom.type.string, dom.type.object]) as any,
     );
 
-    fn.typeParameters.push(nameType);
-    fn.parameters[0].type = nameType;
-    (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
-      dom.create.namedTypeReference('CustomGameEventDeclarations[TName]'),
-      dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
+    const nameType = dom.create.union([
+      dom.create.namedTypeReference(`(T extends string ? T : string)`),
+      dom.create.namedTypeReference('keyof CustomGameEventDeclarations'),
     ]);
-  }
 
-  if (identifier.startsWith('CCustomGameEventManager.Send_')) {
-    const nameType = dom.create.typeParameter(
-      'TName',
-      dom.create.namedTypeReference('keyof CustomGameEventDeclarations') as any,
-    );
+    const eventType = dom.create.namedTypeReference('CCustomGameEventManager.InferEventType<T>');
 
-    fn.typeParameters.push(nameType);
-    fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
-    fn.parameters.find(x => x.name === 'eventData')!.type = dom.create.namedTypeReference(
-      'CustomGameEventDeclarations[TName]',
-    );
+    if (identifier === 'CCustomGameEventManager.RegisterListener') {
+      fn.typeParameters.push(generic);
+      fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
+      (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
+        eventType,
+        dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
+      ]);
+    }
+
+    if (identifier.startsWith('CCustomGameEventManager.Send_')) {
+      fn.typeParameters.push(generic);
+      fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
+      fn.parameters.find(x => x.name === 'eventData')!.type = eventType;
+    }
   }
 
   if (identifier.startsWith('CCustomNetTableManager.')) {

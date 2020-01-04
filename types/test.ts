@@ -20,13 +20,33 @@ ListenToGameEvent('npc_spawned', gameMode.npcSpawned, gameMode);
 
 declare global {
   interface GameEventDeclarations {
-    custom_event: { foo: string };
+    game_event: { foo: string };
   }
 }
 
-ListenToGameEvent('custom_event', event => assertType<string>(event.foo), undefined);
-FireGameEvent('custom_event', { foo: 'bar' });
-FireGameEventLocal('custom_event', { foo: 'bar' });
+ListenToGameEvent('game_event', event => assertType<string>(event.foo), undefined);
+FireGameEvent('game_event', { foo: 'bar' });
+FireGameEventLocal('game_event', { foo: 'bar' });
+
+declare global {
+  interface CustomGameEventDeclarations {
+    declared_event: { foo: string };
+  }
+}
+
+CustomGameEventManager.RegisterListener('declared_event', (_, e) => assertType<string>(e.foo));
+CustomGameEventManager.RegisterListener('untyped_event', (_, e) => assertType<object>(e));
+CustomGameEventManager.RegisterListener<{ foo: string }>('inline_event', (_, e) =>
+  assertType<string>(e.foo),
+);
+
+CustomGameEventManager.RegisterListener('', (_, event) => {
+  assertType<PlayerID>(event.PlayerID);
+});
+
+CustomGameEventManager.Send_ServerToAllClients('declared_event', { foo: 'bar' });
+CustomGameEventManager.Send_ServerToAllClients('untyped_event', {});
+CustomGameEventManager.Send_ServerToAllClients<{ foo: 'bar' }>('inline_event', { foo: 'bar' });
 
 declare global {
   interface CustomNetTableDeclarations {

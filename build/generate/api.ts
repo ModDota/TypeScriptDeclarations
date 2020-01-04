@@ -62,6 +62,14 @@ const precedingDeclarations: Record<string, string> = {
       * This type may be augmented via interface merging.
       */
     interface CustomGameEventDeclarations {}
+
+    declare namespace CCustomGameEventManager {
+        type InferEventType<T extends string | object> = T extends string
+            ? T extends keyof CustomGameEventDeclarations
+                ? CustomGameEventDeclarations[T]
+                : object
+            : T;
+    }
   `,
   CCustomNetTableManager: `
     /**

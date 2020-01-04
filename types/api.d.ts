@@ -6,15 +6,15 @@
 interface CustomGameEventDeclarations {}
 
 declare namespace GameEvents {
-    type InferCustomGameEventType<T extends string | object> = T extends keyof CustomGameEventDeclarations
+    type InferCustomGameEventType<T extends string | object, TUntyped> = T extends keyof CustomGameEventDeclarations
         ? CustomGameEventDeclarations[T]
         : T extends string
-        ? object
+        ? TUntyped
         : T;
 
-    type InferGameEventType<T extends string | object> = T extends keyof GameEventDeclarations
+    type InferGameEventType<T extends string | object, TUntyped> = T extends keyof GameEventDeclarations
         ? GameEventDeclarations[T]
-        : InferCustomGameEventType<T>;
+        : InferCustomGameEventType<T, TUntyped>;
 }
 
 interface CDOTA_PanoramaScript_GameEvents {
@@ -40,7 +40,7 @@ interface CDOTA_PanoramaScript_GameEvents {
      */
     Subscribe<T extends string | object>(
         pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations | keyof GameEventDeclarations,
-        funcVal: (event: GameEvents.InferGameEventType<T>) => void,
+        funcVal: (event: GameEvents.InferGameEventType<T, object>) => void,
     ): GameEventListenerID;
 
     /**
@@ -67,7 +67,7 @@ interface CDOTA_PanoramaScript_GameEvents {
      */
     SendCustomGameEventToServer<T extends string | object>(
         pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
-        eventData: GameEvents.InferCustomGameEventType<T>,
+        eventData: GameEvents.InferCustomGameEventType<T, never>,
     ): void;
 
     /**
@@ -75,7 +75,7 @@ interface CDOTA_PanoramaScript_GameEvents {
      */
     SendCustomGameEventToAllClients<T extends string | object>(
         pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
-        eventData: GameEvents.InferCustomGameEventType<T>,
+        eventData: GameEvents.InferCustomGameEventType<T, never>,
     ): void;
 
     /**
@@ -84,7 +84,7 @@ interface CDOTA_PanoramaScript_GameEvents {
     SendCustomGameEventToClient<T extends string | object>(
         pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
         playerIndex: PlayerID,
-        eventData: GameEvents.InferCustomGameEventType<T>,
+        eventData: GameEvents.InferCustomGameEventType<T, never>,
     ): void;
 
     /**

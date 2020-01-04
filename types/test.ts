@@ -20,12 +20,17 @@ declare global {
 }
 
 GameEvents.Subscribe('declared_event', event => assertType<string>(event.foo));
-GameEvents.Subscribe('untyped_event', event => assertType<object>(event));
 GameEvents.Subscribe<{ foo: string }>('inline_event', event => assertType<string>(event.foo));
+GameEvents.Subscribe('untyped_event', event => {
+    assertType<object>(event);
+    // @ts-ignore TODO: Expect error
+    event.foo;
+});
 
 GameEvents.SendCustomGameEventToServer('declared_event', { foo: 'bar' });
-GameEvents.SendCustomGameEventToServer('untyped_event', {});
 GameEvents.SendCustomGameEventToServer<{ foo: 'bar' }>('inline_event', { foo: 'bar' });
+// @ts-ignore TODO: Expect error
+GameEvents.SendCustomGameEventToServer('untyped_event', {});
 
 declare global {
     interface CustomNetTableDeclarations {

@@ -153,10 +153,11 @@ export function getFunction<T extends CallableDeclaration>(
     if (identifier === 'CCustomGameEventManager.RegisterListener') {
       fn.typeParameters.push(generic);
       fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
-      (fn.parameters[1].type as dom.FunctionType).parameters[2].type = dom.create.intersection([
-        dom.create.namedTypeReference('CCustomGameEventManager.InferEventType<T, object>'),
-        dom.create.namedTypeReference('{ PlayerID: PlayerID }'),
-      ]);
+
+      (fn.parameters[1]
+        .type as dom.FunctionType).parameters[2].type = dom.create.namedTypeReference(
+        'NetworkedData<CCustomGameEventManager.InferEventType<T, object> & { PlayerID: PlayerID }>',
+      );
     }
 
     if (identifier.startsWith('CCustomGameEventManager.Send_')) {
@@ -180,16 +181,14 @@ export function getFunction<T extends CallableDeclaration>(
     );
 
     const keyType = dom.create.typeParameter('K', dom.create.namedTypeReference('keyof T') as any);
-    const valueType = dom.create.namedTypeReference(`T[K]`);
-
     fn.typeParameters.push(nameType, tableType, keyType);
-
     fn.parameters[0].type = nameType;
     fn.parameters[1].type = keyType;
+
     if (identifier === 'CCustomNetTableManager.GetTableValue') {
-      fn.returnType = valueType;
+      fn.returnType = dom.create.namedTypeReference(`NetworkedData<T[K]>`);
     } else if (identifier === 'CCustomNetTableManager.SetTableValue') {
-      fn.parameters[2].type = valueType;
+      fn.parameters[2].type = dom.create.namedTypeReference(`T[K]`);
     } else {
       assert(false);
     }

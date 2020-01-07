@@ -5,6 +5,18 @@
 /// <reference types="./modifier" />
 /// <reference types="./modifier-properties.generated" />
 
+type NetworkedData<T> = T extends string | number
+    ? T
+    : T extends boolean
+    ? 0 | 1
+    : T extends (infer U)[]
+    ? { [key: number]: NetworkedData<U> }
+    : T extends Function
+    ? undefined
+    : T extends object
+    ? { [K in keyof T]: NetworkedData<T[K]> }
+    : never;
+
 type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
 
 type DotaConstructor<T extends object> = Omit<__BindThisType<T>, '__instance__'> & {

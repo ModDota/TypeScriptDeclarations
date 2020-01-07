@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 
-// tslint:disable-next-line: no-require-imports no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const enumMappings: Record<string, Record<string, string>> = require('./enum-mappings.json');
 
 const replaceNode: ts.Visitor = node => {
@@ -10,7 +10,7 @@ const replaceNode: ts.Visitor = node => {
   if (!ts.isIdentifier(expression)) return;
 
   const enumName = expression.text;
-  if (!enumMappings.hasOwnProperty(enumName)) return;
+  if (!Object.prototype.hasOwnProperty.call(enumMappings, enumName)) return;
 
   let nameText: string;
   if (ts.isPropertyAccessExpression(node)) {
@@ -26,12 +26,14 @@ const replaceNode: ts.Visitor = node => {
   }
 
   const enumMembers = enumMappings[enumName];
-  if (enumMembers.hasOwnProperty(nameText)) {
+  if (Object.prototype.hasOwnProperty.call(enumMembers, nameText)) {
     return ts.createIdentifier(enumMembers[nameText]);
   }
 };
 
-export default (): ts.TransformerFactory<ts.SourceFile> => context => {
+const createDotaTransformer = (): ts.TransformerFactory<ts.SourceFile> => context => {
   const visit: ts.Visitor = node => replaceNode(node) || ts.visitEachChild(node, visit, context);
   return file => ts.visitNode(file, visit);
 };
+
+export default createDotaTransformer;

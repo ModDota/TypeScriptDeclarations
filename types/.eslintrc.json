@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-var": "off",
+    "vars-on-top": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/class-name-casing": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
+    "unicorn/prevent-abbreviations": "off"
+  }
+}

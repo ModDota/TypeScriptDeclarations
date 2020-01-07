@@ -15,6 +15,7 @@ const eventTypeMap: Record<string, string> = {
 };
 
 export const getEventType = (type: string) =>
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   dom.create.namedTypeReference(eventTypeMap[type] ?? type);
 
 const providedProperties: dom.InterfaceDeclaration = {
@@ -42,7 +43,7 @@ const gameEventDeclarations: dom.InterfaceDeclaration = {
       type:
         event.fields.length === 0
           ? dom.type.object
-          : dom.create.namedTypeReference(_.upperFirst(_.camelCase(eventName)) + 'Event'),
+          : dom.create.namedTypeReference(`${_.upperFirst(_.camelCase(eventName))}Event`),
     }),
   ),
 };
@@ -50,7 +51,7 @@ const gameEventDeclarations: dom.InterfaceDeclaration = {
 const eventTypes = Object.values(events)
   .flatMap(group => Object.entries(group))
   .flatMap<dom.InterfaceDeclaration>(([eventName, event]) => {
-    const interfaceName = _.upperFirst(_.camelCase(eventName)) + 'Event';
+    const interfaceName = `${_.upperFirst(_.camelCase(eventName))}Event`;
 
     if (event.fields.length === 0) {
       return [];

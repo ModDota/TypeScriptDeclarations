@@ -11,7 +11,7 @@ type NetworkedData<T> = T extends string | number
     ? 0 | 1
     : T extends (infer U)[]
     ? { [key: number]: NetworkedData<U> }
-    : T extends Function
+    : T extends Function // eslint-disable-line @typescript-eslint/ban-types
     ? undefined
     : T extends object
     ? { [K in keyof T]: NetworkedData<T[K]> }
@@ -24,7 +24,7 @@ type DotaConstructor<T extends object> = Omit<__BindThisType<T>, '__instance__'>
 };
 
 type __BindThisType<T extends object> = {
-    [K in keyof T]: T[K] extends (...args: infer Args) => infer R ? (this: T, ...args: Args) => R : T[K];
+    [K in keyof T]: T[K] extends (...args: infer TArgs) => infer TReturn ? (this: T, ...args: TArgs) => TReturn : T[K];
 };
 
 declare interface CDOTA_BaseNPC {
@@ -84,10 +84,10 @@ declare function Dynamic_Wrap<
     T extends object,
     K extends {
         [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
-            ? [T[P]] extends [((this: infer This, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
-                ? {} extends This // Has no specified `this`
+            ? [T[P]] extends [((this: infer TThis, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
+                ? {} extends TThis // Has no specified `this`
                     ? P
-                    : This extends T // Has `this` specified as `T`
+                    : TThis extends T // Has `this` specified as `T`
                     ? P
                     : never
                 : never

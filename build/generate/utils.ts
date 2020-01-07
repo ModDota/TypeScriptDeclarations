@@ -10,7 +10,7 @@ export const wrapDescription = (desc: string, start = 0) =>
   wordwrap({ stop: 80, start })(desc.replace(/\n/g, '\n\n'));
 
 const wrapJsDoc = (start: string, description: string) =>
-  `${start} ${wrapDescription(description, start.length + 1).trimLeft()}`;
+  `${start} ${wrapDescription(description, start.length + 1).trimStart()}`;
 
 export function withDescription<T extends dom.DeclarationBase>(declaration: T, desc?: string) {
   if (desc != null) declaration.jsDocComment = wrapDescription(desc);
@@ -97,6 +97,7 @@ function getFunctionParameters(
     const isOptional = functionsWithOptionalParameters.includes(identifier);
     return dom.create.parameter(
       // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       (parameterNamesMap[name] ?? name) + (isOptional ? '?' : ''),
       getType(types, !isOptional, 'void'),
     );
@@ -146,7 +147,7 @@ export function getFunction<T extends CallableDeclaration>(
     );
 
     const nameType = dom.create.union([
-      dom.create.namedTypeReference(`(T extends string ? T : string)`),
+      dom.create.namedTypeReference('(T extends string ? T : string)'),
       dom.create.namedTypeReference('keyof CustomGameEventDeclarations'),
     ]);
 
@@ -186,9 +187,9 @@ export function getFunction<T extends CallableDeclaration>(
     fn.parameters[1].type = keyType;
 
     if (identifier === 'CCustomNetTableManager.GetTableValue') {
-      fn.returnType = dom.create.namedTypeReference(`NetworkedData<T[K]>`);
+      fn.returnType = dom.create.namedTypeReference('NetworkedData<T[K]>');
     } else if (identifier === 'CCustomNetTableManager.SetTableValue') {
-      fn.parameters[2].type = dom.create.namedTypeReference(`T[K]`);
+      fn.parameters[2].type = dom.create.namedTypeReference('T[K]');
     } else {
       assert(false);
     }

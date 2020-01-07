@@ -27,6 +27,12 @@ GameEvents.Subscribe('untyped_event', event => {
     event.foo;
 });
 
+GameEvents.Subscribe<{ array: string[]; boolean: boolean; symbol: symbol }>('type_test', event => {
+    assertType<Record<number, string>>(event.array);
+    assertType<0 | 1>(event.boolean);
+    assertType<{}>(event.symbol);
+});
+
 GameEvents.SendCustomGameEventToServer('declared_event', { foo: 'bar' });
 GameEvents.SendCustomGameEventToServer<{ foo: 'bar' }>('inline_event', { foo: 'bar' });
 // @ts-ignore TODO: Expect error
@@ -36,25 +42,25 @@ declare global {
     interface CustomNetTableDeclarations {
         custom_net_table: {
             foo: string;
-            bar: number;
+            bar: boolean;
         };
     }
 }
 
 assertType<string>(CustomNetTables.GetTableValue('custom_net_table', 'foo'));
-assertType<number>(CustomNetTables.GetTableValue('custom_net_table', 'bar'));
+assertType<0 | 1>(CustomNetTables.GetTableValue('custom_net_table', 'bar'));
 
 for (const pair of CustomNetTables.GetAllTableValues('custom_net_table')) {
     if (pair.key === 'foo') {
         assertType<string>(pair.value);
     } else {
-        assertType<number>(pair.value);
+        assertType<0 | 1>(pair.value);
     }
 }
 
 CustomNetTables.SubscribeNetTableListener('custom_net_table', (_tableName, key, value) => {
     assertType<'foo' | 'bar'>(key);
-    assertType<string | number>(value);
+    assertType<string | 0 | 1>(value);
 });
 
 export {};

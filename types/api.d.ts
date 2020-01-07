@@ -1,3 +1,15 @@
+type NetworkedData<T> = T extends string | number
+    ? T
+    : T extends boolean
+    ? 0 | 1
+    : T extends (infer U)[]
+    ? { [key: number]: NetworkedData<U> }
+    : T extends Function // eslint-disable-line @typescript-eslint/ban-types
+    ? undefined
+    : T extends object
+    ? { [K in keyof T]: NetworkedData<T[K]> }
+    : never;
+
 /**
  * The type used for validation of custom events.
  *
@@ -20,7 +32,7 @@ declare namespace GameEvents {
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event.
-     * @template {T} Either a name of the event (inferred automatically) or the type of a custom event.
+     * @template T Either a name of the event (inferred automatically) or the type of a custom event.
      *
      * @example
      * // Custom event with separate definition
@@ -40,7 +52,7 @@ interface CDOTA_PanoramaScript_GameEvents {
      */
     Subscribe<T extends string | object>(
         pEventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations | keyof GameEventDeclarations,
-        funcVal: (event: GameEvents.InferGameEventType<T, object>) => void,
+        funcVal: (event: NetworkedData<GameEvents.InferGameEventType<T, object>>) => void,
     ): GameEventListenerID;
 
     /**
@@ -285,14 +297,14 @@ interface CDOTA_PanoramaScript_CustomNetTables {
     >(
         pTableName: TName,
         pKeyName: K,
-    ): T[K];
+    ): NetworkedData<T[K]>;
 
     /**
      * Get all values from a custom net table
      */
     GetAllTableValues<TName extends keyof CustomNetTableDeclarations, T extends CustomNetTableDeclarations[TName]>(
         pTableName: TName,
-    ): { [K in keyof T]: { key: K; value: T[K] } }[keyof T][];
+    ): { [K in keyof T]: { key: K; value: NetworkedData<T[K]> } }[keyof T][];
 
     /**
      * Register a callback when a particular custom net table changes
@@ -302,7 +314,7 @@ interface CDOTA_PanoramaScript_CustomNetTables {
         T extends CustomNetTableDeclarations[TName]
     >(
         tableName: TName,
-        callback: (tableName: TName, key: keyof T, value: T[keyof T]) => void,
+        callback: (tableName: TName, key: keyof T, value: NetworkedData<T[keyof T]>) => void,
     ): NetTableListenerID;
 
     /**

@@ -71,6 +71,11 @@ function getReturnType(identifier: string, types: api.Type[]): dom.Type {
     return dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`);
   }
 
+  if (/^CDOTA_PlayerResource\.IsValid(Team)?Player(ID)?$/.test(identifier)) {
+    // TODO: PlayerID is 0..63, TeamPlayerID is 0..23
+    return dom.create.namedTypeReference('playerId is PlayerID');
+  }
+
   const domType = _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
 
   if (identifier.includes('.On') && typeof domType === 'object' && domType.kind === 'union') {

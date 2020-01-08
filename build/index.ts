@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { generatedEnumMappings } from './enum-mappings';
 import { generated } from './generate';
+import { generatedEnumMappings } from './generate/enums/mappings';
 
 fs.outputFileSync(
   path.resolve(__dirname, '../enum-mappings.json'),

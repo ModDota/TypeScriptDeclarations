@@ -24,14 +24,25 @@ npm install -D dota-lua-types
 }
 ```
 
+## Enums
+
+This package includes 2 versions of enum types - raw and normalized. Raw types are included with
+`"types": ["dota-lua-types"]`. They are defined using original engine names and have no structural
+changes. This makes the code using some enums compatible with Panorama, however it leads to
+repetition and requires you to use inconsistent standard names.
+
+Normalized enum types can be included with `"types": ["dota-lua-types/normalized"]`. With these
+types, enums have consistent names and have no repeated parts. For example, instead of
+`EDOTA_ModifyGold_Reason.DOTA_ModifyGold_Unspecified` you have to write
+`ModifyGoldReason.UNSPECIFIED`.
+
+Both type versions define aliases for alternative names, so libraries created with one version would
+be compatible with a different one.
+
 ## Notes
 
 - You can explore the same data in readable form on
   [dota-data](https://dota-data.netlify.com/vscripts/) page.
-
-- All enum names are normalized to avoid repetition, so instead of
-  `EDOTA_ModifyGold_Reason.DOTA_ModifyGold_Unspecified` you have to use
-  `ModifyGoldReason.UNSPECIFIED`
 
 - To extend standard classes you can use declaration merging:
 

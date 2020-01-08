@@ -7,7 +7,7 @@
   "author": "ark120202",
   "files": [
     "transformer.{js,d.ts}",
-    "types/*.d.ts",
+    "{types,normalized}/**/*.d.ts",
     "enum-mappings.json"
   ],
   "types": "types/index.d.ts",
@@ -45,23 +45,13 @@
     "overrides": [
       {
         "files": [
-          "types/*.d.ts"
+          "{types,normalized}/**/*"
         ],
         "options": {
           "printWidth": 120
         }
       }
     ]
-  },
-  "eslintConfig": {
-    "extends": "@ark120202/eslint-config/node",
-    "parserOptions": {
-      "project": [
-        "tsconfig.json",
-        "build/tsconfig.json",
-        "types/tsconfig.json"
-      ]
-    }
   },
   "dependencies": {
     "lua-types": "^2.6.2",
@@ -75,7 +65,7 @@
     "@types/node": "^12.7.12",
     "@types/prettier": "^1.19.0",
     "@types/wordwrap": "^1.0.0",
-    "dota-data": "^0.7.0",
+    "dota-data": "^0.8.0",
     "dts-dom": "^3.5.0",
     "eslint": "^6.8.0",
     "fs-extra": "^8.1.0",

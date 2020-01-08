@@ -2,20 +2,20 @@ declare interface CDOTA_Modifier_Lua {
     /**
      * Return a list of modifier functions this modifier implements.
      */
-    DeclareFunctions?(): (ModifierProperty | ModifierEvent)[];
+    DeclareFunctions?(): modifierfunction[];
 
     /**
      * Return a map of enabled/disabled states.
      */
-    CheckState?(): Partial<Record<ModifierState, boolean>>;
+    CheckState?(): Partial<Record<modifierstate, boolean>>;
 }
 
 declare interface ModifierAttackEvent {
     attacker: CDOTA_BaseNPC;
     damage: number;
-    damage_type: DamageTypes;
-    damage_category: DamageCategory;
-    damage_flags: DamageFlag;
+    damage_type: DAMAGE_TYPES;
+    damage_category: DamageCategory_t;
+    damage_flags: DOTADamageFlag_t;
     inflictor?: CDOTABaseAbility;
     original_damage: number;
     ranged_attack: boolean;
@@ -24,7 +24,7 @@ declare interface ModifierAttackEvent {
 
 declare interface ModifierUnitEvent {
     new_pos: Vector;
-    order_type: UnitOrder;
+    order_type: dotaunitorder_t;
     unit: CDOTA_BaseNPC;
 }
 

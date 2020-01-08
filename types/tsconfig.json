@@ -1,8 +1,8 @@
 {
-  "extends": "@ark120202/typescript-config/base.json",
-  "include": ["**/*"],
-  "compilerOptions": {
-    "noEmit": true,
-    "lib": ["esnext"]
-  }
+    "extends": "@ark120202/typescript-config/base.json",
+    "include": ["index.d.ts", "test/**/*"],
+    "compilerOptions": {
+        "noEmit": true,
+        "lib": ["esnext"]
+    }
 }

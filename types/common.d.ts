@@ -18,12 +18,12 @@ type NetworkedData<T> = T extends string | number
 
 type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
 
-type DotaConstructor<T extends object> = Omit<__BindThisType<T>, '__instance__'> & {
-    __dota_constructor__: never;
-};
-
-type __BindThisType<T extends object> = {
-    [K in keyof T]: T[K] extends (...args: infer TArgs) => infer TReturn ? (this: T, ...args: TArgs) => TReturn : T[K];
+type DotaConstructor<T extends object> = {
+    [P in keyof T]: P extends '__kind__'
+        ? 'constructor'
+        : T[P] extends (...args: infer TArgs) => infer TReturn
+        ? <TThis extends T>(this: TThis, ...args: TArgs) => TReturn
+        : T[P];
 };
 
 declare interface CDOTA_BaseNPC {

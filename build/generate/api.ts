@@ -122,7 +122,7 @@ export const generatedApi = emit(
 
     if (declaration.kind === 'class') {
       mainDeclarationMembers.push(
-        dom.create.property('__instance__', dom.create.namedTypeReference('never')),
+        dom.create.property('__kind__', dom.type.stringLiteral('instance')),
       );
 
       const constructorTypes = dom.create.intersection([]);

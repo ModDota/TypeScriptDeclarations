@@ -65,7 +65,7 @@
     "@types/node": "^12.7.12",
     "@types/prettier": "^1.19.0",
     "@types/wordwrap": "^1.0.0",
-    "dota-data": "^0.8.0",
+    "dota-data": "^0.8.1",
     "dts-dom": "^3.5.0",
     "eslint": "^6.8.0",
     "fs-extra": "^8.1.0",

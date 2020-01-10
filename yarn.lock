@@ -772,10 +772,10 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-dota-data@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.8.0.tgz#92c6b1949e8ba337fe29fd0c7f9fb8f5be0f2b28"
-  integrity sha512-gEhW0W2RU2RS8r9XWunEy2+9Iwq1/2ZPzsML740j/Yf1Yd/OeXf+gFt3z0/Fc3yWyFD9VphvzLNTrQMJwWm/bw==
+dota-data@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.8.1.tgz#a9df618fe89a8a16ee489242151c4a2102ad1bc4"
+  integrity sha512-5NISuuhWQLIcUI7RDg4m/rpEXTZsXO6OcfPe0XgIBg6YIYL4APuFt47Lmddl9yX3B83rxYZM+tZwGzZcPdJz4w==
   dependencies:
     "@types/lodash" "^4.14.149"
     fs-extra "^8.1.0"

@@ -32,11 +32,17 @@ const normalizedEnumNames: Record<string, string> = {
 };
 
 export function normalizeEnumMemberName(name: string, declaration: enums.Enum) {
-  const common = findCommonStart(
+  let common = findCommonStart(
     declaration.members.filter(m => !isGlobalEnumMember(m, declaration)).map(m => m.name),
   );
 
+  // It has only one member
+  if (declaration.name === 'EffectFlags') {
+    common = 'EF_';
+  }
+
   let normalizedName = name;
+
   normalizedName = normalizedName.replace(common, '');
   normalizedName = _.snakeCase(normalizedName).toUpperCase();
 

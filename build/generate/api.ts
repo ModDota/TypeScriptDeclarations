@@ -15,12 +15,6 @@ const declarationOverrides: Record<string, string> = {
         listener: (this: void, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
         context: undefined,
     ): EventListenerID;
-
-    /**
-     * Register as a listener for a game event from script.
-     *
-     * @both
-     */
     declare function ListenToGameEvent<TName extends keyof GameEventDeclarations, TContext extends {}>(
         this: void,
         eventName: TName,

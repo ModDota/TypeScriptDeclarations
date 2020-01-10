@@ -1,5 +1,3 @@
-const assertType = <T>(value: T) => value;
-
 ListenToGameEvent(
     'npc_spawned',
     event => {

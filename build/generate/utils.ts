@@ -49,31 +49,31 @@ export function getType(types: api.Type[], includeUndefined: boolean, thisType?:
   return domTypes.length === 1 ? domTypes[0] : dom.create.union(domTypes);
 }
 
-const typeGuards: Record<string, string> = {
-  'CBaseEntity.IsBaseNPC': 'CDOTA_BaseNPC',
-  'CBaseEntity.IsPlayer': 'CDOTAPlayer',
-  'CDOTABaseAbility.IsItem': 'CDOTA_Item',
-  'CDOTA_BaseNPC.IsBarracks': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsBuilding': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsClone': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsCourier': 'CDOTA_Unit_Courier',
-  'CDOTA_BaseNPC.IsCreature': 'CDOTA_BaseNPC_Creature',
-  'CDOTA_BaseNPC.IsFort': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsHero': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsRealHero': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsShrine': 'CDOTA_BaseNPC_Building',
-  'CDOTA_BaseNPC.IsTempestDouble': 'CDOTA_BaseNPC_Hero',
-  'CDOTA_BaseNPC.IsTower': 'CDOTA_BaseNPC_Building',
+const typePredicates: Record<string, string> = {
+  IsValidEntity: 'entity is CBaseEntity',
+  'CBaseEntity.IsBaseNPC': 'this is CDOTA_BaseNPC',
+  'CBaseEntity.IsPlayer': 'this is CDOTAPlayer',
+  'CDOTA_BaseNPC.IsBarracks': 'this is CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsBuilding': 'this is CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsClone': 'this is CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsCourier': 'this is CDOTA_Unit_Courier',
+  'CDOTA_BaseNPC.IsCreature': 'this is CDOTA_BaseNPC_Creature',
+  'CDOTA_BaseNPC.IsFort': 'this is CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsHero': 'this is CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsRealHero': 'this is CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsShrine': 'this is CDOTA_BaseNPC_Building',
+  'CDOTA_BaseNPC.IsTempestDouble': 'this is CDOTA_BaseNPC_Hero',
+  'CDOTA_BaseNPC.IsTower': 'this is CDOTA_BaseNPC_Building',
+  'CDOTA_PlayerResource.IsValidPlayer': 'playerId is PlayerID',
+  'CDOTA_PlayerResource.IsValidPlayerID': 'playerId is PlayerID',
+  'CDOTA_PlayerResource.IsValidTeamPlayer': 'playerId is PlayerID',
+  'CDOTA_PlayerResource.IsValidTeamPlayerID': 'playerId is PlayerID',
+  'CDOTABaseAbility.IsItem': 'this is CDOTA_Item',
 };
 
 function getReturnType(identifier: string, types: api.Type[]): dom.Type {
-  if (typeGuards[identifier]) {
-    return dom.create.namedTypeReference(`this is ${typeGuards[identifier]}`);
-  }
-
-  if (/^CDOTA_PlayerResource\.IsValid(Team)?Player(ID)?$/.test(identifier)) {
-    // TODO: PlayerID is 0..63, TeamPlayerID is 0..23
-    return dom.create.namedTypeReference('playerId is PlayerID');
+  if (typePredicates[identifier]) {
+    return dom.create.namedTypeReference(typePredicates[identifier]);
   }
 
   const domType = _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);

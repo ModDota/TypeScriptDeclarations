@@ -94,6 +94,20 @@ declare function Dynamic_Wrap<
     }[keyof T]
 >(this: void, context: T, name: K): T[K];
 
+declare interface CDOTA_Ability_Lua {
+    /**
+     * Called immediately after ability entity is created.
+     */
+    Spawn?(): void;
+}
+
+declare interface CDOTA_Item_Lua {
+    /**
+     * Called immediately after ability entity is created.
+     */
+    Spawn?(): void;
+}
+
 declare namespace json {
     type DecodeSuccess = [any, number];
     type DecodeFailure = [undefined, number, string];

@@ -18,20 +18,22 @@ function generate(normalize: boolean) {
       continue;
     }
 
-    const [globals, members] = _.partition(
-      declaration.members,
-      member => normalize && isGlobalEnumMember(member, declaration),
+    const [normalizedGlobals, normalizedMembers] = _.partition(declaration.members, member =>
+      isGlobalEnumMember(member, declaration),
     );
 
-    for (const global of globals) {
-      declarations.push(
-        withDescription(
-          dom.create.const(global.name, dom.type.numberLiteral(global.value)),
-          global.description,
-        ),
-      );
+    if (normalize) {
+      for (const global of normalizedGlobals) {
+        declarations.push(
+          withDescription(
+            dom.create.const(global.name, dom.type.numberLiteral(global.value)),
+            global.description,
+          ),
+        );
+      }
     }
 
+    const members = normalize ? normalizedMembers : declaration.members;
     if (members.length > 0) {
       const normalizedEnumName = normalizeEnumName(declaration.name);
       const enumDeclaration = withDescription(
@@ -45,7 +47,7 @@ function generate(normalize: boolean) {
         return withDescription(dom.create.enumValue(key, member.value), member.description);
       });
 
-      if (declaration.name !== normalizedEnumName) {
+      if (declaration.name !== normalizedEnumName && normalizedMembers.length > 0) {
         const aliasKind = normalize ? 'Non-normalized' : 'Normalized';
         declarations.push(
           withDescription(

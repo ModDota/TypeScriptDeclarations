@@ -1,7 +1,7 @@
+import { generatedEvents } from '../common/events';
 import { generatedEnums } from './enums';
-import { generatedEvents } from './events';
 
 export const generatedPanorama = {
-  enums: generatedEnums,
   events: generatedEvents,
+  enums: generatedEnums,
 };

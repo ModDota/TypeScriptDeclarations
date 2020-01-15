@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const enumMappings: Record<string, Record<string, string>> = require('./enum-mappings.json');
+const enumMappings: Record<string, Record<string, string>> = require('../enum-mappings.json');
 
 const replaceNode: ts.Visitor = node => {
   // Would be handled as a part of main process of const enum transform

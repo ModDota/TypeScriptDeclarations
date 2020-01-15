@@ -4,10 +4,7 @@ import * as dom from 'dts-dom';
 import _ from 'lodash';
 import path from 'path';
 import prettier from 'prettier';
-import wordwrap from 'wordwrap';
-
-export const wrapDescription = (desc: string, start = 0) =>
-  wordwrap({ stop: 80, start })(desc.replace(/\n/g, '\n\n'));
+import { wrapDescription } from '../common/utils';
 
 const wrapJsDoc = (start: string, description: string) =>
   `${start} ${wrapDescription(description, start.length + 1).trimStart()}`;

@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { generatedLua } from './lua';
-import { generatedEnumMappings } from './lua/enums/mappings';
+import { generatedEnumMappings } from './lua/enums';
 import { generatedPanorama } from './panorama';
 
 const write = (packageName: string, type: string, content: string) =>

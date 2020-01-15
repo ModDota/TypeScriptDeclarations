@@ -1,11 +1,11 @@
 import enums from 'dota-data/files/panorama/enums';
-import { emit, withDescription } from './utils';
+import { emit, withDescription } from '../common/utils';
 
 export const generatedEnums = emit(
   enums
     .map(({ name: enumName, members }) => {
       const memberTypes = members
-        .map(({ name, description, value }) => withDescription(`${name} = ${value}`, description))
+        .map(m => withDescription(`${m.name} = ${m.value}`, m.description))
         .join(',\n');
 
       return `declare enum ${enumName} {${memberTypes}}`;

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import enums from 'dota-data/files/vscripts/enums';
+import enums from 'dota-data/files/panorama/enums';
 
 export function normalizeEnumName(name: string) {
   const normalized = name.startsWith('modifier')

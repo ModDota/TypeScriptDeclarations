@@ -49,6 +49,14 @@ const declarationOverrides: Record<string, string> = {
 };
 
 const precedingDeclarations: Record<string, string> = {
+  ListenToGameEvent: `
+    declare interface GameEventProvidedProperties {
+        game_event_listener: EventListenerID;
+        game_event_name: string;
+        splitscreenplayer: number;
+    }
+  `,
+
   CCustomGameEventManager: `
     /**
       * The type used for validation of custom events.
@@ -65,6 +73,7 @@ const precedingDeclarations: Record<string, string> = {
             : T;
     }
   `,
+
   CCustomNetTableManager: `
     /**
       * The type used for validation of custom net tables.
@@ -79,13 +88,14 @@ export const generatedApi = emit(
   api.map(declaration => {
     const typeName = declaration.name;
 
-    if (typeName in declarationOverrides) {
-      return declarationOverrides[typeName];
-    }
-
     const declarations: (dom.TopLevelDeclaration | string)[] = [];
     if (typeName in precedingDeclarations) {
       declarations.push(precedingDeclarations[typeName]);
+    }
+
+    if (typeName in declarationOverrides) {
+      declarations.push(declarationOverrides[typeName]);
+      return declarations;
     }
 
     if (declaration.kind === 'function') {

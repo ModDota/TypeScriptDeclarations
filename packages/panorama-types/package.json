@@ -10,8 +10,5 @@
   "files": [
     "types/*.d.ts"
   ],
-  "types": "types/index.d.ts",
-  "scripts": {
-    "test": "tsc --project types"
-  }
+  "types": "types/index.d.ts"
 }

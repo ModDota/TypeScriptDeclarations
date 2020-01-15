@@ -14,9 +14,6 @@
     "normalized.d.ts"
   ],
   "types": "types/index.d.ts",
-  "scripts": {
-    "test": "tsc --project types"
-  },
   "dependencies": {
     "lua-types": "^2.6.2",
     "tslib": "^1.10.0"

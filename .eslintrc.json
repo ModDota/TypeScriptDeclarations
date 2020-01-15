@@ -1,16 +1,11 @@
 {
   "extends": "@ark120202/eslint-config/node",
   "parserOptions": {
-    "project": [
-      "tsconfig.json",
-      "build/tsconfig.json",
-      "types/tsconfig.json",
-      "normalized/tsconfig.json"
-    ]
+    "project": ["build/tsconfig.json", "packages/*/{,types,normalized}/tsconfig.json"]
   },
   "overrides": [
     {
-      "files": "{types,normalized}/**/*",
+      "files": "packages/*/{types,normalized}/**/*",
       "rules": {
         "no-plusplus": "off",
         "no-var": "off",

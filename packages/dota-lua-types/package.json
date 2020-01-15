@@ -1,0 +1,26 @@
+{
+  "name": "dota-lua-types",
+  "version": "4.0.0",
+  "description": "TypeScript definitions for Dota 2 Lua API",
+  "homepage": "https://github.com/ModDota/TypeScriptDeclarations#readme",
+  "bugs": "https://github.com/ModDota/TypeScriptDeclarations/issues",
+  "repository": "https://github.com/ModDota/TypeScriptDeclarations/tree/master/packages/dota-lua-types",
+  "license": "MIT",
+  "author": "ark120202",
+  "files": [
+    "enum-mappings.json",
+    "transformer/index.{js,d.ts}",
+    "{types,normalized}/**/*.d.ts"
+  ],
+  "types": "types/index.d.ts",
+  "scripts": {
+    "test": "tsc --project types"
+  },
+  "dependencies": {
+    "lua-types": "^2.6.2",
+    "tslib": "^1.10.0"
+  },
+  "peerDependencies": {
+    "typescript": "^3.0.0"
+  }
+}

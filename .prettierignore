@@ -1,4 +1,4 @@
-/enum-mappings.json
-/transformer.*
-!/transformer.ts
-/types/*.generated.d.ts
+/packages/*/enum-mappings.json
+/packages/*/types/*.generated.d.ts
+/packages/*/transformer/*
+!/packages/*/transformer/index.ts

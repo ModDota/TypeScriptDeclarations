@@ -1,7 +1,9 @@
 {
   "extends": "@ark120202/typescript-config/node/10.json",
-  "files": ["transformer.ts"],
+  "files": ["transformer/index.ts"],
   "compilerOptions": {
+    "composite": true,
+    "sourceMap": false,
     "declarationMap": false
   }
 }

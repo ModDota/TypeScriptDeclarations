@@ -217,9 +217,10 @@ export function getFunction<T extends CallableDeclaration>(
 
 const prettierConfig: prettier.Options = {
   parser: 'typescript',
-  ...prettier.resolveConfig.sync(path.resolve(__dirname, '../../types/_.generated.d.ts'), {
-    editorconfig: true,
-  }),
+  ...prettier.resolveConfig.sync(
+    path.resolve(__dirname, '../../packages/dota-lua-types/types/_.generated.d.ts'),
+    { editorconfig: true },
+  ),
 };
 
 export const emit = (

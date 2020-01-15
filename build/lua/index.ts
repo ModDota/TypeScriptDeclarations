@@ -3,7 +3,7 @@ import { generatedEnums, generatedEnumsNormalized } from './enums';
 import { generatedEvents } from './events';
 import { generatedModifierProperties } from './modifier-properties';
 
-export const generated = {
+export const generatedLua = {
   enums: generatedEnums,
   'enums-normalized': generatedEnumsNormalized,
   events: generatedEvents,

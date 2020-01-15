@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const mappings: Record<string, Record<string, string>> = require('../enum-mappings.json');
+const mappings: Record<string, string | Record<string, string>> = require('../enum-mappings.json');
 
 function getMapping(name: string) {
   if (Object.prototype.hasOwnProperty.call(mappings, name)) {
@@ -9,14 +9,25 @@ function getMapping(name: string) {
   }
 }
 
+function createNodeFromReplacement(replacement: string) {
+  const [global, member] = replacement.split('.');
+  return ts.createPropertyAccess(ts.createIdentifier(global), member);
+}
+
 const replaceNode: ts.Visitor = node => {
+  if (ts.isIdentifier(node)) {
+    const replacement = getMapping(node.text);
+    if (typeof replacement !== 'string') return;
+    return createNodeFromReplacement(replacement);
+  }
+
   // Would be handled as a part of main process of const enum transform
   if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) return;
   const { expression } = node;
   if (!ts.isIdentifier(expression)) return;
 
   const enumMembers = getMapping(expression.text);
-  if (!enumMembers) return;
+  if (typeof enumMembers !== 'object') return;
 
   let nameText: string;
   if (ts.isPropertyAccessExpression(node)) {
@@ -32,7 +43,7 @@ const replaceNode: ts.Visitor = node => {
   }
 
   if (Object.prototype.hasOwnProperty.call(enumMembers, nameText)) {
-    return ts.createIdentifier(enumMembers[nameText]);
+    return createNodeFromReplacement(enumMembers[nameText]);
   }
 };
 

@@ -1,8 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { generatedLua } from './lua';
-import { generatedEnumMappings } from './lua/enums';
-import { generatedPanorama } from './panorama';
+import { generatedLua, generatedLuaEnumMappings } from './lua';
+import { generatedPanorama, generatedPanoramaEnumMappings } from './panorama';
 
 const write = (packageName: string, type: string, content: string) =>
   fs.outputFile(
@@ -12,10 +11,16 @@ const write = (packageName: string, type: string, content: string) =>
 
 Promise.all([
   ...Object.entries(generatedLua).map(([t, c]) => write('dota-lua-types', t, c)),
-  ...Object.entries(generatedPanorama).map(([t, c]) => write('panorama-types', t, c)),
   fs.outputJson(
     path.resolve(__dirname, '../packages/dota-lua-types/enum-mappings.json'),
-    generatedEnumMappings,
+    generatedLuaEnumMappings,
+    { spaces: 4 },
+  ),
+
+  ...Object.entries(generatedPanorama).map(([t, c]) => write('panorama-types', t, c)),
+  fs.outputJson(
+    path.resolve(__dirname, '../packages/panorama-types/enum-mappings.json'),
+    generatedPanoramaEnumMappings,
     { spaces: 4 },
   ),
 ]).catch(error => {

@@ -1,14 +1,25 @@
 import enums from 'dota-data/files/panorama/enums';
-import { emit, withDescription } from '../common/utils';
+import {
+  generateEnumDeclarations,
+  isGlobalEnumMember,
+  normalizeEnumMemberName,
+  normalizeEnumName,
+} from '../common/enums';
 
-export const generatedEnums = emit(
-  enums
-    .map(({ name: enumName, members }) => {
-      const memberTypes = members
-        .map(m => withDescription(`${m.name} = ${m.value}`, m.description))
-        .join(',\n');
-
-      return `declare enum ${enumName} {${memberTypes}}`;
-    })
-    .join('\n\n'),
-);
+export const generatedEnums = generateEnumDeclarations(enums, false, false);
+export const generatedEnumsNormalized = generateEnumDeclarations(enums, false, true);
+export const generatedEnumMappings = Object.fromEntries([
+  ...enums.flatMap(declaration =>
+    declaration.members
+      .filter(m => isGlobalEnumMember(m, declaration))
+      .map(m => [m.name, `${declaration.name}.${m.name}`]),
+  ),
+  ...enums.map(declaration => [
+    normalizeEnumName(declaration.name),
+    Object.fromEntries(
+      declaration.members
+        .filter(m => !isGlobalEnumMember(m, declaration))
+        .map(m => [normalizeEnumMemberName(m.name, declaration), `${declaration.name}.${m.name}`]),
+    ),
+  ]),
+]);

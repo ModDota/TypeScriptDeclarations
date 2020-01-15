@@ -1,4 +1,4 @@
 {
   "files": [],
-  "references": [{ "path": "dota-lua-types" }]
+  "references": [{ "path": "dota-lua-types" }, { "path": "panorama-types" }]
 }

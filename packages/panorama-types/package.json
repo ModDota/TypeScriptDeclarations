@@ -8,7 +8,16 @@
   "license": "MIT",
   "author": "ark120202",
   "files": [
-    "types/*.d.ts"
+    "enum-mappings.json",
+    "transformer/index.{js,d.ts}",
+    "types/**/*.d.ts",
+    "normalized.d.ts"
   ],
-  "types": "types/index.d.ts"
+  "types": "types/index.d.ts",
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
+  "peerDependencies": {
+    "typescript": "^3.0.0"
+  }
 }

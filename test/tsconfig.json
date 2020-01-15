@@ -1,4 +1,9 @@
 {
   "files": [],
-  "references": [{ "path": "lua" }, { "path": "lua-normalized" }, { "path": "panorama" }]
+  "references": [
+    { "path": "lua" },
+    { "path": "lua-normalized" },
+    { "path": "panorama" },
+    { "path": "panorama-normalized" }
+  ]
 }

@@ -1,20 +1,25 @@
 {
   "extends": "@ark120202/eslint-config/node",
   "parserOptions": {
-    "project": ["build/tsconfig.json", "packages/*/{,types,normalized}/tsconfig.json"]
+    "project": [
+      "build/tsconfig.json",
+      "test/*/tsconfig.json",
+      "packages/*/tsconfig.json",
+      "packages/*/types/tsconfig.json"
+    ]
   },
   "overrides": [
     {
-      "files": "packages/*/{types,normalized}/**/*",
+      "files": ["test/**/*", "packages/*/types/**/*"],
       "rules": {
         "no-plusplus": "off",
         "no-var": "off",
         "vars-on-top": "off",
+        "unicorn/prevent-abbreviations": "off",
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/class-name-casing": "off",
         "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/no-unused-expressions": "off",
-        "unicorn/prevent-abbreviations": "off"
+        "@typescript-eslint/no-unused-expressions": "off"
       }
     }
   ]

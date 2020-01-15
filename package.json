@@ -14,7 +14,7 @@
     "lint:eslint": "eslint . --ext .js,.ts",
     "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
     "prepublishOnly": "yarn build",
-    "test": "lerna run --parallel test"
+    "test": "tsc -b test"
   },
   "nodemonConfig": {
     "delay": 500,
@@ -37,9 +37,7 @@
     "trailingComma": "all",
     "overrides": [
       {
-        "files": [
-          "packages/*/{types,normalized}/**/*"
-        ],
+        "files": "packages/*/types/**/*",
         "options": {
           "printWidth": 120
         }

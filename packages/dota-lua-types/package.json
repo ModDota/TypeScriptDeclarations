@@ -10,7 +10,8 @@
   "files": [
     "enum-mappings.json",
     "transformer/index.{js,d.ts}",
-    "{types,normalized}/**/*.d.ts"
+    "types/**/*.d.ts",
+    "normalized.d.ts"
   ],
   "types": "types/index.d.ts",
   "scripts": {

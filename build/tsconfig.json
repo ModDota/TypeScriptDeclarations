@@ -1,8 +1,8 @@
 {
-    "extends": "@ark120202/typescript-config/node/12.json",
-    "include": ["**/*"],
-    "compilerOptions": {
-        "lib": ["es2019", "esnext.bigint", "es2020.string"],
-        "noEmit": true
-    }
+  "extends": "@ark120202/typescript-config/node/12.json",
+  "include": ["**/*"],
+  "compilerOptions": {
+    "lib": ["es2019", "esnext.bigint", "es2020.string"],
+    "noEmit": true
+  }
 }

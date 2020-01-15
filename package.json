@@ -1,59 +1,58 @@
 {
-    "name": "panorama-types",
-    "version": "1.2.0",
-    "description": "TypeScript definitions for Dota 2 Panorama API",
-    "repository": "https://github.com/ModDota/TypescriptPanoramaDeclarations",
-    "license": "MIT",
-    "author": "ark120202",
-    "files": [
-        "types/*.d.ts"
-    ],
-    "types": "types/index.d.ts",
-    "scripts": {
-        "build": "cd build && ts-node .",
-        "dev": "nodemon",
-        "lint": "run-s lint:prettier lint:eslint",
-        "lint:eslint": "eslint . --ext .js,.ts",
-        "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
-        "prepublishOnly": "yarn build",
-        "test": "tsc --project types"
-    },
-    "nodemonConfig": {
-        "delay": 500,
-        "exec": "cd build && ts-node --transpile-only .",
-        "ext": "ts",
-        "watch": "build"
-    },
-    "prettier": {
-        "printWidth": 120,
-        "proseWrap": "always",
-        "singleQuote": true,
-        "trailingComma": "all"
-    },
-    "eslintConfig": {
-        "extends": "@ark120202/eslint-config/node",
-        "parserOptions": {
-            "project": [
-                "build/tsconfig.json",
-                "types/tsconfig.json"
-            ]
+  "name": "panorama-types",
+  "version": "1.2.0",
+  "description": "TypeScript definitions for Dota 2 Panorama API",
+  "repository": "https://github.com/ModDota/TypescriptPanoramaDeclarations",
+  "license": "MIT",
+  "author": "ark120202",
+  "files": [
+    "types/*.d.ts"
+  ],
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "cd build && ts-node .",
+    "dev": "nodemon",
+    "lint": "run-s lint:prettier lint:eslint",
+    "lint:eslint": "eslint . --ext .js,.ts",
+    "lint:prettier": "prettier --check **/*.{ts,md,yml,json}",
+    "prepublishOnly": "yarn build",
+    "test": "tsc --project types"
+  },
+  "nodemonConfig": {
+    "delay": 500,
+    "exec": "cd build && ts-node --transpile-only .",
+    "ext": "ts",
+    "watch": "build"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "proseWrap": "always",
+    "singleQuote": true,
+    "trailingComma": "all",
+    "overrides": [
+      {
+        "files": "types/**/*",
+        "options": {
+          "printWidth": 120
         }
-    },
-    "devDependencies": {
-        "@ark120202/eslint-config": "^2.3.0",
-        "@ark120202/typescript-config": "^2.1.0",
-        "@types/lodash": "^4.14.149",
-        "@types/node": "^13.1.6",
-        "@types/prettier": "^1.19.0",
-        "@types/wordwrap": "^1.0.0",
-        "dota-data": "^0.9.0",
-        "eslint": "^6.8.0",
-        "lodash": "^4.17.15",
-        "nodemon": "^2.0.2",
-        "npm-run-all": "^4.1.5",
-        "prettier": "^1.19.1",
-        "ts-node": "^8.6.0",
-        "typescript": "^3.7.4",
-        "wordwrap": "^1.0.0"
-    }
+      }
+    ]
+  },
+  "devDependencies": {
+    "@ark120202/eslint-config": "^2.3.0",
+    "@ark120202/typescript-config": "^2.1.0",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.1.6",
+    "@types/prettier": "^1.19.0",
+    "@types/wordwrap": "^1.0.0",
+    "dota-data": "^0.9.0",
+    "eslint": "^6.8.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.6.0",
+    "typescript": "^3.7.4",
+    "wordwrap": "^1.0.0"
+  }
 }

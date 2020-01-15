@@ -8,7 +8,7 @@
   "license": "MIT",
   "author": "ark120202",
   "files": [
-    "enum-mappings.json",
+    "transformer/mappings.json",
     "transformer/index.{js,d.ts}",
     "types/**/*.d.ts",
     "normalized.d.ts"

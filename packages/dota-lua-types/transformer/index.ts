@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const mappings: Record<string, Record<string, string>> = require('../enum-mappings.json');
+const mappings: Record<string, Record<string, string>> = require('./mappings.json');
 
 function getMapping(name: string) {
   if (Object.prototype.hasOwnProperty.call(mappings, name)) {

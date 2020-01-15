@@ -1,6 +1,5 @@
 node_modules
 *.tsbuildinfo
-/packages/*/enum-mappings.json
 /packages/*/types/*.generated.d.ts
 /packages/*/transformer/*
 !/packages/*/transformer/index.ts

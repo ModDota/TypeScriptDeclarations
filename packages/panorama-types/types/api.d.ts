@@ -1617,7 +1617,7 @@ interface DollarStatic {
     DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
     DispatchEventAsync(delay: number, event: string, panel: Panel, ...args: any[]): void;
     Localize(token: string, parent?: Panel): string;
-    RegisterEventHandler(event: string, parent: Panel, handler: () => void): number;
+    RegisterEventHandler(event: string, parent: Panel, handler: (...args: any[]) => void): number;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
     Each<T>(map: { [key: string]: T }, callback: (value: T, key: string) => void): void;
     Each<T>(map: { [key: number]: T }, callback: (value: T, key: number) => void): void;

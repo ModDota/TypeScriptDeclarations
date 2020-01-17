@@ -1345,7 +1345,12 @@ interface CScriptBindingPR_Game {
 
     GameStateIsAfter(nState: DOTA_GameState): boolean;
 
-    AddCommand(pszCommandName: string, callback: (data: object) => void, pszDescription: string, nFlags: number): void;
+    AddCommand(
+        pszCommandName: string,
+        callback: (name: string, ...args: string[]) => void,
+        pszDescription: string,
+        nFlags: number,
+    ): void;
 
     GetLocalPlayerID(): PlayerID;
 

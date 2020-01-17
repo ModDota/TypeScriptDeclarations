@@ -4,6 +4,9 @@ TypeScript definitions for Dota 2 Panorama API
 
 ## Installation
 
+> Check out our [addon template](https://github.com/ModDota/TypeScriptAddonTemplate) for usage
+> examples.
+
 1. Get package from npm
 
 ```shell

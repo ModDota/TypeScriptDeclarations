@@ -2129,10 +2129,10 @@ dot-prop@^4.1.0, dot-prop@^4.2.0:
   dependencies:
     is-obj "^1.0.0"
 
-dota-data@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.9.0.tgz#8c6be43936b729ac5fbd6dfc9d92a2f91180b374"
-  integrity sha512-o7Zs6TpUCwk44MG5+VhXnx0riMzlQUHr5vThGU/PkE64K5OHgQchRmyDb0nkxpq7GXJB5GgIghdtplv86xEUgw==
+dota-data@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.9.1.tgz#4ed2755d8edd28ff467fd34f87d6d55f102609dc"
+  integrity sha512-smRvjKvzca+8VlVZpvXcJuQwKbc21yyEl0sNjPppO76RvuPxZ1z8YKtxV2s5u0XeiBq6osDqO8YeFSp0TtSIsw==
   dependencies:
     "@types/lodash" "^4.14.149"
     fs-extra "^8.1.0"

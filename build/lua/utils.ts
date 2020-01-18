@@ -209,6 +209,12 @@ export function getFunction<T extends CallableDeclaration>(
     fn.typeParameters.push(generic);
   }
 
+  if (identifier === 'CBaseEntity.SetContextThink') {
+    ((fn.parameters[1].type as dom.UnionType).members[0] as dom.FunctionType).parameters = [
+      dom.create.parameter('this', dom.type.this),
+    ];
+  }
+
   return [fn];
 }
 

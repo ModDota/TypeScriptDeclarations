@@ -9,6 +9,7 @@ type ItemEntityIndex = AbilityEntityIndex & { _itemEntityIndex: never };
 type ScheduleID = number & { readonly __tag__: 'ScheduleID' };
 type NetTableListenerID = number & { readonly __tag__: 'NetTableListenerID' };
 type GameEventListenerID = number & { readonly __tag__: 'GameEventListenerID' };
+type UnhandledEventListenerID = number & { readonly __tag__: 'UnhandledEventListenerID' };
 
 type BuffID = number & { readonly __tag__: 'BuffID' };
 type ParticleID = number & { readonly __tag__: 'ParticleID' };

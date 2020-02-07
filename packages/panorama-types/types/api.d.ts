@@ -219,6 +219,16 @@ interface CDOTA_PanoramaScript_GameUI {
     SelectUnit(nEntityIndex: EntityIndex, bAddToGroup: boolean): void;
 
     /**
+     * Get the current look at position.
+     */
+    GetCameraLookAtPosition(): [number, number, number];
+
+    /**
+     * Get the current look at position height offset.
+     */
+    GetCameraLookAtPositionHeightOffset(): number;
+
+    /**
      * Set the minimum camera pitch angle.
      */
     SetCameraPitchMin(flPitchMin: number): void;
@@ -234,9 +244,24 @@ interface CDOTA_PanoramaScript_GameUI {
     SetCameraYaw(flCameraYaw: number): void;
 
     /**
+     * Get the camera's yaw.
+     */
+    GetCameraYaw(): number;
+
+    /**
      * Offset the camera's look at point.
      */
     SetCameraLookAtPositionHeightOffset(flCameraLookAtHeightOffset: number): void;
+
+    /**
+     * Set the camera from a lateral position.
+     */
+    SetCameraPositionFromLateralLookAtPosition(x: number, y: number): void;
+
+    /**
+     * Set whether the camera should automatically adjust to average terrain height.
+     */
+    SetCameraTerrainAdjustmentEnabled(bEnabled: boolean): void;
 
     /**
      * Set the camera distance from the look at point.
@@ -604,6 +629,21 @@ interface CScriptBindingPR_Players {
     PlayerPortraitClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
     BuffClicked(nEntity: EntityIndex, nBuffSerial: number, bAlert: boolean): void;
+
+    /**
+     * If player is in perspective camera, returns true. Else, false
+     */
+    IsLocalPlayerInPerspectiveCamera(): boolean;
+
+    /**
+     * If player is in perspective mode, returns the followed players entity index.  Else, -1.
+     */
+    GetPerspectivePlayerEntityIndex(): EntityIndex;
+
+    /**
+     * If player is in perspective mode, returns the followed players id.  Else, -1.
+     */
+    GetPerspectivePlayerId(): PlayerID;
 }
 
 interface CScriptBindingPR_Entities {
@@ -843,6 +883,8 @@ interface CScriptBindingPR_Entities {
     GetTotalPurchasedUpgradeGoldCost(nEntityIndex: EntityIndex): number;
 
     GetTeamNumber(nEntityIndex: EntityIndex): DOTATeam_t;
+
+    GetHealthBarOffset(nEntityIndex: EntityIndex): number;
 
     GetAttackRange(nEntityIndex: EntityIndex): number;
 
@@ -1282,11 +1324,15 @@ interface CScriptBindingPR_Game {
 
     GetGameTime(): number;
 
+    GetGameFrameTime(): number;
+
     GetDOTATime(bIncludePreGame: boolean, bIncludeNegativeTime: boolean): number;
 
     IsGamePaused(): boolean;
 
     IsInToolsMode(): boolean;
+
+    IsInBanPhase(): boolean;
 
     /**
      * Return the team id of the winning team.
@@ -1334,6 +1380,16 @@ interface CScriptBindingPR_Game {
      * Returns the keybind (as a string) for the requested ability slot.
      */
     GetKeybindForAbility(iSlot: number): string;
+
+    /**
+     * Returns the keybind (as a string) for the requested inventory slot.
+     */
+    GetKeybindForInventorySlot(iSlot: number): string;
+
+    /**
+     * Returns the keybind (as a string).
+     */
+    GetKeybindForCommand(nCommand: DOTAKeybindCommand_t): string;
 
     GetNianFightTimeLeft(): number;
 
@@ -1456,7 +1512,13 @@ interface CScriptBindingPR_Game {
 
     ServerCmd(pMsg: string): void;
 
+    SetDotaRefractHeroes(bEnabled: boolean): void;
+
     FinishGame(): void;
+
+    Disconnect(): void;
+
+    FindEventMatch(): void;
 
     /**
      * Emit a sound for the local player. Returns an integer handle that can be passed to StopSound. (Returns 0 on failure.)
@@ -1467,6 +1529,16 @@ interface CScriptBindingPR_Game {
      * Stop a current playing sound on the local player. Takes handle from a call to EmitSound.
      */
     StopSound(nHandle: number): void;
+
+    /**
+     * Ask whether the in game shop is open.
+     */
+    IsShopOpen(): boolean;
+
+    /**
+     * Set custom shop context.
+     */
+    SetCustomShopEntityString(pszCustomShopEntityString: string): void;
 
     /**
      * Return information about the current map.
@@ -1482,6 +1554,16 @@ interface CScriptBindingPR_Game {
      * Order a unit to drop the specified item at the current cursor location.
      */
     DropItemAtCursor(nControlledUnitEnt: EntityIndex, nItemEnt: ItemEntityIndex): void;
+
+    /**
+     * Calculate 2D length.
+     */
+    Length2D(vec1: [number, number, number], vec2: [number, number, number]): number;
+
+    /**
+     * Returns normalized vector.
+     */
+    Normalized(vec: [number, number, number]): [number, number, number];
 
     EnterAbilityLearnMode(): void;
 
@@ -1605,8 +1687,20 @@ interface CPanoramaScript_VRUtils {
 
 interface DollarStatic {
     (selector: string): Panel;
+    FindChildInContext(selector: string): Panel;
     CreatePanel(type: string, root: Panel, id: string): Panel;
-    CreatePanel(type: string, root: Panel, id: string): PanelBase;
+
+    /**
+     * @param properties An object with XML-style properties added to the created panel.
+     * @example
+     * $.CreatePanelWithProperties("Label", $.GetContextPanel(), "id", {
+     *     class: "MyClass",
+     *     text: "Button",
+     *     onactivate: "$.Msg('Button Pressed')",
+     * });
+     */
+    CreatePanelWithProperties(type: string, root: Panel, id: string, properties: Record<string, string>): Panel;
+
     CreatePanelWithCurrentContext(root?: Panel): Panel;
     Msg(...args: any[]): void;
     GetContextPanel(): Panel;
@@ -1616,12 +1710,32 @@ interface DollarStatic {
     DispatchEvent(event: string, panel: Panel, ...args: any[]): void;
     DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
     DispatchEventAsync(delay: number, event: string, panel: Panel, ...args: any[]): void;
+    Language(): string;
     Localize(token: string, parent?: Panel): string;
     RegisterEventHandler(event: string, parent: Panel, handler: (...args: any[]) => void): number;
+    RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
+    UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
     Each<T>(map: { [key: string]: T }, callback: (value: T, key: string) => void): void;
     Each<T>(map: { [key: number]: T }, callback: (value: T, key: number) => void): void;
     AsyncWebRequest(url: string, data: AsyncWebRequestData): void;
+
+    /**
+     * Register a key binding.
+     *
+     * @param panel Panel or input context to bind on. Using an empty string crashes the game when the key is pressed out of Panorama context.
+     * @param key A key name, with keyboard names starting with `key_`. Can be a comma-delimited list to register multiple keys at once.
+     */
+    RegisterKeyBind(
+        panel: Panel | string,
+        key: string,
+        callback: (source: 'keyboard' | 'gamepad', presses: number, panel: Panel) => void,
+    ): void;
+
+    /**
+     * Call during JS startup code to check if script is being reloaded.
+     */
+    DbgIsReloadingScript(): boolean;
 }
 
 interface AsyncWebRequestResponse {

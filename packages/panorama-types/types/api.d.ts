@@ -1690,6 +1690,7 @@ interface CPanoramaScript_VRUtils {
 interface DollarStatic {
     (selector: string): Panel;
     FindChildInContext(selector: string): Panel;
+    CreatePanel<K extends keyof PanoramaPanelNameMap>(type: K, root: Panel, id: string): PanoramaPanelNameMap[K];
     CreatePanel(type: string, root: Panel, id: string): Panel;
 
     /**
@@ -1701,6 +1702,12 @@ interface DollarStatic {
      *     onactivate: "$.Msg('Button Pressed')",
      * });
      */
+    CreatePanelWithProperties<K extends keyof PanoramaPanelNameMap>(
+        type: K,
+        root: Panel,
+        id: string,
+        properties: Record<string, string>,
+    ): PanoramaPanelNameMap[K];
     CreatePanelWithProperties(type: string, root: Panel, id: string, properties: Record<string, string>): Panel;
 
     CreatePanelWithCurrentContext(root?: Panel): Panel;

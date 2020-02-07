@@ -381,8 +381,10 @@ interface CScriptBindingPR_Particles {
     SetParticleAlwaysSimulate(particle: ParticleID): void;
 
     /**
-     * Set a particle's control point to an entity's attachment. Most common example is:
-     * Particles.SetPerticleControlEnt(particle, controlPoint, entity, ParticleAttachment_t.PATTACH_POINT_FOLLOW, "attach_hitloc", [0,0,0], true);
+     * Set a particle's control point to an entity's attachment.
+     *
+     * @example
+     * Particles.SetParticleControlEnt(particle, 0, entity, ParticleAttachment_t.PATTACH_POINT_FOLLOW, "attach_hitloc", [0, 0, 0], true);
      */
     SetParticleControlEnt(
         particle: ParticleID,
@@ -1337,7 +1339,7 @@ interface CScriptBindingPR_Game {
     /**
      * Return the team id of the winning team.
      */
-    GetGameWinner(): number;
+    GetGameWinner(): DOTATeam_t;
 
     GetStateTransitionTime(): number;
 
@@ -1653,36 +1655,36 @@ interface CPanoramaScript_SteamFriends {
     /**
      * Requests the user's persona name
      */
-    RequestPersoneName(pchSteamID: string, funcVal: any): any;
+    RequestPersonaName(pchSteamID: string, funcVal: any): string;
 
     /**
      * Sets the avatar image on the image panel
      */
-    SetLargeAvatarImage(...unknown: any[]): any;
+    SetLargeAvatarImage(...unknown: any[]): void;
 }
 
 interface CPanoramaScript_SteamUtils {
     /**
      * Returns the connected universe
      */
-    GetConnectedUniverse(): any;
+    GetConnectedUniverse(): number;
 
     /**
      * Returns the appid of the current app
      */
-    GetAppID(): any;
+    GetAppID(): number;
 }
 
 interface CPanoramaScript_VRUtils {
     /**
-     * Get application properties for a VR app with the specifiied appID
+     * Get application properties for a VR app with the specified appID
      */
     GetVRAppPropertyData(nAppID: number): any;
 
     /**
      * Launches a Steam Application using OpenVR.
      */
-    LaunchSteamApp(nAppID: number): any;
+    LaunchSteamApp(nAppID: number, pszLaunchSource: string): void;
 }
 
 interface DollarStatic {
@@ -1712,7 +1714,7 @@ interface DollarStatic {
     DispatchEventAsync(delay: number, event: string, panel: Panel, ...args: any[]): void;
     Language(): string;
     Localize(token: string, parent?: Panel): string;
-    RegisterEventHandler(event: string, parent: Panel, handler: (...args: any[]) => void): number;
+    RegisterEventHandler(event: string, parent: Panel, handler: (...args: any[]) => void): void;
     RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;

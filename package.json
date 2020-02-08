@@ -52,7 +52,7 @@
     "@types/node": "^13.1.6",
     "@types/prettier": "^1.19.0",
     "@types/wordwrap": "^1.0.0",
-    "dota-data": "^0.9.1",
+    "dota-data": "^0.9.2",
     "dts-dom": "^3.6.0",
     "eslint": "^6.8.0",
     "fs-extra": "^8.1.0",

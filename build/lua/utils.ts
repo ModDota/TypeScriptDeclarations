@@ -215,6 +215,13 @@ export function getFunction<T extends CallableDeclaration>(
     ];
   }
 
+  if (identifier === 'CBaseEntity.IsInstance') {
+    const generic = dom.create.typeParameter('T', dom.create.interface('CBaseEntity'));
+    fn.typeParameters.push(generic);
+    fn.parameters[0].type = dom.create.namedTypeReference('DotaConstructor<T>');
+    fn.returnType = dom.create.namedTypeReference('this is T');
+  }
+
   return [fn];
 }
 

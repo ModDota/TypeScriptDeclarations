@@ -302,6 +302,11 @@ interface CDOTA_PanoramaScript_GameUI {
      * Send a custom client side error message with passed string and soundevent.
      */
     SendCustomHUDError(pszErrorText: string, pszErrorSound: string): void;
+
+    /**
+     * Given a passed ability, replace the special value variables in the passed localized text.
+     */
+    ReplaceDOTAAbilitySpecialValues(...unknown: any[]): void;
 }
 
 /**
@@ -346,6 +351,30 @@ interface CDOTA_PanoramaScript_CustomNetTables {
      * Unsubscribe from a game event
      */
     UnsubscribeNetTableListener(nCallbackHandle: NetTableListenerID): void;
+}
+
+interface CDOTA_PanoramaScript_LocalInventory {
+    /**
+     * Does the player have an inventory item of a given item definition index?
+     */
+    HasItemByDefinition(nDefIndex: number): boolean;
+}
+
+interface CDOTA_PanoramaScript_EventData {
+    /**
+     * Get the score of an EventAction.
+     */
+    GetEventActionScore(unEventID: number, unActionID: number): number;
+
+    /**
+     * Get a periodic resource value used.
+     */
+    GetPeriodicResourceUsed(unPeriodicResourceID: number): number;
+
+    /**
+     * Get a periodic resource value max.
+     */
+    GetPeriodicResourceMax(unPeriodicResourceID: number): number;
 }
 
 interface CScriptBindingPR_Particles {
@@ -1711,7 +1740,23 @@ interface DollarStatic {
     CreatePanelWithProperties(type: string, root: Panel, id: string, properties: Record<string, string>): Panel;
 
     CreatePanelWithCurrentContext(root?: Panel): Panel;
+
+    /**
+     * Log a message
+     */
     Msg(...args: any[]): void;
+
+    /**
+     * Trigger an assert.
+     * Prints a message with a stack trace to the console.
+     */
+    AssertHelper(...args: any[]): void;
+
+    /**
+     * Log a warning message to specified channel.
+     */
+    Warning(...args: any[]): void;
+
     GetContextPanel(): Panel;
     Schedule(time: number, callback: () => void): ScheduleID;
     CancelScheduled(scheduledEvent: ScheduleID): void;
@@ -1745,6 +1790,11 @@ interface DollarStatic {
      * Call during JS startup code to check if script is being reloaded.
      */
     DbgIsReloadingScript(): boolean;
+
+    /**
+     * Create a logging channel.
+     */
+    LogChannel(...unknown: any[]): void;
 }
 
 interface AsyncWebRequestResponse {
@@ -1766,6 +1816,8 @@ interface AsyncWebRequestData {
 declare var GameEvents: CDOTA_PanoramaScript_GameEvents;
 declare var GameUI: CDOTA_PanoramaScript_GameUI;
 declare var CustomNetTables: CDOTA_PanoramaScript_CustomNetTables;
+declare var LocalInventory: CDOTA_PanoramaScript_LocalInventory;
+declare var EventData: CDOTA_PanoramaScript_EventData;
 declare var Particles: CScriptBindingPR_Particles;
 declare var Buffs: CScriptBindingPR_Buffs;
 declare var Players: CScriptBindingPR_Players;

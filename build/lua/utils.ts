@@ -22,6 +22,7 @@ const typeMap: Record<string, string> = {
   uint: 'number',
   long: 'number',
   float: 'number',
+  double: 'number',
   ehandle: 'number',
   handle: 'object',
   table: 'object',

@@ -57,7 +57,8 @@ export function normalizeEnumMemberName(name: string, declaration: enums.Enum) {
 type MemberNameNormalizer = (args: { name: string; normalizedName: string }) => string;
 const memberNameNormalizers: Record<string, MemberNameNormalizer> = {
   DOTA_HeroPickState: ({ name }) => name.replace(/^DOTA_HERO_?PICK_STATE_/, ''),
-  DOTAScriptInventorySlot_t: ({ normalizedName }) => normalizedName.replace('_SLOT_', '_'),
+  DOTAScriptInventorySlot_t: ({ normalizedName }) =>
+    normalizedName.replace(/^ITEM_/, '').replace('STASH_SLOT', 'STASH'),
   FindOrder: ({ normalizedName }) => (normalizedName === 'ANY_ORDER' ? 'ANY' : normalizedName),
   LuaModifierType: ({ normalizedName }) => normalizedName.replace('MOTION_', ''),
   modifierfunction: ({ name }) => name.replace(/^MODIFIER_(PROPERTY|EVENT|FUNCTION)_/, ''),

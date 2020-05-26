@@ -29,16 +29,23 @@ type DotaConstructor<T extends object> = {
 
 declare interface CDOTA_BaseNPC {
     /**
-     * @deprecated Left for compatibility with CBaseEntity interface. Invalid at the runtime.
+     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
      */
     Kill(): DOTATeam_t;
 }
 
 declare interface CDOTA_PlayerResource {
     /**
-     * @deprecated Left for compatibility with CBaseEntity interface. Invalid at the runtime.
+     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
      */
     GetTeam(): DOTATeam_t;
+}
+
+declare interface CLogicRelay {
+    /**
+     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
+     */
+    Trigger(): void;
 }
 
 declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };

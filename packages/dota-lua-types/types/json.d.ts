@@ -1,6 +1,17 @@
+/** @noSelf */
 declare namespace json {
+    const version: string;
+
     type DecodeSuccess = [any, number];
     type DecodeFailure = [undefined, number, string];
+    /** @tupleReturn */
+    function decode(
+        string: string,
+        position?: number,
+        nullValue?: any,
+        objectMeta?: LuaMetatable<object>,
+        arrayMeta?: LuaMetatable<any[]>,
+    ): DecodeSuccess | DecodeFailure;
 
     interface EncodeOptions {
         /**
@@ -23,21 +34,11 @@ declare namespace json {
          */
         level?: number;
     }
+
+    function encode(object: any, options?: EncodeOptions): string;
 }
 
-declare const json: {
-    readonly version: string;
-    readonly null: unique symbol;
-
-    /** @tupleReturn */
-    decode(
-        this: void,
-        string: string,
-        position?: number,
-        nullValue?: any,
-        objectMeta?: LuaMetatable<object>,
-        arrayMeta?: LuaMetatable<any[]>,
-    ): json.DecodeSuccess | json.DecodeFailure;
-
-    encode(this: void, object: any, options?: json.EncodeOptions): string;
-};
+declare namespace json {
+    const _null: unique symbol;
+    export { _null as null };
+}

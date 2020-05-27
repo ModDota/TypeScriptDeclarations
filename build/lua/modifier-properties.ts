@@ -31,5 +31,5 @@ export const generatedModifierProperties = (() => {
       ),
   );
 
-  return emit([mainInterface], true);
+  return emit([mainInterface]);
 })();

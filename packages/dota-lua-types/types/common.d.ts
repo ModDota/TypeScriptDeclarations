@@ -1,3 +1,5 @@
+/** @noSelfInFile */
+
 /// <reference types="lua-types/jit" />
 /// <reference types="./json" />
 /// <reference types="./modifier" />
@@ -86,7 +88,7 @@ declare const vec3_origin: Vector;
 declare const vec3_invalid: Vector;
 
 // Declared in core addon scripts
-declare function DeepPrintTable(this: void, table?: object | null): void;
+declare function DeepPrintTable(table?: object | null): void;
 declare function Dynamic_Wrap<
     T extends object,
     K extends {
@@ -100,7 +102,7 @@ declare function Dynamic_Wrap<
                 : never
             : never;
     }[keyof T]
->(this: void, context: T, name: K): T[K];
+>(context: T, name: K): T[K];
 
 declare interface CDOTA_Ability_Lua {
     /**

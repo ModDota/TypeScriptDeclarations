@@ -91,12 +91,8 @@ const parameterNamesMap: Record<string, string> = {
 };
 
 const functionsWithOptionalParameters = ['Vector'];
-function getFunctionParameters(
-  identifier: string,
-  parameters: api.FunctionParameter[],
-  thisType?: string,
-) {
-  const domParameters = parameters.map(({ name, types }) => {
+const getFunctionParameters = (identifier: string, parameters: api.FunctionParameter[]) =>
+  parameters.map(({ name, types }) => {
     const isOptional = functionsWithOptionalParameters.includes(identifier);
     return dom.create.parameter(
       // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
@@ -105,13 +101,6 @@ function getFunctionParameters(
       getType(types, !isOptional, 'void'),
     );
   });
-
-  if (thisType != null) {
-    domParameters.unshift(dom.create.parameter('this', dom.create.namedTypeReference(thisType)));
-  }
-
-  return domParameters;
-}
 
 interface CallableDeclaration extends dom.DeclarationBase {
   parameters: dom.Parameter[];
@@ -138,9 +127,8 @@ export function getFunction<T extends CallableDeclaration>(
 
   if (comments.length > 1) comments.splice(1, 0, '');
 
-  const thisType = !identifier.includes('.') ? 'void' : undefined;
   const returnType = getReturnType(identifier, func.returns);
-  const fn = createType(getFunctionParameters(identifier, func.args, thisType), returnType);
+  const fn = createType(getFunctionParameters(identifier, func.args), returnType);
   fn.jsDocComment = comments.join('\n');
 
   if (identifier.startsWith('CCustomGameEventManager.')) {
@@ -159,7 +147,7 @@ export function getFunction<T extends CallableDeclaration>(
       fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
 
       (fn.parameters[1]
-        .type as dom.FunctionType).parameters[2].type = dom.create.namedTypeReference(
+        .type as dom.FunctionType).parameters[1].type = dom.create.namedTypeReference(
         'NetworkedData<CCustomGameEventManager.InferEventType<T, object> & { PlayerID: PlayerID }>',
       );
     }
@@ -205,7 +193,9 @@ export function getFunction<T extends CallableDeclaration>(
   ) {
     // TODO:
     const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
-    (fn.parameters[0].type as dom.FunctionType).parameters[0].type = generic;
+    (fn.parameters[0].type as dom.FunctionType).parameters.unshift(
+      dom.create.parameter('this', generic),
+    );
     fn.parameters[1].type = generic;
     fn.typeParameters.push(generic);
   }
@@ -234,17 +224,18 @@ const prettierConfig: prettier.Options = {
   ),
 };
 
-export const emit = (
-  declarations: _.ListOfRecursiveArraysOrValues<dom.TopLevelDeclaration | string>,
-  serverDefault: boolean,
-) =>
-  prettier.format(
-    (serverDefault ? '// @validateApiUsageDefault server\n\n' : '') +
-      _.flattenDeep(declarations)
-        .map(x => dom.emit(x as any))
-        .join('')
+export function emit(declarations: (dom.TopLevelDeclaration | string)[]) {
+  const content = declarations
+    .map(x => dom.emit(x as any))
+    .join('')
+    .replace(/\r\n/g, '\n')
+    .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */');
 
-        .replace(/\r\n/g, '\n')
-        .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */'),
+  return prettier.format(
+    `/** @noSelfInFile */
+// @validateApiUsageDefault server
+
+${content}`,
     prettierConfig,
   );
+}

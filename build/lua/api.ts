@@ -10,13 +10,11 @@ const declarationOverrides: Record<string, string> = {
      * @both
      */
     declare function ListenToGameEvent<TName extends keyof GameEventDeclarations>(
-        this: void,
         eventName: TName,
-        listener: (this: void, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
+        listener: (event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
         context: undefined,
     ): EventListenerID;
     declare function ListenToGameEvent<TName extends keyof GameEventDeclarations, TContext extends {}>(
-        this: void,
         eventName: TName,
         listener: (this: TContext, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
         context: TContext,
@@ -29,7 +27,6 @@ const declarationOverrides: Record<string, string> = {
      * @both
      */
     declare function FireGameEvent<TName extends keyof GameEventDeclarations>(
-        this: void,
         eventName: TName,
         eventData: GameEventDeclarations[TName],
     ): void;
@@ -41,7 +38,6 @@ const declarationOverrides: Record<string, string> = {
      * @both
      */
     declare function FireGameEventLocal<TName extends keyof GameEventDeclarations>(
-        this: void,
         eventName: TName,
         eventData: GameEventDeclarations[TName],
     ): void;
@@ -85,7 +81,7 @@ const precedingDeclarations: Record<string, string> = {
 };
 
 export const generatedApi = emit(
-  api.map(declaration => {
+  api.flatMap(declaration => {
     const typeName = declaration.name;
 
     const declarations: (dom.TopLevelDeclaration | string)[] = [];
@@ -198,5 +194,4 @@ export const generatedApi = emit(
     declarations.push(withDescription(mainTypeDeclaration, declaration.description));
     return declarations;
   }),
-  true,
 );

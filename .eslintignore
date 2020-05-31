@@ -1,3 +1,4 @@
+/scripts
 /packages/*/types/*.generated.d.ts
 /packages/*/transformer/*
 !/packages/*/transformer/index.ts

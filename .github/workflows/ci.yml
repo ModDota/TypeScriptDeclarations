@@ -15,5 +15,6 @@ jobs:
           node-version: 12
       - run: yarn --frozen-lockfile
       - run: yarn build
+      - run: yarn check-generated
       - run: yarn test
       - run: yarn lint

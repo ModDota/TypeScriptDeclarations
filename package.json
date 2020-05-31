@@ -7,6 +7,7 @@
     "build": "run-p build:tsc build:types",
     "build:tsc": "tsc -b packages",
     "build:types": "cd build && ts-node .",
+    "check-generated": "node scripts/check-generated.js",
     "dev": "run-p dev:tsc dev:types",
     "dev:tsc": "tsc -b packages --watch",
     "dev:types": "nodemon",

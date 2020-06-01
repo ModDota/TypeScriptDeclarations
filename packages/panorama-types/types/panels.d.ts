@@ -27,6 +27,8 @@ interface PanoramaPanelNameMap {
     DOTAHeroSetList: HeroSetList;
     Carousel: CarouselPanel;
     DOTAStoreCustomControls: StoreCustomControls;
+    Button: Button;
+    DOTAAvatarImage: AvatarImage;
 }
 
 type PanelEvent =
@@ -1217,4 +1219,10 @@ interface CarouselPanel extends Panel {
     GetFocusIndex(): number;
     GetFocusChild(): Panel;
     SetSelectedChild(selected: Panel): void;
+}
+
+interface Button extends Panel {}
+
+interface AvatarImage extends Panel {
+    steamid: string;
 }

@@ -69,6 +69,7 @@ declare interface CDOTA_Modifier_Lua {
     GetAllowEtherealAttack?(): void;
     GetModifierAttackSpeedBaseOverride?(): number;
     GetModifierAttackSpeedBonus_Constant?(): number;
+    GetModifierAttackSpeedReductionPercentage?(): void;
     GetModifierAttackPointConstant?(): number;
     /**
      * Not working.
@@ -196,6 +197,7 @@ declare interface CDOTA_Modifier_Lua {
     GetModifierPercentageManacostStacking?(): number;
     GetModifierManacostReduction_Constant?(): void;
     GetModifierManaBonus?(): number;
+    GetModifierManaDrainAmplify_Percentage?(): void;
     GetModifierConstantManaRegen?(): number;
     GetModifierConstantManaRegenUnique?(): number;
     GetModifierTotalPercentageManaRegen?(): number;
@@ -226,6 +228,7 @@ declare interface CDOTA_Modifier_Lua {
     GetModifierMoveSpeedBonus_Special_Boots?(): number;
     GetModifierMoveSpeedBonus_Special_Boots_2?(): number;
     GetModifierMoveSpeed_Limit?(): number;
+    GetModifierMoveSpeedReductionPercentage?(): void;
     GetModifierMPRegenAmplify_Percentage?(): number;
     /**
      * Total amplify value is clamped to 0.
@@ -290,6 +293,7 @@ declare interface CDOTA_Modifier_Lua {
      * Not working.
      */
     GetModifierSpellAmplify_PercentageUnique?(): number;
+    GetModifierSpellLifestealRegenAmplify_Percentage?(): void;
     GetModifierBonusStats_Agility?(): number;
     GetModifierBonusStats_Agility_Percentage?(): void;
     GetModifierBonusStats_Intellect?(): number;

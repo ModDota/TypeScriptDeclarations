@@ -194,6 +194,7 @@ interface GameEventDeclarations {
     dota_chase_hero: DotaChaseHeroEvent;
     dota_combatlog: DotaCombatlogEvent;
     dota_game_state_change: DotaGameStateChangeEvent;
+    hero_selected: HeroSelectedEvent;
     dota_player_pick_hero: DotaPlayerPickHeroEvent;
     modifier_event: ModifierEventEvent;
     dota_player_kill: DotaPlayerKillEvent;
@@ -255,6 +256,7 @@ interface GameEventDeclarations {
     dota_set_quick_buy: DotaSetQuickBuyEvent;
     dota_quick_buy_changed: DotaQuickBuyChangedEvent;
     dota_player_shop_changed: DotaPlayerShopChangedEvent;
+    dota_hero_entered_shop: DotaHeroEnteredShopEvent;
     dota_player_show_killcam: DotaPlayerShowKillcamEvent;
     dota_player_show_minikillcam: DotaPlayerShowMinikillcamEvent;
     gc_user_session_created: object;
@@ -1614,6 +1616,12 @@ interface DotaGameStateChangeEvent {
     new_state: number;
 }
 
+interface HeroSelectedEvent {
+    player_id: PlayerID;
+    team_number: number;
+    hero_unit: string;
+}
+
 interface DotaPlayerPickHeroEvent {
     player: number;
     heroindex: number;
@@ -1904,6 +1912,12 @@ interface DotaPlayerShopChangedEvent {
     shopmask: number;
 }
 
+interface DotaHeroEnteredShopEvent {
+    shop_type: number;
+    shop_entindex: EntityIndex;
+    hero_entindex: EntityIndex;
+}
+
 interface DotaPlayerShowKillcamEvent {
     nodes: number;
     player: number;
@@ -1993,10 +2007,12 @@ interface DotaNonPlayerUsedAbilityEvent {
 interface DotaPlayerBeginCastEvent {
     PlayerID: PlayerID;
     abilityname: string;
+    caster_entindex: EntityIndex;
 }
 
 interface DotaNonPlayerBeginCastEvent {
     abilityname: string;
+    caster_entindex: EntityIndex;
 }
 
 interface DotaAbilityChannelFinishedEvent {

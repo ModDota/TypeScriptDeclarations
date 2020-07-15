@@ -186,18 +186,44 @@ export function getFunction<T extends CallableDeclaration>(
     }
   }
 
+  const emptyConstraint = dom.create.namedTypeReference('{}') as any;
+
   // Callback with required context
   if (
     identifier.match(/^CDOTABaseGameMode\.Set.+Filter$/) ||
     identifier.startsWith('CDOTABaseGameMode.ListenForQuery')
   ) {
-    // TODO:
-    const generic = dom.create.typeParameter('T', dom.create.namedTypeReference('{}') as any);
+    const generic = dom.create.typeParameter('T', emptyConstraint);
     (fn.parameters[0].type as dom.FunctionType).parameters.unshift(
       dom.create.parameter('this', generic),
     );
     fn.parameters[1].type = generic;
     fn.typeParameters.push(generic);
+  }
+
+  // Callback with optional context
+  if (identifier === 'DOTA_SpawnMapAtPosition' || identifier === 'CDOTA_BaseNPC.QueueConcept') {
+    if (identifier === 'CDOTA_BaseNPC.QueueConcept') {
+      const callbackInfoType = dom.create.typeParameter('TCallbackInfo');
+      fn.typeParameters.push(callbackInfoType);
+      (fn.parameters[2].type as dom.FunctionType).parameters[1].type = callbackInfoType;
+      fn.parameters[4].type = callbackInfoType;
+    }
+
+    const [withoutContext, withContext] = [_.cloneDeep(fn), _.cloneDeep(fn)];
+    withoutContext.parameters.find(p => p.name === 'context')!.type = dom.type.undefined;
+
+    const contextType = dom.create.typeParameter('TContext', emptyConstraint);
+    withContext.jsDocComment = undefined;
+    withContext.typeParameters.push(contextType);
+    withContext.parameters.find(p => p.name === 'context')!.type = contextType;
+    for (const parameter of withContext.parameters) {
+      if (typeof parameter.type === 'object' && parameter.type.kind === 'function-type') {
+        parameter.type.parameters.unshift(dom.create.parameter('this', contextType));
+      }
+    }
+
+    return [withoutContext, withContext];
   }
 
   if (identifier === 'CBaseEntity.SetContextThink') {

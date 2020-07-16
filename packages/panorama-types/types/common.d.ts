@@ -1,6 +1,7 @@
 /// <reference types="./api" />
 /// <reference types="./events.generated" />
 /// <reference types="./panels" />
+/// <reference types="./css" />
 
 type EntityIndex = number & { _entityIndex: never };
 type AbilityEntityIndex = EntityIndex & { _abilityEntityIndex: never };

@@ -62,7 +62,7 @@ type PanelEvent =
     | 'onvaluechanged';
 
 interface PanelBase {
-    paneltype: string;
+    readonly paneltype: string;
     rememberchildfocus: boolean;
 
     SetPanelEvent(event: PanelEvent, handler: () => void): void;
@@ -70,30 +70,32 @@ interface PanelBase {
 }
 
 interface Panel extends PanelBase {
-    style: VCSSStyleDeclaration;
+    readonly style: VCSSStyleDeclaration;
 
-    scrolloffset_x: number;
-    scrolloffset_y: number;
+    readonly scrolloffset_x: number;
+    readonly scrolloffset_y: number;
 
-    actualxoffset: number;
-    actualyoffset: number;
+    readonly actualxoffset: number;
+    readonly actualyoffset: number;
 
-    actuallayoutwidth: number;
-    actuallayoutheight: number;
+    readonly actuallayoutwidth: number;
+    readonly actuallayoutheight: number;
 
-    desiredlayoutwidth: number;
-    desiredlayoutheight: number;
+    readonly desiredlayoutwidth: number;
+    readonly desiredlayoutheight: number;
 
-    contentwidth: number;
-    contentheight: number;
+    readonly contentwidth: number;
+    readonly contentheight: number;
 
-    layoutfile: string;
-    id: string;
+    readonly layoutfile: string;
+    readonly id: string;
 
-    selectionpos_x: object;
-    selectionpos_y: object;
+    // get(): number | null; set(): number | 'auto' | null;
+    selectionpos_x: number | null;
+    selectionpos_y: number | null;
 
-    tabindex: object;
+    // get(): number | null; set(): number | 'auto' | null;
+    tabindex: number | null;
 
     hittestchildren: boolean;
     hittest: boolean;
@@ -113,10 +115,11 @@ interface Panel extends PanelBase {
     SetHasClass(name: string, active: boolean): void;
     ToggleClass(name: string): void;
     SwitchClass(name: string, replacement: string): void;
+    TriggerClass(name: string): void;
 
-    ClearPanelEvent(): void;
+    ClearPanelEvent(event: PanelEvent): void;
 
-    SetDraggable(): void;
+    SetDraggable(draggable: boolean): void;
     IsDraggable(): boolean;
 
     GetChildCount(): number;
@@ -129,9 +132,10 @@ interface Panel extends PanelBase {
     GetParent(): Panel | null;
     SetParent(parent: Panel): void;
 
-    FindChild(childid: string): Panel | null;
-    FindChildTraverse(childid: string): Panel | null;
-    FindChildInLayoutFile(childid: string): Panel | null;
+    FindChild(childId: string): Panel | null;
+    FindChildTraverse(childId: string): Panel | null;
+    FindChildInLayoutFile(childId: string): Panel | null;
+    FindPanelInLayoutFile(id: string): Panel | null;
 
     RemoveAndDeleteChildren(): void;
 
@@ -143,7 +147,7 @@ interface Panel extends PanelBase {
      * Sets whether to update panel with style changes
      */
     ApplyStyles(bool: boolean): void;
-    ClearPropertyFromCode(): void;
+    ClearPropertyFromCode(unknown: string): void;
 
     DeleteAsync(time: number): void;
 
@@ -158,15 +162,16 @@ interface Panel extends PanelBase {
     SetDisableFocusOnMouseDown(value: boolean): void; // ??
     BHasKeyFocus(): boolean;
     SetScrollParentToFitWhenFocused(value: boolean): void; // ??
-    BScrollParentToFitWhenFocussed(): boolean;
+    BScrollParentToFitWhenFocused(): boolean;
 
     IsSelected(): boolean;
     BHasDescendantKeyFocus(): boolean;
 
-    BLoadLayout(path: string, bool1: boolean, bool2: boolean): boolean;
-    BLoadLayoutFromString(layout: string): boolean;
-    BLoadLayoutFromStringAsync(layout: string, callback: () => void): boolean;
-    BLoadLayoutAsync(path: string, callback: () => void): boolean;
+    BLoadLayout(path: string, overrideExisting: boolean, partialLayout: boolean): boolean;
+    BLoadLayoutFromString(layout: string, overrideExisting: boolean, partialLayout: boolean): boolean;
+    LoadLayoutFromStringAsync(layout: string, overrideExisting: boolean, partialLayout: boolean): void;
+    LoadLayoutAsync(path: string, overrideExisting: boolean, partialLayout: boolean): void;
+
     BLoadLayoutSnippet(snippetname: string): boolean;
     BCreateChildren(html: string): boolean;
 
@@ -178,14 +183,14 @@ interface Panel extends PanelBase {
     ScrollToTop(): void;
     ScrollToBottom(): void;
     ScrollToLeftEdge(): void;
-    ScrollTORightEdge(): void;
+    ScrollToRightEdge(): void;
 
-    ScrollParentTOMakePanelFit(): void;
+    ScrollParentToMakePanelFit(): void;
     BCanSeeInParentScroll(): boolean;
 
-    GetAttributeInt(name: string, defaultvalue: number): number;
-    GetAttributeString(name: string, defaultvalue: number): string;
-    GetAttributeUInt32(name: string, defaultvalue: number): number;
+    GetAttributeInt(name: string, defaultValue: number): number;
+    GetAttributeString(name: string, defaultValue: string): string;
+    GetAttributeUInt32(name: string, defaultValue: number): number;
     SetAttributeInt(name: string, value: number): void;
     SetAttributeString(name: string, value: string): void;
     SetAttributeUInt32(name: string, value: number): void;
@@ -196,6 +201,10 @@ interface Panel extends PanelBase {
 
     BReadyForDisplay(): boolean;
     SetReadyForDisplay(value: boolean): void; // ???
+
+    SetPositionInPixels(x: number, y: number, z: number): void;
+
+    Data(): object;
 }
 
 interface LabelPanel extends Panel {
@@ -215,8 +224,11 @@ type ScalingFunction =
 
 interface ImagePanel extends Panel {
     /**
-     * Sets the image of this Image.
-     * Example: image.SetImage("s2r://panorama/images/hud/hudv2_iconglyph.png")
+     * Sets the source of this Image.
+     *
+     * @example
+     * image.SetImage("file://{images}/custom_image.png");
+     * image.SetImage("s2r://panorama/images/hud/reborn/icon_glyph_on_psd.vtex");
      */
     SetImage(path: string): void;
     SetScaling(scale: ScalingFunction): void;

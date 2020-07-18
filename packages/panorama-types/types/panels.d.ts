@@ -135,8 +135,8 @@ interface Panel extends PanelBase {
 
     RemoveAndDeleteChildren(): void;
 
-    MoveChildBefore(child: Panel, beforeChild: Panel): void;
-    MoveChildAfter(child: Panel, afterChild: Panel): void;
+    MoveChildBefore(child: PanelBase, beforeChild: PanelBase): void;
+    MoveChildAfter(child: PanelBase, afterChild: PanelBase): void;
 
     GetPositionWithinWindow(): { x: number; y: number };
     /**

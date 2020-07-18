@@ -1719,8 +1719,9 @@ interface CPanoramaScript_VRUtils {
 interface DollarStatic {
     (selector: string): Panel;
     FindChildInContext(selector: string): Panel;
-    CreatePanel<K extends keyof PanoramaPanelNameMap>(type: K, root: Panel, id: string): PanoramaPanelNameMap[K];
-    CreatePanel(type: string, root: Panel, id: string): Panel;
+
+    CreatePanel<K extends keyof PanoramaPanelNameMap>(type: K, root: PanelBase, id: string): PanoramaPanelNameMap[K];
+    CreatePanel(type: string, root: PanelBase, id: string): Panel;
 
     /**
      * @param properties An object with XML-style properties added to the created panel.
@@ -1733,13 +1734,13 @@ interface DollarStatic {
      */
     CreatePanelWithProperties<K extends keyof PanoramaPanelNameMap>(
         type: K,
-        root: Panel,
+        root: PanelBase,
         id: string,
         properties: Record<string, string>,
     ): PanoramaPanelNameMap[K];
-    CreatePanelWithProperties(type: string, root: Panel, id: string, properties: Record<string, string>): Panel;
+    CreatePanelWithProperties(type: string, root: PanelBase, id: string, properties: Record<string, any>): Panel;
 
-    CreatePanelWithCurrentContext(root?: Panel): Panel;
+    CreatePanelWithCurrentContext(root?: PanelBase): Panel;
 
     /**
      * Log a message
@@ -1761,12 +1762,12 @@ interface DollarStatic {
     Schedule(time: number, callback: () => void): ScheduleID;
     CancelScheduled(scheduledEvent: ScheduleID): void;
     DispatchEvent(event: string, panelID?: string, ...args: any[]): void;
-    DispatchEvent(event: string, panel: Panel, ...args: any[]): void;
+    DispatchEvent(event: string, panel: PanelBase, ...args: any[]): void;
     DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
-    DispatchEventAsync(delay: number, event: string, panel: Panel, ...args: any[]): void;
+    DispatchEventAsync(delay: number, event: string, panel: PanelBase, ...args: any[]): void;
     Language(): string;
-    Localize(token: string, parent?: Panel): string;
-    RegisterEventHandler(event: string, parent: Panel, handler: (...args: any[]) => void): void;
+    Localize(token: string, parent?: PanelBase): string;
+    RegisterEventHandler(event: string, parent: PanelBase, handler: (...args: any[]) => void): void;
     RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
@@ -1780,10 +1781,10 @@ interface DollarStatic {
      * @param panel Panel or input context to bind on. Using an empty string crashes the game when the key is pressed out of Panorama context.
      * @param key A key name, with keyboard names starting with `key_`. Can be a comma-delimited list to register multiple keys at once.
      */
-    RegisterKeyBind(
-        panel: Panel | string,
+    RegisterKeyBind<T extends PanelBase = Panel>(
+        panel: T | string,
         key: string,
-        callback: (source: 'keyboard' | 'gamepad', presses: number, panel: Panel) => void,
+        callback: (source: 'keyboard' | 'gamepad', presses: number, panel: T) => void,
     ): void;
 
     /**

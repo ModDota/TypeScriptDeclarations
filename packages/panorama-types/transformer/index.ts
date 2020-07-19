@@ -14,7 +14,7 @@ function createNodeFromReplacement(replacement: string) {
   return ts.createPropertyAccess(ts.createIdentifier(global), member);
 }
 
-const replaceNode: ts.Visitor = node => {
+const replaceNode: ts.Visitor = (node) => {
   if (ts.isIdentifier(node)) {
     const replacement = getMapping(node.text);
     if (typeof replacement !== 'string') return;
@@ -47,9 +47,9 @@ const replaceNode: ts.Visitor = node => {
   }
 };
 
-const createDotaTransformer = (): ts.TransformerFactory<ts.SourceFile> => context => {
-  const visit: ts.Visitor = node => replaceNode(node) || ts.visitEachChild(node, visit, context);
-  return file => ts.visitNode(file, visit);
+const createDotaTransformer = (): ts.TransformerFactory<ts.SourceFile> => (context) => {
+  const visit: ts.Visitor = (node) => replaceNode(node) || ts.visitEachChild(node, visit, context);
+  return (file) => ts.visitNode(file, visit);
 };
 
 export default createDotaTransformer;

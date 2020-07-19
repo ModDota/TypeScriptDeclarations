@@ -15,8 +15,8 @@
   ],
   "types": "types/index.d.ts",
   "dependencies": {
-    "lua-types": "^2.6.2",
-    "tslib": "^1.10.0"
+    "lua-types": "^2.8.0",
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "typescript": "^3.0.0"

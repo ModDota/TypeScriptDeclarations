@@ -81,7 +81,7 @@ const precedingDeclarations: Record<string, string> = {
 };
 
 export const generatedApi = emit(
-  api.flatMap(declaration => {
+  api.flatMap((declaration) => {
     const typeName = declaration.name;
 
     const declarations: (dom.TopLevelDeclaration | string)[] = [];
@@ -103,7 +103,7 @@ export const generatedApi = emit(
     }
 
     const mainDeclarationMembers = [...declaration.members].flatMap<dom.ObjectTypeMember>(
-      member => {
+      (member) => {
         const fullName = `${typeName}.${member.name}`;
         return member.kind === 'field'
           ? withDescription(
@@ -173,7 +173,7 @@ export const generatedApi = emit(
         : undefined;
 
     let mainTypeDeclaration: dom.ModuleMember;
-    const hasOverloadedOperators = declaration.members.some(m => m.name === '__add');
+    const hasOverloadedOperators = declaration.members.some((m) => m.name === '__add');
     if (hasOverloadedOperators) {
       mainTypeDeclaration = dom.create.alias(
         typeName,

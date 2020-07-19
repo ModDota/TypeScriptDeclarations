@@ -23,7 +23,7 @@ Promise.all([
     generatedPanoramaEnumMappings,
     { spaces: 4 },
   ),
-]).catch(error => {
+]).catch((error) => {
   console.error(error);
   process.exit(1);
 });

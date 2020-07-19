@@ -11,14 +11,14 @@ export const generatedEnumsNormalized = generateEnumDeclarations(enums, true, tr
 export const generatedEnumMappings = Object.fromEntries(
   enums
     .filter((x): x is enums.Enum => x.kind === 'enum')
-    .flatMap(value => {
-      const mappings = Object.fromEntries(value.members.map(member => [member.name, member.name]));
+    .flatMap((value) => {
+      const mappings = Object.fromEntries(value.members.map((m) => [m.name, m.name]));
 
       const normalizedEnumName = normalizeEnumName(value.name);
       const normalizedMappings = Object.fromEntries(
         value.members
-          .filter(m => !isGlobalEnumMember(m, value))
-          .map(m => [normalizeEnumMemberName(m.name, value), m.name]),
+          .filter((m) => !isGlobalEnumMember(m, value))
+          .map((m) => [normalizeEnumMemberName(m.name, value), m.name]),
       );
 
       return value.name === normalizedEnumName

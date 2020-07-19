@@ -34,7 +34,7 @@ const typeMap: Record<string, string> = {
 };
 
 export function getType(types: api.Type[], includeUndefined: boolean, thisType?: string): dom.Type {
-  const domTypes = types.flatMap<dom.Type>(type =>
+  const domTypes = types.flatMap<dom.Type>((type) =>
     type === 'nil' && !includeUndefined
       ? []
       : typeof type === 'string'
@@ -77,7 +77,7 @@ function getReturnType(identifier: string, types: api.Type[]): dom.Type {
   const domType = _.isEqual(types, ['nil']) ? dom.type.void : getType(types, true);
 
   if (identifier.includes('.On') && typeof domType === 'object' && domType.kind === 'union') {
-    domType.members = domType.members.map(x =>
+    domType.members = domType.members.map((x) =>
       typeof x === 'object' && x.kind === 'name' && x.name === 'undefined' ? 'void' : x,
     );
   }
@@ -118,8 +118,8 @@ export function getFunction<T extends CallableDeclaration>(
   if ('description' in func && func.description) comments.push(wrapDescription(func.description));
 
   func.args
-    .filter(x => x.description != null)
-    .forEach(x => comments.push(wrapJsDoc(`@param ${x.name}`, x.description!)));
+    .filter((x) => x.description != null)
+    .forEach((x) => comments.push(wrapJsDoc(`@param ${x.name}`, x.description!)));
   if ('deprecated' in func) comments.push(wrapJsDoc('@deprecated', func.deprecated!));
   if ('available' in func && func.available !== defaultAvailability) {
     comments.push(`@${func.available}`);
@@ -144,7 +144,7 @@ export function getFunction<T extends CallableDeclaration>(
 
     if (identifier === 'CCustomGameEventManager.RegisterListener') {
       fn.typeParameters.push(generic);
-      fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
+      fn.parameters.find((x) => x.name === 'eventName')!.type = nameType;
 
       (fn.parameters[1]
         .type as dom.FunctionType).parameters[1].type = dom.create.namedTypeReference(
@@ -154,8 +154,8 @@ export function getFunction<T extends CallableDeclaration>(
 
     if (identifier.startsWith('CCustomGameEventManager.Send_')) {
       fn.typeParameters.push(generic);
-      fn.parameters.find(x => x.name === 'eventName')!.type = nameType;
-      fn.parameters.find(x => x.name === 'eventData')!.type = dom.create.namedTypeReference(
+      fn.parameters.find((x) => x.name === 'eventName')!.type = nameType;
+      fn.parameters.find((x) => x.name === 'eventData')!.type = dom.create.namedTypeReference(
         'CCustomGameEventManager.InferEventType<T, never>',
       );
     }
@@ -211,12 +211,12 @@ export function getFunction<T extends CallableDeclaration>(
     }
 
     const [withoutContext, withContext] = [_.cloneDeep(fn), _.cloneDeep(fn)];
-    withoutContext.parameters.find(p => p.name === 'context')!.type = dom.type.undefined;
+    withoutContext.parameters.find((p) => p.name === 'context')!.type = dom.type.undefined;
 
     const contextType = dom.create.typeParameter('TContext', emptyConstraint);
     withContext.jsDocComment = undefined;
     withContext.typeParameters.push(contextType);
-    withContext.parameters.find(p => p.name === 'context')!.type = contextType;
+    withContext.parameters.find((p) => p.name === 'context')!.type = contextType;
     for (const parameter of withContext.parameters) {
       if (typeof parameter.type === 'object' && parameter.type.kind === 'function-type') {
         parameter.type.parameters.unshift(dom.create.parameter('this', contextType));
@@ -252,7 +252,7 @@ const prettierConfig: prettier.Options = {
 
 export function emit(declarations: (dom.TopLevelDeclaration | string)[]) {
   const content = declarations
-    .map(x => dom.emit(x as any))
+    .map((x) => dom.emit(x as any))
     .join('')
     .replace(/\r\n/g, '\n')
     .replace(/(?<=\s*)\/\*\*\n\s*\* @(\w+?)\n\s*\*\//g, '/** @$1 */');

@@ -1,6 +1,6 @@
 ListenToGameEvent(
   'npc_spawned',
-  event => {
+  (event) => {
     assertType<EntityIndex>(event.entindex);
   },
   undefined,
@@ -22,7 +22,7 @@ declare global {
   }
 }
 
-ListenToGameEvent('game_event', event => assertType<string>(event.foo), undefined);
+ListenToGameEvent('game_event', (event) => assertType<string>(event.foo), undefined);
 FireGameEvent('game_event', { foo: 'bar' });
 FireGameEventLocal('game_event', { foo: 'bar' });
 

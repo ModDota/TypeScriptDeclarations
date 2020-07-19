@@ -54,7 +54,7 @@ be compatible with a different one.
     log(message: string): void;
   }
 
-  CDOTA_BaseNPC.log = function(message) {
+  CDOTA_BaseNPC.log = function (message) {
     print(`${this.GetUnitName()} says: ${message}`);
   };
 

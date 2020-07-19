@@ -33,7 +33,7 @@ const normalizedEnumNames: Record<string, string> = {
 
 export function normalizeEnumMemberName(name: string, declaration: enums.Enum) {
   let common = findCommonStart(
-    declaration.members.filter(m => !isGlobalEnumMember(m, declaration)).map(m => m.name),
+    declaration.members.filter((m) => !isGlobalEnumMember(m, declaration)).map((m) => m.name),
   );
 
   // It has only one member

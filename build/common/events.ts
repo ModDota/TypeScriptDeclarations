@@ -18,7 +18,7 @@ export const getEventType = (type: string) => eventTypeMap[type] ?? type;
 
 const gameEventDeclarations = (() => {
   const members = _.uniqBy(
-    Object.values(events).flatMap(group => Object.entries(group)),
+    Object.values(events).flatMap((group) => Object.entries(group)),
     // `player_connect` and `hltv_chat` are duplicated
     ([name]) => name,
   ).map(([eventName, event]) => {
@@ -31,14 +31,14 @@ const gameEventDeclarations = (() => {
 })();
 
 const eventTypes = Object.values(events)
-  .flatMap(group => Object.entries(group))
+  .flatMap((group) => Object.entries(group))
   .map(([eventName, event]) => {
     if (event.fields.length === 0) {
       return '';
     }
 
     const members = event.fields
-      .map(f => withDescription(`${f.name}: ${getEventType(f.type)}`, f.description))
+      .map((f) => withDescription(`${f.name}: ${getEventType(f.type)}`, f.description))
       .join('\n');
 
     const interfaceName = `${_.upperFirst(_.camelCase(eventName))}Event`;

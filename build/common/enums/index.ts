@@ -27,7 +27,7 @@ export function generateEnumDeclarations(
       continue;
     }
 
-    const [normalizedGlobals, normalizedMembers] = _.partition(declaration.members, member =>
+    const [normalizedGlobals, normalizedMembers] = _.partition(declaration.members, (member) =>
       isGlobalEnumMember(member, declaration),
     );
 
@@ -44,7 +44,7 @@ export function generateEnumDeclarations(
       const normalizedEnumName = normalizeEnumName(declaration.name);
 
       const memberDeclarations = members
-        .map(member => {
+        .map((member) => {
           const name = normalize ? normalizeEnumMemberName(member.name, declaration) : member.name;
           const key = /^\d/.test(name) ? JSON.stringify(name) : name;
           return withDescription(`${key} = ${member.value}`, member.description);

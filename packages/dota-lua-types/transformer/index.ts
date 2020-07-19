@@ -9,7 +9,7 @@ function getMapping(name: string) {
   }
 }
 
-const replaceNode: ts.Visitor = node => {
+const replaceNode: ts.Visitor = (node) => {
   // Would be handled as a part of main process of const enum transform
   if (!ts.isPropertyAccessExpression(node) && !ts.isElementAccessExpression(node)) return;
   const { expression } = node;
@@ -36,9 +36,9 @@ const replaceNode: ts.Visitor = node => {
   }
 };
 
-const createDotaTransformer = (): ts.TransformerFactory<ts.SourceFile> => context => {
-  const visit: ts.Visitor = node => replaceNode(node) || ts.visitEachChild(node, visit, context);
-  return file => ts.visitNode(file, visit);
+const createDotaTransformer = (): ts.TransformerFactory<ts.SourceFile> => (context) => {
+  const visit: ts.Visitor = (node) => replaceNode(node) || ts.visitEachChild(node, visit, context);
+  return (file) => ts.visitNode(file, visit);
 };
 
 export default createDotaTransformer;

@@ -1,0 +1,9 @@
+{
+  "extends": "@ark120202/typescript-config/node/10.json",
+  "files": ["index.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "sourceMap": false,
+    "declarationMap": false
+  }
+}

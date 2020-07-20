@@ -8,12 +8,12 @@
   "license": "MIT",
   "author": "ark120202",
   "files": [
-    "transformer/mappings.json",
-    "transformer/index.{js,d.ts}",
+    "index.d.ts",
+    "normalized.d.ts",
     "types/**/*.d.ts",
-    "normalized.d.ts"
+    "transformer/mappings.json",
+    "transformer/index.{js,d.ts}"
   ],
-  "types": "types/index.d.ts",
   "dependencies": {
     "tslib": "^2.0.0"
   },

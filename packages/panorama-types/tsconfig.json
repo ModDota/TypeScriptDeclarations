@@ -1,9 +1,8 @@
 {
-  "extends": "@ark120202/typescript-config/node/10.json",
-  "files": ["transformer/index.ts"],
+  "extends": "@ark120202/typescript-config/base.json",
+  "files": ["index.d.ts"],
   "compilerOptions": {
-    "composite": true,
-    "sourceMap": false,
-    "declarationMap": false
+    "noEmit": true,
+    "lib": ["es2017"]
   }
 }

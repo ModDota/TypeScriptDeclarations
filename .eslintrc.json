@@ -5,7 +5,7 @@
       "build/tsconfig.json",
       "test/*/tsconfig.json",
       "packages/*/tsconfig.json",
-      "packages/*/types/tsconfig.json"
+      "packages/*/transformer/tsconfig.json"
     ]
   },
   "overrides": [

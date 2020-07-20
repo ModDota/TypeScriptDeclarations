@@ -1,3 +1,4 @@
 /packages/*/types/*.generated.d.ts
 /packages/*/transformer/*
 !/packages/*/transformer/index.ts
+!/packages/*/transformer/tsconfig.json

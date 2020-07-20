@@ -2,3 +2,4 @@ node_modules
 *.tsbuildinfo
 /packages/*/transformer/*
 !/packages/*/transformer/index.ts
+!/packages/*/transformer/tsconfig.json

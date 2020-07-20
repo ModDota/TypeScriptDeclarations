@@ -10,7 +10,7 @@
   },
   "overrides": [
     {
-      "files": ["test/**/*", "packages/*/types/**/*"],
+      "files": ["test/**/*", "packages/**/*.d.ts"],
       "rules": {
         "no-plusplus": "off",
         "no-var": "off",
@@ -19,7 +19,8 @@
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/class-name-casing": "off",
         "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/no-unused-expressions": "off"
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/triple-slash-reference": "off"
       }
     }
   ]

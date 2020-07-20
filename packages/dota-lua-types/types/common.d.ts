@@ -1,11 +1,11 @@
 /** @noSelfInFile */
 
 /// <reference types="lua-types/jit" />
-/// <reference types="./json" />
-/// <reference types="./modifier" />
-/// <reference types="./api.generated" />
-/// <reference types="./events.generated" />
-/// <reference types="./modifier-properties.generated" />
+/// <reference path="json.d.ts" />
+/// <reference path="modifier.d.ts" />
+/// <reference path="api.generated.d.ts" />
+/// <reference path="events.generated.d.ts" />
+/// <reference path="modifier-properties.generated.d.ts" />
 
 type NetworkedData<T> = T extends string | number
     ? T

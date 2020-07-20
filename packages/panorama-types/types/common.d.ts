@@ -1,7 +1,7 @@
-/// <reference types="./api" />
-/// <reference types="./events.generated" />
-/// <reference types="./panels" />
-/// <reference types="./css" />
+/// <reference path="api.d.ts" />
+/// <reference path="events.generated.d.ts" />
+/// <reference path="panels.d.ts" />
+/// <reference path="css.d.ts" />
 
 type EntityIndex = number & { _entityIndex: never };
 type AbilityEntityIndex = EntityIndex & { _abilityEntityIndex: never };

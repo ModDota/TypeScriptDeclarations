@@ -1736,7 +1736,7 @@ interface DollarStatic {
         type: K,
         root: PanelBase,
         id: string,
-        properties: Record<string, string>,
+        properties: Record<string, any>,
     ): PanoramaPanelNameMap[K];
     CreatePanelWithProperties(type: string, root: PanelBase, id: string, properties: Record<string, any>): Panel;
 

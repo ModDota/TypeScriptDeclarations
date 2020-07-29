@@ -1,34 +1,62 @@
 interface PanoramaPanelNameMap {
     Panel: Panel;
     Label: LabelPanel;
+
     Image: ImagePanel;
     DOTAAbilityImage: AbilityImage;
     DOTAItemImage: ItemImage;
     DOTAHeroImage: HeroImage;
-    ContextMenuScript: ContextMenuScriptPanel;
+    DOTACountryFlagImage: ImagePanel;
+    DOTALeagueImage: LeagueImage;
+    EconItemImage: ImagePanel;
+
+    AnimatedImageStrip: ImagePanel;
+    DOTAEmoticon: ImagePanel;
+
+    Movie: MoviePanel;
+    DOTAHeroMovie: HeroMovie;
+
     DOTAScenePanel: ScenePanel;
-    RadioButton: RadioButton;
-    TextButton: TextButton;
-    DOTASettingsCheckbox: SettingsCheckbox;
-    ToggleButton: ToggleButton;
-    DOTAHUDShopTextEntry: HUDShopTextEntry;
-    TextEntry: TextEntry;
-    DropDown: DropDown;
-    SlottedSlider: SlottedSlider;
-    Slider: SliderPanel;
+    DOTAEconItem: EconItemPanel;
+
     ProgressBar: ProgressBar;
     CircularProgressBar: CircularProgressBar;
-    DOTAUserRichPresence: UserRichPresence;
+    ProgressBarWithMiddle: ProgressBarWithMiddle;
+
     DOTAUserName: UserName;
-    DOTAHeroMovie: HeroMovie;
+    DOTAUserRichPresence: UserRichPresence;
+    DOTAAvatarImage: AvatarImage;
+
+    Countdown: CountdownPanel;
+
+    Button: Button;
+    TextButton: TextButton;
+    ToggleButton: ToggleButton;
+    DOTASettingsCheckbox: SettingsCheckbox;
+    RadioButton: RadioButton;
+
+    TextEntry: TextEntry;
+    DOTAHUDShopTextEntry: HUDShopTextEntry;
+    NumberEntry: NumberEntry;
+    Slider: SliderPanel;
+    SlottedSlider: SlottedSlider;
+
+    DropDown: DropDown;
+    ContextMenuScript: ContextMenuScriptPanel;
+
+    Carousel: CarouselPanel;
+    DOTAHeroSetList: HeroSetList;
+    CarouselNav: Panel;
+
+    DOTAHUDOverlayMap: HUDOverlayMap;
+    DOTAMinimap: Panel;
+
     HTML: HTML;
     DOTAAccountLinkHTML: AccountLinkHTML;
     DOTAHTMLPanel: HTMLPanel;
-    DOTAHeroSetList: HeroSetList;
-    Carousel: CarouselPanel;
     DOTAStoreCustomControls: StoreCustomControls;
-    Button: Button;
-    DOTAAvatarImage: AvatarImage;
+
+    CustomLayoutPanel: Panel;
 }
 
 type PanelEvent =
@@ -250,6 +278,10 @@ interface HeroImage extends ImagePanel {
     heroimagestyle: 'icon' | 'portrait' | 'landscape';
 }
 
+interface LeagueImage extends ImagePanel {
+    leagueid: number;
+}
+
 interface ContextMenuScriptPanel extends Panel {
     GetContentsPanel(): Panel;
 }
@@ -258,8 +290,29 @@ type WeekendTourneyTrophyScene = ScenePanel;
 interface ScenePanel extends Panel {
     FireEntityInput(entityID: string, inputName: string, value: string): void;
     PlayEntitySoundEvent(arg1: any, arg2: any): number;
-    SetUnit(unitName: string, environment: string): void;
-    GetPanoramaSurfacePanel(): Panel;
+    SetUnit(unitName: string, environment: string, drawBackground: boolean): void;
+    GetPanoramaSurfacePanel(): Panel | null;
+    SetRotateParams(yawMin: number, yawMax: number, pitchMin: number, pitchMax: number): void;
+    SpawnHeroInScenePanelByPlayerSlot(unknown1: string, unknown2: number, unknown3: string): boolean;
+    SpawnHeroInScenePanelByHeroId(unknown1: number, unknown2: string, unknown3: number): boolean;
+    SetScenePanelToPlayerHero(unknown1: string, unknown2: number): boolean;
+    SetScenePanelToLocalHero(heroId: HeroID): boolean;
+}
+
+interface EconItemPanel extends Panel {
+    /**
+     * @example
+     * // Wyvern Hatchling, Ice style
+     * panel.SetItemByDefinition(11321);
+     */
+    SetItemByDefinition(itemDef: number): void;
+
+    /**
+     * @example
+     * // Wyvern Hatchling, Gold style
+     * panel.SetItemByDefinition(11321, 2);
+     */
+    SetItemByDefinitionAndStyle(itemDef: number, style: number): void;
 }
 
 interface RadioButton extends Panel {
@@ -290,6 +343,16 @@ interface TextEntry extends Panel {
 
     GetCursorOffset(): number;
     SetCursorOffset(value: number): void;
+}
+
+interface NumberEntry extends Panel {
+    value: number;
+    /** @default 0 */
+    min: number;
+    /** @default 1000000 */
+    max: number;
+    /** @default 1 */
+    increment: number;
 }
 
 interface DropDown extends Panel {
@@ -334,15 +397,65 @@ interface CircularProgressBar extends PanelBase {
     max: number;
 }
 
+/**
+ * @see https://github.com/SteamDatabase/GameTracking-Dota2/search?q=ProgressBarWithMiddle
+ */
+interface ProgressBarWithMiddle extends Panel {
+    lowervalue: number;
+    uppervalue: number;
+    min: number;
+    max: number;
+}
+
 type UserRichPresence = UserName;
 interface UserName extends Panel {
+    /**
+     * 64-bit Steam ID number.
+     */
     steamid: string;
+    /**
+     * 32-bit Steam ID number.
+     */
     accountid: string;
 }
 
+interface AvatarImage extends UserName {
+    SetAccountID(accountid: number): void;
+}
+
+interface CountdownPanel extends Panel {
+    // get(): string; set(): number;
+    startTime: string | number;
+    // get(): string; set(): number;
+    endTime: string | number;
+    /** @default 1 */
+    updateInterval: number;
+    /** @default 'countdown_time' */
+    timeDialogVariable: string;
+}
+
+interface MoviePanel extends Panel {
+    SetMovie(source: string): void;
+    SetControls(controls: 'none' | 'minimal' | 'full'): void;
+    /**
+     * Changes video title that is shown with 'full' controls.
+     */
+    SetTitle(title: string): void;
+    Play(): void;
+    Pause(): void;
+    Stop(): void;
+    SetRepeat(repeat: boolean): void;
+    /**
+     * @param volume A number within 0..1 range.
+     */
+    SetPlaybackVolume(volume: number): void;
+    BAdjustingVolume(): boolean;
+}
+
 interface HeroMovie extends Panel {
-    heroname: string;
     heroid: HeroID;
+    heroname: string;
+    persona: any; // ??
 }
 
 type HTML = HTMLPanel;
@@ -363,6 +476,11 @@ interface CarouselPanel extends Panel {
 
 interface Button extends Panel {}
 
-interface AvatarImage extends Panel {
-    steamid: string;
+interface HUDOverlayMap extends Panel {
+    mapscale: number;
+    maptexture: string;
+    mapscroll: boolean;
+    fixedoffsetenabled: boolean;
+    SetFixedOffset(x: number, y: number): void;
+    SetFixedBackgroundTexturePosition(size: number, x: number, y: number): void;
 }

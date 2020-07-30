@@ -90,7 +90,7 @@ const parameterNamesMap: Record<string, string> = {
   function: 'func',
 };
 
-const functionsWithOptionalParameters = ['Vector'];
+const functionsWithOptionalParameters = ['Vector', 'DeepPrintTable'];
 const getFunctionParameters = (identifier: string, parameters: api.FunctionParameter[]) =>
   parameters.map(({ name, types }) => {
     const isOptional = functionsWithOptionalParameters.includes(identifier);
@@ -113,19 +113,23 @@ export function getFunction<T extends CallableDeclaration>(
   identifier: string,
   func: api.FunctionType | api.FunctionDeclaration,
   defaultAvailability: api.Availability = 'server',
+  isAbstract = false,
 ): T[] {
   const comments: string[] = [];
-  if ('description' in func && func.description) comments.push(wrapDescription(func.description));
 
   func.args
     .filter((x) => x.description != null)
     .forEach((x) => comments.push(wrapJsDoc(`@param ${x.name}`, x.description!)));
+  if (isAbstract) comments.push('@abstract');
   if ('deprecated' in func) comments.push(wrapJsDoc('@deprecated', func.deprecated!));
   if ('available' in func && func.available !== defaultAvailability) {
     comments.push(`@${func.available}`);
   }
 
-  if (comments.length > 1) comments.splice(1, 0, '');
+  if ('description' in func && func.description) {
+    if (comments.length > 0) comments.unshift('');
+    comments.unshift(wrapDescription(func.description));
+  }
 
   const returnType = getReturnType(identifier, func.returns);
   const fn = createType(getFunctionParameters(identifier, func.args), returnType);

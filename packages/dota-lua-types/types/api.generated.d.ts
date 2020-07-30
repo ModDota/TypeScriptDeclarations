@@ -1538,6 +1538,22 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * Return the type of speech used.
      */
     SpeakTrigger(): number;
+    /**
+     * Called first when ability entity is created.
+     *
+     * @abstract
+     * @both
+     */
+    Init?(): void;
+    /** @abstract */
+    Precache?(context: CScriptPrecacheContext): void;
+    /**
+     * Called when ability entity is created, after Init.
+     *
+     * @abstract
+     * @both
+     */
+    Spawn?(): void;
     __kind__: 'instance';
 }
 
@@ -3572,6 +3588,15 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      * Return the type of speech used.
      */
     SpeakTrigger(): number;
+    /** @abstract */
+    Precache?(context: CScriptPrecacheContext): void;
+    /**
+     * Called when ability entity is created, after Init.
+     *
+     * @abstract
+     * @both
+     */
+    Spawn?(): void;
     __kind__: 'instance';
 }
 
@@ -3843,6 +3868,1211 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     StatusEffectPriority(): modifierpriority;
+    /**
+     * @abstract
+     * @both
+     */
+    BotAttackScoreBonus?(): void;
+    /**
+     * Return a map of enabled/disabled states.
+     *
+     * @abstract
+     * @both
+     */
+    CheckState?(): Partial<Record<modifierstate, boolean>>;
+    /**
+     * Return a list of modifier functions this modifier implements.
+     *
+     * @abstract
+     * @both
+     */
+    DeclareFunctions?(): modifierfunction[];
+    /**
+     * @abstract
+     * @both
+     */
+    GetAbsoluteNoDamageMagical?(event: ModifierAttackEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetAbsoluteNoDamagePhysical?(event: ModifierAttackEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetAbsoluteNoDamagePure?(event: ModifierAttackEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetAbsorbSpell?(event: ModifierAbilityEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetActivityTranslationModifiers?(): string;
+    /**
+     * @abstract
+     * @both
+     */
+    GetAllowEtherealAttack?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetAlwaysAllowAttack?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetAttackSound?(): string;
+    /**
+     * @abstract
+     * @both
+     */
+    GetBonusDayVision?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetBonusNightVision?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetBonusNightVisionUnique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetBonusVisionPercentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetDisableAutoAttack?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetDisableHealing?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetFixedDayVision?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetFixedNightVision?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetForceDrawOnMinimap?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetIsIllusion?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetMinHealth?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAbilityLayout?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackPointConstant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackRangeBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackRangeBonusPercentage?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierAttackRangeBonusUnique?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierAttackRangeOverride?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackSpeedBaseOverride?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackSpeedBonus_Constant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackSpeedReductionPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAvoidDamage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAvoidSpell?(event: ModifierAttackEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseAttack_BonusDamage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseAttackTimeConstant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseAttackTimeConstant_Adjust?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierBaseDamageOutgoing_PercentageUnique?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseRegen?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusDamageOutgoing_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Agility?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Agility_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Intellect?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Intellect_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Strength?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBonusStats_Strength_Percentage?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierCanAttackTrees?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierCastRangeBonus?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierCastRangeBonusStacking?(event: ModifierAbilityEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierCastRangeBonusTarget?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierChangeAbilityValue?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierConstantDeathGoldCost?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierConstantHealthRegen?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierConstantManaRegen?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierConstantManaRegenUnique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierConstantRespawnTime?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierCooldownReduction_Constant?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierDamageOutgoing_Percentage_Illusion?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierDamageOutgoing_Percentage_Illusion_Amplify?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierDisableTurning?(): 0 | 1;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierDodgeProjectile?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierEvasion_Constant?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierExtraHealthBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierExtraHealthPercentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierExtraManaBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierExtraManaPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierExtraStrengthBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierFixedAttackRate?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHealAmplify_PercentageSource?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHealAmplify_PercentageTarget?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHealthBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHealthRegenPercentage?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierHealthRegenPercentageUnique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHPRegenAmplify_Percentage?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierIgnoreCastAngle?(): 0 | 1;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierIgnoreCooldown?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIgnoreMovespeedLimit?(): 0 | 1;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierIgnorePhysicalArmor?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIllusionLabel?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIncomingDamage_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIncomingPhysicalDamage_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierIncomingPhysicalDamageConstant?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIncomingSpellDamageConstant?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierInvisibilityAttackBehaviorException?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierInvisibilityLevel?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierLifestealRegenAmplify_Percentage?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMagical_ConstantBlock?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceBaseReduction?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceBonus?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceBonusIllusions?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceDecrepifyUnique?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceDirectModification?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierManaBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierManacostReduction_Constant?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierManaDrainAmplify_Percentage?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMaxAttackRange?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMiss_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierModelChange?(): string;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierModelScale?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeed_Absolute?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeed_AbsoluteMax?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeed_AbsoluteMin?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeed_Limit?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Constant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Constant_Unique?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Constant_Unique_2?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Percentage_Unique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Percentage_Unique_2?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Special_Boots?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedBonus_Special_Boots_2?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedOverride?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeedReductionPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMPRegenAmplify_Percentage?(): number;
+    /**
+     * Total amplify value is clamped to 0.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierMPRestoreAmplify_Percentage?(): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierNegativeEvasion_Constant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierNoVisionOfAttacker?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideAbilitySpecial?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideAbilitySpecialValue?(): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideAttackDamage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageCasttime?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageCooldown?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageCooldownOngoing?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageExpRateBoost?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageManacost?(event: ModifierAbilityEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageManacostStacking?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageRespawnTime?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPersistentInvisibility?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysical_ConstantBlock?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierPhysical_ConstantBlockSpecial?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysical_ConstantBlockUnavoidablePreArmor?(event: ModifierAttackEvent): number;
+    /**
+     * Values above 100% are ignored.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorBase_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorBonus?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorBonusUnique?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorBonusUniqueActive?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorTotal_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_BonusDamage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_BonusDamage_Proc?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_BonusDamage_Target?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_BonusDamagePostCrit?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_CriticalStrike?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierPreAttack_Target_CriticalStrike?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_BonusDamage_Magical?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_BonusDamage_Physical?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_BonusDamage_Pure?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_Feedback?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProjectileName?(): string;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProjectileSpeedBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProjectileSpeedBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProvidesFOWVision?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierRadarCooldownReduction?(): void;
+    /**
+     * Always applies scepter when this property is active
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierScepter?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSpellAmplify_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierSpellAmplify_PercentageUnique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSpellLifestealRegenAmplify_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSpellsRequireHP?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierStackingRespawnTime?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierStatusResistance?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierStatusResistanceCaster?(event: ModifierUnitEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierStatusResistanceStacking?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierStrongIllusion?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSuperIllusion?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSuperIllusionWithUltimate?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTempestDouble?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTotal_ConstantBlock?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTotalDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTotalPercentageManaRegen?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTurnRate_Override?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTurnRate_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierUnitDisllowUpgrading?(): 0 | 1;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    GetModifierUnitStatsNeedsRefresh?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetOverrideAnimation?(): GameActivity_t;
+    /**
+     * @abstract
+     * @both
+     */
+    GetOverrideAnimationRate?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetOverrideAnimationWeight?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetOverrideAttackMagical?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetReflectSpell?(event: ModifierAbilityEvent): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetSuppressCleave?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetSuppressTeleport?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetTriggerCosmeticAndEndAttack?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetUnitLifetimeFraction?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetVisualZDelta?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAbilityEndChannel?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAbilityExecuted?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAbilityFullyCast?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAbilityStart?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttack?(event: ModifierAttackEvent): void;
+    /**
+     * Happens even if attack can't be issued.
+     *
+     * @abstract
+     * @both
+     */
+    OnAttackAllied?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackCancelled?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttacked?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackFail?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackFinished?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackLanded?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackRecord?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackRecordDestroy?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAttackStart?(event: ModifierAttackEvent): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    OnBreakInvisibility?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnBuildingKilled?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnDamageCalculated?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnDamagePrevented?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnDeath?(event: ModifierAttackEvent): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    OnDominated?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnHealReceived?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnHealthGained?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnHeroKilled?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnManaGained?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnModelChanged?(event: ModifierUnitEvent): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    OnModifierAdded?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnOrder?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnProcessCleave?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnProjectileDodge?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnProjectileObstructionHit?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnRespawn?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnSetLocation?(event: ModifierUnitEvent): void;
+    /**
+     * Not working.
+     *
+     * @abstract
+     * @both
+     */
+    OnSpellTargetReady?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnSpentMana?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnStateChanged?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTakeDamage?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTakeDamageKillCredit?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTeleported?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTeleporting?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTooltip?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTooltip2?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    OnUnitMoved?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    PreserveParticlesOnModelChanged?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    ReincarnateTime?(): number;
     __kind__: 'instance';
 }
 
@@ -6648,6 +7878,21 @@ declare interface CScriptPrecacheContext {
     __kind__: 'instance';
 }
 
+/** @both */
+declare const CScriptUniformRandomStream: DotaConstructor<CScriptUniformRandomStream>;
+
+declare interface CScriptUniformRandomStream {
+    /** @both */
+    RandomFloat(minVal: number, maxVal: number): number;
+    /** @both */
+    RandomFloatExp(minVal: number, maxVal: number, exponent: number): number;
+    /** @both */
+    RandomInt(minVal: number, maxVal: number): number;
+    /** @both */
+    RollPercentage(percentage: number): boolean;
+    __kind__: 'instance';
+}
+
 declare const CTakeDamageInfo: DotaConstructor<CTakeDamageInfo>;
 
 declare interface CTakeDamageInfo {
@@ -6828,6 +8073,7 @@ declare interface ProjectileManager {
     __kind__: 'instance';
 }
 
+/** @both */
 declare const QAngle: DotaConstructor<QAngle> &
     ((x: number | undefined, y: number | undefined, z: number | undefined) => QAngle);
 
@@ -6849,26 +8095,38 @@ declare type QAngle = __NumberLike & {
     z: number;
     /**
      * Overloaded +. Adds angles together.
+     *
+     * @both
      */
     __add(b: QAngle): QAngle;
     /**
      * Overloaded ==. Tests for Equality.
+     *
+     * @both
      */
     __eq(b: QAngle): boolean;
     /**
      * Overloaded .. Converts the QAngles to strings.
+     *
+     * @both
      */
     __tostring(): string;
     /**
      * Returns the forward vector.
+     *
+     * @both
      */
     Forward(): Vector;
     /**
      * Returns the left vector.
+     *
+     * @both
      */
     Left(): Vector;
     /**
      * Returns the up vector.
+     *
+     * @both
      */
     Up(): Vector;
     __kind__: 'instance';
@@ -6934,6 +8192,7 @@ declare interface Uint64 {
     __kind__: 'instance';
 }
 
+/** @both */
 declare const Vector: DotaConstructor<Vector> & ((x?: number, y?: number, z?: number) => Vector);
 
 /**
@@ -6954,55 +8213,81 @@ declare type Vector = __NumberLike & {
     z: number;
     /**
      * Overloaded +. Adds vectors together.
+     *
+     * @both
      */
     __add(b: Vector): Vector;
     /**
      * Overloaded /. Divides vectors.
+     *
+     * @both
      */
     __div(b: Vector): Vector;
     /**
      * Overloaded ==. Tests for Equality.
+     *
+     * @both
      */
     __eq(b: Vector): boolean;
     /**
      * Overloaded # returns the length of the vector.
+     *
+     * @both
      */
     __len(): number;
     /**
      * Overloaded * returns the vectors multiplied together. Can also be used to
      * multiply with scalars.
+     *
+     * @both
      */
     __mul(b: Vector | number): Vector;
     /**
      * Overloaded -. Subtracts vectors.
+     *
+     * @both
      */
     __sub(b: Vector): Vector;
     /**
      * Overloaded .. Converts vectors to strings.
+     *
+     * @both
      */
     __tostring(): string;
     /**
      * Overloaded - operator. Reverses the vector.
+     *
+     * @both
      */
     __unm(): Vector;
     /**
      * Cross product of two vectors.
+     *
+     * @both
      */
     Cross(b: Vector): Vector;
     /**
      * Dot product of two vectors.
+     *
+     * @both
      */
     Dot(b: Vector): number;
     /**
      * Length of the Vector.
+     *
+     * @both
      */
     Length(): number;
     /**
      * Length of the Vector in the XY plane.
+     *
+     * @both
      */
     Length2D(): number;
     /**
      * Returns the vector normalized.
+     *
+     * @both
      */
     Normalized(): Vector;
     /**
@@ -7014,6 +8299,7 @@ declare type Vector = __NumberLike & {
      * Same as `this + (b - this) * t`.
      *
      * @param t Interpolant
+     * @both
      */
     Lerp(b: Vector, t: number): Vector;
     __kind__: 'instance';
@@ -7047,7 +8333,6 @@ declare function AnglesToVector(arg1: QAngle): Vector;
 /**
  * @deprecated AppendToLogFile is deprecated. Print to the console for logging
  *             instead.
- *
  * @both
  */
 declare function AppendToLogFile(arg1: string, arg2: string): void;
@@ -7213,6 +8498,13 @@ declare function CreateTrigger(arg1: Vector, arg2: Vector, arg3: Vector): CBaseT
  * Creates and returns an AABB trigger thats bigger than the radius provided.
  */
 declare function CreateTriggerRadiusApproximate(vecOrigin: Vector, radius: number): CBaseTrigger;
+
+/**
+ * Creates a separate random number stream.
+ *
+ * @both
+ */
+declare function CreateUniformRandomStream(seed: number): object;
 
 /**
  * Creates a DOTA unit by its dota_npc_units.txt name.
@@ -7417,6 +8709,13 @@ declare function DebugScreenTextPretty(
 ): void;
 
 /**
+ * Print out a table (and subtables) to the console.
+ *
+ * @both
+ */
+declare function DeepPrintTable(table?: object): void;
+
+/**
  * Free a damageinfo object that was created with CreateDamageInfo().
  */
 declare function DestroyDamageInfo(damageInfo: CTakeDamageInfo): void;
@@ -7512,6 +8811,21 @@ declare function DropNeutralItemAtPositionForHero(
     tier: number,
     arg5: boolean,
 ): CDOTA_Item;
+
+declare function Dynamic_Wrap<
+    T extends object,
+    K extends {
+        [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
+            ? [T[P]] extends [((this: infer TThis, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
+                ? {} extends TThis // Has no specified this
+                    ? P
+                    : TThis extends T // Has this specified as T
+                    ? P
+                    : never
+                : never
+            : never;
+    }[keyof T]
+>(context: T, name: K): T[K];
 
 /**
  * Emit an announcer sound for all players.
@@ -7861,7 +9175,6 @@ declare function GetXPNeededToReachNextLevel(level: number): number;
 
 /**
  * @deprecated InitLogFile is deprecated. Print to the console for logging instead.
- *
  * @both
  */
 declare function InitLogFile(arg1: string, arg2: string): void;
@@ -8781,6 +10094,26 @@ declare interface LocalTime {
     Hours: number;
 }
 
+declare interface ModifierAbilityEvent {
+    new_pos: Vector;
+    order_type: dotaunitorder_t;
+    unit: CDOTA_BaseNPC;
+    ability: CDOTABaseAbility;
+    target?: CDOTA_BaseNPC;
+}
+
+declare interface ModifierAttackEvent {
+    attacker: CDOTA_BaseNPC;
+    damage: number;
+    damage_type: DAMAGE_TYPES;
+    damage_category: DamageCategory_t;
+    damage_flags: DOTADamageFlag_t;
+    inflictor?: CDOTABaseAbility;
+    original_damage: number;
+    ranged_attack: boolean;
+    target: CDOTA_BaseNPC;
+}
+
 declare interface ModifierGainedFilterEvent {
     entindex_caster_const: EntityIndex;
     entindex_parent_const: EntityIndex;
@@ -8790,6 +10123,12 @@ declare interface ModifierGainedFilterEvent {
      * -1 means forever. All other values less or equal to 0 would be equal to 1 frame.
      */
     duration: number;
+}
+
+declare interface ModifierUnitEvent {
+    new_pos: Vector;
+    order_type: dotaunitorder_t;
+    unit: CDOTA_BaseNPC;
 }
 
 declare interface ModifyExperienceFilterEvent {

@@ -42,6 +42,22 @@ const declarationOverrides: Record<string, string> = {
         eventData: GameEventDeclarations[TName],
     ): void;
   `,
+  Dynamic_Wrap: `
+    declare function Dynamic_Wrap<
+        T extends object,
+        K extends {
+            [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
+                ? [T[P]] extends [((this: infer TThis, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
+                    ? {} extends TThis // Has no specified this
+                        ? P
+                        : TThis extends T // Has this specified as T
+                        ? P
+                        : never
+                    : never
+                : never;
+        }[keyof T]
+    >(context: T, name: K): T[K];
+  `,
 };
 
 const precedingDeclarations: Record<string, string> = {
@@ -105,8 +121,10 @@ export const generatedApi = emit(
     const mainDeclarationMembers = [...declaration.members].flatMap<dom.ObjectTypeMember>(
       (member) => {
         const fullName = `${typeName}.${member.name}`;
-        return member.kind === 'field'
-          ? withDescription(
+
+        switch (member.kind) {
+          case 'field':
+            return withDescription(
               dom.create.property(
                 member.name,
                 getType(member.types, false),
@@ -115,8 +133,23 @@ export const generatedApi = emit(
                   : dom.DeclarationFlags.None,
               ),
               member.description,
-            )
-          : getFunction((p, r) => dom.create.method(member.name, p, r), fullName, member);
+            );
+
+          case 'function':
+            return getFunction(
+              (parameters, returnType) =>
+                dom.create.method(
+                  member.name,
+                  parameters,
+                  returnType,
+                  member.abstract ? dom.DeclarationFlags.Optional : dom.DeclarationFlags.None,
+                ),
+              fullName,
+              member,
+              undefined,
+              member.abstract,
+            );
+        }
       },
     );
 

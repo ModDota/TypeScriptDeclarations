@@ -1,11 +1,7 @@
-/** @noSelfInFile */
-
 /// <reference types="lua-types/jit" />
 /// <reference path="json.d.ts" />
-/// <reference path="modifier.d.ts" />
 /// <reference path="api.generated.d.ts" />
 /// <reference path="events.generated.d.ts" />
-/// <reference path="modifier-properties.generated.d.ts" />
 
 type NetworkedData<T> = T extends string | number
     ? T
@@ -19,8 +15,6 @@ type NetworkedData<T> = T extends string | number
     ? { [K in keyof T]: NetworkedData<T[K]> }
     : never;
 
-type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
-
 type DotaConstructor<T extends object> = {
     [P in keyof T]: P extends '__kind__'
         ? 'constructor'
@@ -28,6 +22,8 @@ type DotaConstructor<T extends object> = {
         ? <TThis extends T>(this: TThis, ...args: TArgs) => TReturn
         : T[P];
 };
+
+type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
 
 declare interface CDOTA_BaseNPC {
     /**
@@ -83,37 +79,5 @@ declare type PlayerID =
     | 22
     | 23;
 
-// Not dumped
 declare const vec3_origin: Vector;
 declare const vec3_invalid: Vector;
-
-// Declared in core addon scripts
-declare function DeepPrintTable(table?: object | null): void;
-declare function Dynamic_Wrap<
-    T extends object,
-    K extends {
-        [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
-            ? [T[P]] extends [((this: infer TThis, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
-                ? {} extends TThis // Has no specified `this`
-                    ? P
-                    : TThis extends T // Has `this` specified as `T`
-                    ? P
-                    : never
-                : never
-            : never;
-    }[keyof T]
->(context: T, name: K): T[K];
-
-declare interface CDOTA_Ability_Lua {
-    /**
-     * Called immediately after ability entity is created.
-     */
-    Spawn?(): void;
-}
-
-declare interface CDOTA_Item_Lua {
-    /**
-     * Called immediately after ability entity is created.
-     */
-    Spawn?(): void;
-}

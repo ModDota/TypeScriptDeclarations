@@ -49,6 +49,9 @@ export function getType(types: api.Type[], includeUndefined: boolean, thisType?:
 
 const typePredicates: Record<string, string> = {
   IsValidEntity: 'entity is CBaseEntity',
+  TraceCollideable: 'query is TraceCollideableOutputs',
+  TraceHull: 'query is TraceHullOutputs',
+  TraceLine: 'query is TraceLineOutputs',
   'CBaseEntity.IsBaseNPC': 'this is CDOTA_BaseNPC',
   'CBaseEntity.IsPlayer': 'this is CDOTAPlayer',
   'CDOTA_BaseNPC.IsBarracks': 'this is CDOTA_BaseNPC_Building',

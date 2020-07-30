@@ -366,7 +366,7 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     SetAngles(pitch: number, yaw: number, roll: number): void;
     /**
-     * Set the local angular velocity - takes float pitch,yaw,roll velocities.
+     * Set the local angular velocity.
      */
     SetAngularVelocity(pitchVel: number, yawVel: number, rollVel: number): void;
     /**
@@ -556,9 +556,6 @@ declare interface CBaseModelEntity extends CBaseEntity {
      */
     SetSingleMeshGroup(meshGroupName: string): void;
     SetSize(mins: Vector, maxs: Vector): void;
-    /**
-     * Set skin (int).
-     */
     SetSkin(skin: number): void;
     __kind__: 'instance';
 }
@@ -1343,7 +1340,7 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      *
      * @both
      */
-    GetCastRange(location: Vector, target: CDOTA_BaseNPC): number;
+    GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
     /**
      * Return channel animation of this ability.
      */
@@ -2603,11 +2600,11 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /**
      * Add the given gesture activity faded according to its sequence settings.
      */
-    StartGestureFadeWithSequenceSettings(activity: number): void;
+    StartGestureFadeWithSequenceSettings(activity: GameActivity_t): void;
     /**
      * Add the given gesture activity faded according to to the parameters.
      */
-    StartGestureWithFade(activity: number, fadeIn: number, fadeOut: number): void;
+    StartGestureWithFade(activity: GameActivity_t, fadeIn: number, fadeOut: number): void;
     /**
      * Add the given gesture activity with a playback rate override.
      */
@@ -2642,7 +2639,11 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * slot.
      */
     UnHideAbilityToSlot(abilityName: string, replacedAbilityName: string): void;
-    /** @both */
+    /**
+     * Can the unit respawn?
+     *
+     * @both
+     */
     UnitCanRespawn(): boolean;
     __kind__: 'instance';
 }
@@ -3422,7 +3423,7 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      *
      * @both
      */
-    GetCastRange(location: Vector, target: CDOTA_BaseNPC): number;
+    GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
     /**
      * Return mana cost at the given level per second while channeling (-1 is current).
      *
@@ -3671,8 +3672,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     DestroyOnExpire(): boolean;
     /**
-     * Return the types of attributes applied to this modifier (enum value from
-     * DOTAModifierAttribute_t.
+     * Return the types of attributes applied to this modifier.
      *
      * @both
      */
@@ -5499,7 +5499,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     /**
      * Gets the cast range of the ability.
      */
-    GetCastRange(location: Vector, target: CDOTA_BaseNPC): number;
+    GetCastRange(location: Vector | undefined, target: CDOTA_BaseNPC | undefined): number;
     GetChannelledManaCostPerSecond(level: number): number;
     GetChannelStartTime(): number;
     GetChannelTime(): number;
@@ -5527,9 +5527,18 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * @both
      */
     GetLevel(): number;
-    /** @both */
+    /**
+     * Gets a value from this ability's special value block for passed level.
+     *
+     * @both
+     */
     GetLevelSpecialValueFor(name: string, level: number): number;
-    /** @both */
+    /**
+     * Gets a value from this ability's special value block for passed level, ignoring
+     * MODIFIER_PROPERTY_OVERRIDE_ABILITY_SPECIAL.
+     *
+     * @both
+     */
     GetLevelSpecialValueNoOverride(name: string, level: number): number;
     GetManaCost(level: number): number;
     GetMaxLevel(): number;
@@ -5544,7 +5553,11 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      */
     GetSpecialValueFor(name: string): number;
     GetStolenActivityModifier(): string;
-    /** @both */
+    /**
+     * Whether or not this ability is toggled.
+     *
+     * @both
+     */
     GetToggleState(): boolean;
     GetUpgradeRecommended(): boolean;
     HeroXPChange(xp: number): boolean;
@@ -5568,7 +5581,11 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * Returns whether the ability is currently casting.
      */
     IsInAbilityPhase(): boolean;
-    /** @both */
+    /**
+     * Whether or not this ability is an item.
+     *
+     * @both
+     */
     IsItem(): this is CDOTA_Item;
     IsOwnersGoldEnough(issuerPlayerId: PlayerID): boolean;
     IsOwnersGoldEnoughForUpgrade(): boolean;
@@ -6286,28 +6303,28 @@ declare interface CDOTAGamerules {
      * Event-only.
      */
     AddEventMetadataLeaderboardEntry(
-        arg1: string,
-        arg2: number,
-        arg3: number,
-        arg4: number,
-        arg5: number,
-        arg6: number,
-        arg7: number,
-        arg8: number,
-        arg9: number,
+        nameSuffix: string,
+        stars: number,
+        maxStars: number,
+        extraData1: number,
+        extraData2: number,
+        extraData3: number,
+        extraData4: number,
+        extraData5: number,
+        extraData6: number,
     ): boolean;
     /**
      * Event-only.
      */
     AddEventMetadataLeaderboardEntryRawScore(
-        arg1: string,
-        arg2: number,
-        arg3: number,
-        arg4: number,
-        arg5: number,
-        arg6: number,
-        arg7: number,
-        arg8: number,
+        nameSuffix: string,
+        score: number,
+        extraData1: number,
+        extraData2: number,
+        extraData3: number,
+        extraData4: number,
+        extraData5: number,
+        extraData6: number,
     ): boolean;
     /**
      * Add an item to the whitelist.
@@ -6801,7 +6818,7 @@ declare interface CDOTAPlayer extends CBaseAnimating {
     /**
      * Spawn a courier for this player at the given position.
      */
-    SpawnCourierAtPosition(location: Vector): object;
+    SpawnCourierAtPosition(location: Vector): CDOTA_Unit_Courier;
     __kind__: 'instance';
 }
 
@@ -6927,8 +6944,9 @@ declare interface CDOTATutorial {
      */
     SetItemGuide(arg1: string): void;
     /**
-     * Set gold amount for the tutorial player. (int) GoldAmount, (bool) true=Set,
-     * false=Modify.
+     * Set gold amount for the tutorial player.
+     *
+     * @param setNotModify When true sets gold amount, otherwise modifies it
      */
     SetOrModifyPlayerGold(goldAmount: number, setNotModify: boolean): void;
     /**
@@ -8504,7 +8522,7 @@ declare function CreateTriggerRadiusApproximate(vecOrigin: Vector, radius: numbe
  *
  * @both
  */
-declare function CreateUniformRandomStream(seed: number): object;
+declare function CreateUniformRandomStream(seed: number): CScriptUniformRandomStream;
 
 /**
  * Creates a DOTA unit by its dota_npc_units.txt name.
@@ -8767,12 +8785,18 @@ declare function DoScriptAssert(arg1: boolean, arg2: string): void;
  * Spawn a .vmap at the target location.
  *
  * @param mapName A map name without extension, relative to "maps" directory.
- * @param location Note: X and Y coordinates must be multiple of the grid size.
+ * @param location The value of x and y must be multiple the grid size 64.
+ *
+ *                 To avoid GridNav conflicts, tiles on these coordinates on the
+ *                 base map must be empty.
+ * @param deferCompletion If true, to finish map loading you need to call
+ *                        ManuallyTriggerSpawnGroupCompletion(spawnGroupHandle).
+ * @param onReadyToSpawn Called only when deferCompletion is true.
  */
 declare function DOTA_SpawnMapAtPosition(
     mapName: string,
     location: Vector,
-    arg3: boolean,
+    deferCompletion: boolean,
     onReadyToSpawn: (spawnGroupHandle: number) => void,
     onSpawnComplete: (spawnGroupHandle: number) => void,
     context: undefined,
@@ -8781,7 +8805,7 @@ declare function DOTA_SpawnMapAtPosition(
 declare function DOTA_SpawnMapAtPosition<TContext extends {}>(
     mapName: string,
     location: Vector,
-    arg3: boolean,
+    deferCompletion: boolean,
     onReadyToSpawn: (this: TContext, spawnGroupHandle: number) => void,
     onSpawnComplete: (this: TContext, spawnGroupHandle: number) => void,
     context: TContext,
@@ -8810,7 +8834,7 @@ declare function DropNeutralItemAtPositionForHero(
     unit: CDOTA_BaseNPC,
     tier: number,
     arg5: boolean,
-): CDOTA_Item;
+): CDOTA_Item_Physical;
 
 declare function Dynamic_Wrap<
     T extends object,
@@ -8897,7 +8921,7 @@ declare function EntIndexToHScript(entityIndex: EntityIndex): CBaseEntity | unde
 /**
  * Issue an order from a script table.
  */
-declare function ExecuteOrderFromTable(order: object): void;
+declare function ExecuteOrderFromTable(order: ExecuteOrderOptions): void;
 
 /**
  * Smooth curve decreasing slower as it approaches zero.
@@ -9793,29 +9817,14 @@ declare function StopSoundOn(arg1: string, arg2: object): void;
  */
 declare function Time(): number;
 
-/**
- * Pass table - Inputs: start, end, ent, (optional mins, maxs) -- outputs: pos,
- * fraction, hit, startsolid, normal.
- *
- * @both
- */
-declare function TraceCollideable(arg1: object): boolean;
+/** @both */
+declare function TraceCollideable(query: TraceCollideableInputs): query is TraceCollideableOutputs;
 
-/**
- * Pass table - Inputs: start, end, min, max, mask, ignore  -- outputs: pos,
- * fraction, hit, enthit, startsolid.
- *
- * @both
- */
-declare function TraceHull(arg1: object): boolean;
+/** @both */
+declare function TraceHull(query: TraceHullInputs): query is TraceHullOutputs;
 
-/**
- * Pass table - Inputs: startpos, endpos, mask, ignore  -- outputs: pos, fraction,
- * hit, enthit, startsolid.
- *
- * @both
- */
-declare function TraceLine(arg1: object): boolean;
+/** @both */
+declare function TraceLine(query: TraceLineInputs): query is TraceLineOutputs;
 
 /**
  * Check if a unit passes a set of filters.
@@ -10076,6 +10085,27 @@ declare interface ExecuteOrderFilterEvent {
     position_z: number;
 }
 
+declare interface ExecuteOrderOptions {
+    UnitIndex: EntityIndex;
+    OrderType: dotaunitorder_t;
+    /**
+     * Only used when targeting units.
+     */
+    TargetIndex?: EntityIndex;
+    /**
+     * Only used when casting abilities.
+     */
+    AbilityIndex?: EntityIndex;
+    /**
+     * Only used when targeting the ground.
+     */
+    Position?: Vector;
+    /**
+     * Used for queueing up abilities.
+     */
+    Queue?: boolean;
+}
+
 declare interface HealingFilterEvent {
     entindex_target_const: EntityIndex;
     heal: number;
@@ -10112,6 +10142,7 @@ declare interface ModifierAttackEvent {
     original_damage: number;
     ranged_attack: boolean;
     target: CDOTA_BaseNPC;
+    unit?: CDOTA_BaseNPC;
 }
 
 declare interface ModifierGainedFilterEvent {
@@ -10153,6 +10184,70 @@ declare interface Quaternion {}
 declare interface RuneSpawnFilterEvent {
     spawner_entindex_const: EntityIndex;
     rune_type: DOTA_RUNES;
+}
+
+declare interface TraceCollideableInputs {
+    startpos: Vector;
+    endpos: Vector;
+    ent: CBaseEntity;
+    mins?: unknown;
+    maxs?: unknown;
+}
+
+declare interface TraceCollideableOutputs {
+    startpos: Vector;
+    endpos: Vector;
+    ent: CBaseEntity;
+    mins?: unknown;
+    maxs?: unknown;
+    hit: boolean;
+    pos: Vector;
+    normal: Vector;
+    fraction: number;
+}
+
+declare interface TraceHullInputs {
+    startpos: Vector;
+    endpos: Vector;
+    min: unknown;
+    max: unknown;
+    mask?: unknown;
+    ignore?: unknown;
+}
+
+declare interface TraceHullOutputs {
+    startpos: Vector;
+    endpos: Vector;
+    min: unknown;
+    max: unknown;
+    mask?: unknown;
+    ignore?: unknown;
+    hit: boolean;
+    startsolid: boolean;
+    pos: Vector;
+    normal: Vector;
+    fraction: number;
+    enthit?: CBaseEntity;
+}
+
+declare interface TraceLineInputs {
+    startpos: Vector;
+    endpos: Vector;
+    mask?: unknown;
+    ignore?: unknown;
+}
+
+declare interface TraceLineOutputs {
+    startpos: Vector;
+    endpos: Vector;
+    mask?: unknown;
+    ignore?: unknown;
+    hit: boolean;
+    startsolid: boolean;
+    pos: Vector;
+    normal: Vector;
+    fraction: number;
+    enthit?: CBaseEntity;
 }
 
 declare interface TrackingProjectileFilterEvent {

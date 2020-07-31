@@ -28,9 +28,8 @@ const typeMap: Record<string, string> = {
   table: 'object',
   variant: 'any',
   nil: 'undefined',
-
-  // TODO:
-  Vector2D: 'any',
+  Quaternion: 'never',
+  Vector2D: 'never',
 };
 
 export function getType(types: api.Type[], includeUndefined: boolean, thisType?: string): dom.Type {

@@ -1,7 +1,11 @@
 /// <reference types="lua-types/jit" />
 /// <reference path="json.d.ts" />
 /// <reference path="api.generated.d.ts" />
+/// <reference path="api-types.generated.d.ts" />
 /// <reference path="events.generated.d.ts" />
+
+declare const vec3_origin: Vector;
+declare const vec3_invalid: Vector;
 
 type NetworkedData<T> = T extends string | number
     ? T
@@ -45,39 +49,3 @@ declare interface CLogicRelay {
      */
     Trigger(): void;
 }
-
-declare type ProjectileID = number & { readonly __tag__: 'ProjectileID' };
-declare type ParticleID = number & { readonly __tag__: 'ParticleID' };
-declare type EventListenerID = number & { readonly __tag__: 'EventListenerID' };
-declare type CustomGameEventListenerID = number & { readonly __tag__: 'CustomGameEventListenerID' };
-declare type CombatAnalyzerQueryID = number & { readonly __tag__: 'CombatAnalyzerQueryID' };
-declare type EntityIndex = number & { readonly __tag__: 'EntityIndex' };
-declare type PlayerID =
-    | -1
-    | 0
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 11
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16
-    | 17
-    | 18
-    | 19
-    | 20
-    | 21
-    | 22
-    | 23;
-
-declare const vec3_origin: Vector;
-declare const vec3_invalid: Vector;

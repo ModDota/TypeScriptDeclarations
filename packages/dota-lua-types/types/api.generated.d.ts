@@ -783,7 +783,7 @@ declare interface CDebugOverlayScriptHelper {
      *
      * @both
      */
-    Axis(arg1: Vector, arg2: Quaternion, arg3: number, arg4: boolean, arg5: number): void;
+    Axis(arg1: Vector, arg2: never, arg3: number, arg4: boolean, arg5: number): void;
     /**
      * Draws a world-space axis-aligned box. Specify bounds in world space.
      *
@@ -808,7 +808,7 @@ declare interface CDebugOverlayScriptHelper {
         arg1: Vector,
         arg2: Vector,
         arg3: Vector,
-        arg4: Quaternion,
+        arg4: never,
         arg5: number,
         arg6: number,
         arg7: number,
@@ -823,7 +823,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Capsule(
         arg1: Vector,
-        arg2: Quaternion,
+        arg2: never,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -840,7 +840,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Circle(
         arg1: Vector,
-        arg2: Quaternion,
+        arg2: never,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -918,7 +918,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Cross3DOriented(
         arg1: Vector,
-        arg2: Quaternion,
+        arg2: never,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -996,7 +996,7 @@ declare interface CDebugOverlayScriptHelper {
      *
      * @both
      */
-    FilledRect2D(arg1: any, arg2: any, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+    FilledRect2D(arg1: never, arg2: never, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
     /**
      * Draws a horizontal arrow. Specify endpoints in world space.
      *
@@ -1033,7 +1033,7 @@ declare interface CDebugOverlayScriptHelper {
      *
      * @both
      */
-    Line2D(arg1: any, arg2: any, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
+    Line2D(arg1: never, arg2: never, arg3: number, arg4: number, arg5: number, arg6: number, arg7: number): void;
     /**
      * Pops the identifier used to group overlays. Overlays marked with this
      * identifier can be deleted in a big batch.
@@ -1105,7 +1105,7 @@ declare interface CDebugOverlayScriptHelper {
         arg2: Vector,
         arg3: Vector,
         arg4: Vector,
-        arg5: Quaternion,
+        arg5: never,
         arg6: number,
         arg7: number,
         arg8: number,
@@ -1135,14 +1135,14 @@ declare interface CDebugOverlayScriptHelper {
      */
     Texture(
         arg1: string,
-        arg2: any,
-        arg3: any,
+        arg2: never,
+        arg3: never,
         arg4: number,
         arg5: number,
         arg6: number,
         arg7: number,
-        arg8: any,
-        arg9: any,
+        arg8: never,
+        arg9: never,
         arg10: number,
     ): void;
     /**
@@ -1174,7 +1174,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     VectorText3D(
         arg1: Vector,
-        arg2: Quaternion,
+        arg2: never,
         arg3: string,
         arg4: number,
         arg5: number,
@@ -8366,7 +8366,7 @@ declare function ApplyDamage(options: ApplyDamageOptions): number;
  *
  * @both
  */
-declare function AxisAngleToQuaternion(arg1: Vector, arg2: number): Quaternion;
+declare function AxisAngleToQuaternion(arg1: Vector, arg2: number): never;
 
 /**
  * Compute the closest point on the OBB of an entity.
@@ -9515,7 +9515,7 @@ declare function RotatePosition(arg1: Vector, arg2: QAngle, arg3: Vector): Vecto
  *
  * @both
  */
-declare function RotateQuaternionByAxisAngle(arg1: Quaternion, arg2: Vector, arg3: number): Quaternion;
+declare function RotateQuaternionByAxisAngle(arg1: never, arg2: Vector, arg3: number): never;
 
 /**
  * Find the delta between two QAngles.
@@ -9719,7 +9719,7 @@ declare function SpawnEntityListFromTableSynchronous(arg1: object): object;
  *
  * @both
  */
-declare function SplineQuaternions(arg1: Quaternion, arg2: Quaternion, arg3: number): Quaternion;
+declare function SplineQuaternions(arg1: never, arg2: never, arg3: number): never;
 
 /**
  * Very basic interpolation of v0 to v1 over t on [0,1].
@@ -9943,320 +9943,3 @@ declare function VectorToAngles(arg1: Vector): QAngle;
  * @both
  */
 declare function Warning(message: string): void;
-
-declare interface AbilityTuningValueFilterEvent {
-    entindex_caster_const: EntityIndex;
-    entindex_ability_const: EntityIndex;
-    value_name_const: string;
-    value: number;
-}
-
-declare interface ApplyDamageOptions {
-    victim: CDOTA_BaseNPC;
-    attacker: CDOTA_BaseNPC;
-    damage: number;
-    damage_type: DAMAGE_TYPES;
-    damage_flags?: DOTADamageFlag_t;
-    ability?: CDOTABaseAbility;
-}
-
-declare interface BountyRunePickupFilterEvent {
-    player_id_const: PlayerID;
-    xp_bounty: number;
-    gold_bounty: number;
-}
-
-declare interface CombatAnalyzerQueryResult {
-    query_id: CombatAnalyzerQueryID;
-}
-
-declare interface CreateIllusionsModifierKeys {
-    outgoing_damage?: number;
-    incoming_damage?: number;
-    bounty_base?: number;
-    bounty_growth?: number;
-    outgoing_damage_structure?: number;
-    outgoing_damage_roshan?: number;
-}
-
-declare interface CreateLinearProjectileOptions {
-    EffectName?: string;
-    Ability?: CDOTABaseAbility;
-    Source?: CDOTA_BaseNPC;
-    vSpawnOrigin?: Vector;
-    vVelocity?: Vector;
-    /**
-     * Velocity change per second.
-     */
-    vAcceleration?: Vector;
-    fMaxSpeed?: number;
-    fDistance?: number;
-    fStartRadius?: number;
-    fEndRadius?: number;
-    fExpireTime?: number;
-    iUnitTargetTeam?: DOTA_UNIT_TARGET_TEAM;
-    iUnitTargetFlags?: DOTA_UNIT_TARGET_FLAGS;
-    iUnitTargetType?: DOTA_UNIT_TARGET_TYPE;
-    bIgnoreSource?: boolean;
-    bHasFrontalCone?: boolean;
-    /**
-     * @default false
-     */
-    bDrawsOnMinimap?: boolean;
-    /**
-     * Makes it invisible for all teams.
-     */
-    bVisibleToEnemies?: boolean;
-    bProvidesVision?: boolean;
-    iVisionRadius?: number;
-    iVisionTeamNumber?: DOTATeam_t;
-    /**
-     * Extra data associated with projectile instance, that is passed to
-     * `OnProjectileThink_ExtraData` and `OnProjectileHit_ExtraData`.
-     */
-    ExtraData?: Record<string, string | number | boolean>;
-}
-
-declare interface CreateTrackingProjectileOptions {
-    EffectName?: string;
-    Ability?: CDOTABaseAbility;
-    Source?: CDOTA_BaseNPC;
-    vSourceLoc?: Vector;
-    Target?: CDOTA_BaseNPC;
-    iMoveSpeed?: number;
-    flExpireTime?: number;
-    bDodgeable?: boolean;
-    bIsAttack?: boolean;
-    /**
-     * When enabled replaces existing projectile from the ability. Does not destroy
-     * particle.
-     *
-     * @default false
-     */
-    bReplaceExisting?: boolean;
-    iSourceAttachment?: DOTAProjectileAttachment_t;
-    /**
-     * @default false
-     */
-    bDrawsOnMinimap?: boolean;
-    /**
-     * @default true
-     */
-    bVisibleToEnemies?: boolean;
-    bProvidesVision?: boolean;
-    iVisionRadius?: number;
-    iVisionTeamNumber?: DOTATeam_t;
-    /**
-     * Extra data associated with projectile instance, that is passed to
-     * `OnProjectileThink_ExtraData` and `OnProjectileHit_ExtraData`.
-     */
-    ExtraData?: Record<string, string | number | boolean>;
-}
-
-declare interface CScriptHTTPResponse {
-    Body: string;
-    Request: CScriptHTTPRequest;
-    StatusCode: number;
-}
-
-declare interface DamageFilterEvent {
-    entindex_attacker_const: EntityIndex;
-    entindex_victim_const: EntityIndex;
-    entindex_inflictor_const?: EntityIndex;
-    damagetype_const: DAMAGE_TYPES;
-    damage: number;
-}
-
-declare interface EntityBounds {
-    Mins: Vector;
-    Maxs: Vector;
-}
-
-declare interface ExecuteOrderFilterEvent {
-    units: Record<string, EntityIndex>;
-    entindex_target: EntityIndex;
-    entindex_ability: EntityIndex;
-    issuer_player_id_const: PlayerID;
-    sequence_number_const: number;
-    queue: 0 | 1;
-    order_type: dotaunitorder_t;
-    position_x: number;
-    position_y: number;
-    position_z: number;
-}
-
-declare interface ExecuteOrderOptions {
-    UnitIndex: EntityIndex;
-    OrderType: dotaunitorder_t;
-    /**
-     * Only used when targeting units.
-     */
-    TargetIndex?: EntityIndex;
-    /**
-     * Only used when casting abilities.
-     */
-    AbilityIndex?: EntityIndex;
-    /**
-     * Only used when targeting the ground.
-     */
-    Position?: Vector;
-    /**
-     * Used for queueing up abilities.
-     */
-    Queue?: boolean;
-}
-
-declare interface HealingFilterEvent {
-    entindex_target_const: EntityIndex;
-    heal: number;
-}
-
-declare interface ItemAddedToInventoryFilterEvent {
-    inventory_parent_entindex_const: EntityIndex;
-    item_parent_entindex_const: EntityIndex;
-    item_entindex_const: EntityIndex;
-    suggested_slot: -1 | DOTAScriptInventorySlot_t;
-}
-
-declare interface LocalTime {
-    Minutes: number;
-    Seconds: number;
-    Hours: number;
-}
-
-declare interface ModifierAbilityEvent {
-    new_pos: Vector;
-    order_type: dotaunitorder_t;
-    unit: CDOTA_BaseNPC;
-    ability: CDOTABaseAbility;
-    target?: CDOTA_BaseNPC;
-}
-
-declare interface ModifierAttackEvent {
-    attacker: CDOTA_BaseNPC;
-    damage: number;
-    damage_type: DAMAGE_TYPES;
-    damage_category: DamageCategory_t;
-    damage_flags: DOTADamageFlag_t;
-    inflictor?: CDOTABaseAbility;
-    original_damage: number;
-    ranged_attack: boolean;
-    target: CDOTA_BaseNPC;
-    unit?: CDOTA_BaseNPC;
-}
-
-declare interface ModifierGainedFilterEvent {
-    entindex_caster_const: EntityIndex;
-    entindex_parent_const: EntityIndex;
-    entindex_ability_const: EntityIndex;
-    name_const: string;
-    /**
-     * -1 means forever. All other values less or equal to 0 would be equal to 1 frame.
-     */
-    duration: number;
-}
-
-declare interface ModifierUnitEvent {
-    new_pos: Vector;
-    order_type: dotaunitorder_t;
-    unit: CDOTA_BaseNPC;
-}
-
-declare interface ModifyExperienceFilterEvent {
-    hero_entindex_const: EntityIndex;
-    player_id_const: PlayerID;
-    reason_const: EDOTA_ModifyXP_Reason;
-    experience: number;
-}
-
-declare interface ModifyGoldFilterEvent {
-    player_id_const: PlayerID;
-    reason_const: EDOTA_ModifyGold_Reason;
-    reliable: 0 | 1;
-    gold: number;
-}
-
-/**
- * Invalid type.
- */
-declare interface Quaternion {}
-
-declare interface RuneSpawnFilterEvent {
-    spawner_entindex_const: EntityIndex;
-    rune_type: DOTA_RUNES;
-}
-
-declare interface TraceCollideableInputs {
-    startpos: Vector;
-    endpos: Vector;
-    ent: CBaseEntity;
-    mins?: unknown;
-    maxs?: unknown;
-}
-
-declare interface TraceCollideableOutputs {
-    startpos: Vector;
-    endpos: Vector;
-    ent: CBaseEntity;
-    mins?: unknown;
-    maxs?: unknown;
-    hit: boolean;
-    pos: Vector;
-    normal: Vector;
-    fraction: number;
-}
-
-declare interface TraceHullInputs {
-    startpos: Vector;
-    endpos: Vector;
-    min: unknown;
-    max: unknown;
-    mask?: unknown;
-    ignore?: unknown;
-}
-
-declare interface TraceHullOutputs {
-    startpos: Vector;
-    endpos: Vector;
-    min: unknown;
-    max: unknown;
-    mask?: unknown;
-    ignore?: unknown;
-    hit: boolean;
-    startsolid: boolean;
-    pos: Vector;
-    normal: Vector;
-    fraction: number;
-    enthit?: CBaseEntity;
-}
-
-declare interface TraceLineInputs {
-    startpos: Vector;
-    endpos: Vector;
-    mask?: unknown;
-    ignore?: unknown;
-}
-
-declare interface TraceLineOutputs {
-    startpos: Vector;
-    endpos: Vector;
-    mask?: unknown;
-    ignore?: unknown;
-    hit: boolean;
-    startsolid: boolean;
-    pos: Vector;
-    normal: Vector;
-    fraction: number;
-    enthit?: CBaseEntity;
-}
-
-declare interface TrackingProjectileFilterEvent {
-    entindex_source_const: EntityIndex;
-    entindex_target_const: EntityIndex;
-    entindex_ability_const: EntityIndex;
-    is_attack: 0 | 1;
-    dodgeable: 0 | 1;
-    max_impact_time: number;
-    move_speed: number;
-    expire_time: number;
-}

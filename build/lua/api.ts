@@ -125,13 +125,7 @@ export const generatedApi = emit(
         switch (member.kind) {
           case 'field':
             return withDescription(
-              dom.create.property(
-                member.name,
-                getType(member.types, false),
-                member.types.includes('nil')
-                  ? dom.DeclarationFlags.Optional
-                  : dom.DeclarationFlags.None,
-              ),
+              dom.create.property(member.name, getType(member.types, true)),
               member.description,
             );
 
@@ -153,57 +147,51 @@ export const generatedApi = emit(
       },
     );
 
-    if (declaration.kind === 'class') {
-      mainDeclarationMembers.push(
-        dom.create.property('__kind__', dom.type.stringLiteral('instance')),
+    mainDeclarationMembers.push(
+      dom.create.property('__kind__', dom.type.stringLiteral('instance')),
+    );
+
+    const constructorTypes = dom.create.intersection([]);
+    if (typeName !== declaration.instance) {
+      constructorTypes.members.push(dom.create.namedTypeReference(`DotaConstructor<${typeName}>`));
+    }
+
+    if (declaration.call != null) {
+      constructorTypes.members.push(
+        ...getFunction(dom.create.functionType, typeName, declaration.call),
       );
+    }
 
-      const constructorTypes = dom.create.intersection([]);
-      if (typeName !== declaration.instance) {
-        constructorTypes.members.push(
-          dom.create.namedTypeReference(`DotaConstructor<${typeName}>`),
-        );
-      }
-
-      if (declaration.call != null) {
-        constructorTypes.members.push(
-          ...getFunction(dom.create.functionType, typeName, declaration.call),
-        );
-      }
-
-      if (declaration.instance != null) {
-        const typeNameReference = dom.create.namedTypeReference(typeName);
-        if (typeName === declaration.instance) {
-          constructorTypes.members.push(typeNameReference);
-        } else {
-          declarations.push(dom.create.const(declaration.instance, typeNameReference));
-        }
-      }
-
-      declarations.push(
-        withDescription(
-          dom.create.const(typeName, constructorTypes),
-          declaration.clientName === typeName ? '@both' : undefined,
-        ),
-      );
-
-      if (declaration.clientName != null && declaration.clientName !== typeName) {
-        declarations.push(
-          withDescription(
-            dom.create.const(
-              declaration.clientName,
-              dom.create.typeof(dom.create.namedTypeReference(typeName)),
-            ),
-            '@client',
-          ),
-        );
+    if (declaration.instance != null) {
+      const typeNameReference = dom.create.namedTypeReference(typeName);
+      if (typeName === declaration.instance) {
+        constructorTypes.members.push(typeNameReference);
+      } else {
+        declarations.push(dom.create.const(declaration.instance, typeNameReference));
       }
     }
 
+    declarations.push(
+      withDescription(
+        dom.create.const(typeName, constructorTypes),
+        declaration.clientName === typeName ? '@both' : undefined,
+      ),
+    );
+
+    if (declaration.clientName != null && declaration.clientName !== typeName) {
+      declarations.push(
+        withDescription(
+          dom.create.const(
+            declaration.clientName,
+            dom.create.typeof(dom.create.namedTypeReference(typeName)),
+          ),
+          '@client',
+        ),
+      );
+    }
+
     const extendedType =
-      declaration.kind === 'class' && declaration.extend != null
-        ? dom.create.interface(declaration.extend)
-        : undefined;
+      declaration.extend != null ? dom.create.interface(declaration.extend) : undefined;
 
     let mainTypeDeclaration: dom.ModuleMember;
     const hasOverloadedOperators = declaration.members.some((m) => m.name === '__add');

@@ -2,64 +2,6 @@ import api from 'dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import { emit, getFunction, getType, withDescription } from './utils';
 
-const declarationOverrides: Record<string, string> = {
-  ListenToGameEvent: `
-    /**
-     * Register as a listener for a game event from script.
-     *
-     * @both
-     */
-    declare function ListenToGameEvent<TName extends keyof GameEventDeclarations>(
-        eventName: TName,
-        listener: (event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
-        context: undefined,
-    ): EventListenerID;
-    declare function ListenToGameEvent<TName extends keyof GameEventDeclarations, TContext extends {}>(
-        eventName: TName,
-        listener: (this: TContext, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
-        context: TContext,
-    ): EventListenerID;
-  `,
-  FireGameEvent: `
-    /**
-     * Fire a game event.
-     *
-     * @both
-     */
-    declare function FireGameEvent<TName extends keyof GameEventDeclarations>(
-        eventName: TName,
-        eventData: GameEventDeclarations[TName],
-    ): void;
-  `,
-  FireGameEventLocal: `
-    /**
-     * Fire a game event without broadcasting to the client.
-     *
-     * @both
-     */
-    declare function FireGameEventLocal<TName extends keyof GameEventDeclarations>(
-        eventName: TName,
-        eventData: GameEventDeclarations[TName],
-    ): void;
-  `,
-  Dynamic_Wrap: `
-    declare function Dynamic_Wrap<
-        T extends object,
-        K extends {
-            [P in keyof T]: ((...args: any[]) => any) extends T[P] // At least one of union's values is a function
-                ? [T[P]] extends [((this: infer TThis, ...args: any[]) => any) | null | undefined] // Box type to make it not distributive
-                    ? {} extends TThis // Has no specified this
-                        ? P
-                        : TThis extends T // Has this specified as T
-                        ? P
-                        : never
-                    : never
-                : never;
-        }[keyof T]
-    >(context: T, name: K): T[K];
-  `,
-};
-
 const precedingDeclarations: Record<string, string> = {
   ListenToGameEvent: `
     declare interface GameEventProvidedProperties {
@@ -103,11 +45,6 @@ export const generatedApi = emit(
     const declarations: (dom.TopLevelDeclaration | string)[] = [];
     if (typeName in precedingDeclarations) {
       declarations.push(precedingDeclarations[typeName]);
-    }
-
-    if (typeName in declarationOverrides) {
-      declarations.push(declarationOverrides[typeName]);
-      return declarations;
     }
 
     if (declaration.kind === 'function') {

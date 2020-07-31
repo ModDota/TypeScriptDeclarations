@@ -5851,18 +5851,24 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
     /**
      * Set function and context for real time combat analyzer query failed.
      */
-    ListenForQueryFailed<T extends {}>(func: (this: T, result: CombatAnalyzerQueryResult) => void, context: T): void;
+    ListenForQueryFailed<TContext extends {}>(
+        func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
+        context: TContext,
+    ): void;
     /**
      * Set function and context for real time combat analyzer query progress changed.
      */
-    ListenForQueryProgressChanged<T extends {}>(
-        func: (this: T, result: CombatAnalyzerQueryResult) => void,
-        context: T,
+    ListenForQueryProgressChanged<TContext extends {}>(
+        func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
+        context: TContext,
     ): void;
     /**
      * Set function and context for real time combat analyzer query succeeded.
      */
-    ListenForQuerySucceeded<T extends {}>(func: (this: T, result: CombatAnalyzerQueryResult) => void, context: T): void;
+    ListenForQuerySucceeded<TContext extends {}>(
+        func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
+        context: TContext,
+    ): void;
     /**
      * Remove an item to purchase at a custom shop.
      */
@@ -5876,9 +5882,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * the table and Return true to use new values, return false to use the old
      * values).
      */
-    SetAbilityTuningValueFilter<T extends {}>(
-        filterFunc: (this: T, event: AbilityTuningValueFilterEvent) => boolean,
-        context: T,
+    SetAbilityTuningValueFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: AbilityTuningValueFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Show the player hero's inventory in the HUD, regardless of what unit is
@@ -5915,9 +5921,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * (Modify the table and Return true to use new values, return false to cancel the
      * event).
      */
-    SetBountyRunePickupFilter<T extends {}>(
-        filterFunc: (this: T, event: BountyRunePickupFilterEvent) => boolean,
-        context: T,
+    SetBountyRunePickupFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: BountyRunePickupFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Set bounty rune spawn rate.
@@ -5991,7 +5997,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set a filter function to control the behavior when a unit takes damage. (Modify
      * the table and Return true to use new values, return false to cancel the event).
      */
-    SetDamageFilter<T extends {}>(filterFunc: (this: T, event: DamageFilterEvent) => boolean, context: T): void;
+    SetDamageFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: DamageFilterEvent) => boolean,
+        context: TContext,
+    ): void;
     /**
      * Enable or disable the day/night cycle.
      */
@@ -6018,9 +6027,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * (Modify the table and Return true to use new values, return false to cancel the
      * event).
      */
-    SetExecuteOrderFilter<T extends {}>(
-        filterFunc: (this: T, event: ExecuteOrderFilterEvent) => boolean,
-        context: T,
+    SetExecuteOrderFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: ExecuteOrderFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Set a fixed delay for all players to respawn after.
@@ -6062,7 +6071,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set a filter function to control the behavior when a unit heals. (Modify the
      * table and Return true to use new values, return false to cancel the event).
      */
-    SetHealingFilter<T extends {}>(filterFunc: (this: T, event: HealingFilterEvent) => boolean, context: T): void;
+    SetHealingFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: HealingFilterEvent) => boolean,
+        context: TContext,
+    ): void;
     /**
      * Specify whether the default combat events will show in the HUD.
      */
@@ -6075,9 +6087,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set a filter function to control what happens to items that are added to an
      * inventory, return false to cancel the event.
      */
-    SetItemAddedToInventoryFilter<T extends {}>(
-        filterFunc: (this: T, event: ItemAddedToInventoryFilterEvent) => boolean,
-        context: T,
+    SetItemAddedToInventoryFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: ItemAddedToInventoryFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Set whether tombstones can be channeled to be removed by enemy heroes.
@@ -6103,25 +6115,28 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set a filter function to control modifiers that are gained, return false to
      * destroy modifier.
      */
-    SetModifierGainedFilter<T extends {}>(
-        filterFunc: (this: T, event: ModifierGainedFilterEvent) => boolean,
-        context: T,
+    SetModifierGainedFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: ModifierGainedFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Set a filter function to control the behavior when a hero's experience is
      * modified. (Modify the table and Return true to use new values, return false to
      * cancel the event).
      */
-    SetModifyExperienceFilter<T extends {}>(
-        filterFunc: (this: T, event: ModifyExperienceFilterEvent) => boolean,
-        context: T,
+    SetModifyExperienceFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: ModifyExperienceFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Set a filter function to control the behavior when a hero's gold is modified.
      * (Modify the table and Return true to use new values, return false to cancel the
      * event).
      */
-    SetModifyGoldFilter<T extends {}>(filterFunc: (this: T, event: ModifyGoldFilterEvent) => boolean, context: T): void;
+    SetModifyGoldFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: ModifyGoldFilterEvent) => boolean,
+        context: TContext,
+    ): void;
     /**
      * When enabled, undiscovered items in the neutral item stash are hidden.
      */
@@ -6172,7 +6187,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set a filter function to control what rune spawns. (Modify the table and Return
      * true to use new values, return false to cancel the event).
      */
-    SetRuneSpawnFilter<T extends {}>(filterFunc: (this: T, event: RuneSpawnFilterEvent) => boolean, context: T): void;
+    SetRuneSpawnFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: RuneSpawnFilterEvent) => boolean,
+        context: TContext,
+    ): void;
     /**
      * Enable/disable gold penalty for late picking.
      */
@@ -6215,9 +6233,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * (Modify the table and Return true to use new values, return false to cancel the
      * event).
      */
-    SetTrackingProjectileFilter<T extends {}>(
-        filterFunc: (this: T, event: TrackingProjectileFilterEvent) => boolean,
-        context: T,
+    SetTrackingProjectileFilter<TContext extends {}>(
+        filterFunc: (this: TContext, event: TrackingProjectileFilterEvent) => boolean,
+        context: TContext,
     ): void;
     /**
      * Enable or disable unseen fog of war. When enabled parts of the map the player
@@ -8836,6 +8854,11 @@ declare function DropNeutralItemAtPositionForHero(
     arg5: boolean,
 ): CDOTA_Item_Physical;
 
+/**
+ * A function to re-lookup a function by name every time.
+ *
+ * @both
+ */
 declare function Dynamic_Wrap<
     T extends object,
     K extends {
@@ -9290,6 +9313,7 @@ declare function ListenToGameEvent<TName extends keyof GameEventDeclarations>(
     listener: (event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,
     context: undefined,
 ): EventListenerID;
+
 declare function ListenToGameEvent<TName extends keyof GameEventDeclarations, TContext extends {}>(
     eventName: TName,
     listener: (this: TContext, event: GameEventProvidedProperties & GameEventDeclarations[TName]) => void,

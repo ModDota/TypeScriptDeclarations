@@ -110,6 +110,12 @@ export interface CallableDeclaration extends dom.DeclarationBase {
   typeParameters: dom.TypeParameter[];
 }
 
+const compatibilityOverloads = new Set([
+  'CDOTA_BaseNPC.Kill',
+  'CDOTA_PlayerResource.GetTeam',
+  'CLogicRelay.Trigger',
+]);
+
 export function getFunction<T extends CallableDeclaration>(
   createType: (parameters: dom.Parameter[], returnType: dom.Type) => T,
   identifier: string,
@@ -139,7 +145,16 @@ export function getFunction<T extends CallableDeclaration>(
   fn.jsDocComment = comments.join('\n');
 
   const override = overrides[identifier];
-  return override !== undefined ? applyApiOverride(fn, override) : [fn];
+  const declarations: T[] = override !== undefined ? applyApiOverride(fn, override) : [fn];
+
+  if (compatibilityOverloads.has(identifier)) {
+    const compatibilityFn = createType([], dom.create.namedTypeReference('never'));
+    compatibilityFn.jsDocComment =
+      '@deprecated Added for compatibility with CBaseEntity. Invalid at the runtime.';
+    declarations.push(compatibilityFn);
+  }
+
+  return declarations;
 }
 
 const prettierConfig: prettier.Options = {

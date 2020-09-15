@@ -28,24 +28,3 @@ type DotaConstructor<T extends object> = {
 };
 
 type __NumberLike = number & Record<Exclude<keyof number, 'toString'>, never>;
-
-declare interface CDOTA_BaseNPC {
-    /**
-     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
-     */
-    Kill(): DOTATeam_t;
-}
-
-declare interface CDOTA_PlayerResource {
-    /**
-     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
-     */
-    GetTeam(): DOTATeam_t;
-}
-
-declare interface CLogicRelay {
-    /**
-     * @deprecated Added for compatibility with CBaseEntity interface. Invalid at the runtime.
-     */
-    Trigger(): void;
-}

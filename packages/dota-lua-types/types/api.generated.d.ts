@@ -2291,6 +2291,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Kills this NPC, with the params Ability and Attacker.
      */
     Kill(ability: CDOTABaseAbility | undefined, attacker: CDOTA_BaseNPC | undefined): void;
+    /**
+     * @deprecated Added for compatibility with CBaseEntity. Invalid at the runtime.
+     */
+    Kill(): never;
     MakeIllusion(): void;
     MakePhantomBlocker(): void;
     MakeVisibleDueToAttack(team: DOTATeam_t, radius: number): void;
@@ -5283,6 +5287,10 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetStreak(playerId: PlayerID): number;
     GetStuns(playerId: PlayerID): number;
     GetTeam(playerId: PlayerID): DOTATeam_t;
+    /**
+     * @deprecated Added for compatibility with CBaseEntity. Invalid at the runtime.
+     */
+    GetTeam(): never;
     GetTeamKills(team: DOTATeam_t): number;
     /**
      * Players on a valid team (radiant, dire, or custom*) who haven't abandoned the
@@ -7379,6 +7387,10 @@ declare interface CLogicRelay extends CBaseEntity {
      * @both
      */
     Trigger(activator: CBaseEntity | undefined, caller: CBaseEntity | undefined): void;
+    /**
+     * @deprecated Added for compatibility with CBaseEntity. Invalid at the runtime.
+     */
+    Trigger(): never;
     __kind__: 'instance';
 }
 

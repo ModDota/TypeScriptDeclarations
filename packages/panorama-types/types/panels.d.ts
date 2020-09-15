@@ -115,6 +115,9 @@ interface Panel extends PanelBase {
     readonly contentwidth: number;
     readonly contentheight: number;
 
+    readonly actualuiscale_y: number;
+    readonly actualuiscale_x: number;
+
     readonly layoutfile: string;
     readonly id: string;
 
@@ -171,6 +174,7 @@ interface Panel extends PanelBase {
     MoveChildAfter(child: PanelBase, afterChild: PanelBase): void;
 
     GetPositionWithinWindow(): { x: number; y: number };
+    GetPositionWithinAncestor(unknown: Panel): { x: number; y: number };
     /**
      * Sets whether to update panel with style changes
      */
@@ -200,11 +204,13 @@ interface Panel extends PanelBase {
     LoadLayoutFromStringAsync(layout: string, overrideExisting: boolean, partialLayout: boolean): void;
     LoadLayoutAsync(path: string, overrideExisting: boolean, partialLayout: boolean): void;
 
-    BLoadLayoutSnippet(snippetname: string): boolean;
+    BLoadLayoutSnippet(snippetName: string): boolean;
+    BHasLayoutSnippet(snippetName: string): boolean;
+
     BCreateChildren(html: string): boolean;
 
     SetTopOfInputContext(): void; // ????
-    SetDialogVariable(name: string, value: any): void;
+    SetDialogVariable(name: string, value: string): void;
     SetDialogVariableInt(name: string, value: number): void;
     SetDialogVariableTime(name: string, value: number): void;
 

@@ -147,6 +147,16 @@ interface CDOTA_PanoramaScript_GameUI {
     SetDefaultUIEnabled(nElementType: number, bVisible: boolean): void;
 
     /**
+     * Save persistent data used by an event game
+     */
+    SavePersistentEventGameData(unknown: any): void;
+
+    /**
+     * Load persistent data used by an event game
+     */
+    LoadPersistentEventGameData(...unknown: any[]): void;
+
+    /**
      * Get the current UI configuration
      */
     CustomUIConfig(): CustomUIConfig;
@@ -224,6 +234,11 @@ interface CDOTA_PanoramaScript_GameUI {
     GetCameraLookAtPosition(): [number, number, number];
 
     /**
+     * Get the current camera position.
+     */
+    GetCameraPosition(): [number, number, number];
+
+    /**
      * Get the current look at position height offset.
      */
     GetCameraLookAtPositionHeightOffset(): number;
@@ -287,6 +302,11 @@ interface CDOTA_PanoramaScript_GameUI {
      * Set the camera target as position for the local player over specified lerp.
      */
     SetCameraTargetPosition(vec3: [number, number, number], flLerp: number): void;
+
+    /**
+     * Moves the camera to an entity, but doesn't lock the camera on that entity.
+     */
+    MoveCameraToEntity(nTargetEntIndex: EntityIndex): void;
 
     /**
      * Converts the specified x,y,z world co-ordinate into an x,y screen coordinate. Will clamp position to always be in front of camera.  Position returned as 0->1.0
@@ -662,6 +682,11 @@ interface CScriptBindingPR_Players {
     BuffClicked(nEntity: EntityIndex, nBuffSerial: number, bAlert: boolean): void;
 
     /**
+     * Is the local player live spectating?
+     */
+    IsLocalPlayerLiveSpectating(): boolean;
+
+    /**
      * If player is in perspective camera, returns true. Else, false
      */
     IsLocalPlayerInPerspectiveCamera(): boolean;
@@ -682,6 +707,11 @@ interface CScriptBindingPR_Entities {
      * Get the world origin of the entity.
      */
     GetAbsOrigin(nEntityIndex: EntityIndex): [number, number, number];
+
+    /**
+     * Get the world angles of the entity.
+     */
+    GetAbsAngles(nEntityIndex: EntityIndex): [number, number, number];
 
     /**
      * Get the forward vector of the entity.
@@ -1027,7 +1057,7 @@ interface CScriptBindingPR_Entities {
     /**
      * Get the currently selected entities
      */
-    GetSelectionEntities(): EntityIndex[];
+    GetSelectionEntities(nEntityIndex: EntityIndex): EntityIndex[];
 
     /**
      * Is this a valid entity index?
@@ -1062,9 +1092,6 @@ interface CScriptBindingPR_Abilities {
 
     AbilityReady(nEntityIndex: AbilityEntityIndex): number;
 
-    /**
-     * Returns an AbilityLearnResult_t
-     */
     CanAbilityBeUpgraded(nEntityIndex: AbilityEntityIndex): AbilityLearnResult_t;
 
     CanBeExecuted(nEntityIndex: AbilityEntityIndex): boolean;
@@ -1796,6 +1823,11 @@ interface DollarStatic {
      * Create a logging channel.
      */
     LogChannel(...unknown: any[]): void;
+
+    /**
+     * Convert a string to HTML-safe
+     */
+    HTMLEscape(string: string): string;
 }
 
 interface AsyncWebRequestResponse {

@@ -9440,17 +9440,13 @@ declare function PrecacheResource(arg1: string, arg2: string, context: CScriptPr
 declare function PrecacheUnitByNameAsync(
     unitName: string,
     callback: (precacheId: number) => void,
-    playerId: PlayerID | undefined,
+    playerId?: PlayerID,
 ): void;
 
 /**
  * Precaches a DOTA unit by its dota_npc_units.txt name.
  */
-declare function PrecacheUnitByNameSync(
-    unitName: string,
-    context: CScriptPrecacheContext,
-    playerId: PlayerID | undefined,
-): void;
+declare function PrecacheUnitByNameSync(unitName: string, context: CScriptPrecacheContext, playerId?: PlayerID): void;
 
 /**
  * Precaches a DOTA unit from a table of entity key values.

@@ -92,10 +92,17 @@ const parameterNamesMap: Record<string, string> = {
   function: 'func',
 };
 
-const functionsWithOptionalParameters = ['Vector', 'DeepPrintTable'];
+const functionsWithOptionalParameters = [
+  'DeepPrintTable',
+  'PrecacheUnitByNameAsync',
+  'PrecacheUnitByNameSync',
+  'Vector',
+];
 const getFunctionParameters = (identifier: string, parameters: api.FunctionParameter[]) =>
   parameters.map(({ name, types }) => {
-    const isOptional = functionsWithOptionalParameters.includes(identifier);
+    const isOptional =
+      types.includes('nil') && functionsWithOptionalParameters.includes(identifier);
+
     return dom.create.parameter(
       // TODO: Make dom.ParameterFlags.Optional work on CallSignature nodes
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

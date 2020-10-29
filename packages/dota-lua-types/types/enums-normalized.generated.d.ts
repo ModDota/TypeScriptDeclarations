@@ -388,6 +388,7 @@ declare const enum OverheadAlert {
     DISABLE_RESIST = 19,
     DEATH = 20,
     BLOCKED = 21,
+    ITEM_RECEIVED = 22,
 }
 
 declare const DOTA_RUNE_COUNT: 8;
@@ -1193,7 +1194,6 @@ declare const enum GameActivity {
     IDLE_ON_FIRE = 133,
     WALK_ON_FIRE = 134,
     RUN_ON_FIRE = 135,
-    RAPPEL_LOOP = 136,
     '180_LEFT' = 137,
     '180_RIGHT' = 138,
     '90_LEFT' = 139,
@@ -2339,15 +2339,15 @@ declare const enum GameActivity {
     DOTA_SHUFFLE_R = 1750,
     DOTA_OVERRIDE_LOADOUT = 1751,
     DOTA_TAUNT_SPECIAL = 1752,
-    DOTA_DISABLED_END = 1753,
-    DOTA_RELAX_IN = 1755,
-    DOTA_RELAX_OUT = 1756,
-    DOTA_CAST_FENCE = 1757,
-    DOTA_RADIANT_CREEP_HAMMER = 1759,
-    DOTA_SPWN = 1760,
+    DOTA_DISABLED_END = 1754,
+    DOTA_RADIANT_CREEP_HAMMER = 1757,
+    DOTA_CYCLONE = 1758,
+    DOTA_IMPALE = 1759,
+    DOTA_TORRENT = 1760,
     DOTA_RUN_ALT = 1761,
-    DOTA_CYCLONE = 1762,
-    DOTA_IMPALE = 1763,
+    DOTA_RELAX_IN = 1762,
+    DOTA_RELAX_OUT = 1763,
+    DOTA_CAST_FENCE = 1764,
 }
 
 /**
@@ -2407,11 +2407,7 @@ declare const enum ModifierFunction {
      */
     PROCATTACK_FEEDBACK = 8,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierOverrideAttackDamage`.
+     * Method Name: `GetModifierOverrideAttackDamage`
      */
     OVERRIDE_ATTACK_DAMAGE = 9,
     /**
@@ -2431,11 +2427,7 @@ declare const enum ModifierFunction {
      */
     PERSISTENT_INVISIBILITY = 13,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMoveSpeedBonus_Constant`.
+     * Method Name: `GetModifierMoveSpeedBonus_Constant`
      */
     MOVESPEED_BONUS_CONSTANT = 14,
     /**
@@ -2467,11 +2459,7 @@ declare const enum ModifierFunction {
      */
     MOVESPEED_BONUS_CONSTANT_UNIQUE = 21,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMoveSpeedBonus_Constant_Unique_2`.
+     * Method Name: `GetModifierMoveSpeedBonus_Constant_Unique_2`
      */
     MOVESPEED_BONUS_CONSTANT_UNIQUE_2 = 22,
     /**
@@ -2551,11 +2539,7 @@ declare const enum ModifierFunction {
      */
     SPELL_AMPLIFY_PERCENTAGE = 41,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierSpellAmplify_PercentageUnique`.
+     * Method Name: `GetModifierSpellAmplify_PercentageUnique`
      */
     SPELL_AMPLIFY_PERCENTAGE_UNIQUE = 42,
     /**
@@ -2599,11 +2583,7 @@ declare const enum ModifierFunction {
      */
     BASEDAMAGEOUTGOING_PERCENTAGE = 51,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierBaseDamageOutgoing_PercentageUnique`.
+     * Method Name: `GetModifierBaseDamageOutgoing_PercentageUnique`
      */
     BASEDAMAGEOUTGOING_PERCENTAGE_UNIQUE = 52,
     /**
@@ -2615,11 +2595,7 @@ declare const enum ModifierFunction {
      */
     INCOMING_PHYSICAL_DAMAGE_PERCENTAGE = 54,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIncomingPhysicalDamageConstant`.
+     * Method Name: `GetModifierIncomingPhysicalDamageConstant`
      */
     INCOMING_PHYSICAL_DAMAGE_CONSTANT = 55,
     /**
@@ -2631,11 +2607,7 @@ declare const enum ModifierFunction {
      */
     EVASION_CONSTANT = 57,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierNegativeEvasion_Constant`.
+     * Method Name: `GetModifierNegativeEvasion_Constant`
      */
     NEGATIVE_EVASION_CONSTANT = 58,
     /**
@@ -2687,11 +2659,7 @@ declare const enum ModifierFunction {
      */
     PHYSICAL_ARMOR_BONUS_UNIQUE_ACTIVE = 69,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnorePhysicalArmor`.
+     * Method Name: `GetModifierIgnorePhysicalArmor`
      */
     IGNORE_PHYSICAL_ARMOR = 70,
     /**
@@ -2699,11 +2667,7 @@ declare const enum ModifierFunction {
      */
     MAGICAL_RESISTANCE_BASE_REDUCTION = 71,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMagicalResistanceDirectModification`.
+     * Method Name: `GetModifierMagicalResistanceDirectModification`
      */
     MAGICAL_RESISTANCE_DIRECT_MODIFICATION = 72,
     /**
@@ -2743,11 +2707,7 @@ declare const enum ModifierFunction {
      */
     HEALTH_REGEN_PERCENTAGE = 81,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierHealthRegenPercentageUnique`.
+     * Method Name: `GetModifierHealthRegenPercentageUnique`
      */
     HEALTH_REGEN_PERCENTAGE_UNIQUE = 82,
     /**
@@ -2807,11 +2767,7 @@ declare const enum ModifierFunction {
      */
     CAST_RANGE_BONUS = 96,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierCastRangeBonusTarget`.
+     * Method Name: `GetModifierCastRangeBonusTarget`
      */
     CAST_RANGE_BONUS_TARGET = 97,
     /**
@@ -2819,11 +2775,7 @@ declare const enum ModifierFunction {
      */
     CAST_RANGE_BONUS_STACKING = 98,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierAttackRangeOverride`.
+     * Method Name: `GetModifierAttackRangeOverride`
      */
     ATTACK_RANGE_BASE_OVERRIDE = 99,
     /**
@@ -2831,11 +2783,7 @@ declare const enum ModifierFunction {
      */
     ATTACK_RANGE_BONUS = 100,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierAttackRangeBonusUnique`.
+     * Method Name: `GetModifierAttackRangeBonusUnique`
      */
     ATTACK_RANGE_BONUS_UNIQUE = 101,
     /**
@@ -2843,11 +2791,7 @@ declare const enum ModifierFunction {
      */
     ATTACK_RANGE_BONUS_PERCENTAGE = 102,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMaxAttackRange`.
+     * Method Name: `GetModifierMaxAttackRange`
      */
     MAX_ATTACK_RANGE = 103,
     /**
@@ -2895,11 +2839,7 @@ declare const enum ModifierFunction {
      */
     MANACOST_PERCENTAGE = 114,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPercentageManacostStacking`.
+     * Method Name: `GetModifierPercentageManacostStacking`
      */
     MANACOST_PERCENTAGE_STACKING = 115,
     /**
@@ -2915,19 +2855,11 @@ declare const enum ModifierFunction {
      */
     PREATTACK_CRITICALSTRIKE = 118,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPreAttack_Target_CriticalStrike`.
+     * Method Name: `GetModifierPreAttack_Target_CriticalStrike`
      */
     PREATTACK_TARGET_CRITICALSTRIKE = 119,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMagical_ConstantBlock`.
+     * Method Name: `GetModifierMagical_ConstantBlock`
      */
     MAGICAL_CONSTANT_BLOCK = 120,
     /**
@@ -2935,11 +2867,7 @@ declare const enum ModifierFunction {
      */
     PHYSICAL_CONSTANT_BLOCK = 121,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPhysical_ConstantBlockSpecial`.
+     * Method Name: `GetModifierPhysical_ConstantBlockSpecial`
      */
     PHYSICAL_CONSTANT_BLOCK_SPECIAL = 122,
     /**
@@ -2983,11 +2911,7 @@ declare const enum ModifierFunction {
      */
     BONUS_NIGHT_VISION = 132,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetBonusNightVisionUnique`.
+     * Method Name: `GetBonusNightVisionUnique`
      */
     BONUS_NIGHT_VISION_UNIQUE = 133,
     /**
@@ -3051,11 +2975,7 @@ declare const enum ModifierFunction {
      */
     DISABLE_HEALING = 148,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetAlwaysAllowAttack`.
+     * Method Name: `GetAlwaysAllowAttack`
      */
     ALWAYS_ALLOW_ATTACK = 149,
     /**
@@ -3067,11 +2987,7 @@ declare const enum ModifierFunction {
      */
     OVERRIDE_ATTACK_MAGICAL = 151,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierUnitStatsNeedsRefresh`.
+     * Method Name: `GetModifierUnitStatsNeedsRefresh`
      */
     UNIT_STATS_NEEDS_REFRESH = 152,
     BOUNTY_CREEP_MULTIPLIER = 153,
@@ -3081,11 +2997,7 @@ declare const enum ModifierFunction {
      */
     UNIT_DISALLOW_UPGRADING = 155,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierDodgeProjectile`.
+     * Method Name: `GetModifierDodgeProjectile`
      */
     DODGE_PROJECTILE = 156,
     /**
@@ -3093,11 +3005,7 @@ declare const enum ModifierFunction {
      */
     TRIGGER_COSMETIC_AND_END_ATTACK = 157,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnSpellTargetReady`.
+     * Method Name: `OnSpellTargetReady`
      */
     ON_SPELL_TARGET_READY = 158,
     /**
@@ -3153,11 +3061,7 @@ declare const enum ModifierFunction {
      */
     ON_ABILITY_FULLY_CAST = 170,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnBreakInvisibility`.
+     * Method Name: `OnBreakInvisibility`
      */
     ON_BREAK_INVISIBILITY = 171,
     /**
@@ -3244,11 +3148,7 @@ declare const enum ModifierFunction {
      */
     ON_MODEL_CHANGED = 194,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnModifierAdded`.
+     * Method Name: `OnModifierAdded`
      */
     ON_MODIFIER_ADDED = 195,
     /**
@@ -3304,11 +3204,7 @@ declare const enum ModifierFunction {
      */
     DISABLE_TURNING = 207,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnoreCastAngle`.
+     * Method Name: `GetModifierIgnoreCastAngle`
      */
     IGNORE_CAST_ANGLE = 208,
     /**
@@ -3328,11 +3224,7 @@ declare const enum ModifierFunction {
      */
     ABILITY_LAYOUT = 212,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnDominated`.
+     * Method Name: `OnDominated`
      */
     ON_DOMINATED = 213,
     /**
@@ -3348,19 +3240,11 @@ declare const enum ModifierFunction {
      */
     ON_ATTACK_FINISHED = 216,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnoreCooldown`.
+     * Method Name: `GetModifierIgnoreCooldown`
      */
     IGNORE_COOLDOWN = 217,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierCanAttackTrees`.
+     * Method Name: `GetModifierCanAttackTrees`
      */
     CAN_ATTACK_TREES = 218,
     /**
@@ -3626,132 +3510,126 @@ declare const enum SourceEngineAnimationEvent {
     RELOAD_PUMPEND = 71,
     LOCK_STATE_CHANGED = 72,
     TUG_INCAP = 73,
-    CHARGER_POUND_IMPACT = 74,
-    CHARGER_POUND_VOCALIZE = 75,
-    CHARGER_POUND_SOUND = 76,
-    DEFIBRILLATOR_SHOCK = 77,
-    HIT_HEAD_FRONT = 78,
-    HIT_HEAD_BACK = 79,
-    HIT_STOMACH = 80,
-    HIT_CHEST = 81,
-    HIT_BACK_UPPER = 82,
-    HIT_BACK_LOWER = 83,
-    HIT_SHOULDER_RIGHT_FRONT = 84,
-    HIT_SHOULDER_RIGHT_BACK = 85,
-    HIT_SHOULDER_LEFT_FRONT = 86,
-    HIT_SHOULDER_LEFT_BACK = 87,
-    HIT_LEG_RIGHT_FRONT = 88,
-    HIT_LEG_RIGHT_BACK = 89,
-    HIT_LEG_LEFT_FRONT = 90,
-    HIT_LEG_LEFT_BACK = 91,
-    HIT_ARM_RIGHT_SEVERED = 92,
-    HIT_ARM_LEFT_SEVERED = 93,
-    HIT_LEG_RIGHT_SEVERED = 94,
-    HIT_LEG_LEFT_SEVERED = 95,
-    HIT_FRONT = 96,
-    HIT_BACK = 97,
-    HIT_LEFT = 98,
-    HIT_RIGHT = 99,
-    FIRE_INPUT = 100,
-    SV_FOOTSTEP_LEFT = 101,
-    SV_FOOTSTEP_RIGHT = 102,
-    CL_FOOTSTEP_LEFT = 103,
-    CL_FOOTSTEP_RIGHT = 104,
-    CL_MFOOTSTEP_LEFT = 105,
-    CL_MFOOTSTEP_RIGHT = 106,
-    CL_MFOOTSTEP_LEFT_LOUD = 107,
-    CL_MFOOTSTEP_RIGHT_LOUD = 108,
-    WEAPON_MELEE_HIT = 109,
-    WEAPON_SMG_1 = 110,
-    WEAPON_MELEE_SWISH = 111,
-    WEAPON_SHOTGUN_FIRE = 112,
-    WEAPON_THROW = 113,
-    WEAPON_AR_1 = 114,
-    WEAPON_AR_2 = 115,
-    WEAPON_HMG_1 = 116,
-    WEAPON_SMG_2 = 117,
-    WEAPON_MISSILE_FIRE = 118,
-    WEAPON_SNIPER_RIFLE_FIRE = 119,
-    WEAPON_AR_2_GRENADE = 120,
-    WEAPON_THROW_2 = 121,
-    WEAPON_PISTOL_FIRE = 122,
-    WEAPON_RELOAD = 123,
-    WEAPON_THROW_3 = 124,
-    WEAPON_RELOAD_SOUND = 125,
-    WEAPON_RELOAD_FILL_CLIP = 126,
-    WEAPON_SMG_1_BURST_1 = 127,
-    WEAPON_SMG_1_BURSTN = 128,
-    WEAPON_AR_2_ALTFIRE = 129,
-    WEAPON_SEQUENCE_FINISHED = 130,
-    CL_SPEECH = 131,
-    MELEE_START_COLLISION_DAMAGE = 132,
-    MELEE_STOP_COLLISION_DAMAGE = 133,
-    MELEE_FORCE_START_WEAPON_TRAIL = 134,
-    MELEE_FORCE_STOP_WEAPON_TRAIL = 135,
-    ACTION_ENTERING_IDLE = 136,
-    ACTION_OVERLAP_MOVE = 137,
-    ACTION_ALLOW_MOVE_INTERRUPT = 138,
-    ACTION_AVOID_DAMAGE = 139,
-    ACTION_STOP_AVOIDING_DAMAGE = 140,
-    ACTION_SET_TURN_RATE_SCALE = 141,
-    ACTION_ALLOW_COMBO = 142,
-    ACTION_PREVENT_COMBO = 143,
-    ACTION_ALLOW_DODGE = 144,
-    ACTION_PREVENT_DODGE = 145,
-    ABILITY_START_EVENT = 146,
-    ABILITY_END_EVENT = 147,
-    ABILITY_TICK = 148,
-    ACTION_START_TURN = 149,
-    ACTION_END_TURN = 150,
-    ACTION_USE = 151,
-    SHEATHE_WEAPONS = 152,
-    DRAW_WEAPONS = 153,
-    PICK_UP_ITEM = 154,
-    DROP_ITEM = 155,
-    TOSS_ITEM = 156,
-    EF_NODRAW = 157,
-    EF_DRAW = 158,
-    WEAPON_SLAM_GROUND = 159,
-    MANTLE_LEAP = 160,
-    MANTLE_GRAB = 161,
-    DROP_PRIMARY_WEAPON = 162,
-    CL_PLAYSOUND_POSITION = 163,
-    KEYFIELD_SOUND = 164,
-    ACTION_DROP_ITEM = 165,
-    SOUND_EMITTED = 166,
-    SCRIPT_EVENT_NOINTERRUPT = 167,
-    SCRIPT_EVENT_CANINTERRUPT = 168,
-    SCRIPT_EVENT_FIREEVENT = 169,
-    SCRIPT_EVENT_DEAD = 170,
-    SCRIPT_EVENT_NOT_DEAD = 171,
-    SCRIPT_EVENT_FIRE_INPUT = 172,
-    SCRIPT_EVENT_CUSTOMINTERRUPT_START = 173,
-    SCRIPT_EVENT_CUSTOMINTERRUPT_END = 174,
-    NPC_BECOME_TEMPORARY_RAGDOLL = 175,
-    CL_PLAYSOUND_LOOPING = 176,
-    IK_SET_LOCK_ROTATION_ALPHA = 177,
-    IK_ALLOW_PLANE_TILT_NORMAL_UPDATES = 178,
-    IK_SET_MASTER_BLEND_AMOUNT = 179,
-    IK_SET_CHAIN_BLEND_AMOUNT = 180,
-    CL_CREATE_PARTICLE_EFFECT_CFG = 181,
-    CL_CREATE_ANIM_SCOPE_PROP = 182,
-    CL_CLOTH_ATTR = 183,
-    FOOTSTEP = 184,
-    NPC_GIB = 185,
-    HAPTIC_PULSE = 186,
-    NPC_START_POWERED_RAGDOLL = 187,
-    NPC_END_POWERED_RAGDOLL = 188,
-    CL_CLOTH_GROUND_OFFSET = 189,
-    CL_CLOTH_STIFFEN = 190,
-    NPC_WEAPON_FIRE_SHARED = 191,
-    CL_SUPPRESS_EVENTS_WITH_TAG = 192,
-    CL_CLOTH_EFFECT = 193,
-    CL_DOTA_PLAY_STATUS_EFFECT = 195,
-    CL_DOTA_STOP_STATUS_EFFECT = 196,
-    CL_DOTA_NPC_CREATE_PARTICLE_EFFECT = 197,
-    CL_DOTA_RUBICK_ARCANA_CREATE_PARTICLE_EFFECT = 198,
-    DOTA_SUPPRESS_CONSTANT_LAYER = 199,
-    DOTA_PLAY_SOUND_ATTACK_SPECIAL = 200,
+    DEFIBRILLATOR_SHOCK = 74,
+    HIT_HEAD_FRONT = 75,
+    HIT_HEAD_BACK = 76,
+    HIT_STOMACH = 77,
+    HIT_CHEST = 78,
+    HIT_BACK_UPPER = 79,
+    HIT_BACK_LOWER = 80,
+    HIT_SHOULDER_RIGHT_FRONT = 81,
+    HIT_SHOULDER_RIGHT_BACK = 82,
+    HIT_SHOULDER_LEFT_FRONT = 83,
+    HIT_SHOULDER_LEFT_BACK = 84,
+    HIT_LEG_RIGHT_FRONT = 85,
+    HIT_LEG_RIGHT_BACK = 86,
+    HIT_LEG_LEFT_FRONT = 87,
+    HIT_LEG_LEFT_BACK = 88,
+    HIT_ARM_RIGHT_SEVERED = 89,
+    HIT_ARM_LEFT_SEVERED = 90,
+    HIT_LEG_RIGHT_SEVERED = 91,
+    HIT_LEG_LEFT_SEVERED = 92,
+    HIT_FRONT = 93,
+    HIT_BACK = 94,
+    HIT_LEFT = 95,
+    HIT_RIGHT = 96,
+    FIRE_INPUT = 97,
+    SV_FOOTSTEP_LEFT = 98,
+    SV_FOOTSTEP_RIGHT = 99,
+    CL_FOOTSTEP_LEFT = 100,
+    CL_FOOTSTEP_RIGHT = 101,
+    CL_MFOOTSTEP_LEFT = 102,
+    CL_MFOOTSTEP_RIGHT = 103,
+    CL_MFOOTSTEP_LEFT_LOUD = 104,
+    CL_MFOOTSTEP_RIGHT_LOUD = 105,
+    WEAPON_MELEE_HIT = 106,
+    WEAPON_SMG_1 = 107,
+    WEAPON_MELEE_SWISH = 108,
+    WEAPON_SHOTGUN_FIRE = 109,
+    WEAPON_THROW = 110,
+    WEAPON_AR_1 = 111,
+    WEAPON_AR_2 = 112,
+    WEAPON_HMG_1 = 113,
+    WEAPON_SMG_2 = 114,
+    WEAPON_MISSILE_FIRE = 115,
+    WEAPON_SNIPER_RIFLE_FIRE = 116,
+    WEAPON_AR_2_GRENADE = 117,
+    WEAPON_THROW_2 = 118,
+    WEAPON_PISTOL_FIRE = 119,
+    WEAPON_RELOAD = 120,
+    WEAPON_THROW_3 = 121,
+    WEAPON_RELOAD_SOUND = 122,
+    WEAPON_RELOAD_FILL_CLIP = 123,
+    WEAPON_SMG_1_BURST_1 = 124,
+    WEAPON_SMG_1_BURSTN = 125,
+    WEAPON_AR_2_ALTFIRE = 126,
+    WEAPON_SEQUENCE_FINISHED = 127,
+    CL_SPEECH = 128,
+    MELEE_START_COLLISION_DAMAGE = 129,
+    MELEE_STOP_COLLISION_DAMAGE = 130,
+    MELEE_FORCE_START_WEAPON_TRAIL = 131,
+    MELEE_FORCE_STOP_WEAPON_TRAIL = 132,
+    ACTION_ENTERING_IDLE = 133,
+    ACTION_OVERLAP_MOVE = 134,
+    ACTION_ALLOW_MOVE_INTERRUPT = 135,
+    ACTION_AVOID_DAMAGE = 136,
+    ACTION_STOP_AVOIDING_DAMAGE = 137,
+    ACTION_SET_TURN_RATE_SCALE = 138,
+    ACTION_ALLOW_COMBO = 139,
+    ACTION_PREVENT_COMBO = 140,
+    ACTION_ALLOW_DODGE = 141,
+    ACTION_PREVENT_DODGE = 142,
+    ABILITY_START_EVENT = 143,
+    ABILITY_END_EVENT = 144,
+    ABILITY_TICK = 145,
+    ACTION_START_TURN = 146,
+    ACTION_END_TURN = 147,
+    ACTION_USE = 148,
+    SHEATHE_WEAPONS = 149,
+    DRAW_WEAPONS = 150,
+    PICK_UP_ITEM = 151,
+    DROP_ITEM = 152,
+    TOSS_ITEM = 153,
+    EF_NODRAW = 154,
+    EF_DRAW = 155,
+    WEAPON_SLAM_GROUND = 156,
+    MANTLE_LEAP = 157,
+    MANTLE_GRAB = 158,
+    DROP_PRIMARY_WEAPON = 159,
+    CL_PLAYSOUND_POSITION = 160,
+    KEYFIELD_SOUND = 161,
+    ACTION_DROP_ITEM = 162,
+    SOUND_EMITTED = 163,
+    SCRIPT_EVENT_NOINTERRUPT = 164,
+    SCRIPT_EVENT_CANINTERRUPT = 165,
+    SCRIPT_EVENT_FIREEVENT = 166,
+    SCRIPT_EVENT_DEAD = 167,
+    SCRIPT_EVENT_NOT_DEAD = 168,
+    SCRIPT_EVENT_FIRE_INPUT = 169,
+    SCRIPT_EVENT_CUSTOMINTERRUPT_START = 170,
+    SCRIPT_EVENT_CUSTOMINTERRUPT_END = 171,
+    CL_PLAYSOUND_LOOPING = 172,
+    IK_SET_LOCK_ROTATION_ALPHA = 173,
+    IK_ALLOW_PLANE_TILT_NORMAL_UPDATES = 174,
+    IK_SET_MASTER_BLEND_AMOUNT = 175,
+    IK_SET_CHAIN_BLEND_AMOUNT = 176,
+    CL_CREATE_PARTICLE_EFFECT_CFG = 177,
+    CL_CREATE_ANIM_SCOPE_PROP = 178,
+    CL_CLOTH_ATTR = 179,
+    FOOTSTEP = 180,
+    NPC_GIB = 181,
+    HAPTIC_PULSE = 182,
+    CL_CLOTH_GROUND_OFFSET = 183,
+    CL_CLOTH_STIFFEN = 184,
+    NPC_WEAPON_FIRE_SHARED = 185,
+    CL_SUPPRESS_EVENTS_WITH_TAG = 186,
+    CL_CLOTH_EFFECT = 187,
+    CL_DOTA_PLAY_STATUS_EFFECT = 189,
+    CL_DOTA_STOP_STATUS_EFFECT = 190,
+    CL_DOTA_NPC_CREATE_PARTICLE_EFFECT = 191,
+    CL_DOTA_RUBICK_ARCANA_CREATE_PARTICLE_EFFECT = 192,
+    DOTA_SUPPRESS_CONSTANT_LAYER = 193,
+    DOTA_PLAY_SOUND_ATTACK_SPECIAL = 194,
 }
 
 /**

@@ -33,17 +33,37 @@ const typeMap: Record<string, string> = {
 };
 
 export function getType(types: api.Type[], includeUndefined: boolean, thisType?: string): dom.Type {
-  const domTypes = types.flatMap<dom.Type>((type) =>
-    type === 'nil' && !includeUndefined
-      ? []
-      : typeof type === 'string'
-      ? dom.create.namedTypeReference(typeMap[type] || type)
-      : 'array' in type
-      ? dom.create.array(getType([type.array], true, thisType))
-      : getFunction(dom.create.functionType, '', type),
-  );
+  const domTypes = types.flatMap<dom.Type>((type) => {
+    if (type === 'nil' && !includeUndefined) return [];
+    if (typeof type === 'string') return dom.create.namedTypeReference(typeMap[type] || type);
 
-  return domTypes.length === 1 ? domTypes[0] : dom.create.union(domTypes);
+    switch (type.kind) {
+      case 'literal':
+        return dom.type.numberLiteral(type.value);
+
+      case 'table': {
+        const recordType: dom.NamedTypeReference = {
+          kind: 'name',
+          name: 'Record',
+          typeArguments: [getType(type.key, true), getType(type.value, true)],
+        };
+
+        return _.isEqual(type.key, ['string']) || _.isEqual(type.key, ['int'])
+          ? recordType
+          : { kind: 'name', name: 'Partial', typeArguments: [recordType] };
+      }
+
+      case 'array':
+        return dom.create.array(getType(type.types, true, thisType));
+
+      case 'function':
+        return getFunction(dom.create.functionType, '', type);
+    }
+  });
+
+  // Deduplicate in case of unions mapped to the same value
+  const uniqueTypes = _.uniqWith(domTypes, _.isEqual);
+  return uniqueTypes.length === 1 ? uniqueTypes[0] : dom.create.union(uniqueTypes);
 }
 
 const typePredicates: Record<string, string> = {

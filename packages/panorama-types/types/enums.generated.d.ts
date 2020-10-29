@@ -178,6 +178,7 @@ declare enum DOTA_OVERHEAD_ALERT {
     OVERHEAD_ALERT_DISABLE_RESIST = 19,
     OVERHEAD_ALERT_DEATH = 20,
     OVERHEAD_ALERT_BLOCKED = 21,
+    OVERHEAD_ALERT_ITEM_RECEIVED = 22,
 }
 
 /**
@@ -1022,11 +1023,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_PROCATTACK_FEEDBACK = 8,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierOverrideAttackDamage`.
+     * Method Name: `GetModifierOverrideAttackDamage`
      */
     MODIFIER_PROPERTY_OVERRIDE_ATTACK_DAMAGE = 9,
     /**
@@ -1046,11 +1043,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_PERSISTENT_INVISIBILITY = 13,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMoveSpeedBonus_Constant`.
+     * Method Name: `GetModifierMoveSpeedBonus_Constant`
      */
     MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT = 14,
     /**
@@ -1082,11 +1075,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT_UNIQUE = 21,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMoveSpeedBonus_Constant_Unique_2`.
+     * Method Name: `GetModifierMoveSpeedBonus_Constant_Unique_2`
      */
     MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT_UNIQUE_2 = 22,
     /**
@@ -1166,11 +1155,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE = 41,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierSpellAmplify_PercentageUnique`.
+     * Method Name: `GetModifierSpellAmplify_PercentageUnique`
      */
     MODIFIER_PROPERTY_SPELL_AMPLIFY_PERCENTAGE_UNIQUE = 42,
     /**
@@ -1214,11 +1199,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE = 51,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierBaseDamageOutgoing_PercentageUnique`.
+     * Method Name: `GetModifierBaseDamageOutgoing_PercentageUnique`
      */
     MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE_UNIQUE = 52,
     /**
@@ -1230,11 +1211,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE = 54,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIncomingPhysicalDamageConstant`.
+     * Method Name: `GetModifierIncomingPhysicalDamageConstant`
      */
     MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT = 55,
     /**
@@ -1246,11 +1223,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_EVASION_CONSTANT = 57,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierNegativeEvasion_Constant`.
+     * Method Name: `GetModifierNegativeEvasion_Constant`
      */
     MODIFIER_PROPERTY_NEGATIVE_EVASION_CONSTANT = 58,
     /**
@@ -1302,11 +1275,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS_UNIQUE_ACTIVE = 69,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnorePhysicalArmor`.
+     * Method Name: `GetModifierIgnorePhysicalArmor`
      */
     MODIFIER_PROPERTY_IGNORE_PHYSICAL_ARMOR = 70,
     /**
@@ -1314,11 +1283,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BASE_REDUCTION = 71,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMagicalResistanceDirectModification`.
+     * Method Name: `GetModifierMagicalResistanceDirectModification`
      */
     MODIFIER_PROPERTY_MAGICAL_RESISTANCE_DIRECT_MODIFICATION = 72,
     /**
@@ -1358,11 +1323,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE = 81,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierHealthRegenPercentageUnique`.
+     * Method Name: `GetModifierHealthRegenPercentageUnique`
      */
     MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE_UNIQUE = 82,
     /**
@@ -1422,11 +1383,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_CAST_RANGE_BONUS = 96,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierCastRangeBonusTarget`.
+     * Method Name: `GetModifierCastRangeBonusTarget`
      */
     MODIFIER_PROPERTY_CAST_RANGE_BONUS_TARGET = 97,
     /**
@@ -1434,11 +1391,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_CAST_RANGE_BONUS_STACKING = 98,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierAttackRangeOverride`.
+     * Method Name: `GetModifierAttackRangeOverride`
      */
     MODIFIER_PROPERTY_ATTACK_RANGE_BASE_OVERRIDE = 99,
     /**
@@ -1446,11 +1399,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_ATTACK_RANGE_BONUS = 100,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierAttackRangeBonusUnique`.
+     * Method Name: `GetModifierAttackRangeBonusUnique`
      */
     MODIFIER_PROPERTY_ATTACK_RANGE_BONUS_UNIQUE = 101,
     /**
@@ -1458,11 +1407,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_ATTACK_RANGE_BONUS_PERCENTAGE = 102,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMaxAttackRange`.
+     * Method Name: `GetModifierMaxAttackRange`
      */
     MODIFIER_PROPERTY_MAX_ATTACK_RANGE = 103,
     /**
@@ -1510,11 +1455,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_MANACOST_PERCENTAGE = 114,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPercentageManacostStacking`.
+     * Method Name: `GetModifierPercentageManacostStacking`
      */
     MODIFIER_PROPERTY_MANACOST_PERCENTAGE_STACKING = 115,
     /**
@@ -1530,19 +1471,11 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE = 118,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPreAttack_Target_CriticalStrike`.
+     * Method Name: `GetModifierPreAttack_Target_CriticalStrike`
      */
     MODIFIER_PROPERTY_PREATTACK_TARGET_CRITICALSTRIKE = 119,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierMagical_ConstantBlock`.
+     * Method Name: `GetModifierMagical_ConstantBlock`
      */
     MODIFIER_PROPERTY_MAGICAL_CONSTANT_BLOCK = 120,
     /**
@@ -1550,11 +1483,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK = 121,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierPhysical_ConstantBlockSpecial`.
+     * Method Name: `GetModifierPhysical_ConstantBlockSpecial`
      */
     MODIFIER_PROPERTY_PHYSICAL_CONSTANT_BLOCK_SPECIAL = 122,
     /**
@@ -1598,11 +1527,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_BONUS_NIGHT_VISION = 132,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetBonusNightVisionUnique`.
+     * Method Name: `GetBonusNightVisionUnique`
      */
     MODIFIER_PROPERTY_BONUS_NIGHT_VISION_UNIQUE = 133,
     /**
@@ -1666,11 +1591,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_DISABLE_HEALING = 148,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetAlwaysAllowAttack`.
+     * Method Name: `GetAlwaysAllowAttack`
      */
     MODIFIER_PROPERTY_ALWAYS_ALLOW_ATTACK = 149,
     /**
@@ -1682,11 +1603,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_OVERRIDE_ATTACK_MAGICAL = 151,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierUnitStatsNeedsRefresh`.
+     * Method Name: `GetModifierUnitStatsNeedsRefresh`
      */
     MODIFIER_PROPERTY_UNIT_STATS_NEEDS_REFRESH = 152,
     MODIFIER_PROPERTY_BOUNTY_CREEP_MULTIPLIER = 153,
@@ -1696,11 +1613,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_UNIT_DISALLOW_UPGRADING = 155,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierDodgeProjectile`.
+     * Method Name: `GetModifierDodgeProjectile`
      */
     MODIFIER_PROPERTY_DODGE_PROJECTILE = 156,
     /**
@@ -1708,11 +1621,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_TRIGGER_COSMETIC_AND_END_ATTACK = 157,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnSpellTargetReady`.
+     * Method Name: `OnSpellTargetReady`
      */
     MODIFIER_EVENT_ON_SPELL_TARGET_READY = 158,
     /**
@@ -1768,11 +1677,7 @@ declare enum modifierfunction {
      */
     MODIFIER_EVENT_ON_ABILITY_FULLY_CAST = 170,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnBreakInvisibility`.
+     * Method Name: `OnBreakInvisibility`
      */
     MODIFIER_EVENT_ON_BREAK_INVISIBILITY = 171,
     /**
@@ -1859,11 +1764,7 @@ declare enum modifierfunction {
      */
     MODIFIER_EVENT_ON_MODEL_CHANGED = 194,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnModifierAdded`.
+     * Method Name: `OnModifierAdded`
      */
     MODIFIER_EVENT_ON_MODIFIER_ADDED = 195,
     /**
@@ -1919,11 +1820,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_DISABLE_TURNING = 207,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnoreCastAngle`.
+     * Method Name: `GetModifierIgnoreCastAngle`
      */
     MODIFIER_PROPERTY_IGNORE_CAST_ANGLE = 208,
     /**
@@ -1943,11 +1840,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_ABILITY_LAYOUT = 212,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `OnDominated`.
+     * Method Name: `OnDominated`
      */
     MODIFIER_EVENT_ON_DOMINATED = 213,
     /**
@@ -1963,19 +1856,11 @@ declare enum modifierfunction {
      */
     MODIFIER_EVENT_ON_ATTACK_FINISHED = 216,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierIgnoreCooldown`.
+     * Method Name: `GetModifierIgnoreCooldown`
      */
     MODIFIER_PROPERTY_IGNORE_COOLDOWN = 217,
     /**
-     * Not working.
-     *
-     *
-     *
-     * Method Name: `GetModifierCanAttackTrees`.
+     * Method Name: `GetModifierCanAttackTrees`
      */
     MODIFIER_PROPERTY_CAN_ATTACK_TREES = 218,
     /**

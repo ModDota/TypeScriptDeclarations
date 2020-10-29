@@ -52,6 +52,14 @@ declare type ProjectileID = number & {
     readonly __tag__: 'ProjectileID';
 };
 
+declare type SpawnGroupHandle = number & {
+    readonly __tag__: 'SpawnGroupHandle';
+};
+
+declare type ViewerID = number & {
+    readonly __tag__: 'ViewerID';
+};
+
 declare interface LocalTime {
     Minutes: number;
     Seconds: number;
@@ -172,7 +180,7 @@ declare interface CreateBaseProjectileOptions {
      * Extra data associated with projectile instance, that is passed to
      * `OnProjectileThink_ExtraData` and `OnProjectileHit_ExtraData`.
      */
-    ExtraData?: Record<string, string | number | boolean>;
+    ExtraData?: object;
 }
 
 declare interface CreateLinearProjectileOptions extends CreateBaseProjectileOptions {
@@ -211,11 +219,13 @@ declare interface CreateTrackingProjectileOptions extends CreateBaseProjectileOp
     bIsAttack?: boolean;
     /**
      * When enabled replaces existing projectile from the ability. Does not destroy
-     * particle.
+     * the particle.
      *
      * @default false
      */
     bReplaceExisting?: boolean;
+    bIgnoreObstructions: boolean;
+    bSuppressTargetCheck: boolean;
     iSourceAttachment?: DOTAProjectileAttachment_t;
     /**
      * @default false

@@ -301,7 +301,7 @@ declare interface CBaseEntity extends CEntityInstance {
     /**
      * Returns the spawn group handle of this entity.
      */
-    GetSpawnGroupHandle(): number;
+    GetSpawnGroupHandle(): SpawnGroupHandle;
     /**
      * Get the team number of this entity.
      */
@@ -432,7 +432,9 @@ declare interface CBaseEntity extends CEntityInstance {
     SetMaxHealth(amt: number): void;
     SetOrigin(v: Vector): void;
     /**
-     * Sets this entity's owner.
+     * Sets this entity's owner. This entity will be returned by GetOwner() and
+     * GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID() will be automatically
+     * inferred from this entity.
      */
     SetOwner(owner: CBaseEntity): void;
     /**
@@ -440,11 +442,38 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     SetParent(parent: CBaseEntity, attachmentname: string): void;
     SetTeam(teamNum: DOTATeam_t): void;
+    /**
+     * Set a think function on this entity. Uses `CBaseEntity:SetContextThink`
+     * internally.
+     *
+     * Note: optional parameters can be given in any order.
+     *
+     * @param functionName If `context` is provided, think function would perform a
+     *                     dynamic lookup on `context` table. Otherwise searches for
+     *                     that function name in caller scope.
+     * @param contextName Defaults to `functionName` if it's a string.
+     * @param initialDelay Defaults to 0 (next game frame).
+     * @both
+     */
+    SetThink(
+        functionName: ((entity: CBaseEntity) => number | undefined) | string,
+        context: object | undefined,
+        contextName: string | undefined,
+        initialDelay: number | undefined,
+    ): void;
     SetVelocity(vecVelocity: Vector): void;
     /**
      * Stops a named sound playing from this entity.
      */
     StopSound(soundname: string): void;
+    /**
+     * Stops thinker created with `CBaseEntity.SetThink`.
+     *
+     * Alias for `CBaseEntity:SetContextThink(contextName, nil, 0)`.
+     *
+     * @both
+     */
+    StopThink(contextName: string): void;
     /**
      * Apply damage to this entity. Use CreateDamageInfo() to create a damageinfo
      * object.
@@ -564,46 +593,13 @@ declare const CBasePlayer: DotaConstructor<CBasePlayer>;
 
 declare interface CBasePlayer extends CBaseCombatCharacter {
     /**
-     * Returns whether this player's chaperone bounds are visible.
-     */
-    AreChaperoneBoundsVisible(): boolean;
-    /**
-     * Returns the HMD anchor entity for this player if it exists.
-     */
-    GetHMDAnchor(): object;
-    /**
-     * Returns the HMD Avatar entity for this player if it exists.
-     */
-    GetHMDAvatar(): object;
-    /**
-     * Returns the Vector position of the point you ask for. Pass 0-3 to get the four
-     * points.
-     */
-    GetPlayArea(point: number): Vector;
-    /**
      * Returns the player's user id.
      */
     GetUserID(): number;
     /**
-     * Returns the type of controller being used while in VR.
-     */
-    GetVRControllerType(): unknown;
-    /**
      * Returns true if the player is in noclip mode.
      */
     IsNoclipping(): boolean;
-    /**
-     * Returns true if the use key is pressed.
-     */
-    IsUsePressed(): boolean;
-    /**
-     * Returns true if the controller button is pressed.
-     */
-    IsVRControllerButtonPressed(button: number): boolean;
-    /**
-     * Returns true if the SteamVR dashboard is showing for this player.
-     */
-    IsVRDashboardShowing(): boolean;
     __kind__: 'instance';
 }
 
@@ -1630,6 +1626,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     AttackNoEarlierThan(time: number): void;
     AttackReady(): boolean;
     BoundingRadius2D(): number;
+    CalculateGenericBonuses(): void;
     /**
      * Check FoW to see if an entity is visible.
      */
@@ -3922,8 +3919,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetAllowEtherealAttack?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -3944,8 +3939,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetBonusNightVision?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4011,15 +4004,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierAttackRangeBonusPercentage?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
     GetModifierAttackRangeBonusUnique?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4070,8 +4059,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierBaseDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4117,8 +4104,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierBonusStats_Strength_Percentage?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4134,8 +4119,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierCastRangeBonusStacking?(event: ModifierAbilityEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4196,8 +4179,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierDisableTurning?(): 0 | 1;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4258,8 +4239,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierHealthRegenPercentage?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4270,15 +4249,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierHPRegenAmplify_Percentage?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
     GetModifierIgnoreCastAngle?(): 0 | 1;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4289,8 +4264,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierIgnoreMovespeedLimit?(): 0 | 1;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4311,8 +4284,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierIncomingPhysicalDamage_Percentage?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4338,8 +4309,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierLifestealRegenAmplify_Percentage?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4365,8 +4334,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierMagicalResistanceDecrepifyUnique?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4387,8 +4354,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierManaDrainAmplify_Percentage?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4429,8 +4394,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierMoveSpeed_Limit?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4441,8 +4404,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierMoveSpeedBonus_Constant_Unique?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4495,8 +4456,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierMPRestoreAmplify_Percentage?(): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4517,8 +4476,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierOverrideAbilitySpecialValue?(): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4549,8 +4506,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierPercentageManacost?(event: ModifierAbilityEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4571,8 +4526,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierPhysical_ConstantBlock?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4640,8 +4593,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierPreAttack_CriticalStrike?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4704,8 +4655,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierSpellAmplify_Percentage?(event: ModifierAttackEvent): number;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4791,8 +4740,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierUnitDisllowUpgrading?(): 0 | 1;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4920,8 +4867,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     OnAttackStart?(event: ModifierAttackEvent): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4947,8 +4892,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     OnDeath?(event: ModifierAttackEvent): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -4979,8 +4922,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     OnModelChanged?(event: ModifierUnitEvent): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -5016,8 +4957,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     OnSetLocation?(event: ModifierUnitEvent): void;
     /**
-     * Not working.
-     *
      * @abstract
      * @both
      */
@@ -5894,6 +5833,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         filterFunc: (this: TContext, event: AbilityTuningValueFilterEvent) => boolean,
         context: TContext,
     ): void;
+    /**
+     * If set to true, neutral items will be dropped on killing neutral monsters.
+     * Otherwise nothing will be dropped.
+     */
+    SetAllowNeutralItemDrops(enabled: boolean): void;
     /**
      * Show the player hero's inventory in the HUD, regardless of what unit is
      * selected.
@@ -7358,6 +7302,20 @@ declare interface CInfoData extends CBaseEntity {
     __kind__: 'instance';
 }
 
+declare const CInfoPlayerStartDota: DotaConstructor<CInfoPlayerStartDota>;
+
+declare interface CInfoPlayerStartDota extends CPointEntity {
+    /**
+     * Returns whether the object is currently active.
+     */
+    IsEnabled(): boolean;
+    /**
+     * Enable or disable the obstruction.
+     */
+    SetEnabled(enabled: boolean): void;
+    __kind__: 'instance';
+}
+
 /** @both */
 declare const CInfoWorldLayer: DotaConstructor<CInfoWorldLayer>;
 
@@ -7563,6 +7521,15 @@ declare interface CPointClientUIWorldPanel extends CBaseModelEntity {
     __kind__: 'instance';
 }
 
+declare const CPointEntity: DotaConstructor<CPointEntity>;
+
+/** @client */
+declare const C_PointEntity: typeof CPointEntity;
+
+declare interface CPointEntity extends CBaseEntity {
+    __kind__: 'instance';
+}
+
 declare const CPointTemplate: DotaConstructor<CPointTemplate>;
 
 declare interface CPointTemplate extends CBaseEntity {
@@ -7599,78 +7566,6 @@ declare interface CPointWorldText extends CBaseModelEntity {
      * @both
      */
     SetMessage(message: string): void;
-    __kind__: 'instance';
-}
-
-declare const CPropHMDAvatar: DotaConstructor<CPropHMDAvatar>;
-
-declare interface CPropHMDAvatar extends CBaseAnimating {
-    /**
-     * Get VR hand by ID.
-     */
-    GetVRHand(handId: number): object;
-    __kind__: 'instance';
-}
-
-declare const CPropVRHand: DotaConstructor<CPropVRHand>;
-
-declare interface CPropVRHand extends CBaseAnimating {
-    /**
-     * Add the attachment to this hand.
-     */
-    AddHandAttachment(attachment: object): void;
-    /**
-     * Add a model override for this hand.
-     */
-    AddHandModelOverride(modelName: string): object;
-    /**
-     * Find a specific model override for this hand.
-     */
-    FindHandModelOverride(modelName: string): object;
-    /**
-     * Fire a haptic pulse on this hand. [0,2] for strength.
-     */
-    FireHapticPulse(strength: number): void;
-    /**
-     * Fire a haptic pulse on this hand. Specify the duration in micro seconds.
-     */
-    FireHapticPulsePrecise(pulseDuration: number): void;
-    /**
-     * Get the attachment on this hand.
-     */
-    GetHandAttachment(): object;
-    /**
-     * Get hand ID.
-     */
-    GetHandID(): number;
-    /**
-     * Get literal type for this hand.
-     */
-    GetLiteralHandType(): number;
-    /**
-     * Get the player for this hand.
-     */
-    GetPlayer(): object;
-    /**
-     * Get the filtered controller velocity.
-     */
-    GetVelocity(): Vector;
-    /**
-     * Remove all model overrides for this hand.
-     */
-    RemoveAllHandModelOverrides(): void;
-    /**
-     * Remove hand attachment by handle.
-     */
-    RemoveHandAttachmentByHandle(attachment: object): void;
-    /**
-     * Remove a model override for this hand.
-     */
-    RemoveHandModelOverride(modelName: string): void;
-    /**
-     * Set the attachment for this hand.
-     */
-    SetHandAttachment(attachment: object): void;
     __kind__: 'instance';
 }
 
@@ -8357,12 +8252,12 @@ declare type Vector = __NumberLike & {
  * Add temporary vision for a given team.
  */
 declare function AddFOWViewer(
-    team: DOTATeam_t,
+    teamId: DOTATeam_t,
     location: Vector,
     radius: number,
     duration: number,
     obstructedVision: boolean,
-): void;
+): ViewerID;
 
 /**
  * Returns the number of degrees difference between two yaw angles.
@@ -8555,29 +8450,50 @@ declare function CreateTriggerRadiusApproximate(vecOrigin: Vector, radius: numbe
 declare function CreateUniformRandomStream(seed: number): CScriptUniformRandomStream;
 
 /**
- * Creates a DOTA unit by its dota_npc_units.txt name.
+ * Creates a unit by its dota_npc_units.txt name.
+ *
+ * The spawned unit will not be controllable by default. You can use
+ * unit.SetControllableByPlayer() to change this.
+ *
+ * Warning: mass synchronous unit spawning may be slow. Prefer
+ * CreateUnitByNameAsync unless synchronous access is required.
+ *
+ * @param entityOwner This entity will be returned by GetOwner() and
+ *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
+ *                    will be automatically inferred from this entity. Can be
+ *                    changed after spawn using SetOwner(entity). When spawning
+ *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
  */
 declare function CreateUnitByName(
     unitName: string,
     location: Vector,
     findClearSpace: boolean,
     npcOwner: CBaseEntity | undefined,
-    unitOwner: CDOTAPlayer | undefined,
-    teamNumber: DOTATeam_t,
+    entityOwner: CBaseEntity | undefined,
+    team: DOTATeam_t,
 ): CDOTA_BaseNPC;
 
 /**
- * Creates a DOTA unit by its dota_npc_units.txt name.
+ * Creates a unit by its dota_npc_units.txt name.
+ *
+ * The spawned unit will not be controllable by default. You can use
+ * unit.SetControllableByPlayer() to change this.
+ *
+ * @param entityOwner This entity will be returned by GetOwner() and
+ *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
+ *                    will be automatically inferred from this entity. Can be
+ *                    changed after spawn using SetOwner(entity). When spawning
+ *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
  */
 declare function CreateUnitByNameAsync(
     unitName: string,
     location: Vector,
     findClearSpace: boolean,
-    npcOwner: CDOTA_BaseNPC | undefined,
-    playerOwner: CDOTAPlayer | undefined,
+    npcOwner: CBaseEntity | undefined,
+    entityOwner: CBaseEntity | undefined,
     team: DOTATeam_t,
     callback: (unit: CDOTA_BaseNPC) => void,
-): number;
+): SpawnGroupHandle;
 
 /**
  * Creates a DOTA unit by its dota_npc_units.txt name from a table of entity key
@@ -8771,7 +8687,7 @@ declare function DestroyDamageInfo(damageInfo: CTakeDamageInfo): void;
 declare function DoCleaveAttack(
     attacker: CDOTA_BaseNPC,
     target: CDOTA_BaseNPC,
-    ability: CDOTABaseAbility,
+    ability: CDOTABaseAbility | undefined,
     damage: number,
     startRadius: number,
     endRadius: number,
@@ -8827,19 +8743,19 @@ declare function DOTA_SpawnMapAtPosition(
     mapName: string,
     location: Vector,
     deferCompletion: boolean,
-    onReadyToSpawn: (spawnGroupHandle: number) => void,
-    onSpawnComplete: (spawnGroupHandle: number) => void,
+    onReadyToSpawn: (spawnGroupHandle: SpawnGroupHandle) => void,
+    onSpawnComplete: (spawnGroupHandle: SpawnGroupHandle) => void,
     context: undefined,
-): number;
+): SpawnGroupHandle;
 
 declare function DOTA_SpawnMapAtPosition<TContext extends {}>(
     mapName: string,
     location: Vector,
     deferCompletion: boolean,
-    onReadyToSpawn: (this: TContext, spawnGroupHandle: number) => void,
-    onSpawnComplete: (this: TContext, spawnGroupHandle: number) => void,
+    onReadyToSpawn: (this: TContext, spawnGroupHandle: SpawnGroupHandle) => void,
+    onSpawnComplete: (this: TContext, spawnGroupHandle: SpawnGroupHandle) => void,
     context: TContext,
-): number;
+): SpawnGroupHandle;
 
 declare function DotProduct(arg1: Vector, arg2: Vector): number;
 
@@ -9070,7 +8986,7 @@ declare function GetAbilityTextureNameForAbility(abilityName: string): string;
  *
  * @both
  */
-declare function GetActiveSpawnGroupHandle(): number;
+declare function GetActiveSpawnGroupHandle(): SpawnGroupHandle;
 
 /**
  * @deprecated This function is unsafe. Prefer using `GetDedicatedServerKeyV2`
@@ -9365,7 +9281,7 @@ declare function MakeStringToken(arg1: string): number;
  *
  * @both
  */
-declare function ManuallyTriggerSpawnGroupCompletion(arg1: number): void;
+declare function ManuallyTriggerSpawnGroupCompletion(handle: SpawnGroupHandle): void;
 
 /**
  * Start a minimap event.
@@ -9502,6 +9418,11 @@ declare function RegisterSpawnGroupFilterProxy(arg1: string): void;
  * @both
  */
 declare function ReloadMOTD(): void;
+
+/**
+ * Remove temporary vision for a given team.
+ */
+declare function RemoveFOWViewer(teamId: DOTATeam_t, viewerId: ViewerID): void;
 
 /**
  * Remove the C proxy for a script-based spawn group filter.
@@ -9883,7 +9804,7 @@ declare function UnloadSpawnGroup(arg1: string): void;
  *
  * @both
  */
-declare function UnloadSpawnGroupByHandle(arg1: number): void;
+declare function UnloadSpawnGroupByHandle(handle: SpawnGroupHandle): void;
 
 declare function UpdateEventPoints(eventPointData: object): void;
 

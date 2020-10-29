@@ -421,6 +421,8 @@ interface GameEventDeclarations {
     dota_wager_token: DotaWagerTokenEvent;
     dota_rank_wager: DotaRankWagerEvent;
     dota_bounty: DotaBountyEvent;
+    dota_candy: DotaCandyEvent;
+    dota_ad_randomed: DotaAdRandomedEvent;
     colorblind_mode_changed: object;
     dota_report_submitted: DotaReportSubmittedEvent;
     client_reload_game_keyvalues: object;
@@ -2409,6 +2411,16 @@ interface DotaBountyEvent {
     userid: EntityIndex;
     target: number;
     bounty_event: number;
+}
+
+interface DotaCandyEvent {
+    userid: EntityIndex;
+    candy_event: number;
+}
+
+interface DotaAdRandomedEvent {
+    userid: EntityIndex;
+    item_ability_id: number;
 }
 
 interface DotaReportSubmittedEvent {

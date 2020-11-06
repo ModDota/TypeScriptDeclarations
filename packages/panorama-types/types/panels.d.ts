@@ -213,6 +213,8 @@ interface Panel extends PanelBase {
     SetDialogVariable(name: string, value: string): void;
     SetDialogVariableInt(name: string, value: number): void;
     SetDialogVariableTime(name: string, value: number): void;
+    SetDialogVariableLocString(name: string, token: string): void;
+    SetDialogVariablePluralLocStringInt(name: string, token: string, value: number): void;
 
     ScrollToTop(): void;
     ScrollToBottom(): void;
@@ -303,6 +305,14 @@ interface ScenePanel extends Panel {
     SpawnHeroInScenePanelByHeroId(unknown1: number, unknown2: string, unknown3: number): boolean;
     SetScenePanelToPlayerHero(unknown1: string, unknown2: number): boolean;
     SetScenePanelToLocalHero(heroId: HeroID): boolean;
+    SetPostProcessFade(value: number): void;
+    /**
+     * @example
+     * scenePanel.SetCustomPostProcessMaterial("materials/dev/deferred_post_process_graphic_ui.vmat")
+     */
+    SetCustomPostProcessMaterial(material: string): void;
+    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(unknown1: string, unknown2: number): boolean;
+    LerpToCameraEntity(unknown1: string, unknown2: number): void;
 }
 
 interface EconItemPanel extends Panel {

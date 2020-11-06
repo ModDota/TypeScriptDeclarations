@@ -395,6 +395,11 @@ interface CDOTA_PanoramaScript_EventData {
      * Get a periodic resource value max.
      */
     GetPeriodicResourceMax(unPeriodicResourceID: number): number;
+
+    /**
+     * Is this the first time we've launched this season?
+     */
+    IsFirstRunThisEvent(): boolean;
 }
 
 interface CScriptBindingPR_Particles {
@@ -1451,6 +1456,11 @@ interface CScriptBindingPR_Game {
 
     GetNianFightTimeLeft(): number;
 
+    Diretide2020ShouldShowGameInfo(): boolean;
+    Diretide2020SetShowGameInfo(bShowGameInfo: boolean): void;
+    Diretide2020GetGameplayTipNumber(): number;
+    Diretide2020SetGameplayTipNumber(nGameplayTipNumber: number): void;
+
     GetState(): DOTA_GameState;
 
     GameStateIs(nState: DOTA_GameState): boolean;
@@ -1794,6 +1804,7 @@ interface DollarStatic {
     DispatchEventAsync(delay: number, event: string, panel: PanelBase, ...args: any[]): void;
     Language(): string;
     Localize(token: string, parent?: PanelBase): string;
+    LocalizePlural(token: string, value: number, parent?: PanelBase): string;
     RegisterEventHandler(event: string, parent: PanelBase, handler: (...args: any[]) => void): void;
     RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;

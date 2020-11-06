@@ -2262,10 +2262,10 @@ dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
-dota-data@0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.12.0.tgz#fca4133357396014fee41978e466f1d33dcb919e"
-  integrity sha512-l1PwAwsXikrgV3cEXquTqSJuWTfQ0/foNwTANTnwga5eaB1f5MOU+bIpk8zz07076O6GneAIRjMp6MSZNYCEsA==
+dota-data@0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.12.2.tgz#aeefb11ce6a29103087bbba52f76ccbe75d94117"
+  integrity sha512-c3zDy9/LfPJ3Oj/QwPGZN/dEfYo8jeZYmKTpAFLjxqxZfTJ1nH8+wSLKMYlPUS6dgzYn2BHaLELkw2Tfk4NgMw==
   dependencies:
     fs-extra "^9.0.1"
     got "^11.6.0"

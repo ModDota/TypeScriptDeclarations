@@ -12,18 +12,6 @@ declare interface CBaseAnimating extends CBaseModelEntity {
      */
     ActiveSequenceDuration(): number;
     /**
-     * Get the attachment id's angles as a p,y,r vector.
-     */
-    GetAttachmentAngles(attachment: number): Vector;
-    /**
-     * Get the attachment id's forward vector.
-     */
-    GetAttachmentForward(attachment: number): Vector;
-    /**
-     * Get the attachment id's origin vector.
-     */
-    GetAttachmentOrigin(attachment: number): Vector;
-    /**
      * Get the cycle of the animation.
      */
     GetCycle(): number;
@@ -31,10 +19,6 @@ declare interface CBaseAnimating extends CBaseModelEntity {
      * Get the value of the given animGraph parameter.
      */
     GetGraphParameter(param: string): object;
-    /**
-     * Get scale of entity's model.
-     */
-    GetModelScale(): number;
     /**
      * Returns the name of the active sequence.
      */
@@ -47,10 +31,6 @@ declare interface CBaseAnimating extends CBaseModelEntity {
      * Sets the active sequence by name, resetting the current cycle.
      */
     ResetSequence(sequenceName: string): void;
-    /**
-     * Get the named attachment id.
-     */
-    ScriptLookupAttachment(attachmentName: string): number;
     /**
      * Returns the duration in seconds of the given sequence name.
      */
@@ -88,10 +68,6 @@ declare interface CBaseAnimating extends CBaseModelEntity {
      */
     SetGraphParameterVector(name: string, value: Vector): void;
     /**
-     * Set scale of entity's model.
-     */
-    SetModelScale(scale: number): void;
-    /**
      * Set the specified pose parameter to the specified value.
      */
     SetPoseParameter(name: string, value: number): number;
@@ -117,17 +93,9 @@ declare interface CBaseCombatCharacter extends CBaseFlex {
      */
     GetEquippedWeapons(): object;
     /**
-     * Get the combat character faction.
-     */
-    GetFaction(): number;
-    /**
      * Gets the number of weapons currently equipped.
      */
     GetWeaponCount(): number;
-    /**
-     * Returns the shoot position eyes (or hand in VR).
-     */
-    ShootPosition(hand: number, muzzle: number): Vector;
     __kind__: 'instance';
 }
 
@@ -266,6 +234,8 @@ declare interface CBaseEntity extends CEntityInstance {
     GetMass(): number;
     /**
      * Get the maximum health of this entity.
+     *
+     * @both
      */
     GetMaxHealth(): number;
     /**
@@ -526,6 +496,18 @@ declare const C_BaseModelEntity: typeof CBaseModelEntity;
 
 declare interface CBaseModelEntity extends CBaseEntity {
     /**
+     * Get the attachment id's angles as a p,y,r vector.
+     */
+    GetAttachmentAngles(attachment: number): Vector;
+    /**
+     * Get the attachment id's forward vector.
+     */
+    GetAttachmentForward(attachment: number): Vector;
+    /**
+     * Get the attachment id's origin vector.
+     */
+    GetAttachmentOrigin(attachment: number): Vector;
+    /**
      * Get the material group hash of this entity.
      */
     GetMaterialGroupHash(): number;
@@ -533,6 +515,10 @@ declare interface CBaseModelEntity extends CBaseEntity {
      * Get the mesh group mask of this entity.
      */
     GetMaterialGroupMask(): Uint64;
+    /**
+     * Get scale of entity's model.
+     */
+    GetModelScale(): number;
     /**
      * Get the alpha modulation of this entity.
      *
@@ -543,6 +529,10 @@ declare interface CBaseModelEntity extends CBaseEntity {
      * Get the render color of the entity.
      */
     GetRenderColor(): Vector;
+    /**
+     * Get the named attachment id.
+     */
+    ScriptLookupAttachment(attachmentName: string): number;
     /**
      * Sets a bodygroup.
      */
@@ -568,6 +558,10 @@ declare interface CBaseModelEntity extends CBaseEntity {
      */
     SetMaterialGroupMask(meshGroupMask: Uint64): void;
     SetModel(modelName: string): void;
+    /**
+     * Set scale of entity's model.
+     */
+    SetModelScale(scale: number): void;
     /**
      * Set the alpha modulation of this entity.
      */
@@ -1320,7 +1314,7 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      *
      * @both
      */
-    GetBehavior(): DOTA_ABILITY_BEHAVIOR;
+    GetBehavior(): DOTA_ABILITY_BEHAVIOR | Uint64;
     /**
      * Return casting animation of this ability.
      */
@@ -1823,6 +1817,18 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     GetCursorCastTarget(): CDOTA_BaseNPC | undefined;
     GetCursorPosition(): Vector;
     GetCursorTargetingNothing(): boolean;
+    /**
+     * Get the maximum attack damage of this unit.
+     *
+     * @both
+     */
+    GetDamageMax(): number;
+    /**
+     * Get the minimum attack damage of this unit.
+     *
+     * @both
+     */
+    GetDamageMin(): number;
     /**
      * Returns the vision range after modifiers.
      *
@@ -2372,10 +2378,6 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     PlayVCD(vcd: string): void;
     /** @both */
     ProvidesVision(): boolean;
-    /**
-     * (bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly,
-     * bool RemoveStuns, bool RemoveExceptions.
-     */
     Purge(
         removePositiveBuffs: boolean,
         removeDebuffs: boolean,
@@ -2401,6 +2403,42 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
         callbackInfo: TCallbackInfo,
     ): void;
     /**
+     * Queue a response system concept with the TLK_DOTA_CUSTOM concept, after a
+     * delay, for the same team this speaker is on.
+     */
+    QueueTeamConcept<TCallbackInfo>(
+        delay: number,
+        criteriaTable: object,
+        completionCallbackFn: (didActuallySpeak: boolean, callbackInfo: TCallbackInfo) => void,
+        context: undefined,
+        callbackInfo: TCallbackInfo,
+    ): void;
+    QueueTeamConcept<TCallbackInfo, TContext extends {}>(
+        delay: number,
+        criteriaTable: object,
+        completionCallbackFn: (this: TContext, didActuallySpeak: boolean, callbackInfo: TCallbackInfo) => void,
+        context: TContext,
+        callbackInfo: TCallbackInfo,
+    ): void;
+    /**
+     * Queue a response system concept with the TLK_DOTA_CUSTOM concept, after a
+     * delay, for the same team this speaker is on. Is not played for spectators.
+     */
+    QueueTeamConceptNoSpectators<TCallbackInfo>(
+        delay: number,
+        criteriaTable: object,
+        completionCallbackFn: (didActuallySpeak: boolean, callbackInfo: TCallbackInfo) => void,
+        context: undefined,
+        callbackInfo: TCallbackInfo,
+    ): void;
+    QueueTeamConceptNoSpectators<TCallbackInfo, TContext extends {}>(
+        delay: number,
+        criteriaTable: object,
+        completionCallbackFn: (this: TContext, didActuallySpeak: boolean, callbackInfo: TCallbackInfo) => void,
+        context: TContext,
+        callbackInfo: TCallbackInfo,
+    ): void;
+    /**
      * Remove mana from this unit, this can be used for involuntary mana loss, not for
      * mana that is spent.
      */
@@ -2414,6 +2452,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     RemoveAbilityByHandle(ability: CDOTABaseAbility): void;
     RemoveAbilityFromIndexByName(abilityName: string): void;
+    /**
+     * @param targets 0=all, 1=enemy, 2=ally
+     */
+    RemoveAllModifiers(targets: 0 | 1 | 2, now: boolean, permanent: boolean, death: boolean): void;
     /**
      * Remove the given gesture activity.
      */
@@ -2646,6 +2688,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * @both
      */
     UnitCanRespawn(): boolean;
+    WasKilledPassively(): boolean;
     __kind__: 'instance';
 }
 
@@ -2857,6 +2900,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      */
     GetGold(): number;
     GetGoldBounty(): number;
+    GetHeroID(): number;
     /**
      * Hero attack speed is also affected by agility.
      */
@@ -2887,6 +2931,10 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
     GetPlayerID(): PlayerID;
     GetPrimaryAttribute(): Attributes;
     GetPrimaryStatValue(): number;
+    /**
+     * If hero is under Replicate effect, returns original hero entity.
+     */
+    GetReplicatingOtherHero(): CDOTA_BaseNPC_Hero | undefined;
     /**
      * Is this hero prevented from respawning?
      */
@@ -2961,6 +3009,10 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      * Gives this hero some gold.
      */
     ModifyGold(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
+    /**
+     * Gives this hero some gold, using the gold filter if extra filtering is on.
+     */
+    ModifyGoldFiltered(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
     /**
      * Adds passed value to base attribute value, then calls CalculateStatBonus.
      */
@@ -3083,6 +3135,8 @@ declare interface CDOTA_Buff {
      * @both
      */
     Destroy(): void;
+    /** @both */
+    DestroyOnExpire(): boolean;
     /**
      * Run all associated refresh functions on this modifier as if it was re-applied.
      *
@@ -3200,6 +3254,8 @@ declare const C_DOTA_Item: typeof CDOTA_Item;
 
 declare interface CDOTA_Item extends CDOTABaseAbility {
     CanBeUsedOutOfInventory(): boolean;
+    /** @client */
+    CanOnlyPlayerHeroPickup(): boolean;
     /**
      * Get the container for this item.
      */
@@ -3303,6 +3359,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
      * Sets whether item is unequipped or ready.
      */
     SetItemState(state: number): void;
+    SetOnlyPlayerHeroPickup(onlyPlayerHero: boolean): void;
     /**
      * Set the purchaser of record for this item.
      */
@@ -3418,7 +3475,7 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      *
      * @both
      */
-    GetBehavior(): DOTA_ABILITY_BEHAVIOR;
+    GetBehavior(): DOTA_ABILITY_BEHAVIOR | Uint64;
     /**
      * Return cast range of this ability.
      *
@@ -3523,6 +3580,10 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      * Channeling is taking place.
      */
     OnChannelThink(interval: number): void;
+    /**
+     * Runs when item's charge count changes.
+     */
+    OnChargeCountChanged(): void;
     /**
      * Caster (hero only) gained a level, skilled an ability, or received a new stat
      * bonus.
@@ -5138,6 +5199,7 @@ declare const CDOTA_PlayerResource: DotaConstructor<CDOTA_PlayerResource>;
 
 declare interface CDOTA_PlayerResource extends CBaseEntity {
     AddAegisPickup(playerId: PlayerID): void;
+    AddCandyEvent(playerId: PlayerID, reason: number): void;
     AddClaimedFarm(playerId: PlayerID, farmValue: number, earnedValue: boolean): void;
     AddGoldSpentOnSupport(playerId: PlayerID, cost: number): void;
     AddNeutralItemToStash(playerId: PlayerID, teamNumber: DOTATeam_t, item: CDOTA_Item): void;
@@ -5377,6 +5439,17 @@ declare interface CDOTA_Unit_CustomGameAnnouncer extends CDOTA_BaseNPC {
     __kind__: 'instance';
 }
 
+declare const CDOTA_Unit_Diretide_Portal: DotaConstructor<CDOTA_Unit_Diretide_Portal>;
+
+declare interface CDOTA_Unit_Diretide_Portal extends CDOTA_BaseNPC_Building {
+    GetPartnerPortal(): object;
+    ResetPortal(): void;
+    SetInvasionRuneType(runeType: number): void;
+    SetPartnerPortal(portal: object): void;
+    SetPortalActive(active: boolean): void;
+    __kind__: 'instance';
+}
+
 declare const CDOTA_Unit_Nian: DotaConstructor<CDOTA_Unit_Nian>;
 
 declare interface CDOTA_Unit_Nian extends CDOTA_BaseNPC_Creature {
@@ -5438,8 +5511,17 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetAssociatedSecondaryAbilities(): string;
     GetAutoCastState(): boolean;
     GetBackswingTime(): number;
-    /** @both */
-    GetBehavior(): number;
+    /**
+     * Always returns Uint64 at runtime, DOTA_ABILITY_BEHAVIOR is referenced only for
+     * compatibility.
+     */
+    GetBehavior(): DOTA_ABILITY_BEHAVIOR | Uint64;
+    /**
+     * Get ability behavior flags as an int for compatability.
+     *
+     * @both
+     */
+    GetBehaviorInt(): DOTA_ABILITY_BEHAVIOR;
     /** @both */
     GetCaster(): CDOTA_BaseNPC;
     GetCastPoint(): number;
@@ -5459,6 +5541,8 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetCooldown(level: number): number;
     GetCooldownTime(): number;
     GetCooldownTimeRemaining(): number;
+    /** @both */
+    GetCurrentAbilityCharges(): number;
     GetCursorPosition(): Vector;
     GetCursorTarget(): CDOTA_BaseNPC | undefined;
     GetCursorTargetingNothing(): boolean;
@@ -5568,11 +5652,16 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     ProcsMagicStick(): boolean;
     RefCountsModifiers(): boolean;
     RefreshCharges(): void;
+    /**
+     * Returns true if ability has intrinsic modifier.
+     */
+    RefreshIntrinsicModifier(): boolean;
     RefundManaCost(): void;
     ResetToggleOnRespawn(): boolean;
     SetAbilityIndex(index: number): void;
     SetActivated(activated: boolean): void;
     SetChanneling(channeling: boolean): void;
+    SetCurrentAbilityCharges(charges: number): void;
     SetFrozenCooldown(frozenCooldown: boolean): void;
     SetHidden(hidden: boolean): void;
     SetInAbilityPhase(inAbilityPhase: boolean): void;
@@ -5711,6 +5800,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     GetCustomBuybackCostEnabled(): boolean;
     /**
+     * Get the topbar score display value for dire.
+     */
+    GetCustomDireScore(): number;
+    /**
      * Get the current custom glyph cooldown.
      */
     GetCustomGlyphCooldown(): number;
@@ -5718,6 +5811,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Allows definition of the max level heroes can achieve (default is 25).
      */
     GetCustomHeroMaxLevel(): number;
+    /**
+     * Get the topbar score display value for radiant.
+     */
+    GetCustomRadiantScore(): number;
     /**
      * Get the current custom scan cooldown.
      */
@@ -5918,6 +6015,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetCustomBuybackCostEnabled(enabled: boolean): void;
     /**
+     * Sets the topbar score display value for dire.
+     */
+    SetCustomDireScore(score: number): void;
+    /**
      * Force all players to use the specified hero and disable the normal hero
      * selection process. Must be used before hero selection.
      */
@@ -5930,6 +6031,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Allows definition of the max level heroes can achieve (default is 25).
      */
     SetCustomHeroMaxLevel(maxLevel: number): void;
+    /**
+     * Sets the topbar score display value for radiant.
+     */
+    SetCustomRadiantScore(score: number): void;
     /**
      * Set a custom cooldown for team Scan ability.
      */
@@ -6351,6 +6456,16 @@ declare interface CDOTAGamerules {
      */
     EnableCustomGameSetupAutoLaunch(enabled: boolean): void;
     /**
+     * Sends a minimap ping to all players on the team.
+     */
+    ExecuteTeamPing(
+        team: DOTATeam_t,
+        xCoord: number,
+        yCoord: number,
+        entity: CBaseEntity | undefined,
+        type: 0 | 1 | 2 | 3 | 4 | 5 | 6,
+    ): void;
+    /**
      * Indicate that the custom game setup phase is complete, and advance to the game.
      */
     FinishCustomGameSetup(): void;
@@ -6366,6 +6481,12 @@ declare interface CDOTAGamerules {
      * Get the announcer for a team.
      */
     GetAnnouncer(team: DOTATeam_t): CDOTA_BaseNPC | undefined;
+    /**
+     * Returns the hero unit names banned in this game, if any.
+     *
+     * @both
+     */
+    GetBannedHeroes(): string[];
     /**
      * Returns the difficulty level of the custom game mode.
      *
@@ -6415,6 +6536,27 @@ declare interface CDOTAGamerules {
      */
     GetGameTime(): number;
     /**
+     * Get the stock count of the item.
+     *
+     * @param playerId Used only for items with "PlayerSpecificCooldown"
+     * @both
+     */
+    GetItemStockCount(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
+    /**
+     * Get the time it takes to add a new item to stock.
+     *
+     * @param playerId Used only for items with "PlayerSpecificCooldown"
+     * @both
+     */
+    GetItemStockDuration(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
+    /**
+     * Get the time an item will be added to stock.
+     *
+     * @param playerId Used only for items with "PlayerSpecificCooldown"
+     * @both
+     */
+    GetItemStockTime(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
+    /**
      * Get the MatchID for this game.
      */
     GetMatchID(): Uint64;
@@ -6423,6 +6565,14 @@ declare interface CDOTAGamerules {
      * information.
      */
     GetMatchSignoutComplete(): boolean;
+    /**
+     * Gets next bounty rune spawn time.
+     */
+    GetNextBountyRuneSpawnTime(): number;
+    /**
+     * Gets next rune spawn time.
+     */
+    GetNextRuneSpawnTime(): number;
     /**
      * For New Bloom, get total damage taken by the Nian / Year Beast.
      */
@@ -6500,6 +6650,16 @@ declare interface CDOTAGamerules {
      */
     MakeTeamLose(team: DOTATeam_t): void;
     /**
+     * Like ModifyGold, but will use the gold filter if SetFilterMoreGold has been set
+     * true.
+     */
+    ModifyGoldFiltered(
+        playerId: PlayerID,
+        goldChange: number,
+        reliable: boolean,
+        reason: EDOTA_ModifyGold_Reason,
+    ): number;
+    /**
      * Returns the number of items currently dropped on the ground.
      */
     NumDroppedItems(): number;
@@ -6576,6 +6736,15 @@ declare interface CDOTAGamerules {
      */
     SetCustomGameAllowMusicAtGameStart(allow: boolean): void;
     /**
+     * Sets a flag to enable/disable the casting secondary abilities from units other
+     * than the player's own hero.
+     */
+    SetCustomGameAllowSecondaryAbilitiesOnOtherUnits(arg1: boolean): void;
+    /**
+     * Set number of hero bans each team gets.
+     */
+    SetCustomGameBansPerTeam(arg1: number): void;
+    /**
      * Set the difficulty level of the custom game mode.
      */
     SetCustomGameDifficulty(difficulty: number): void;
@@ -6618,6 +6787,10 @@ declare interface CDOTAGamerules {
      */
     SetEventSignoutCustomTable(metadataTable: object): boolean;
     /**
+     * Sets whether to filter more gold events than normal.
+     */
+    SetFilterMoreGold(arg1: boolean): void;
+    /**
      * Sets whether First Blood has been triggered.
      */
     SetFirstBloodActive(active: boolean): void;
@@ -6629,6 +6802,10 @@ declare interface CDOTAGamerules {
      * Makes the specified team win.
      */
     SetGameWinner(team: DOTATeam_t): void;
+    /**
+     * Set Glyph cooldown for team.
+     */
+    SetGlyphCooldown(team: DOTATeam_t, cooldown: number): void;
     /**
      * Set the auto gold increase per timed interval.
      */
@@ -6658,6 +6835,25 @@ declare interface CDOTAGamerules {
      * of the screen.
      */
     SetHideKillMessageHeaders(hideHeaders: boolean): void;
+    /**
+     * Set whether custom and event games should ignore Lobby teams when assigning
+     * players to teams. Defaults to true.
+     */
+    SetIgnoreLobbyTeamsInCustomGame(arg1: boolean): void;
+    /**
+     * Set the stock count of the item.
+     *
+     * @param playerId Used only for items with "PlayerSpecificCooldown"
+     */
+    SetItemStockCount(count: number, team: DOTATeam_t, itemName: string, playerId: PlayerID): void;
+    /**
+     * Sets next bounty rune spawn time.
+     */
+    SetNextBountyRuneSpawnTime(arg1: number): void;
+    /**
+     * Sets next rune spawn time.
+     */
+    SetNextRuneSpawnTime(arg1: number): void;
     /**
      * Show this unit's health on the overlay health bar.
      */
@@ -6692,6 +6888,10 @@ declare interface CDOTAGamerules {
      * the pre-game phase.
      */
     SetShowcaseTime(time: number): void;
+    /**
+     * Set whether to speak a Spawn concept instead of a Respawn concept on respawn.
+     */
+    SetSpeechUseSpawnInsteadOfRespawnConcept(arg1: boolean): void;
     /**
      * Set the starting gold amount.
      */
@@ -8006,6 +8206,10 @@ declare interface ProjectileManager {
      */
     GetTrackingProjectileLocation(projectile: ProjectileID): Vector;
     /**
+     * Is this a valid projectile?
+     */
+    IsValidProjectile(value: number): value is ProjectileID;
+    /**
      * Makes the specified unit dodge projectiles.
      */
     ProjectileDodge(unit: CDOTA_BaseNPC): void;
@@ -9079,6 +9283,12 @@ declare function GetPhysAngularVelocity(arg1: object): Vector;
 declare function GetPhysVelocity(arg1: object): Vector;
 
 /**
+ * Given the item tier and the team, roll for the name of a valid neutral item
+ * drop, considering previous drops and consumables.
+ */
+declare function GetPotentialNeutralItemDrop(tier: number, team: DOTATeam_t): string;
+
+/**
  * Get the current real world date.
  */
 declare function GetSystemDate(): string;
@@ -9179,6 +9389,11 @@ declare function IsInToolsMode(): boolean;
  * Ask fog of war if a location is visible to a certain team.
  */
 declare function IsLocationVisible(team: DOTATeam_t, location: Vector): boolean;
+
+/**
+ * Is this entity a mango tree? (hEntity).
+ */
+declare function IsMangoTree(entity: CBaseEntity): entity is CBaseAnimating;
 
 /**
  * Returns true if the entity is valid and marked for deletion.

@@ -1,7 +1,7 @@
 import assert from 'assert';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
-import { CallableDeclaration } from './utils';
+import { CallableDeclaration, withDescription } from './utils';
 
 export const overrides: Record<string, ApiOverride> = {
   DOTA_SpawnMapAtPosition: { callback: 'optional' },
@@ -19,6 +19,14 @@ export const overrides: Record<string, ApiOverride> = {
   'CDOTABaseGameMode.SetModifyGoldFilter': { callback: 'required' },
   'CDOTABaseGameMode.SetRuneSpawnFilter': { callback: 'required' },
   'CDOTABaseGameMode.SetTrackingProjectileFilter': { callback: 'required' },
+
+  'CDOTABaseAbility.GetBehavior': {
+    return: 'DOTA_ABILITY_BEHAVIOR | Uint64',
+    description:
+      'Always returns Uint64 at runtime, DOTA_ABILITY_BEHAVIOR is referenced only for compatibility.',
+  },
+  'CDOTA_Ability_Lua.GetBehavior': { return: 'DOTA_ABILITY_BEHAVIOR | Uint64' },
+  'CDOTA_Item_Lua.GetBehavior': { return: 'DOTA_ABILITY_BEHAVIOR | Uint64' },
 
   ListenToGameEvent: {
     callback: 'optional',
@@ -76,16 +84,18 @@ export const overrides: Record<string, ApiOverride> = {
       },
     },
   },
+};
 
-  'CDOTA_BaseNPC.QueueConcept': {
+for (const name of ['QueueConcept', 'QueueTeamConcept', 'QueueTeamConceptNoSpectators']) {
+  overrides[`CDOTA_BaseNPC.${name}`] = {
     callback: 'optional',
     generics: [{ name: 'TCallbackInfo' }],
     args: {
       completionCallbackFn: { args: { callbackInfo: 'TCallbackInfo' } },
       callbackInfo: 'TCallbackInfo',
     },
-  },
-};
+  };
+}
 
 for (const name of ['FireGameEvent', 'FireGameEventLocal']) {
   overrides[name] = {
@@ -131,6 +141,7 @@ interface FunctionOverride {
   generics?: { name: string; extend?: string }[];
   args?: Record<string, ParameterOverride>;
   return?: string;
+  description?: string;
 }
 
 type ParameterOverride = FunctionOverride | string | null;
@@ -204,6 +215,10 @@ function applyFunctionOverride(fn: CallableDeclaration, override: FunctionOverri
 
   if (override.return !== undefined) {
     fn.returnType = dom.create.namedTypeReference(override.return);
+  }
+
+  if (override.description !== undefined) {
+    withDescription(fn, override.description);
   }
 }
 

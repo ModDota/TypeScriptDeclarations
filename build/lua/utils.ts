@@ -68,6 +68,7 @@ export function getType(types: api.Type[], includeUndefined: boolean, thisType?:
 
 const typePredicates: Record<string, string> = {
   IsValidEntity: 'entity is CBaseEntity',
+  IsMangoTree: 'entity is CBaseAnimating',
   TraceCollideable: 'query is TraceCollideableOutputs',
   TraceHull: 'query is TraceHullOutputs',
   TraceLine: 'query is TraceLineOutputs',
@@ -89,6 +90,7 @@ const typePredicates: Record<string, string> = {
   'CDOTA_PlayerResource.IsValidTeamPlayer': 'playerId is PlayerID',
   'CDOTA_PlayerResource.IsValidTeamPlayerID': 'playerId is PlayerID',
   'CDOTABaseAbility.IsItem': 'this is CDOTA_Item',
+  'ProjectileManager.IsValidProjectile': 'value is ProjectileID',
 };
 
 function getReturnType(identifier: string, types: api.Type[]): dom.Type {

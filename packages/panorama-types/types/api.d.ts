@@ -325,8 +325,9 @@ interface CDOTA_PanoramaScript_GameUI {
 
     /**
      * Given a passed ability, replace the special value variables in the passed localized text.
+     * Returns `null` if `abilityName` is invalid.
      */
-    ReplaceDOTAAbilitySpecialValues(...unknown: any[]): void;
+    ReplaceDOTAAbilitySpecialValues(abilityName: string, text: string): string | null;
 }
 
 /**

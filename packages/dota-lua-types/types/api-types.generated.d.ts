@@ -224,8 +224,8 @@ declare interface CreateTrackingProjectileOptions extends CreateBaseProjectileOp
      * @default false
      */
     bReplaceExisting?: boolean;
-    bIgnoreObstructions: boolean;
-    bSuppressTargetCheck: boolean;
+    bIgnoreObstructions?: boolean;
+    bSuppressTargetCheck?: boolean;
     iSourceAttachment?: DOTAProjectileAttachment_t;
     /**
      * @default false
@@ -335,6 +335,9 @@ declare interface ModifierAttackEvent {
     ranged_attack: boolean;
     target: CDOTA_BaseNPC;
     unit?: CDOTA_BaseNPC;
+    no_attack_cooldown: boolean;
+    record: number;
+    fail_type: attackfail;
 }
 
 declare interface ModifierUnitEvent {

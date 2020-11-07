@@ -17,22 +17,19 @@ const eventTypeMap: Record<string, string> = {
 export const getEventType = (type: string) => eventTypeMap[type] ?? type;
 
 const gameEventDeclarations = (() => {
-  const members = _.uniqBy(
-    Object.values(events).flatMap((group) => Object.entries(group)),
-    // `player_connect` and `hltv_chat` are duplicated
-    ([name]) => name,
-  ).map(([eventName, event]) => {
-    const eventType =
-      event.fields.length === 0 ? 'object' : `${_.upperFirst(_.camelCase(eventName))}Event`;
-    return withDescription(`${eventName}: ${eventType}`, event.description);
-  });
+  const members = events
+    .map((event) => {
+      const eventType =
+        event.fields.length === 0 ? 'object' : `${_.upperFirst(_.camelCase(event.name))}Event`;
+      return withDescription(`${event.name}: ${eventType};`, event.description);
+    })
+    .join('\n');
 
   return `interface GameEventDeclarations {${members}}`;
 })();
 
-const eventTypes = Object.values(events)
-  .flatMap((group) => Object.entries(group))
-  .map(([eventName, event]) => {
+const eventTypes = events
+  .map((event) => {
     if (event.fields.length === 0) {
       return '';
     }
@@ -41,7 +38,7 @@ const eventTypes = Object.values(events)
       .map((f) => withDescription(`${f.name}: ${getEventType(f.type)}`, f.description))
       .join('\n');
 
-    const interfaceName = `${_.upperFirst(_.camelCase(eventName))}Event`;
+    const interfaceName = `${_.upperFirst(_.camelCase(event.name))}Event`;
     return withDescription(`interface ${interfaceName} {${members}}`, event.description);
   })
   .join('\n\n');

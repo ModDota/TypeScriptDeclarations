@@ -1050,6 +1050,8 @@ interface HltvTitleEvent {
  */
 interface HltvChatEvent {
     text: string;
+    name: string;
+    steamID: number;
 }
 
 interface HltvVersioninfoEvent {
@@ -1556,15 +1558,6 @@ interface ClientsideLessonClosedEvent {
 }
 
 /**
- * A HLTV chat msg sent by spectators.
- */
-interface HltvChatEvent {
-    name: string;
-    text: string;
-    steamID: number;
-}
-
-/**
  * Shot of a single entity.
  */
 interface DotaChaseHeroEvent {
@@ -1628,32 +1621,6 @@ interface DotaPlayerPickHeroEvent {
     player: number;
     heroindex: number;
     hero: string;
-}
-
-/**
- * A new client connected.
- */
-interface PlayerConnectEvent {
-    /**
-     * Player name.
-     */
-    name: string;
-    /**
-     * Player slot (entity index-1).
-     */
-    index: number;
-    /**
-     * User ID on server (unique on server).
-     */
-    userid: EntityIndex;
-    /**
-     * Player network (i.e steam) id.
-     */
-    networkid: string;
-    /**
-     * Ip:port.
-     */
-    address: string;
 }
 
 interface ModifierEventEvent {

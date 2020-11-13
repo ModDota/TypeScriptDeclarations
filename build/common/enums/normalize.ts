@@ -1,11 +1,12 @@
-import _ from 'lodash';
 import enums from 'dota-data/files/panorama/enums';
+import _ from 'lodash';
 
 export function normalizeEnumName(name: string) {
   const normalized = name.startsWith('modifier')
     ? `Modifier${_.upperFirst(name.slice('modifier'.length))}`
     : _.upperFirst(_.camelCase(name.replace(/^E?(DOTA|Dota)_?/, '').replace(/_t$/, '')));
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (normalizedEnumNames[name] != null) {
     if (normalizedEnumNames[name] === normalized) {
       throw new Error(`Unnecessary enum normalization override: ${name} -> ${normalized}`);
@@ -47,6 +48,7 @@ export function normalizeEnumMemberName(name: string, declaration: enums.Enum) {
   normalizedName = _.snakeCase(normalizedName).toUpperCase();
 
   const normalizer = memberNameNormalizers[declaration.name];
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (normalizer != null) {
     normalizedName = normalizer({ name, normalizedName });
   }

@@ -21,9 +21,9 @@
     "transformer/index.{js,d.ts}"
   ],
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.3"
   },
   "peerDependencies": {
-    "typescript": "^3.0.0"
+    "typescript": "^3.0.0 || ^4.0.0"
   }
 }

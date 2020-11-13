@@ -174,6 +174,7 @@ export function getFunction<T extends CallableDeclaration>(
   fn.jsDocComment = comments.join('\n');
 
   const override = overrides[identifier];
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const declarations: T[] = override !== undefined ? applyApiOverride(fn, override) : [fn];
 
   if (compatibilityOverloads.has(identifier)) {

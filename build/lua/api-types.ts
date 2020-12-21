@@ -1,4 +1,4 @@
-import types from 'dota-data/files/vscripts/api-types';
+import types from '@moddota/dota-data/files/vscripts/api-types';
 import * as dom from 'dts-dom';
 import _ from 'lodash';
 import { emit, getType, withDescription } from './utils';

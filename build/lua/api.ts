@@ -1,4 +1,4 @@
-import api from 'dota-data/files/vscripts/api';
+import api from '@moddota/dota-data/files/vscripts/api';
 import * as dom from 'dts-dom';
 import { emit, getFunction, getType, withDescription } from './utils';
 

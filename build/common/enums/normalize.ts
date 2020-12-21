@@ -1,4 +1,4 @@
-import enums from 'dota-data/files/panorama/enums';
+import enums from '@moddota/dota-data/files/panorama/enums';
 import _ from 'lodash';
 
 export function normalizeEnumName(name: string) {

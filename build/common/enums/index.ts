@@ -1,4 +1,4 @@
-import vscriptsEnums from 'dota-data/files/vscripts/enums';
+import vscriptsEnums from '@moddota/dota-data/files/vscripts/enums';
 import _ from 'lodash';
 import { emit, withDescription } from '../utils';
 import { isGlobalEnumMember, normalizeEnumMemberName, normalizeEnumName } from './normalize';

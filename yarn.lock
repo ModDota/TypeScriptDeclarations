@@ -892,6 +892,17 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
+"@moddota/dota-data@0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@moddota/dota-data/-/dota-data-0.14.0.tgz#61503c6b4f8fdb3fa2ddeb8748a86acc0ff04a7a"
+  integrity sha512-1A09F5OOO/fKxM151SIeOsDpYN7DctN6hjtL8je3bGD50TX4TWdx9u80K+PVP0kPVxpOAyjEZRcGmKPEOMxSfw==
+  dependencies:
+    fs-extra "^9.0.1"
+    got "^11.6.0"
+    lodash "^4.17.20"
+    tslib "^2.0.1"
+    vdf-extra "^2.2.2"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2437,17 +2448,6 @@ dot-prop@^5.2.0:
   integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
   dependencies:
     is-obj "^2.0.0"
-
-dota-data@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/dota-data/-/dota-data-0.13.0.tgz#c787f5d3d35494746f6d6fb2d0ffcc30e3ae541b"
-  integrity sha512-mSrczyJTZdTByf4eO4pYhSCYPkS9DYPLjBq1zpbKYySDzzVS87hv+tdNUlkLGQ+1XAExIUh0+Xi5w1fV4eJuDg==
-  dependencies:
-    fs-extra "^9.0.1"
-    got "^11.6.0"
-    lodash "^4.17.20"
-    tslib "^2.0.1"
-    vdf-extra "^2.2.2"
 
 dts-dom@^3.6.0:
   version "3.6.0"

@@ -1,4 +1,4 @@
-import enums from 'dota-data/files/vscripts/enums';
+import enums from '@moddota/dota-data/files/vscripts/enums';
 import {
   generateEnumDeclarations,
   isGlobalEnumMember,

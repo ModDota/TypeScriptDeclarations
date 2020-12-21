@@ -88,14 +88,6 @@ declare const CBaseCombatCharacter: DotaConstructor<CBaseCombatCharacter>;
 declare const C_BaseCombatCharacter: typeof CBaseCombatCharacter;
 
 declare interface CBaseCombatCharacter extends CBaseFlex {
-    /**
-     * Returns an array of all the equipped weapons.
-     */
-    GetEquippedWeapons(): object;
-    /**
-     * Gets the number of weapons currently equipped.
-     */
-    GetWeaponCount(): number;
     __kind__: 'instance';
 }
 
@@ -587,9 +579,17 @@ declare const CBasePlayer: DotaConstructor<CBasePlayer>;
 
 declare interface CBasePlayer extends CBaseCombatCharacter {
     /**
+     * Returns an array of all the equipped weapons.
+     */
+    GetEquippedWeapons(): object;
+    /**
      * Returns the player's user id.
      */
     GetUserID(): number;
+    /**
+     * Gets the number of weapons currently equipped.
+     */
+    GetWeaponCount(): number;
     /**
      * Returns true if the player is in noclip mode.
      */
@@ -1649,6 +1649,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Toggle an ability.
      */
     CastAbilityToggle(ability: CDOTABaseAbility, playerIndex: number): void;
+    ChangeTeam(teamNum: number): void;
     /**
      * Clear Activity modifiers.
      */
@@ -2158,6 +2159,12 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * @both
      */
     IsCreep(): boolean;
+    /**
+     * Is this unit a creep hero?
+     *
+     * @both
+     */
+    IsCreepHero(): boolean;
     IsCurrentlyHorizontalMotionControlled(): boolean;
     IsCurrentlyVerticalMotionControlled(): boolean;
     /** @both */
@@ -2823,7 +2830,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
     /**
      * Recalculate all stats after the hero gains stats.
      */
-    CalculateStatBonus(): void;
+    CalculateStatBonus(force: boolean): void;
     /**
      * Returns boolean value result of buyback gold limit time less than game time.
      */
@@ -4423,6 +4430,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierMaxDebuffDuration?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierMiss_Percentage?(): number;
     /**
      * @abstract
@@ -4541,6 +4553,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierOverrideAttackDamage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageAttackAnimTime?(): void;
     /**
      * @abstract
      * @both
@@ -4714,7 +4731,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierShard?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierSpellAmplify_Percentage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSpellAmplify_PercentageCreep?(): void;
     /**
      * @abstract
      * @both
@@ -4809,6 +4836,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierXPDuringDeath?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetOverrideAnimation?(): GameActivity_t;
     /**
      * @abstract
@@ -4825,6 +4857,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetOverrideAttackMagical?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetPrimaryStatDamageMultiplier?(): void;
     /**
      * @abstract
      * @both
@@ -6709,6 +6746,10 @@ declare interface CDOTAGamerules {
      */
     SendCustomMessageToTeam(arg1: string, arg2: number, arg3: number, arg4: number): void;
     /**
+     * Allow Outposts granting XP.
+     */
+    SetAllowOutpostBonuses(arg1: boolean): void;
+    /**
      * Scale the creep icons on the minimap.
      */
     SetCreepMinimapIconScale(scale: number): void;
@@ -8042,11 +8083,9 @@ declare interface CTakeDamageInfo {
     AddDamage(addAmount: number): void;
     AddDamageType(bitsDamageType: number): void;
     AllowFriendlyFire(): boolean;
-    BaseDamageIsValid(): boolean;
     CanBeBlocked(): boolean;
     GetAmmoType(): number;
     GetAttacker(): object;
-    GetBaseDamage(): number;
     GetDamage(): number;
     GetDamageCustom(): number;
     GetDamageForce(): Vector;

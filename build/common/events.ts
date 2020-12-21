@@ -1,4 +1,4 @@
-import events from 'dota-data/files/events';
+import events from '@moddota/dota-data/files/events';
 import _ from 'lodash';
 import { emit, withDescription } from './utils';
 

@@ -179,6 +179,7 @@ declare enum OverheadAlert {
     DEATH = 20,
     BLOCKED = 21,
     ITEM_RECEIVED = 22,
+    SHARD = 23,
 }
 
 declare const DOTA_HEROPICK_STATE_COUNT: 61;
@@ -927,8 +928,8 @@ declare enum LoadoutType {
     TYPE_BELT = 8,
     TYPE_NECK = 9,
     TYPE_BACK = 10,
-    TYPE_LEGS = 11,
-    TYPE_GLOVES = 12,
+    TYPE_GLOVES = 11,
+    TYPE_LEGS = 12,
     TYPE_TAIL = 13,
     TYPE_MISC = 14,
     TYPE_COSTUME = 15,
@@ -1005,7 +1006,7 @@ declare enum LoadoutType {
     TYPE_NONE = 84,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 232;
+declare const MODIFIER_FUNCTION_LAST: 238;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -1177,41 +1178,45 @@ declare enum ModifierFunction {
      */
     TOTALDAMAGEOUTGOING_PERCENTAGE = 40,
     /**
+     * Method Name: `GetModifierSpellAmplify_PercentageCreep`
+     */
+    SPELL_AMPLIFY_PERCENTAGE_CREEP = 41,
+    /**
      * Method Name: `GetModifierSpellAmplify_Percentage`
      */
-    SPELL_AMPLIFY_PERCENTAGE = 41,
+    SPELL_AMPLIFY_PERCENTAGE = 42,
     /**
      * Method Name: `GetModifierSpellAmplify_PercentageUnique`
      */
-    SPELL_AMPLIFY_PERCENTAGE_UNIQUE = 42,
+    SPELL_AMPLIFY_PERCENTAGE_UNIQUE = 43,
     /**
      * Method Name: `GetModifierHealAmplify_PercentageSource`
      */
-    HEAL_AMPLIFY_PERCENTAGE_SOURCE = 43,
+    HEAL_AMPLIFY_PERCENTAGE_SOURCE = 44,
     /**
      * Method Name: `GetModifierHealAmplify_PercentageTarget`
      */
-    HEAL_AMPLIFY_PERCENTAGE_TARGET = 44,
+    HEAL_AMPLIFY_PERCENTAGE_TARGET = 45,
     /**
      * Method Name: `GetModifierHPRegenAmplify_Percentage`
      */
-    HP_REGEN_AMPLIFY_PERCENTAGE = 45,
+    HP_REGEN_AMPLIFY_PERCENTAGE = 46,
     /**
      * Method Name: `GetModifierLifestealRegenAmplify_Percentage`
      */
-    LIFESTEAL_AMPLIFY_PERCENTAGE = 46,
+    LIFESTEAL_AMPLIFY_PERCENTAGE = 47,
     /**
      * Method Name: `GetModifierSpellLifestealRegenAmplify_Percentage`
      */
-    SPELL_LIFESTEAL_AMPLIFY_PERCENTAGE = 47,
+    SPELL_LIFESTEAL_AMPLIFY_PERCENTAGE = 48,
     /**
      * Method Name: `GetModifierMPRegenAmplify_Percentage`
      */
-    MP_REGEN_AMPLIFY_PERCENTAGE = 48,
+    MP_REGEN_AMPLIFY_PERCENTAGE = 49,
     /**
      * Method Name: `GetModifierManaDrainAmplify_Percentage`
      */
-    MANA_DRAIN_AMPLIFY_PERCENTAGE = 49,
+    MANA_DRAIN_AMPLIFY_PERCENTAGE = 50,
     /**
      * Total amplify value is clamped to 0.
      *
@@ -1219,63 +1224,63 @@ declare enum ModifierFunction {
      *
      * Method Name: `GetModifierMPRestoreAmplify_Percentage`.
      */
-    MP_RESTORE_AMPLIFY_PERCENTAGE = 50,
+    MP_RESTORE_AMPLIFY_PERCENTAGE = 51,
     /**
      * Method Name: `GetModifierBaseDamageOutgoing_Percentage`
      */
-    BASEDAMAGEOUTGOING_PERCENTAGE = 51,
+    BASEDAMAGEOUTGOING_PERCENTAGE = 52,
     /**
      * Method Name: `GetModifierBaseDamageOutgoing_PercentageUnique`
      */
-    BASEDAMAGEOUTGOING_PERCENTAGE_UNIQUE = 52,
+    BASEDAMAGEOUTGOING_PERCENTAGE_UNIQUE = 53,
     /**
      * Method Name: `GetModifierIncomingDamage_Percentage`
      */
-    INCOMING_DAMAGE_PERCENTAGE = 53,
+    INCOMING_DAMAGE_PERCENTAGE = 54,
     /**
      * Method Name: `GetModifierIncomingPhysicalDamage_Percentage`
      */
-    INCOMING_PHYSICAL_DAMAGE_PERCENTAGE = 54,
+    INCOMING_PHYSICAL_DAMAGE_PERCENTAGE = 55,
     /**
      * Method Name: `GetModifierIncomingPhysicalDamageConstant`
      */
-    INCOMING_PHYSICAL_DAMAGE_CONSTANT = 55,
+    INCOMING_PHYSICAL_DAMAGE_CONSTANT = 56,
     /**
      * Method Name: `GetModifierIncomingSpellDamageConstant`
      */
-    INCOMING_SPELL_DAMAGE_CONSTANT = 56,
+    INCOMING_SPELL_DAMAGE_CONSTANT = 57,
     /**
      * Method Name: `GetModifierEvasion_Constant`
      */
-    EVASION_CONSTANT = 57,
+    EVASION_CONSTANT = 58,
     /**
      * Method Name: `GetModifierNegativeEvasion_Constant`
      */
-    NEGATIVE_EVASION_CONSTANT = 58,
+    NEGATIVE_EVASION_CONSTANT = 59,
     /**
      * Method Name: `GetModifierStatusResistance`
      */
-    STATUS_RESISTANCE = 59,
+    STATUS_RESISTANCE = 60,
     /**
      * Method Name: `GetModifierStatusResistanceStacking`
      */
-    STATUS_RESISTANCE_STACKING = 60,
+    STATUS_RESISTANCE_STACKING = 61,
     /**
      * Method Name: `GetModifierStatusResistanceCaster`
      */
-    STATUS_RESISTANCE_CASTER = 61,
+    STATUS_RESISTANCE_CASTER = 62,
     /**
      * Method Name: `GetModifierAvoidDamage`
      */
-    AVOID_DAMAGE = 62,
+    AVOID_DAMAGE = 63,
     /**
      * Method Name: `GetModifierAvoidSpell`
      */
-    AVOID_SPELL = 63,
+    AVOID_SPELL = 64,
     /**
      * Method Name: `GetModifierMiss_Percentage`
      */
-    MISS_PERCENTAGE = 64,
+    MISS_PERCENTAGE = 65,
     /**
      * Values above 100% are ignored.
      *
@@ -1283,393 +1288,409 @@ declare enum ModifierFunction {
      *
      * Method Name: `GetModifierPhysicalArmorBase_Percentage`.
      */
-    PHYSICAL_ARMOR_BASE_PERCENTAGE = 65,
+    PHYSICAL_ARMOR_BASE_PERCENTAGE = 66,
     /**
      * Method Name: `GetModifierPhysicalArmorTotal_Percentage`
      */
-    PHYSICAL_ARMOR_TOTAL_PERCENTAGE = 66,
+    PHYSICAL_ARMOR_TOTAL_PERCENTAGE = 67,
     /**
      * Method Name: `GetModifierPhysicalArmorBonus`
      */
-    PHYSICAL_ARMOR_BONUS = 67,
+    PHYSICAL_ARMOR_BONUS = 68,
     /**
      * Method Name: `GetModifierPhysicalArmorBonusUnique`
      */
-    PHYSICAL_ARMOR_BONUS_UNIQUE = 68,
+    PHYSICAL_ARMOR_BONUS_UNIQUE = 69,
     /**
      * Method Name: `GetModifierPhysicalArmorBonusUniqueActive`
      */
-    PHYSICAL_ARMOR_BONUS_UNIQUE_ACTIVE = 69,
+    PHYSICAL_ARMOR_BONUS_UNIQUE_ACTIVE = 70,
     /**
      * Method Name: `GetModifierIgnorePhysicalArmor`
      */
-    IGNORE_PHYSICAL_ARMOR = 70,
+    IGNORE_PHYSICAL_ARMOR = 71,
     /**
      * Method Name: `GetModifierMagicalResistanceBaseReduction`
      */
-    MAGICAL_RESISTANCE_BASE_REDUCTION = 71,
+    MAGICAL_RESISTANCE_BASE_REDUCTION = 72,
     /**
      * Method Name: `GetModifierMagicalResistanceDirectModification`
      */
-    MAGICAL_RESISTANCE_DIRECT_MODIFICATION = 72,
+    MAGICAL_RESISTANCE_DIRECT_MODIFICATION = 73,
     /**
      * Method Name: `GetModifierMagicalResistanceBonus`
      */
-    MAGICAL_RESISTANCE_BONUS = 73,
+    MAGICAL_RESISTANCE_BONUS = 74,
     /**
      * Method Name: `GetModifierMagicalResistanceBonusIllusions`
      */
-    MAGICAL_RESISTANCE_BONUS_ILLUSIONS = 74,
+    MAGICAL_RESISTANCE_BONUS_ILLUSIONS = 75,
     /**
      * Method Name: `GetModifierMagicalResistanceDecrepifyUnique`
      */
-    MAGICAL_RESISTANCE_DECREPIFY_UNIQUE = 75,
+    MAGICAL_RESISTANCE_DECREPIFY_UNIQUE = 76,
     /**
      * Method Name: `GetModifierBaseRegen`
      */
-    BASE_MANA_REGEN = 76,
+    BASE_MANA_REGEN = 77,
     /**
      * Method Name: `GetModifierConstantManaRegen`
      */
-    MANA_REGEN_CONSTANT = 77,
+    MANA_REGEN_CONSTANT = 78,
     /**
      * Method Name: `GetModifierConstantManaRegenUnique`
      */
-    MANA_REGEN_CONSTANT_UNIQUE = 78,
+    MANA_REGEN_CONSTANT_UNIQUE = 79,
     /**
      * Method Name: `GetModifierTotalPercentageManaRegen`
      */
-    MANA_REGEN_TOTAL_PERCENTAGE = 79,
+    MANA_REGEN_TOTAL_PERCENTAGE = 80,
     /**
      * Method Name: `GetModifierConstantHealthRegen`
      */
-    HEALTH_REGEN_CONSTANT = 80,
+    HEALTH_REGEN_CONSTANT = 81,
     /**
      * Method Name: `GetModifierHealthRegenPercentage`
      */
-    HEALTH_REGEN_PERCENTAGE = 81,
+    HEALTH_REGEN_PERCENTAGE = 82,
     /**
      * Method Name: `GetModifierHealthRegenPercentageUnique`
      */
-    HEALTH_REGEN_PERCENTAGE_UNIQUE = 82,
+    HEALTH_REGEN_PERCENTAGE_UNIQUE = 83,
     /**
      * Method Name: `GetModifierHealthBonus`
      */
-    HEALTH_BONUS = 83,
+    HEALTH_BONUS = 84,
     /**
      * Method Name: `GetModifierManaBonus`
      */
-    MANA_BONUS = 84,
+    MANA_BONUS = 85,
     /**
      * Method Name: `GetModifierExtraStrengthBonus`
      */
-    EXTRA_STRENGTH_BONUS = 85,
+    EXTRA_STRENGTH_BONUS = 86,
     /**
      * Method Name: `GetModifierExtraHealthBonus`
      */
-    EXTRA_HEALTH_BONUS = 86,
+    EXTRA_HEALTH_BONUS = 87,
     /**
      * Method Name: `GetModifierExtraManaBonus`
      */
-    EXTRA_MANA_BONUS = 87,
+    EXTRA_MANA_BONUS = 88,
     /**
      * Method Name: `GetModifierExtraHealthPercentage`
      */
-    EXTRA_HEALTH_PERCENTAGE = 88,
+    EXTRA_HEALTH_PERCENTAGE = 89,
     /**
      * Method Name: `GetModifierExtraManaPercentage`
      */
-    EXTRA_MANA_PERCENTAGE = 89,
+    EXTRA_MANA_PERCENTAGE = 90,
     /**
      * Method Name: `GetModifierBonusStats_Strength`
      */
-    STATS_STRENGTH_BONUS = 90,
+    STATS_STRENGTH_BONUS = 91,
     /**
      * Method Name: `GetModifierBonusStats_Agility`
      */
-    STATS_AGILITY_BONUS = 91,
+    STATS_AGILITY_BONUS = 92,
     /**
      * Method Name: `GetModifierBonusStats_Intellect`
      */
-    STATS_INTELLECT_BONUS = 92,
+    STATS_INTELLECT_BONUS = 93,
     /**
      * Method Name: `GetModifierBonusStats_Strength_Percentage`
      */
-    STATS_STRENGTH_BONUS_PERCENTAGE = 93,
+    STATS_STRENGTH_BONUS_PERCENTAGE = 94,
     /**
      * Method Name: `GetModifierBonusStats_Agility_Percentage`
      */
-    STATS_AGILITY_BONUS_PERCENTAGE = 94,
+    STATS_AGILITY_BONUS_PERCENTAGE = 95,
     /**
      * Method Name: `GetModifierBonusStats_Intellect_Percentage`
      */
-    STATS_INTELLECT_BONUS_PERCENTAGE = 95,
+    STATS_INTELLECT_BONUS_PERCENTAGE = 96,
     /**
      * Method Name: `GetModifierCastRangeBonus`
      */
-    CAST_RANGE_BONUS = 96,
+    CAST_RANGE_BONUS = 97,
     /**
      * Method Name: `GetModifierCastRangeBonusTarget`
      */
-    CAST_RANGE_BONUS_TARGET = 97,
+    CAST_RANGE_BONUS_TARGET = 98,
     /**
      * Method Name: `GetModifierCastRangeBonusStacking`
      */
-    CAST_RANGE_BONUS_STACKING = 98,
+    CAST_RANGE_BONUS_STACKING = 99,
     /**
      * Method Name: `GetModifierAttackRangeOverride`
      */
-    ATTACK_RANGE_BASE_OVERRIDE = 99,
+    ATTACK_RANGE_BASE_OVERRIDE = 100,
     /**
      * Method Name: `GetModifierAttackRangeBonus`
      */
-    ATTACK_RANGE_BONUS = 100,
+    ATTACK_RANGE_BONUS = 101,
     /**
      * Method Name: `GetModifierAttackRangeBonusUnique`
      */
-    ATTACK_RANGE_BONUS_UNIQUE = 101,
+    ATTACK_RANGE_BONUS_UNIQUE = 102,
     /**
      * Method Name: `GetModifierAttackRangeBonusPercentage`
      */
-    ATTACK_RANGE_BONUS_PERCENTAGE = 102,
+    ATTACK_RANGE_BONUS_PERCENTAGE = 103,
     /**
      * Method Name: `GetModifierMaxAttackRange`
      */
-    MAX_ATTACK_RANGE = 103,
+    MAX_ATTACK_RANGE = 104,
     /**
      * Method Name: `GetModifierProjectileSpeedBonus`
      */
-    PROJECTILE_SPEED_BONUS = 104,
+    PROJECTILE_SPEED_BONUS = 105,
     /**
      * Method Name: `GetModifierProjectileSpeedBonusPercentage`
      */
-    PROJECTILE_SPEED_BONUS_PERCENTAGE = 105,
+    PROJECTILE_SPEED_BONUS_PERCENTAGE = 106,
     /**
      * Method Name: `GetModifierProjectileName`
      */
-    PROJECTILE_NAME = 106,
+    PROJECTILE_NAME = 107,
     /**
      * Method Name: `ReincarnateTime`
      */
-    REINCARNATION = 107,
+    REINCARNATION = 108,
     /**
      * Method Name: `GetModifierConstantRespawnTime`
      */
-    RESPAWNTIME = 108,
+    RESPAWNTIME = 109,
     /**
      * Method Name: `GetModifierPercentageRespawnTime`
      */
-    RESPAWNTIME_PERCENTAGE = 109,
+    RESPAWNTIME_PERCENTAGE = 110,
     /**
      * Method Name: `GetModifierStackingRespawnTime`
      */
-    RESPAWNTIME_STACKING = 110,
+    RESPAWNTIME_STACKING = 111,
     /**
      * Method Name: `GetModifierPercentageCooldown`
      */
-    COOLDOWN_PERCENTAGE = 111,
+    COOLDOWN_PERCENTAGE = 112,
     /**
      * Method Name: `GetModifierPercentageCooldownOngoing`
      */
-    COOLDOWN_PERCENTAGE_ONGOING = 112,
+    COOLDOWN_PERCENTAGE_ONGOING = 113,
     /**
      * Method Name: `GetModifierPercentageCasttime`
      */
-    CASTTIME_PERCENTAGE = 113,
+    CASTTIME_PERCENTAGE = 114,
+    /**
+     * Method Name: `GetModifierPercentageAttackAnimTime`
+     */
+    ATTACK_ANIM_TIME_PERCENTAGE = 115,
     /**
      * Method Name: `GetModifierPercentageManacost`
      */
-    MANACOST_PERCENTAGE = 114,
+    MANACOST_PERCENTAGE = 116,
     /**
      * Method Name: `GetModifierPercentageManacostStacking`
      */
-    MANACOST_PERCENTAGE_STACKING = 115,
+    MANACOST_PERCENTAGE_STACKING = 117,
     /**
      * Method Name: `GetModifierConstantDeathGoldCost`
      */
-    DEATHGOLDCOST = 116,
+    DEATHGOLDCOST = 118,
     /**
      * Method Name: `GetModifierPercentageExpRateBoost`
      */
-    EXP_RATE_BOOST = 117,
+    EXP_RATE_BOOST = 119,
     /**
      * Method Name: `GetModifierPreAttack_CriticalStrike`
      */
-    PREATTACK_CRITICALSTRIKE = 118,
+    PREATTACK_CRITICALSTRIKE = 120,
     /**
      * Method Name: `GetModifierPreAttack_Target_CriticalStrike`
      */
-    PREATTACK_TARGET_CRITICALSTRIKE = 119,
+    PREATTACK_TARGET_CRITICALSTRIKE = 121,
     /**
      * Method Name: `GetModifierMagical_ConstantBlock`
      */
-    MAGICAL_CONSTANT_BLOCK = 120,
+    MAGICAL_CONSTANT_BLOCK = 122,
     /**
      * Method Name: `GetModifierPhysical_ConstantBlock`
      */
-    PHYSICAL_CONSTANT_BLOCK = 121,
+    PHYSICAL_CONSTANT_BLOCK = 123,
     /**
      * Method Name: `GetModifierPhysical_ConstantBlockSpecial`
      */
-    PHYSICAL_CONSTANT_BLOCK_SPECIAL = 122,
+    PHYSICAL_CONSTANT_BLOCK_SPECIAL = 124,
     /**
      * Method Name: `GetModifierPhysical_ConstantBlockUnavoidablePreArmor`
      */
-    TOTAL_CONSTANT_BLOCK_UNAVOIDABLE_PRE_ARMOR = 123,
+    TOTAL_CONSTANT_BLOCK_UNAVOIDABLE_PRE_ARMOR = 125,
     /**
      * Method Name: `GetModifierTotal_ConstantBlock`
      */
-    TOTAL_CONSTANT_BLOCK = 124,
+    TOTAL_CONSTANT_BLOCK = 126,
     /**
      * Method Name: `GetOverrideAnimation`
      */
-    OVERRIDE_ANIMATION = 125,
+    OVERRIDE_ANIMATION = 127,
     /**
      * Method Name: `GetOverrideAnimationWeight`
      */
-    OVERRIDE_ANIMATION_WEIGHT = 126,
+    OVERRIDE_ANIMATION_WEIGHT = 128,
     /**
      * Method Name: `GetOverrideAnimationRate`
      */
-    OVERRIDE_ANIMATION_RATE = 127,
+    OVERRIDE_ANIMATION_RATE = 129,
     /**
      * Method Name: `GetAbsorbSpell`
      */
-    ABSORB_SPELL = 128,
+    ABSORB_SPELL = 130,
     /**
      * Method Name: `GetReflectSpell`
      */
-    REFLECT_SPELL = 129,
+    REFLECT_SPELL = 131,
     /**
      * Method Name: `GetDisableAutoAttack`
      */
-    DISABLE_AUTOATTACK = 130,
+    DISABLE_AUTOATTACK = 132,
     /**
      * Method Name: `GetBonusDayVision`
      */
-    BONUS_DAY_VISION = 131,
+    BONUS_DAY_VISION = 133,
     /**
      * Method Name: `GetBonusNightVision`
      */
-    BONUS_NIGHT_VISION = 132,
+    BONUS_NIGHT_VISION = 134,
     /**
      * Method Name: `GetBonusNightVisionUnique`
      */
-    BONUS_NIGHT_VISION_UNIQUE = 133,
+    BONUS_NIGHT_VISION_UNIQUE = 135,
     /**
      * Method Name: `GetBonusVisionPercentage`
      */
-    BONUS_VISION_PERCENTAGE = 134,
+    BONUS_VISION_PERCENTAGE = 136,
     /**
      * Method Name: `GetFixedDayVision`
      */
-    FIXED_DAY_VISION = 135,
+    FIXED_DAY_VISION = 137,
     /**
      * Method Name: `GetFixedNightVision`
      */
-    FIXED_NIGHT_VISION = 136,
+    FIXED_NIGHT_VISION = 138,
     /**
      * Method Name: `GetMinHealth`
      */
-    MIN_HEALTH = 137,
+    MIN_HEALTH = 139,
     /**
      * Method Name: `GetAbsoluteNoDamagePhysical`
      */
-    ABSOLUTE_NO_DAMAGE_PHYSICAL = 138,
+    ABSOLUTE_NO_DAMAGE_PHYSICAL = 140,
     /**
      * Method Name: `GetAbsoluteNoDamageMagical`
      */
-    ABSOLUTE_NO_DAMAGE_MAGICAL = 139,
+    ABSOLUTE_NO_DAMAGE_MAGICAL = 141,
     /**
      * Method Name: `GetAbsoluteNoDamagePure`
      */
-    ABSOLUTE_NO_DAMAGE_PURE = 140,
+    ABSOLUTE_NO_DAMAGE_PURE = 142,
     /**
      * Method Name: `GetIsIllusion`
      */
-    IS_ILLUSION = 141,
+    IS_ILLUSION = 143,
     /**
      * Method Name: `GetModifierIllusionLabel`
      */
-    ILLUSION_LABEL = 142,
+    ILLUSION_LABEL = 144,
     /**
      * Method Name: `GetModifierStrongIllusion`
      */
-    STRONG_ILLUSION = 143,
+    STRONG_ILLUSION = 145,
     /**
      * Method Name: `GetModifierSuperIllusion`
      */
-    SUPER_ILLUSION = 144,
+    SUPER_ILLUSION = 146,
     /**
      * Method Name: `GetModifierSuperIllusionWithUltimate`
      */
-    SUPER_ILLUSION_WITH_ULTIMATE = 145,
+    SUPER_ILLUSION_WITH_ULTIMATE = 147,
+    /**
+     * Method Name: `GetModifierXPDuringDeath`
+     */
+    XP_DURING_DEATH = 148,
     /**
      * Method Name: `GetModifierTurnRate_Percentage`
      */
-    TURN_RATE_PERCENTAGE = 146,
+    TURN_RATE_PERCENTAGE = 149,
     /**
      * Method Name: `GetModifierTurnRate_Override`
      */
-    TURN_RATE_OVERRIDE = 147,
+    TURN_RATE_OVERRIDE = 150,
     /**
      * Method Name: `GetDisableHealing`
      */
-    DISABLE_HEALING = 148,
+    DISABLE_HEALING = 151,
     /**
      * Method Name: `GetAlwaysAllowAttack`
      */
-    ALWAYS_ALLOW_ATTACK = 149,
+    ALWAYS_ALLOW_ATTACK = 152,
     /**
      * Method Name: `GetAllowEtherealAttack`
      */
-    ALWAYS_ETHEREAL_ATTACK = 150,
+    ALWAYS_ETHEREAL_ATTACK = 153,
     /**
      * Method Name: `GetOverrideAttackMagical`
      */
-    OVERRIDE_ATTACK_MAGICAL = 151,
+    OVERRIDE_ATTACK_MAGICAL = 154,
     /**
      * Method Name: `GetModifierUnitStatsNeedsRefresh`
      */
-    UNIT_STATS_NEEDS_REFRESH = 152,
-    BOUNTY_CREEP_MULTIPLIER = 153,
-    BOUNTY_OTHER_MULTIPLIER = 154,
+    UNIT_STATS_NEEDS_REFRESH = 155,
+    BOUNTY_CREEP_MULTIPLIER = 156,
+    BOUNTY_OTHER_MULTIPLIER = 157,
     /**
      * Method Name: `GetModifierUnitDisllowUpgrading`
      */
-    UNIT_DISALLOW_UPGRADING = 155,
+    UNIT_DISALLOW_UPGRADING = 158,
     /**
      * Method Name: `GetModifierDodgeProjectile`
      */
-    DODGE_PROJECTILE = 156,
+    DODGE_PROJECTILE = 159,
     /**
      * Method Name: `GetTriggerCosmeticAndEndAttack`
      */
-    TRIGGER_COSMETIC_AND_END_ATTACK = 157,
+    TRIGGER_COSMETIC_AND_END_ATTACK = 160,
+    /**
+     * Method Name: `GetModifierMaxDebuffDuration`
+     */
+    MAX_DEBUFF_DURATION = 161,
+    /**
+     * Method Name: `GetPrimaryStatDamageMultiplier`
+     */
+    PRIMARY_STAT_DAMAGE_MULTIPLIER = 162,
     /**
      * Method Name: `OnSpellTargetReady`
      */
-    ON_SPELL_TARGET_READY = 158,
+    ON_SPELL_TARGET_READY = 163,
     /**
      * Method Name: `OnAttackRecord`
      */
-    ON_ATTACK_RECORD = 159,
+    ON_ATTACK_RECORD = 164,
     /**
      * Method Name: `OnAttackStart`
      */
-    ON_ATTACK_START = 160,
+    ON_ATTACK_START = 165,
     /**
      * Method Name: `OnAttack`
      */
-    ON_ATTACK = 161,
+    ON_ATTACK = 166,
     /**
      * Method Name: `OnAttackLanded`
      */
-    ON_ATTACK_LANDED = 162,
+    ON_ATTACK_LANDED = 167,
     /**
      * Method Name: `OnAttackFail`
      */
-    ON_ATTACK_FAIL = 163,
+    ON_ATTACK_FAIL = 168,
     /**
      * Happens even if attack can't be issued.
      *
@@ -1677,134 +1698,134 @@ declare enum ModifierFunction {
      *
      * Method Name: `OnAttackAllied`.
      */
-    ON_ATTACK_ALLIED = 164,
+    ON_ATTACK_ALLIED = 169,
     /**
      * Method Name: `OnProjectileDodge`
      */
-    ON_PROJECTILE_DODGE = 165,
+    ON_PROJECTILE_DODGE = 170,
     /**
      * Method Name: `OnOrder`
      */
-    ON_ORDER = 166,
+    ON_ORDER = 171,
     /**
      * Method Name: `OnUnitMoved`
      */
-    ON_UNIT_MOVED = 167,
+    ON_UNIT_MOVED = 172,
     /**
      * Method Name: `OnAbilityStart`
      */
-    ON_ABILITY_START = 168,
+    ON_ABILITY_START = 173,
     /**
      * Method Name: `OnAbilityExecuted`
      */
-    ON_ABILITY_EXECUTED = 169,
+    ON_ABILITY_EXECUTED = 174,
     /**
      * Method Name: `OnAbilityFullyCast`
      */
-    ON_ABILITY_FULLY_CAST = 170,
+    ON_ABILITY_FULLY_CAST = 175,
     /**
      * Method Name: `OnBreakInvisibility`
      */
-    ON_BREAK_INVISIBILITY = 171,
+    ON_BREAK_INVISIBILITY = 176,
     /**
      * Method Name: `OnAbilityEndChannel`
      */
-    ON_ABILITY_END_CHANNEL = 172,
-    ON_PROCESS_UPGRADE = 173,
-    ON_REFRESH = 174,
+    ON_ABILITY_END_CHANNEL = 177,
+    ON_PROCESS_UPGRADE = 178,
+    ON_REFRESH = 179,
     /**
      * Method Name: `OnTakeDamage`
      */
-    ON_TAKEDAMAGE = 175,
+    ON_TAKEDAMAGE = 180,
     /**
      * Method Name: `OnDamagePrevented`
      */
-    ON_DEATH_PREVENTED = 176,
+    ON_DEATH_PREVENTED = 181,
     /**
      * Method Name: `OnStateChanged`
      */
-    ON_STATE_CHANGED = 177,
-    ON_ORB_EFFECT = 178,
+    ON_STATE_CHANGED = 182,
+    ON_ORB_EFFECT = 183,
     /**
      * Method Name: `OnProcessCleave`
      */
-    ON_PROCESS_CLEAVE = 179,
+    ON_PROCESS_CLEAVE = 184,
     /**
      * Method Name: `OnDamageCalculated`
      */
-    ON_DAMAGE_CALCULATED = 180,
+    ON_DAMAGE_CALCULATED = 185,
     /**
      * Method Name: `OnAttacked`
      */
-    ON_ATTACKED = 181,
+    ON_ATTACKED = 186,
     /**
      * Method Name: `OnDeath`
      */
-    ON_DEATH = 182,
+    ON_DEATH = 187,
     /**
      * Method Name: `OnRespawn`
      */
-    ON_RESPAWN = 183,
+    ON_RESPAWN = 188,
     /**
      * Method Name: `OnSpentMana`
      */
-    ON_SPENT_MANA = 184,
+    ON_SPENT_MANA = 189,
     /**
      * Method Name: `OnTeleporting`
      */
-    ON_TELEPORTING = 185,
+    ON_TELEPORTING = 190,
     /**
      * Method Name: `OnTeleported`
      */
-    ON_TELEPORTED = 186,
+    ON_TELEPORTED = 191,
     /**
      * Method Name: `OnSetLocation`
      */
-    ON_SET_LOCATION = 187,
+    ON_SET_LOCATION = 192,
     /**
      * Method Name: `OnHealthGained`
      */
-    ON_HEALTH_GAINED = 188,
+    ON_HEALTH_GAINED = 193,
     /**
      * Method Name: `OnManaGained`
      */
-    ON_MANA_GAINED = 189,
+    ON_MANA_GAINED = 194,
     /**
      * Method Name: `OnTakeDamageKillCredit`
      */
-    ON_TAKEDAMAGE_KILLCREDIT = 190,
+    ON_TAKEDAMAGE_KILLCREDIT = 195,
     /**
      * Method Name: `OnHeroKilled`
      */
-    ON_HERO_KILLED = 191,
+    ON_HERO_KILLED = 196,
     /**
      * Method Name: `OnHealReceived`
      */
-    ON_HEAL_RECEIVED = 192,
+    ON_HEAL_RECEIVED = 197,
     /**
      * Method Name: `OnBuildingKilled`
      */
-    ON_BUILDING_KILLED = 193,
+    ON_BUILDING_KILLED = 198,
     /**
      * Method Name: `OnModelChanged`
      */
-    ON_MODEL_CHANGED = 194,
+    ON_MODEL_CHANGED = 199,
     /**
      * Method Name: `OnModifierAdded`
      */
-    ON_MODIFIER_ADDED = 195,
+    ON_MODIFIER_ADDED = 200,
     /**
      * Method Name: `OnTooltip`
      */
-    TOOLTIP = 196,
+    TOOLTIP = 201,
     /**
      * Method Name: `GetModifierModelChange`
      */
-    MODEL_CHANGE = 197,
+    MODEL_CHANGE = 202,
     /**
      * Method Name: `GetModifierModelScale`
      */
-    MODEL_SCALE = 198,
+    MODEL_SCALE = 203,
     /**
      * Always applies scepter when this property is active
      *
@@ -1812,133 +1833,137 @@ declare enum ModifierFunction {
      *
      * Method Name: `GetModifierScepter`.
      */
-    IS_SCEPTER = 199,
+    IS_SCEPTER = 204,
+    /**
+     * Method Name: `GetModifierShard`
+     */
+    IS_SHARD = 205,
     /**
      * Method Name: `GetModifierRadarCooldownReduction`
      */
-    RADAR_COOLDOWN_REDUCTION = 200,
+    RADAR_COOLDOWN_REDUCTION = 206,
     /**
      * Method Name: `GetActivityTranslationModifiers`
      */
-    TRANSLATE_ACTIVITY_MODIFIERS = 201,
+    TRANSLATE_ACTIVITY_MODIFIERS = 207,
     /**
      * Method Name: `GetAttackSound`
      */
-    TRANSLATE_ATTACK_SOUND = 202,
+    TRANSLATE_ATTACK_SOUND = 208,
     /**
      * Method Name: `GetUnitLifetimeFraction`
      */
-    LIFETIME_FRACTION = 203,
+    LIFETIME_FRACTION = 209,
     /**
      * Method Name: `GetModifierProvidesFOWVision`
      */
-    PROVIDES_FOW_POSITION = 204,
+    PROVIDES_FOW_POSITION = 210,
     /**
      * Method Name: `GetModifierSpellsRequireHP`
      */
-    SPELLS_REQUIRE_HP = 205,
+    SPELLS_REQUIRE_HP = 211,
     /**
      * Method Name: `GetForceDrawOnMinimap`
      */
-    FORCE_DRAW_MINIMAP = 206,
+    FORCE_DRAW_MINIMAP = 212,
     /**
      * Method Name: `GetModifierDisableTurning`
      */
-    DISABLE_TURNING = 207,
+    DISABLE_TURNING = 213,
     /**
      * Method Name: `GetModifierIgnoreCastAngle`
      */
-    IGNORE_CAST_ANGLE = 208,
+    IGNORE_CAST_ANGLE = 214,
     /**
      * Method Name: `GetModifierChangeAbilityValue`
      */
-    CHANGE_ABILITY_VALUE = 209,
+    CHANGE_ABILITY_VALUE = 215,
     /**
      * Method Name: `GetModifierOverrideAbilitySpecial`
      */
-    OVERRIDE_ABILITY_SPECIAL = 210,
+    OVERRIDE_ABILITY_SPECIAL = 216,
     /**
      * Method Name: `GetModifierOverrideAbilitySpecialValue`
      */
-    OVERRIDE_ABILITY_SPECIAL_VALUE = 211,
+    OVERRIDE_ABILITY_SPECIAL_VALUE = 217,
     /**
      * Method Name: `GetModifierAbilityLayout`
      */
-    ABILITY_LAYOUT = 212,
+    ABILITY_LAYOUT = 218,
     /**
      * Method Name: `OnDominated`
      */
-    ON_DOMINATED = 213,
+    ON_DOMINATED = 219,
     /**
      * Method Name: `GetModifierTempestDouble`
      */
-    TEMPEST_DOUBLE = 214,
+    TEMPEST_DOUBLE = 220,
     /**
      * Method Name: `PreserveParticlesOnModelChanged`
      */
-    PRESERVE_PARTICLES_ON_MODEL_CHANGE = 215,
+    PRESERVE_PARTICLES_ON_MODEL_CHANGE = 221,
     /**
      * Method Name: `OnAttackFinished`
      */
-    ON_ATTACK_FINISHED = 216,
+    ON_ATTACK_FINISHED = 222,
     /**
      * Method Name: `GetModifierIgnoreCooldown`
      */
-    IGNORE_COOLDOWN = 217,
+    IGNORE_COOLDOWN = 223,
     /**
      * Method Name: `GetModifierCanAttackTrees`
      */
-    CAN_ATTACK_TREES = 218,
+    CAN_ATTACK_TREES = 224,
     /**
      * Method Name: `GetVisualZDelta`
      */
-    VISUAL_Z_DELTA = 219,
-    INCOMING_DAMAGE_ILLUSION = 220,
+    VISUAL_Z_DELTA = 225,
+    INCOMING_DAMAGE_ILLUSION = 226,
     /**
      * Method Name: `GetModifierNoVisionOfAttacker`
      */
-    DONT_GIVE_VISION_OF_ATTACKER = 221,
+    DONT_GIVE_VISION_OF_ATTACKER = 227,
     /**
      * Method Name: `OnTooltip2`
      */
-    TOOLTIP2 = 222,
+    TOOLTIP2 = 228,
     /**
      * Method Name: `OnAttackRecordDestroy`
      */
-    ON_ATTACK_RECORD_DESTROY = 223,
+    ON_ATTACK_RECORD_DESTROY = 229,
     /**
      * Method Name: `OnProjectileObstructionHit`
      */
-    ON_PROJECTILE_OBSTRUCTION_HIT = 224,
+    ON_PROJECTILE_OBSTRUCTION_HIT = 230,
     /**
      * Method Name: `GetSuppressTeleport`
      */
-    SUPPRESS_TELEPORT = 225,
+    SUPPRESS_TELEPORT = 231,
     /**
      * Method Name: `OnAttackCancelled`
      */
-    ON_ATTACK_CANCELLED = 226,
+    ON_ATTACK_CANCELLED = 232,
     /**
      * Method Name: `GetSuppressCleave`
      */
-    SUPPRESS_CLEAVE = 227,
+    SUPPRESS_CLEAVE = 233,
     /**
      * Method Name: `BotAttackScoreBonus`
      */
-    BOT_ATTACK_SCORE_BONUS = 228,
+    BOT_ATTACK_SCORE_BONUS = 234,
     /**
      * Method Name: `GetModifierAttackSpeedReductionPercentage`
      */
-    ATTACKSPEED_REDUCTION_PERCENTAGE = 229,
+    ATTACKSPEED_REDUCTION_PERCENTAGE = 235,
     /**
      * Method Name: `GetModifierMoveSpeedReductionPercentage`
      */
-    MOVESPEED_REDUCTION_PERCENTAGE = 230,
-    ATTACK_WHILE_MOVING_TARGET = 231,
+    MOVESPEED_REDUCTION_PERCENTAGE = 236,
+    ATTACK_WHILE_MOVING_TARGET = 237,
     INVALID = 255,
 }
 
-declare const MODIFIER_STATE_LAST: 44;
+declare const MODIFIER_STATE_LAST: 48;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -1982,7 +2007,7 @@ declare enum ModifierState {
     TRUESIGHT_IMMUNE = 33,
     UNTARGETABLE = 34,
     IGNORING_MOVE_AND_ATTACK_ORDERS = 35,
-    ALLOW_PATHING_TROUGH_TREES = 36,
+    ALLOW_PATHING_THROUGH_TREES = 36,
     NOT_ON_MINIMAP_FOR_ENEMIES = 37,
     UNSLOWABLE = 38,
     TETHERED = 39,
@@ -1990,6 +2015,10 @@ declare enum ModifierState {
     FEARED = 41,
     TAUNTED = 42,
     CANNOT_BE_MOTION_CONTROLLED = 43,
+    FORCED_FLYING_VISION = 44,
+    ATTACK_ALLIES = 45,
+    ALLOW_PATHING_THROUGH_CLIFFS = 46,
+    ALLOW_PATHING_THROUGH_FISSURE = 47,
 }
 
 /**

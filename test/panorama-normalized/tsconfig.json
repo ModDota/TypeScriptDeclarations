@@ -2,7 +2,7 @@
   "extends": "@ark120202/typescript-config/base.json",
   "include": ["**/*", "../utils.d.ts"],
   "compilerOptions": {
-    "types": ["panorama-types/normalized"],
+    "types": ["@moddota/panorama-types/normalized"],
     "lib": ["es2017"],
     "noEmit": true
   }

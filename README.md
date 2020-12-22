@@ -15,4 +15,7 @@ examples.
 3. `yarn install`
 4. `yarn build`
 5. Commit
-6. TODO how to publish type packages
+6. If necessary, bump versions in `packages/dota-lua-types/package.json` and
+   `packages/panorama-types/package.json`
+7. Commit and push
+8. If necessary, run `publish-lua-types` and `publish-panorama-types` workflows

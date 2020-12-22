@@ -1,5 +1,5 @@
 {
-  "name": "dota-lua-types",
+  "name": "@moddota/dota-lua-types",
   "version": "4.6.1",
   "description": "TypeScript definitions for Dota 2 Lua API",
   "keywords": [

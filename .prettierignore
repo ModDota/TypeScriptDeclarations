@@ -2,3 +2,4 @@
 /packages/*/transformer/*
 !/packages/*/transformer/index.ts
 !/packages/*/transformer/tsconfig.json
+*.md

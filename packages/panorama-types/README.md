@@ -10,9 +10,9 @@ TypeScript definitions for Dota 2 Panorama API
 1. Get package from npm
 
 ```shell
-yarn add -D panorama-types
+yarn add -D @moddota/panorama-types
 # or
-npm install -D panorama-types
+npm install -D @moddota/panorama-types
 ```
 
 2. Modify your `tsconfig.json`
@@ -20,7 +20,7 @@ npm install -D panorama-types
 ```json
 {
   "compilerOptions": {
-    "types": ["panorama-types"]
+    "types": ["@moddota/panorama-types"]
   }
 }
 ```
@@ -28,11 +28,11 @@ npm install -D panorama-types
 ## Enums
 
 This package includes 2 versions of enum types - raw and normalized. Raw types are included by
-default, with `"types": ["panorama-types"]`. They match actual values available at runtime, however
+default, with `"types": ["@moddota/panorama-types"]`. They match actual values available at runtime, however
 lead to repetition and require you to use inconsistent standard names.
 
-Normalized enum types can be included with `"types": ["panorama-types/normalized"]` and require you
-to use `panorama-types/transformer` (for example using [ttypescript]). With these types, enums have
+Normalized enum types can be included with `"types": ["@moddota/panorama-types/normalized"]` and require you
+to use `@moddota/panorama-types/transformer` (for example using [ttypescript]). With these types, enums have
 consistent names and have no repeated parts. For example, instead of
 `EDOTA_ModifyGold_Reason.DOTA_ModifyGold_Unspecified` you have to write
 `ModifyGoldReason.UNSPECIFIED`.

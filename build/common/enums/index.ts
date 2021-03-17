@@ -58,7 +58,7 @@ export function generateEnumDeclarations(
         !compileMembersOnly && declaration.description === undefined
           ? undefined
           : `${compileMembersOnly ? '@compileMembersOnly' : ''}${
-              declaration.description !== undefined ? '\n' + declaration.description : ''
+              declaration.description !== undefined ? `\n${declaration.description}` : ''
             }`,
       );
 

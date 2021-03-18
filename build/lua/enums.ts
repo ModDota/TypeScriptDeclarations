@@ -7,7 +7,7 @@ import {
 } from '../common/enums';
 
 export const generatedEnums = generateEnumDeclarations(enums, false, false, true);
-export const generatedEnumsNormalized = generateEnumDeclarations(enums, false, true, true);
+export const generatedEnumsNormalized = generateEnumDeclarations(enums, true, true, false);
 export const generatedEnumMappings = Object.fromEntries(
   enums
     .filter((x): x is enums.Enum => x.kind === 'enum')

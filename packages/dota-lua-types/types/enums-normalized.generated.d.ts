@@ -3471,6 +3471,8 @@ declare const enum ShowGenericPopupType {
 }
 
 /**
+ *
+ *
  * https://developer.valvesoftware.com/wiki/Animation_Events#Server_events
  */
 declare const enum SourceEngineAnimationEvent {
@@ -3533,6 +3535,8 @@ declare const enum SourceEngineAnimationEvent {
 }
 
 /**
+ *
+ *
  * https://developer.valvesoftware.com/wiki/Damage_types
  */
 declare const enum SourceEngineDamageTypes {
@@ -3643,6 +3647,8 @@ declare const enum SourceEngineDamageTypes {
 }
 
 /**
+ *
+ *
  * https://developer.valvesoftware.com/wiki/Weapon_script#SoundData
  */
 declare const enum SourceEngineSoundData {

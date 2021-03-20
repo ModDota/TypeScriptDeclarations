@@ -19,7 +19,10 @@ declare const SPAWN_GROUP_HANDLE_INVALID: 0;
  */
 type AbilityTypes = ABILITY_TYPES;
 
-declare const enum ABILITY_TYPES {
+/**
+ * @compileMembersOnly
+ */
+declare enum ABILITY_TYPES {
     ABILITY_TYPE_BASIC = 0,
     ABILITY_TYPE_ULTIMATE = 1,
     ABILITY_TYPE_ATTRIBUTES = 2,
@@ -31,7 +34,10 @@ declare const enum ABILITY_TYPES {
  */
 type AbilityLearnResult = AbilityLearnResult_t;
 
-declare const enum AbilityLearnResult_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum AbilityLearnResult_t {
     ABILITY_CAN_BE_UPGRADED = 0,
     ABILITY_CANNOT_BE_UPGRADED_NOT_UPGRADABLE = 1,
     ABILITY_CANNOT_BE_UPGRADED_AT_MAX = 2,
@@ -39,7 +45,10 @@ declare const enum AbilityLearnResult_t {
     ABILITY_NOT_LEARNABLE = 4,
 }
 
-declare const enum ActivateType {
+/**
+ * @compileMembersOnly
+ */
+declare enum ActivateType {
     ACTIVATE_TYPE_INITIAL_CREATION = 0,
     ACTIVATE_TYPE_DATAUPDATE_CREATION = 1,
     ACTIVATE_TYPE_ONRESTORE = 2,
@@ -50,7 +59,10 @@ declare const enum ActivateType {
  */
 type AttackRecord = attackfail;
 
-declare const enum attackfail {
+/**
+ * @compileMembersOnly
+ */
+declare enum attackfail {
     DOTA_ATTACK_RECORD_FAIL_NO = 0,
     DOTA_ATTACK_RECORD_FAIL_TERRAIN_MISS = 1,
     DOTA_ATTACK_RECORD_FAIL_SOURCE_MISS = 2,
@@ -61,7 +73,10 @@ declare const enum attackfail {
     DOTA_ATTACK_RECORD_FAIL_BLOCKED_BY_OBSTRUCTION = 7,
 }
 
-declare const enum AttributeDerivedStats {
+/**
+ * @compileMembersOnly
+ */
+declare enum AttributeDerivedStats {
     DOTA_ATTRIBUTE_STRENGTH_DAMAGE = 0,
     DOTA_ATTRIBUTE_STRENGTH_HP = 1,
     DOTA_ATTRIBUTE_STRENGTH_HP_REGEN = 2,
@@ -73,7 +88,10 @@ declare const enum AttributeDerivedStats {
     DOTA_ATTRIBUTE_INTELLIGENCE_MANA_REGEN = 8,
 }
 
-declare const enum Attributes {
+/**
+ * @compileMembersOnly
+ */
+declare enum Attributes {
     DOTA_ATTRIBUTE_INVALID = -1,
     DOTA_ATTRIBUTE_STRENGTH = 0,
     DOTA_ATTRIBUTE_AGILITY = 1,
@@ -81,7 +99,10 @@ declare const enum Attributes {
     DOTA_ATTRIBUTE_MAX = 3,
 }
 
-declare const enum ConVarFlags {
+/**
+ * @compileMembersOnly
+ */
+declare enum ConVarFlags {
     FCVAR_NONE = 0,
     /**
      * If this is set, the convar will become anonymous and won't show up in the
@@ -178,7 +199,10 @@ declare const enum ConVarFlags {
  */
 type DamageTypes = DAMAGE_TYPES;
 
-declare const enum DAMAGE_TYPES {
+/**
+ * @compileMembersOnly
+ */
+declare enum DAMAGE_TYPES {
     DAMAGE_TYPE_NONE = 0,
     DAMAGE_TYPE_PHYSICAL = 1,
     DAMAGE_TYPE_MAGICAL = 2,
@@ -192,7 +216,10 @@ declare const enum DAMAGE_TYPES {
  */
 type DamageCategory = DamageCategory_t;
 
-declare const enum DamageCategory_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DamageCategory_t {
     DOTA_DAMAGE_CATEGORY_SPELL = 0,
     DOTA_DAMAGE_CATEGORY_ATTACK = 1,
 }
@@ -202,7 +229,10 @@ declare const enum DamageCategory_t {
  */
 type AbilityBehavior = DOTA_ABILITY_BEHAVIOR;
 
-declare const enum DOTA_ABILITY_BEHAVIOR {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_ABILITY_BEHAVIOR {
     DOTA_ABILITY_BEHAVIOR_LAST_RESORT_POINT = -2147483648,
     DOTA_ABILITY_BEHAVIOR_CAN_SELF_CAST = 0,
     DOTA_ABILITY_BEHAVIOR_FREE_DRAW_TARGETING = 0,
@@ -249,7 +279,10 @@ declare const enum DOTA_ABILITY_BEHAVIOR {
  */
 type GameState = DOTA_GameState;
 
-declare const enum DOTA_GameState {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_GameState {
     DOTA_GAMERULES_STATE_INIT = 0,
     DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD = 1,
     DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP = 2,
@@ -268,7 +301,10 @@ declare const enum DOTA_GameState {
  */
 type GcTeam = DOTA_GC_TEAM;
 
-declare const enum DOTA_GC_TEAM {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_GC_TEAM {
     DOTA_GC_TEAM_GOOD_GUYS = 0,
     DOTA_GC_TEAM_BAD_GUYS = 1,
     DOTA_GC_TEAM_BROADCASTER = 2,
@@ -282,7 +318,10 @@ declare const enum DOTA_GC_TEAM {
  */
 type HeroPickState = DOTA_HeroPickState;
 
-declare const enum DOTA_HeroPickState {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_HeroPickState {
     DOTA_HEROPICK_STATE_NONE = 0,
     DOTA_HEROPICK_STATE_AP_SELECT = 1,
     DOTA_HEROPICK_STATE_SD_SELECT = 2,
@@ -352,7 +391,10 @@ declare const enum DOTA_HeroPickState {
  */
 type MotionControllerPriority = DOTA_MOTION_CONTROLLER_PRIORITY;
 
-declare const enum DOTA_MOTION_CONTROLLER_PRIORITY {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_MOTION_CONTROLLER_PRIORITY {
     DOTA_MOTION_CONTROLLER_PRIORITY_LOWEST = 0,
     DOTA_MOTION_CONTROLLER_PRIORITY_LOW = 1,
     DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM = 2,
@@ -365,7 +407,10 @@ declare const enum DOTA_MOTION_CONTROLLER_PRIORITY {
  */
 type OverheadAlert = DOTA_OVERHEAD_ALERT;
 
-declare const enum DOTA_OVERHEAD_ALERT {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_OVERHEAD_ALERT {
     OVERHEAD_ALERT_GOLD = 0,
     OVERHEAD_ALERT_DENY = 1,
     OVERHEAD_ALERT_CRITICAL = 2,
@@ -397,7 +442,10 @@ declare const enum DOTA_OVERHEAD_ALERT {
  */
 type RuneType = DOTA_RUNES;
 
-declare const enum DOTA_RUNES {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_RUNES {
     DOTA_RUNE_INVALID = -1,
     DOTA_RUNE_DOUBLEDAMAGE = 0,
     DOTA_RUNE_HASTE = 1,
@@ -415,7 +463,10 @@ declare const enum DOTA_RUNES {
  */
 type ShopType = DOTA_SHOP_TYPE;
 
-declare const enum DOTA_SHOP_TYPE {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_SHOP_TYPE {
     DOTA_SHOP_HOME = 0,
     DOTA_SHOP_SIDE = 1,
     DOTA_SHOP_SECRET = 2,
@@ -432,7 +483,10 @@ declare const enum DOTA_SHOP_TYPE {
  */
 type UnitTargetFlags = DOTA_UNIT_TARGET_FLAGS;
 
-declare const enum DOTA_UNIT_TARGET_FLAGS {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_UNIT_TARGET_FLAGS {
     DOTA_UNIT_TARGET_FLAG_NONE = 0,
     DOTA_UNIT_TARGET_FLAG_RANGED_ONLY = 2,
     DOTA_UNIT_TARGET_FLAG_MELEE_ONLY = 4,
@@ -462,7 +516,10 @@ declare const enum DOTA_UNIT_TARGET_FLAGS {
  */
 type UnitTargetTeam = DOTA_UNIT_TARGET_TEAM;
 
-declare const enum DOTA_UNIT_TARGET_TEAM {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_UNIT_TARGET_TEAM {
     DOTA_UNIT_TARGET_TEAM_NONE = 0,
     DOTA_UNIT_TARGET_TEAM_FRIENDLY = 1,
     DOTA_UNIT_TARGET_TEAM_ENEMY = 2,
@@ -475,7 +532,10 @@ declare const enum DOTA_UNIT_TARGET_TEAM {
  */
 type UnitTargetType = DOTA_UNIT_TARGET_TYPE;
 
-declare const enum DOTA_UNIT_TARGET_TYPE {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTA_UNIT_TARGET_TYPE {
     DOTA_UNIT_TARGET_NONE = 0,
     DOTA_UNIT_TARGET_HERO = 1,
     DOTA_UNIT_TARGET_CREEP = 2,
@@ -493,7 +553,10 @@ declare const enum DOTA_UNIT_TARGET_TYPE {
  */
 type AbilitySpeakTrigger = DOTAAbilitySpeakTrigger_t;
 
-declare const enum DOTAAbilitySpeakTrigger_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAAbilitySpeakTrigger_t {
     DOTA_ABILITY_SPEAK_START_ACTION_PHASE = 0,
     DOTA_ABILITY_SPEAK_CAST = 1,
 }
@@ -503,7 +566,10 @@ declare const enum DOTAAbilitySpeakTrigger_t {
  */
 type ConnectionState = DOTAConnectionState_t;
 
-declare const enum DOTAConnectionState_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAConnectionState_t {
     DOTA_CONNECTION_STATE_UNKNOWN = 0,
     DOTA_CONNECTION_STATE_NOT_YET_CONNECTED = 1,
     DOTA_CONNECTION_STATE_CONNECTED = 2,
@@ -518,7 +584,10 @@ declare const enum DOTAConnectionState_t {
  */
 type DamageFlag = DOTADamageFlag_t;
 
-declare const enum DOTADamageFlag_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTADamageFlag_t {
     DOTA_DAMAGE_FLAG_NONE = 0,
     DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR = 1,
     DOTA_DAMAGE_FLAG_IGNORES_PHYSICAL_ARMOR = 2,
@@ -542,7 +611,10 @@ declare const enum DOTADamageFlag_t {
  */
 type DefaultUiElement = DotaDefaultUIElement_t;
 
-declare const enum DotaDefaultUIElement_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DotaDefaultUIElement_t {
     DOTA_DEFAULT_UI_INVALID = -1,
     DOTA_DEFAULT_UI_TOP_TIMEOFDAY = 0,
     DOTA_DEFAULT_UI_TOP_HEROES = 1,
@@ -581,7 +653,10 @@ declare const enum DotaDefaultUIElement_t {
  */
 type HudVisibility = DOTAHUDVisibility_t;
 
-declare const enum DOTAHUDVisibility_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAHUDVisibility_t {
     DOTA_HUD_VISIBILITY_INVALID = -1,
     DOTA_HUD_VISIBILITY_TOP_TIMEOFDAY = 0,
     DOTA_HUD_VISIBILITY_TOP_HEROES = 1,
@@ -620,7 +695,10 @@ declare const enum DOTAHUDVisibility_t {
  */
 type InventoryFlags = DOTAInventoryFlags_t;
 
-declare const enum DOTAInventoryFlags_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAInventoryFlags_t {
     DOTA_INVENTORY_ALLOW_NONE = 0,
     DOTA_INVENTORY_ALLOW_MAIN = 1,
     DOTA_INVENTORY_ALLOW_STASH = 2,
@@ -630,7 +708,10 @@ declare const enum DOTAInventoryFlags_t {
     DOTA_INVENTORY_LIMIT_DROP_ON_GROUND = 16,
 }
 
-declare const enum DOTALimits_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTALimits_t {
     /**
      * Default number of players per team.
      */ DOTA_DEFAULT_MAX_TEAM = 5,
@@ -669,7 +750,10 @@ declare const enum DOTALimits_t {
  */
 type MinimapEventType = DOTAMinimapEvent_t;
 
-declare const enum DOTAMinimapEvent_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAMinimapEvent_t {
     DOTA_MINIMAP_EVENT_ANCIENT_UNDER_ATTACK = 2,
     DOTA_MINIMAP_EVENT_BASE_UNDER_ATTACK = 4,
     DOTA_MINIMAP_EVENT_BASE_GLYPHED = 8,
@@ -691,7 +775,10 @@ declare const enum DOTAMinimapEvent_t {
  */
 type ModifierAttribute = DOTAModifierAttribute_t;
 
-declare const enum DOTAModifierAttribute_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAModifierAttribute_t {
     MODIFIER_ATTRIBUTE_NONE = 0,
     MODIFIER_ATTRIBUTE_PERMANENT = 1,
     MODIFIER_ATTRIBUTE_MULTIPLE = 2,
@@ -704,7 +791,10 @@ declare const enum DOTAModifierAttribute_t {
  */
 type MusicStatus = DOTAMusicStatus_t;
 
-declare const enum DOTAMusicStatus_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAMusicStatus_t {
     DOTA_MUSIC_STATUS_NONE = 0,
     DOTA_MUSIC_STATUS_EXPLORATION = 1,
     DOTA_MUSIC_STATUS_BATTLE = 2,
@@ -718,7 +808,10 @@ declare const enum DOTAMusicStatus_t {
  */
 type ProjectileAttachment = DOTAProjectileAttachment_t;
 
-declare const enum DOTAProjectileAttachment_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAProjectileAttachment_t {
     DOTA_PROJECTILE_ATTACHMENT_NONE = 0,
     DOTA_PROJECTILE_ATTACHMENT_ATTACK_1 = 1,
     DOTA_PROJECTILE_ATTACHMENT_ATTACK_2 = 2,
@@ -733,7 +826,10 @@ declare const enum DOTAProjectileAttachment_t {
  */
 type InventorySlot = DOTAScriptInventorySlot_t;
 
-declare const enum DOTAScriptInventorySlot_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAScriptInventorySlot_t {
     DOTA_ITEM_SLOT_1 = 0,
     DOTA_ITEM_SLOT_2 = 1,
     DOTA_ITEM_SLOT_3 = 2,
@@ -761,7 +857,10 @@ declare const enum DOTAScriptInventorySlot_t {
  */
 type LoadoutType = DOTASlotType_t;
 
-declare const enum DOTASlotType_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTASlotType_t {
     DOTA_LOADOUT_TYPE_INVALID = -1,
     DOTA_LOADOUT_TYPE_WEAPON = 0,
     DOTA_LOADOUT_TYPE_OFFHAND_WEAPON = 1,
@@ -860,7 +959,10 @@ declare const enum DOTASlotType_t {
  */
 type SpeechType = DOTASpeechType_t;
 
-declare const enum DOTASpeechType_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTASpeechType_t {
     DOTA_SPEECH_USER_INVALID = 0,
     DOTA_SPEECH_USER_SINGLE = 1,
     DOTA_SPEECH_USER_TEAM = 2,
@@ -879,7 +981,10 @@ declare const enum DOTASpeechType_t {
  */
 type DotaTeam = DOTATeam_t;
 
-declare const enum DOTATeam_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTATeam_t {
     DOTA_TEAM_FIRST = 2,
     DOTA_TEAM_GOODGUYS = 2,
     DOTA_TEAM_BADGUYS = 3,
@@ -904,7 +1009,10 @@ declare const enum DOTATeam_t {
  */
 type UnitAttackCapability = DOTAUnitAttackCapability_t;
 
-declare const enum DOTAUnitAttackCapability_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAUnitAttackCapability_t {
     DOTA_UNIT_CAP_NO_ATTACK = 0,
     DOTA_UNIT_CAP_MELEE_ATTACK = 1,
     DOTA_UNIT_CAP_RANGED_ATTACK = 2,
@@ -917,7 +1025,10 @@ declare const enum DOTAUnitAttackCapability_t {
  */
 type UnitMoveCapability = DOTAUnitMoveCapability_t;
 
-declare const enum DOTAUnitMoveCapability_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum DOTAUnitMoveCapability_t {
     DOTA_UNIT_CAP_MOVE_NONE = 0,
     DOTA_UNIT_CAP_MOVE_GROUND = 1,
     DOTA_UNIT_CAP_MOVE_FLY = 2,
@@ -928,7 +1039,10 @@ declare const enum DOTAUnitMoveCapability_t {
  */
 type UnitOrder = dotaunitorder_t;
 
-declare const enum dotaunitorder_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum dotaunitorder_t {
     DOTA_UNIT_ORDER_NONE = 0,
     DOTA_UNIT_ORDER_MOVE_TO_POSITION = 1,
     DOTA_UNIT_ORDER_MOVE_TO_TARGET = 2,
@@ -975,7 +1089,10 @@ declare const enum dotaunitorder_t {
  */
 type ModifyGoldReason = EDOTA_ModifyGold_Reason;
 
-declare const enum EDOTA_ModifyGold_Reason {
+/**
+ * @compileMembersOnly
+ */
+declare enum EDOTA_ModifyGold_Reason {
     DOTA_ModifyGold_Unspecified = 0,
     DOTA_ModifyGold_Death = 1,
     DOTA_ModifyGold_Buyback = 2,
@@ -1004,7 +1121,10 @@ declare const enum EDOTA_ModifyGold_Reason {
  */
 type ModifyXpReason = EDOTA_ModifyXP_Reason;
 
-declare const enum EDOTA_ModifyXP_Reason {
+/**
+ * @compileMembersOnly
+ */
+declare enum EDOTA_ModifyXP_Reason {
     DOTA_ModifyXP_Unspecified = 0,
     DOTA_ModifyXP_HeroKill = 1,
     DOTA_ModifyXP_CreepKill = 2,
@@ -1014,11 +1134,17 @@ declare const enum EDOTA_ModifyXP_Reason {
     DOTA_ModifyXP_MAX = 6,
 }
 
-declare const enum EntityEffects {
+/**
+ * @compileMembersOnly
+ */
+declare enum EntityEffects {
     EF_NODRAW = 32,
 }
 
-declare const enum EntityThinkPhase {
+/**
+ * @compileMembersOnly
+ */
+declare enum EntityThinkPhase {
     PRESIM = 0,
     PRESENSING = 1,
     POSTSENSING = 2,
@@ -1029,13 +1155,19 @@ declare const enum EntityThinkPhase {
  */
 type ItemShareability = EShareAbility;
 
-declare const enum EShareAbility {
+/**
+ * @compileMembersOnly
+ */
+declare enum EShareAbility {
     ITEM_FULLY_SHAREABLE = 0,
     ITEM_PARTIALLY_SHAREABLE = 1,
     ITEM_NOT_SHAREABLE = 2,
 }
 
-declare const enum FindOrder {
+/**
+ * @compileMembersOnly
+ */
+declare enum FindOrder {
     FIND_ANY_ORDER = 0,
     FIND_CLOSEST = 1,
     FIND_FARTHEST = 2,
@@ -1046,7 +1178,10 @@ declare const enum FindOrder {
  */
 type GameActivity = GameActivity_t;
 
-declare const enum GameActivity_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum GameActivity_t {
     ACT_RESET = 0,
     ACT_IDLE = 1,
     ACT_TRANSITION = 2,
@@ -2344,7 +2479,10 @@ declare const enum GameActivity_t {
  */
 type LuaModifierMotionType = LuaModifierType;
 
-declare const enum LuaModifierType {
+/**
+ * @compileMembersOnly
+ */
+declare enum LuaModifierType {
     LUA_MODIFIER_MOTION_NONE = 0,
     LUA_MODIFIER_MOTION_HORIZONTAL = 1,
     LUA_MODIFIER_MOTION_VERTICAL = 2,
@@ -2357,7 +2495,10 @@ declare const enum LuaModifierType {
  */
 type ModifierFunction = modifierfunction;
 
-declare const enum modifierfunction {
+/**
+ * @compileMembersOnly
+ */
+declare enum modifierfunction {
     /**
      * Method Name: `GetModifierPreAttack_BonusDamage`
      */ MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE = 0,
@@ -3313,7 +3454,10 @@ declare const enum modifierfunction {
  */
 type ModifierPriority = modifierpriority;
 
-declare const enum modifierpriority {
+/**
+ * @compileMembersOnly
+ */
+declare enum modifierpriority {
     MODIFIER_PRIORITY_LOW = 0,
     MODIFIER_PRIORITY_NORMAL = 1,
     MODIFIER_PRIORITY_HIGH = 2,
@@ -3326,7 +3470,10 @@ declare const enum modifierpriority {
  */
 type ModifierRemove = modifierremove;
 
-declare const enum modifierremove {
+/**
+ * @compileMembersOnly
+ */
+declare enum modifierremove {
     DOTA_BUFF_REMOVE_ALL = 0,
     DOTA_BUFF_REMOVE_ENEMY = 1,
     DOTA_BUFF_REMOVE_ALLY = 2,
@@ -3337,7 +3484,10 @@ declare const enum modifierremove {
  */
 type ModifierState = modifierstate;
 
-declare const enum modifierstate {
+/**
+ * @compileMembersOnly
+ */
+declare enum modifierstate {
     MODIFIER_STATE_ROOTED = 0,
     MODIFIER_STATE_DISARMED = 1,
     MODIFIER_STATE_ATTACK_IMMUNE = 2,
@@ -3394,7 +3544,10 @@ declare const enum modifierstate {
  */
 type ParticleAttachment = ParticleAttachment_t;
 
-declare const enum ParticleAttachment_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum ParticleAttachment_t {
     PATTACH_INVALID = -1,
     PATTACH_ABSORIGIN = 0,
     PATTACH_ABSORIGIN_FOLLOW = 1,
@@ -3415,7 +3568,10 @@ declare const enum ParticleAttachment_t {
     MAX_PATTACH_TYPES = 16,
 }
 
-declare const enum PseudoRandom {
+/**
+ * @compileMembersOnly
+ */
+declare enum PseudoRandom {
     DOTA_PSEUDO_RANDOM_NONE = 0,
     DOTA_PSEUDO_RANDOM_CUSTOM_GAME_1 = 72,
     DOTA_PSEUDO_RANDOM_CUSTOM_GAME_2 = 73,
@@ -3433,7 +3589,10 @@ declare const enum PseudoRandom {
  */
 type QuestTextReplaceValue = quest_text_replace_values_t;
 
-declare const enum quest_text_replace_values_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum quest_text_replace_values_t {
     QUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE = 0,
     QUEST_TEXT_REPLACE_VALUE_TARGET_VALUE = 1,
     QUEST_TEXT_REPLACE_VALUE_ROUND = 2,
@@ -3441,15 +3600,20 @@ declare const enum quest_text_replace_values_t {
     QUEST_NUM_TEXT_REPLACE_VALUES = 4,
 }
 
-declare const enum ShowGenericPopupType {
+/**
+ * @compileMembersOnly
+ */
+declare enum ShowGenericPopupType {
     DOTA_SHOWGENERICPOPUP_TINT_SCREEN = 1,
     DOTA_SHOWGENERICPOPUP_SHOW_NO_OTHER_DIALOGS = 2,
 }
 
 /**
+ * @compileMembersOnly
+ *
  * https://developer.valvesoftware.com/wiki/Animation_Events#Server_events
  */
-declare const enum SourceEngineAnimationEvent {
+declare enum SourceEngineAnimationEvent {
     AE_EMPTY = 0,
     AE_CL_PLAYSOUND = 1,
     AE_CL_PLAYSOUND_ATTACHMENT = 2,
@@ -3509,9 +3673,11 @@ declare const enum SourceEngineAnimationEvent {
 }
 
 /**
+ * @compileMembersOnly
+ *
  * https://developer.valvesoftware.com/wiki/Damage_types
  */
-declare const enum SourceEngineDamageTypes {
+declare enum SourceEngineDamageTypes {
     /**
      * Generic damage.
      */ DMG_GENERIC = 0,
@@ -3619,9 +3785,11 @@ declare const enum SourceEngineDamageTypes {
 }
 
 /**
+ * @compileMembersOnly
+ *
  * https://developer.valvesoftware.com/wiki/Weapon_script#SoundData
  */
-declare const enum SourceEngineSoundData {
+declare enum SourceEngineSoundData {
     EMPTY = 0,
     SINGLE_SHOT = 1,
     SINGLE_SHOT_NPC = 2,
@@ -3645,13 +3813,19 @@ declare const enum SourceEngineSoundData {
  */
 type SubquestTextReplaceValue = subquest_text_replace_values_t;
 
-declare const enum subquest_text_replace_values_t {
+/**
+ * @compileMembersOnly
+ */
+declare enum subquest_text_replace_values_t {
     SUBQUEST_TEXT_REPLACE_VALUE_CURRENT_VALUE = 0,
     SUBQUEST_TEXT_REPLACE_VALUE_TARGET_VALUE = 1,
     SUBQUEST_NUM_TEXT_REPLACE_VALUES = 2,
 }
 
-declare const enum UnitFilterResult {
+/**
+ * @compileMembersOnly
+ */
+declare enum UnitFilterResult {
     UF_SUCCESS = 0,
     UF_FAIL_FRIENDLY = 1,
     UF_FAIL_ENEMY = 2,

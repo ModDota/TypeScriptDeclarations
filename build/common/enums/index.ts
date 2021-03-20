@@ -13,6 +13,7 @@ export function generateEnumDeclarations(
   enums: Declaration[],
   inline: boolean,
   normalize: boolean,
+  compileMembersOnly?: boolean,
 ) {
   const declarations: string[] = [];
 
@@ -54,7 +55,11 @@ export function generateEnumDeclarations(
       const enumName = normalize ? normalizedEnumName : declaration.name;
       const enumDeclaration = withDescription(
         `declare ${inline ? 'const' : ''} enum ${enumName} {${memberDeclarations}}`,
-        declaration.description,
+        !compileMembersOnly && declaration.description === undefined
+          ? undefined
+          : `${compileMembersOnly ? '@compileMembersOnly' : ''}${
+              declaration.description !== undefined ? `\n${declaration.description}` : ''
+            }`,
       );
 
       if (declaration.name !== normalizedEnumName && normalizedMembers.length > 0) {

@@ -246,6 +246,8 @@ interface GameEventDeclarations {
     dota_estimated_match_duration_changed: object;
     dota_hero_ability_points_changed: object;
     dota_item_picked_up: DotaItemPickedUpEvent;
+    dota_item_physical_destroyed: DotaItemPhysicalDestroyedEvent;
+    dota_neutral_item_sent_to_stash: DotaNeutralItemSentToStashEvent;
     dota_inventory_item_changed: DotaInventoryItemChangedEvent;
     dota_ability_changed: DotaAbilityChangedEvent;
     dota_spectator_talent_changed: DotaSpectatorTalentChangedEvent;
@@ -297,6 +299,7 @@ interface GameEventDeclarations {
     dota_holdout_revive_complete: DotaHoldoutReviveCompleteEvent;
     dota_holdout_revive_eliminated: DotaHoldoutReviveEliminatedEvent;
     dota_player_killed: DotaPlayerKilledEvent;
+    dota_assist_earned: DotaAssistEarnedEvent;
     bindpanel_open: object;
     bindpanel_close: object;
     keybind_changed: object;
@@ -408,6 +411,7 @@ interface GameEventDeclarations {
     custom_game_lobby_list_updated: object;
     friend_lobby_list_updated: object;
     dota_team_player_list_changed: object;
+    dota_player_connection_state_changed: object;
     dota_player_details_changed: object;
     player_profile_stats_updated: PlayerProfileStatsUpdatedEvent;
     custom_game_player_count_updated: CustomGamePlayerCountUpdatedEvent;
@@ -1831,6 +1835,19 @@ interface DotaItemPickedUpEvent {
     HeroEntityIndex: EntityIndex;
 }
 
+interface DotaItemPhysicalDestroyedEvent {
+    itemname: string;
+    PlayerID: PlayerID;
+    ItemEntityIndex: EntityIndex;
+    HeroEntityIndex: EntityIndex;
+}
+
+interface DotaNeutralItemSentToStashEvent {
+    player_id: PlayerID;
+    itemname: string;
+    item_entindex: EntityIndex;
+}
+
 interface DotaInventoryItemChangedEvent {
     entityIndex: EntityIndex;
 }
@@ -1845,7 +1862,12 @@ interface DotaSpectatorTalentChangedEvent {
 }
 
 interface DotaInventoryItemAddedEvent {
+    item_slot: number;
+    inventory_player_id: PlayerID;
     itemname: string;
+    item_entindex: EntityIndex;
+    inventory_parent_entindex: EntityIndex;
+    is_courier: 0 | 1;
 }
 
 interface DotaLinkClickedEvent {
@@ -1987,6 +2009,7 @@ interface DotaNonPlayerBeginCastEvent {
 interface DotaAbilityChannelFinishedEvent {
     abilityname: string;
     interrupted: 0 | 1;
+    caster_entindex: EntityIndex;
 }
 
 interface DotaHoldoutReviveCompleteEvent {
@@ -2005,6 +2028,10 @@ interface DotaPlayerKilledEvent {
     PlayerID: PlayerID;
     HeroKill: 0 | 1;
     TowerKill: 0 | 1;
+}
+
+interface DotaAssistEarnedEvent {
+    entindex_hero: EntityIndex;
 }
 
 interface DotaItemPurchasedEvent {

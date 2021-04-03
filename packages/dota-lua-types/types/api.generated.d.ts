@@ -1152,12 +1152,6 @@ declare interface CDebugOverlayScriptHelper {
         arg9: number,
     ): void;
     /**
-     * Toggles the overlay render type, for unit tests.
-     *
-     * @both
-     */
-    UnitTestCycleOverlayRenderType(): void;
-    /**
      * Draws 3D text. Specify origin + orientation in world space.
      *
      * @both
@@ -1517,6 +1511,10 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     ProcsMagicStick(): boolean;
     /**
+     * Does this ability need the caster to face the target before executing?
+     */
+    RequiresFacing(): boolean;
+    /**
      * Returns true if this ability should return to the default toggle state when its
      * parent respawns.
      */
@@ -1681,6 +1679,8 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     FadeGesture(activity: GameActivity_t): void;
     /**
      * Retrieve an ability by name from the unit.
+     *
+     * @both
      */
     FindAbilityByName(abilityName: string): CDOTABaseAbility | undefined;
     /**
@@ -2277,6 +2277,8 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     IsSilenced(): boolean;
     /** @both */
     IsSpeciallyDeniable(): boolean;
+    /** @both */
+    IsSpeciallyUndeniable(): boolean;
     /** @both */
     IsStunned(): boolean;
     /**
@@ -3117,6 +3119,20 @@ declare interface CDOTA_BaseNPC_Trap_Ward extends CDOTA_BaseNPC_Creature {
     __kind__: 'instance';
 }
 
+declare const CDOTA_BaseNPC_Watch_Tower: DotaConstructor<CDOTA_BaseNPC_Watch_Tower>;
+
+declare interface CDOTA_BaseNPC_Watch_Tower extends CDOTA_BaseNPC_Building {
+    /**
+     * The name of the ability used when triggering interaction on the outpost.
+     */
+    GetInteractAbilityName(): string;
+    /**
+     * The name of the ability used when triggering interaction on the outpost.
+     */
+    SetInteractAbilityName(interactAbilityName: string): void;
+    __kind__: 'instance';
+}
+
 /** @both */
 declare const CDOTA_Buff: DotaConstructor<CDOTA_Buff>;
 
@@ -3311,6 +3327,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     /** @both */
     IsCastOnPickup(): boolean;
     IsCombinable(): boolean;
+    IsCombineLocked(): boolean;
     /** @both */
     IsDisassemblable(): boolean;
     /** @both */
@@ -3357,6 +3374,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     RequiresCharges(): boolean;
     SetCanBeUsedOutOfInventory(value: boolean): void;
     SetCastOnPickup(castOnPickUp: boolean): void;
+    SetCombineLocked(combineLocked: boolean): void;
     /**
      * Set the number of charges on this item.
      */
@@ -3995,6 +4013,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetAlwaysAutoAttackWhileHoldPosition?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetAttackSound?(): string;
     /**
      * @abstract
@@ -4085,12 +4108,22 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierAttackSpeed_Limit?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierAttackSpeedBaseOverride?(): number;
     /**
      * @abstract
      * @both
      */
     GetModifierAttackSpeedBonus_Constant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAttackSpeedPercentage?(): void;
     /**
      * @abstract
      * @both
@@ -4674,6 +4707,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPreAttack_DeadlyBlow?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPreAttack_Target_CriticalStrike?(): number;
     /**
      * @abstract
@@ -5230,6 +5268,15 @@ declare interface CDOTA_Modifier_Lua_Vertical_Motion extends CDOTA_Modifier_Lua 
     __kind__: 'instance';
 }
 
+declare const CDOTA_NeutralSpawner: DotaConstructor<CDOTA_NeutralSpawner>;
+
+declare interface CDOTA_NeutralSpawner extends CPointEntity {
+    CreatePendingUnits(): void;
+    SelectSpawnType(): void;
+    SpawnNextBatch(ignoreBlockers: boolean): void;
+    __kind__: 'instance';
+}
+
 declare const PlayerResource: CDOTA_PlayerResource;
 
 declare const CDOTA_PlayerResource: DotaConstructor<CDOTA_PlayerResource>;
@@ -5309,6 +5356,7 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetPlayerCountForTeam(team: DOTATeam_t): number;
     GetPlayerLoadedCompletely(playerId: PlayerID): boolean;
     GetPlayerName(playerId: PlayerID): string;
+    GetPreferredCourierForPlayer(playerId: PlayerID): object;
     GetRawPlayerDamage(playerId: PlayerID): number;
     GetReliableGold(playerId: PlayerID): number;
     GetRespawnSeconds(playerId: PlayerID): number;
@@ -5463,6 +5511,10 @@ declare interface CDOTA_SimpleObstruction extends CBaseEntity {
 declare const CDOTA_Unit_Courier: DotaConstructor<CDOTA_Unit_Courier>;
 
 declare interface CDOTA_Unit_Courier extends CDOTA_BaseNPC {
+    /**
+     * Upgrade the courier ( int param ) times.
+     */
+    UpgradeCourier(level: number): void;
     __kind__: 'instance';
 }
 
@@ -5609,6 +5661,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      */
     GetLevelSpecialValueNoOverride(name: string, level: number): number;
     GetManaCost(level: number): number;
+    GetMaxAbilityCharges(level: number): number;
     GetMaxLevel(): number;
     GetModifierValue(): number;
     GetModifierValueBonus(): number;
@@ -5694,6 +5747,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      */
     RefreshIntrinsicModifier(): boolean;
     RefundManaCost(): void;
+    RequiresFacing(): boolean;
     ResetToggleOnRespawn(): boolean;
     SetAbilityIndex(index: number): void;
     SetActivated(activated: boolean): void;
@@ -5725,6 +5779,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
 declare const CDOTABaseGameMode: DotaConstructor<CDOTABaseGameMode>;
 
 declare interface CDOTABaseGameMode extends CBaseEntity {
+    AddAbilityUpgradeToWhitelist(abilityName: string): void;
     /**
      * Add an item to purchase at a custom shop.
      */
@@ -5796,6 +5851,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Use to disable hud flip for this mod.
      */
     DisableHudFlip(disable: boolean): void;
+    EnableAbilityUpgradeWhitelist(enabled: boolean): void;
     /**
      * Show the player hero's inventory in the HUD, regardless of what unit is
      * selected.
@@ -5921,6 +5977,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Are custom-defined XP values for hero level ups in use?
      */
     GetUseCustomHeroLevels(): boolean;
+    IsAbilityUpgradeWhitelisted(abilityName: string): boolean;
     /**
      * Enables or disables buyback completely.
      */
@@ -5950,6 +6007,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
         context: TContext,
     ): void;
+    RemoveAbilityUpgradeFromWhitelist(abilityName: string): void;
     /**
      * Remove an item to purchase at a custom shop.
      */
@@ -6594,10 +6652,6 @@ declare interface CDOTAGamerules {
      */
     GetItemStockTime(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
     /**
-     * Get the MatchID for this game.
-     */
-    GetMatchID(): Uint64;
-    /**
      * Have we received the post match signout message that includes reward
      * information.
      */
@@ -6737,6 +6791,10 @@ declare interface CDOTAGamerules {
      * Restart the game at hero selection.
      */
     ResetToHeroSelection(): void;
+    /**
+     * Get the MatchID for this game.
+     */
+    Script_GetMatchID(): Uint64;
     /**
      * Sends a message on behalf of a player.
      */
@@ -7192,6 +7250,14 @@ declare interface CDOTATutorial {
      * Upgrade a specific ability for the local hero.
      */
     UpgradePlayerAbility(abilityName: string): void;
+    __kind__: 'instance';
+}
+
+declare const CDotaTutorialNPCBlocker: DotaConstructor<CDotaTutorialNPCBlocker>;
+
+declare interface CDotaTutorialNPCBlocker extends CBaseFlex {
+    SetEnabled(enabled: boolean): void;
+    SetOtherBlocker(blocker: object): void;
     __kind__: 'instance';
 }
 
@@ -9218,6 +9284,13 @@ declare function FireGameEventLocal<TName extends keyof GameEventDeclarations>(
 declare function FrameTime(): number;
 
 /**
+ * Get ability data by ability name.
+ *
+ * @both
+ */
+declare function GetAbilityKeyValuesByName(arg1: string): object;
+
+/**
  * Gets the ability texture name for an ability.
  *
  * @both
@@ -9673,6 +9746,8 @@ declare function RegisterSpawnGroupFilterProxy(arg1: string): void;
  */
 declare function ReloadMOTD(): void;
 
+declare function RemapValClamped(arg1: number, arg2: number, arg3: number, arg4: number, arg5: number): number;
+
 /**
  * Remove temporary vision for a given team.
  */
@@ -10061,11 +10136,6 @@ declare function UnloadSpawnGroup(arg1: string): void;
 declare function UnloadSpawnGroupByHandle(handle: SpawnGroupHandle): void;
 
 declare function UpdateEventPoints(eventPointData: object): void;
-
-/**
- * Returns the number of degrees difference between two yaw angles.
- */
-declare function UTIL_AngleDiff(arg1: number, arg2: number): number;
 
 /**
  * Sends colored text to one client.

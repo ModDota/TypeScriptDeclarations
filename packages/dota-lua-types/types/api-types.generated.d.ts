@@ -350,3 +350,28 @@ declare interface ModifierAbilityEvent extends ModifierUnitEvent {
     ability: CDOTABaseAbility;
     target?: CDOTA_BaseNPC;
 }
+
+declare interface SpawnEntityFromTableOptions {
+    origin?: string | Vector;
+    angles?: string | QAngle;
+    scales?: string | Vector;
+    targetname?: string;
+    vscripts?: string;
+}
+
+declare interface CreateUnitFromTableOptions extends SpawnEntityFromTableOptions {
+    MapUnitName: string;
+    teamnumber?: DOTATeam_t;
+    modelscale?: number;
+    /**
+     * targetname of path_corner or path_track
+     */
+    initial_waypoint?: string;
+    EnableAutoStyles?: string;
+    /**
+     * RGB, example: "255 255 255"
+     */
+    rendercolor?: string;
+    skin?: number;
+    NeverMoveToClearSpace?: boolean;
+}

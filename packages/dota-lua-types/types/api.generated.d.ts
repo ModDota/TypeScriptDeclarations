@@ -8017,7 +8017,7 @@ declare interface CScriptParticleManager {
     CreateParticle(
         particleName: string,
         particleAttach: ParticleAttachment_t,
-        owner: CDOTA_BaseNPC | undefined,
+        owner: CBaseEntity | undefined,
     ): ParticleID;
     /**
      * Creates a new particle effect that only plays for the specified player.
@@ -8027,7 +8027,7 @@ declare interface CScriptParticleManager {
     CreateParticleForPlayer(
         particleName: string,
         particleAttach: ParticleAttachment_t,
-        owner: CDOTA_BaseNPC | undefined,
+        owner: CBaseEntity | undefined,
         player: CDOTAPlayer,
     ): ParticleID;
     /**
@@ -8038,7 +8038,7 @@ declare interface CScriptParticleManager {
     CreateParticleForTeam(
         particleName: string,
         particleAttach: ParticleAttachment_t,
-        owner: CDOTA_BaseNPC | undefined,
+        owner: CBaseEntity | undefined,
         team: DOTATeam_t,
     ): ParticleID;
     /**
@@ -8067,7 +8067,7 @@ declare interface CScriptParticleManager {
     SetParticleControlEnt(
         particle: ParticleID,
         controlPoint: number,
-        unit: CDOTA_BaseNPC,
+        unit: CBaseEntity,
         particleAttach: ParticleAttachment_t,
         attachment: string,
         offset: Vector,
@@ -8719,7 +8719,7 @@ declare function CreateModifierThinker(
     origin: Vector,
     teamNumber: DOTATeam_t,
     phantomBlocker: boolean,
-): object;
+): CDOTA_BaseNPC;
 
 /**
  * Create a rune of the specified type.
@@ -8808,7 +8808,7 @@ declare function CreateUnitByNameAsync(
  * Creates a DOTA unit by its dota_npc_units.txt name from a table of entity key
  * values and a position to spawn at.
  */
-declare function CreateUnitFromTable(arg1: object, arg2: Vector): object;
+declare function CreateUnitFromTable(options: CreateUnitFromTableOptions, location: Vector): CDOTA_BaseNPC;
 
 /**
  * Cross product between two vectors.

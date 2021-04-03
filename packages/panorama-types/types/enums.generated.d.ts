@@ -44,6 +44,7 @@ declare enum SteamUGCMatchingUGCType {
     UsableInGame = 10,
     ControllerBindings = 11,
     GameManagedItems = 12,
+    All = -1,
 }
 
 declare enum SteamUniverse {
@@ -284,6 +285,7 @@ declare enum DOTATeam_t {
 type RuneType = DOTA_RUNES;
 
 declare enum DOTA_RUNES {
+    DOTA_RUNE_INVALID = -1,
     DOTA_RUNE_DOUBLEDAMAGE = 0,
     DOTA_RUNE_HASTE = 1,
     DOTA_RUNE_ILLUSION = 2,
@@ -898,6 +900,7 @@ declare enum DOTAMinimapEvent_t {
 type LoadoutType = DOTASlotType_t;
 
 declare enum DOTASlotType_t {
+    DOTA_LOADOUT_TYPE_INVALID = -1,
     DOTA_LOADOUT_TYPE_WEAPON = 0,
     DOTA_LOADOUT_TYPE_OFFHAND_WEAPON = 1,
     DOTA_LOADOUT_TYPE_WEAPON2 = 2,
@@ -2038,6 +2041,7 @@ declare enum Attributes {
     DOTA_ATTRIBUTE_AGILITY = 1,
     DOTA_ATTRIBUTE_INTELLECT = 2,
     DOTA_ATTRIBUTE_MAX = 3,
+    DOTA_ATTRIBUTE_INVALID = -1,
 }
 
 /**
@@ -2046,6 +2050,7 @@ declare enum Attributes {
 type ParticleAttachment = ParticleAttachment_t;
 
 declare enum ParticleAttachment_t {
+    PATTACH_INVALID = -1,
     PATTACH_ABSORIGIN = 0,
     PATTACH_ABSORIGIN_FOLLOW = 1,
     PATTACH_CUSTOMORIGIN = 2,
@@ -2122,6 +2127,7 @@ declare enum DotaCustomUIType_t {
     DOTA_CUSTOM_UI_TYPE_HUD_TOP_BAR = 6,
     DOTA_CUSTOM_UI_TYPE_END_SCREEN = 7,
     DOTA_CUSTOM_UI_TYPE_COUNT = 8,
+    DOTA_CUSTOM_UI_TYPE_INVALID = -1,
 }
 
 /**
@@ -2130,6 +2136,7 @@ declare enum DotaCustomUIType_t {
 type DefaultUiElement = DotaDefaultUIElement_t;
 
 declare enum DotaDefaultUIElement_t {
+    DOTA_DEFAULT_UI_INVALID = -1,
     DOTA_DEFAULT_UI_TOP_TIMEOFDAY = 0,
     DOTA_DEFAULT_UI_TOP_HEROES = 1,
     DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD = 2,
@@ -2169,6 +2176,9 @@ type PlayerUltimateStateOrTime = PlayerUltimateStateOrTime_t;
 
 declare enum PlayerUltimateStateOrTime_t {
     PLAYER_ULTIMATE_STATE_READY = 0,
+    PLAYER_ULTIMATE_STATE_NO_MANA = -1,
+    PLAYER_ULTIMATE_STATE_NOT_LEVELED = -2,
+    PLAYER_ULTIMATE_STATE_HIDDEN = -3,
 }
 
 /**

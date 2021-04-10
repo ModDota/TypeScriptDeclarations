@@ -410,7 +410,7 @@ declare const enum RuneType {
     REGENERATION = 4,
     BOUNTY = 5,
     ARCANE = 6,
-    XP = 7,
+    WATER = 7,
 }
 
 /**
@@ -2349,15 +2349,26 @@ declare const enum GameActivity {
     DOTA_SHUFFLE_R = 1750,
     DOTA_OVERRIDE_LOADOUT = 1751,
     DOTA_TAUNT_SPECIAL = 1752,
-    DOTA_DISABLED_END = 1754,
-    DOTA_RUN_ALT = 1755,
-    DOTA_CYCLONE = 1756,
-    DOTA_IMPALE = 1757,
-    DOTA_TORRENT = 1758,
-    DOTA_RELAX_IN = 1759,
-    DOTA_RELAX_OUT = 1760,
-    DOTA_CAST_FENCE = 1761,
-    DOTA_RADIANT_CREEP_HAMMER = 1763,
+    DOTA_CAST_1_STATUE = 1754,
+    DOTA_CAST_3_STATUE = 1755,
+    DOTA_IDLE_STATUE = 1756,
+    DOTA_VICTORY_STATUE = 1757,
+    DOTA_DEFEAT_STATUE = 1758,
+    DOTA_FLAIL_STATUE = 1759,
+    DOTA_STUN_STATUE = 1760,
+    DOTA_CHANNEL_STATUE = 1761,
+    DOTA_ATTACK_STATUE = 1762,
+    DOTA_TELEPORT_STATUE = 1763,
+    DOTA_CAST_4_STATUE = 1764,
+    DOTA_DISABLED_END = 1765,
+    DOTA_RELAX_IN = 1767,
+    DOTA_RELAX_OUT = 1768,
+    DOTA_CAST_FENCE = 1769,
+    DOTA_RADIANT_CREEP_HAMMER = 1771,
+    DOTA_SPWN = 1772,
+    DOTA_RUN_ALT = 1773,
+    DOTA_CYCLONE = 1774,
+    DOTA_IMPALE = 1775,
 }
 
 /**
@@ -2373,7 +2384,7 @@ declare const enum LuaModifierMotionType {
     INVALID = 4,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 242;
+declare const MODIFIER_FUNCTION_LAST: 243;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -3343,6 +3354,10 @@ declare const enum ModifierFunction {
      * Method Name: `GetModifierAttackSpeedPercentage`
      */
     ATTACKSPEED_PERCENTAGE = 241,
+    /**
+     * Method Name: `OnAttemptProjectileDodge`
+     */
+    ON_ATTEMPT_PROJECTILE_DODGE = 242,
     INVALID = 255,
 }
 

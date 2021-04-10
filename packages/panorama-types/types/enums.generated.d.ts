@@ -293,7 +293,7 @@ declare enum DOTA_RUNES {
     DOTA_RUNE_REGENERATION = 4,
     DOTA_RUNE_BOUNTY = 5,
     DOTA_RUNE_ARCANE = 6,
-    DOTA_RUNE_XP = 7,
+    DOTA_RUNE_WATER = 7,
     DOTA_RUNE_COUNT = 8,
 }
 
@@ -1961,7 +1961,11 @@ declare enum modifierfunction {
      * Method Name: `GetModifierAttackSpeedPercentage`
      */
     MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE = 241,
-    MODIFIER_FUNCTION_LAST = 242,
+    /**
+     * Method Name: `OnAttemptProjectileDodge`
+     */
+    MODIFIER_EVENT_ON_ATTEMPT_PROJECTILE_DODGE = 242,
+    MODIFIER_FUNCTION_LAST = 243,
     MODIFIER_FUNCTION_INVALID = 255,
 }
 

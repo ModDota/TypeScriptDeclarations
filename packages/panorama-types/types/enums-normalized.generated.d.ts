@@ -301,7 +301,7 @@ declare enum RuneType {
     REGENERATION = 4,
     BOUNTY = 5,
     ARCANE = 6,
-    XP = 7,
+    WATER = 7,
 }
 
 /**
@@ -1010,7 +1010,7 @@ declare enum LoadoutType {
     TYPE_NONE = 84,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 242;
+declare const MODIFIER_FUNCTION_LAST: 243;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -1980,6 +1980,10 @@ declare enum ModifierFunction {
      * Method Name: `GetModifierAttackSpeedPercentage`
      */
     ATTACKSPEED_PERCENTAGE = 241,
+    /**
+     * Method Name: `OnAttemptProjectileDodge`
+     */
+    ON_ATTEMPT_PROJECTILE_DODGE = 242,
     INVALID = 255,
 }
 

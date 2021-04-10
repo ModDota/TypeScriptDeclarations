@@ -1390,6 +1390,10 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetPlaybackRateOverride(): number;
     /**
+     * Is this a cosmetic only ability?
+     */
+    IsCosmetic(entity: object): boolean;
+    /**
      * Returns true if this ability can be used when not on the action panel.
      */
     IsHiddenAbilityCastable(): boolean;
@@ -1505,6 +1509,7 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * Ability gained a level.
      */
     OnUpgrade(): void;
+    OtherAbilitiesAlwaysInterruptChanneling(): boolean;
     /**
      * Returns true if this ability will generate magic stick charges for nearby
      * enemies.
@@ -3322,6 +3327,10 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     GetSecondaryCharges(): number;
     /** @both */
     GetShareability(): EShareAbility;
+    /**
+     * Get the number of valueless charges this item currently has.
+     */
+    GetValuelessCharges(): number;
     /** @both */
     IsAlertableItem(): boolean;
     /** @both */
@@ -3341,7 +3350,11 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     /** @both */
     IsMuted(): boolean;
     IsNeutralDrop(): boolean;
-    /** @both */
+    /**
+     * Is this a permanent item?
+     *
+     * @both
+     */
     IsPermanent(): boolean;
     /** @both */
     IsPurchasable(): boolean;
@@ -3368,6 +3381,10 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
         duration: number,
         endPoint: Vector,
     ): void;
+    /**
+     * Modifies the number of valueless charges on this item.
+     */
+    ModifyNumValuelessCharges(charges: number): void;
     OnEquip(): void;
     OnUnequip(): void;
     /** @both */
@@ -5006,6 +5023,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnAttemptProjectileDodge?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnBreakInvisibility?(): void;
     /**
      * @abstract
@@ -5339,6 +5361,11 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetNetWorth(playerId: PlayerID): number;
     GetNthCourierForTeam(courierIndex: number, teamNumber: DOTATeam_t): CDOTA_Unit_Courier | undefined;
     GetNthPlayerIDOnTeam(teamNumber: DOTATeam_t, nthPlayer: number): PlayerID;
+    /**
+     * Players on a valid team (radiant, dire, or custom*) who haven't abandoned the
+     * game.
+     */
+    GetNumConnectedHumanPlayers(): number;
     GetNumConsumablesPurchased(playerId: PlayerID): number;
     GetNumCouriersForTeam(teamNumber: DOTATeam_t): number;
     GetNumItemsPurchased(playerId: PlayerID): number;
@@ -5379,8 +5406,8 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetTeam(): never;
     GetTeamKills(team: DOTATeam_t): number;
     /**
-     * Players on a valid team (radiant, dire, or custom*) who haven't abandoned the
-     * game.
+     * (Deprecated: use GetNumConnectedHumanPlayers) Players on a valid team (radiant,
+     * dire, or custom*) who haven't abandoned the game.
      */
     GetTeamPlayerCount(): number;
     GetTimeOfLastConsumablePurchase(playerId: PlayerID): number;

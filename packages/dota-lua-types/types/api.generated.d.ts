@@ -4739,6 +4739,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierProcAttack_BonusDamage_Magical_Target?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierProcAttack_BonusDamage_Physical?(event: ModifierAttackEvent): number;
     /**
      * @abstract

@@ -5038,7 +5038,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnBuildingKilled?(event: ModifierAttackEvent): void;
+    OnBuildingKilled?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5053,7 +5053,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnDeath?(event: ModifierAttackEvent): void;
+    OnDeath?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5073,7 +5073,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnHeroKilled?(event: ModifierAttackEvent): void;
+    OnHeroKilled?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5138,12 +5138,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnTakeDamage?(event: ModifierAttackEvent): void;
+    OnTakeDamage?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnTakeDamageKillCredit?(event: ModifierAttackEvent): void;
+    OnTakeDamageKillCredit?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both

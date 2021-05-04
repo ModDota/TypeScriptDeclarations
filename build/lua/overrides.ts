@@ -28,6 +28,26 @@ export const overrides: Record<string, ApiOverride> = {
   'CDOTA_Ability_Lua.GetBehavior': { return: 'DOTA_ABILITY_BEHAVIOR | Uint64' },
   'CDOTA_Item_Lua.GetBehavior': { return: 'DOTA_ABILITY_BEHAVIOR | Uint64' },
 
+  'CDOTA_Ability_Lua.CastFilterResultTarget': { return: 'UnitFilterResult | undefined' },
+  'ParticleManager.SetParticleControlEnt': {
+    args: {
+      particle: 'ParticleID',
+      controlPoint: 'number',
+      unit: 'CDOTA_BaseNPC',
+      particleAttach: 'ParticleAttachment_t',
+      attachment: 'string | undefined',
+      offset: 'Vector',
+      lockOrientation: 'boolean',
+    },
+  },
+
+  'CDOTA_Modifier_Lua.CheckState': {
+    return: 'Partial<Record<modifierstate, boolean>> | undefined',
+  },
+
+  'CDOTA_Modifier_Lua.GetActivityTranslationModifiers': { return: 'string | undefined' },
+  'CDOTA_Modifier_Lua.GetModifierPreAttack_CriticalStrike': { return: 'number | undefined' },
+
   ListenToGameEvent: {
     callback: 'optional',
     generics: [{ name: 'TName', extend: 'keyof GameEventDeclarations' }],

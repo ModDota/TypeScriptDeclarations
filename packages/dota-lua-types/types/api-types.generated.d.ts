@@ -334,7 +334,21 @@ declare interface ModifierAttackEvent {
     original_damage: number;
     ranged_attack: boolean;
     target: CDOTA_BaseNPC;
-    unit?: CDOTA_BaseNPC;
+    no_attack_cooldown: boolean;
+    record: number;
+    fail_type: attackfail;
+}
+
+declare interface ModifierInstanceEvent {
+    attacker: CDOTA_BaseNPC;
+    damage: number;
+    damage_type: DAMAGE_TYPES;
+    damage_category: DamageCategory_t;
+    damage_flags: DOTADamageFlag_t;
+    inflictor?: CDOTABaseAbility;
+    original_damage: number;
+    ranged_attack: boolean;
+    unit: CDOTA_BaseNPC;
     no_attack_cooldown: boolean;
     record: number;
     fail_type: attackfail;

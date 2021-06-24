@@ -1325,6 +1325,8 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * @both
      */
     GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
+    /** @both */
+    GetCastRangeBonus(target: object): number;
     /**
      * Return channel animation of this ability.
      */
@@ -1370,6 +1372,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetCustomCastErrorTarget(target: CDOTA_BaseNPC): string;
     /**
+     * Return cast range of this ability, accounting for modifiers.
+     *
+     * @both
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
+    /**
      * Return gold cost at the given level (-1 is current).
      *
      * @both
@@ -1395,6 +1403,8 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
     IsCosmetic(entity: object): boolean;
     /**
      * Returns true if this ability can be used when not on the action panel.
+     *
+     * @both
      */
     IsHiddenAbilityCastable(): boolean;
     /**
@@ -1773,6 +1783,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Returns the vision range before modifiers.
      */
     GetBaseDayTimeVisionRange(): number;
+    GetBaseHealthBarOffset(): number;
     GetBaseHealthRegen(): number;
     /**
      * Returns base magical armor value.
@@ -2570,6 +2581,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Set if this unit has an inventory.
      */
     SetHasInventory(hasInventory: boolean): void;
+    SetHealthBarOffsetOverride(offset: number): void;
     /**
      * Set the collision hull radius of this NPC.
      */
@@ -3151,6 +3163,8 @@ declare interface CDOTA_Buff {
         heroEffect: boolean,
         overheadEffect: boolean,
     ): void;
+    /** @both */
+    CheckStateToTable(table: object): void;
     /**
      * Decrease this modifier's stack count by 1.
      *
@@ -3564,6 +3578,12 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      * @both
      */
     GetCustomCastErrorTarget(target: CDOTA_BaseNPC): string;
+    /**
+     * Return cast range of this ability, taking modifiers into account.
+     *
+     * @both
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
     /**
      * Return gold cost at the given level (-1 is current).
      *
@@ -4632,6 +4652,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPercentageGoldRateBoost?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPercentageManacost?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
@@ -5668,6 +5693,10 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetCursorTarget(): CDOTA_BaseNPC | undefined;
     GetCursorTargetingNothing(): boolean;
     GetDuration(): number;
+    /**
+     * Gets the cast range of the ability, taking modifiers into account.
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
     GetEffectiveCooldown(level: number): number;
     GetGoldCost(level: number): number;
     GetGoldCostForUpgrade(level: number): number;
@@ -5945,6 +5974,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     GetCustomScanCooldown(): number;
     /**
+     * Get the rate at which the day/night cycle advances (1.0 = default).
+     */
+    GetDaynightCycleAdvanceRate(): number;
+    /**
      * Get the Game Seed passed from the GC.
      */
     GetEventGameSeed(): number;
@@ -6121,6 +6154,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Sets the camera Z range.
      */
     SetCameraZRange(minZ: number, maxZ: number): void;
+    SetCanSellAnywhere(allow: boolean): void;
     /**
      * Modify derived stat value constants.
      */
@@ -6185,6 +6219,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         filterFunc: (this: TContext, event: DamageFilterEvent) => boolean,
         context: TContext,
     ): void;
+    /**
+     * Sets the rate at which the day/night cycle advances (1.0 = default).
+     */
+    SetDaynightCycleAdvanceRate(rate: number): void;
     /**
      * Enable or disable the day/night cycle.
      */
@@ -6437,6 +6475,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetUseDefaultDOTARuneSpawnLogic(enabled: boolean): void;
     /**
+     * Enables or disables turbo couriers.
+     */
+    SetUseTurboCouriers(enabled: boolean): void;
+    /**
      * Set if weather effects are disabled.
      */
     SetWeatherEffectsDisabled(disable: boolean): void;
@@ -6614,6 +6656,12 @@ declare interface CDOTAGamerules {
      * @both
      */
     GetBannedHeroes(): string[];
+    /**
+     * Returns the hero unit IDs banned in this game, if any.
+     *
+     * @both
+     */
+    GetBannedHeroIDs(): object;
     /**
      * Returns the difficulty level of the custom game mode.
      *
@@ -7085,7 +7133,7 @@ declare interface CDOTAPlayer extends CBaseAnimating {
     /**
      * Attempt to spawn the appropriate couriers for this mode.
      */
-    CheckForCourierSpawning(hero: CDOTA_BaseNPC_Hero): void;
+    CheckForCourierSpawning(hero: CDOTA_BaseNPC_Hero): object;
     /**
      * Get the player's hero.
      */
@@ -9991,6 +10039,19 @@ declare function ShowGenericPopupToPlayer(
 declare function ShowMessage(arg1: string): void;
 
 declare function SpawnDOTAShopTriggerRadiusApproximate(origin: Vector, radius: number): CDOTA_ShopTrigger;
+
+/**
+ * Spawn an effigy of the target unit.
+ */
+declare function SpawnEffigyOfUnitOrModel(
+    arg1: string,
+    arg2: number,
+    arg3: Vector,
+    arg4: Vector,
+    arg5: number,
+    arg6: number,
+    arg7: number,
+): object;
 
 /**
  * Asynchronously spawns a single entity from a table.

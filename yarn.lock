@@ -892,10 +892,10 @@
     "npmlog" "^4.1.2"
     "write-file-atomic" "^2.3.0"
 
-"@moddota/dota-data@^0.18.1":
-  "integrity" "sha512-6qY7gXD5eL8X4+BuSjVwz0u9Lmg7V/GCyOlAPzKhpuuK4ajbbx7/D8+GABbz/8J9FJAiATwlvH1RviDVX6qNVQ=="
-  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.18.1.tgz"
-  "version" "0.18.1"
+"@moddota/dota-data@^0.19.1":
+  "integrity" "sha512-RXNLRrvQweRLie5B6d4ayCtUyyvRpD1cV3VpMqQXo2Ylll6ex5jFu2RMPAknuAfRIuKmfrC5C662s5bq1JbMTA=="
+  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.19.1.tgz"
+  "version" "0.19.1"
   dependencies:
     "fs-extra" "^9.0.1"
     "got" "^11.6.0"
@@ -905,7 +905,7 @@
 
 "@moddota/dota-lua-types@file:C:\\Users\\Perry\\Code\\Dota 2\\TypeScriptDeclarations\\packages\\dota-lua-types":
   "resolved" "file:packages/dota-lua-types"
-  "version" "4.10.0"
+  "version" "4.10.1"
   dependencies:
     "lua-types" "^2.8.0"
     "tslib" "^2.0.3"
@@ -1874,7 +1874,6 @@
   dependencies:
     "anymatch" "~3.1.1"
     "braces" "~3.0.2"
-    "fsevents" "~2.1.2"
     "glob-parent" "~5.1.0"
     "is-binary-path" "~2.1.0"
     "is-glob" "~4.0.1"
@@ -3421,7 +3420,6 @@
     "minimist" "^1.2.5"
     "neo-async" "^2.6.0"
     "source-map" "^0.6.1"
-    "uglify-js" "^3.1.4"
     "wordwrap" "^1.0.0"
   optionalDependencies:
     "uglify-js" "^3.1.4"
@@ -4098,8 +4096,6 @@
   "integrity" "sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss="
   "resolved" "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz"
   "version" "4.0.0"
-  dependencies:
-    "graceful-fs" "^4.1.6"
   optionalDependencies:
     "graceful-fs" "^4.1.6"
 
@@ -4108,7 +4104,6 @@
   "resolved" "https://registry.yarnpkg.com/jsonfile/-/jsonfile-6.0.1.tgz"
   "version" "6.0.1"
   dependencies:
-    "graceful-fs" "^4.1.6"
     "universalify" "^1.0.0"
   optionalDependencies:
     "graceful-fs" "^4.1.6"
@@ -5584,7 +5579,6 @@
   "version" "2.1.1"
   dependencies:
     "glob" "^7.1.1"
-    "graceful-fs" "^4.1.2"
     "json-parse-better-errors" "^1.0.1"
     "normalize-package-data" "^2.0.0"
     "npm-normalize-package-bin" "^1.0.0"

@@ -2,9 +2,9 @@
 declare namespace json {
     const version: string;
 
-    type DecodeSuccess = [any, number];
-    type DecodeFailure = [undefined, number, string];
-    /** @tupleReturn */
+    type DecodeSuccess = LuaMultiReturn<[any, number]>;
+    type DecodeFailure = LuaMultiReturn<[undefined, number, string]>;
+
     function decode(
         string: string,
         position?: number,

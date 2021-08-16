@@ -21,7 +21,7 @@
     "transformer/index.{js,d.ts}"
   ],
   "dependencies": {
-    "lua-types": "^2.8.0",
+    "lua-types": "^2.10.1",
     "tslib": "^2.0.3"
   },
   "peerDependencies": {

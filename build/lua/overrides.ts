@@ -62,6 +62,10 @@ export const overrides: Record<string, ApiOverride> = {
     return: 'T[K]',
   },
 
+  DeepPrintTable: {
+    args: { 'table?': 'Record<any, any>' },
+  },
+
   'CBaseEntity.IsInstance': {
     generics: [{ name: 'T', extend: 'CBaseEntity' }],
     args: { classOrClassName: 'DotaConstructor<T>' },

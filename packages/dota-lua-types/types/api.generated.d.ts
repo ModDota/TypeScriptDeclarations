@@ -9066,7 +9066,7 @@ declare function DebugScreenTextPretty(
  *
  * @both
  */
-declare function DeepPrintTable(table?: object): void;
+declare function DeepPrintTable(table?: Record<any, any>): void;
 
 /**
  * Free a damageinfo object that was created with CreateDamageInfo().

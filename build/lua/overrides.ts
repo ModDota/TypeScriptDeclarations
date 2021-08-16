@@ -63,7 +63,7 @@ export const overrides: Record<string, ApiOverride> = {
   },
 
   DeepPrintTable: {
-    args: { 'table?': 'Record<any, any>' }
+    args: { 'table?': 'Record<any, any>' },
   },
 
   'CBaseEntity.IsInstance': {

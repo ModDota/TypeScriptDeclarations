@@ -4195,6 +4195,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierBaseAttackTimePercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierBaseDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5119,6 +5124,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnOrder?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnPreDebuffApplied?(): void;
     /**
      * @abstract
      * @both

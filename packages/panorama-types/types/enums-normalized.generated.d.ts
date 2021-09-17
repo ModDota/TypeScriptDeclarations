@@ -66,12 +66,13 @@ declare enum GameState {
     HERO_SELECTION = 3,
     STRATEGY_TIME = 4,
     PRE_GAME = 7,
-    GAME_IN_PROGRESS = 8,
-    POST_GAME = 9,
-    DISCONNECT = 10,
+    GAME_IN_PROGRESS = 9,
+    POST_GAME = 10,
+    DISCONNECT = 11,
     TEAM_SHOWCASE = 5,
     CUSTOM_GAME_SETUP = 2,
     WAIT_FOR_MAP_TO_LOAD = 6,
+    SCENARIO_SETUP = 8,
     LAST = 0,
 }
 
@@ -149,6 +150,7 @@ declare enum UnitOrder {
     PREGAME_ADJUST_ITEM_ASSIGNMENT = 36,
     DROP_ITEM_AT_FOUNTAIN = 37,
     TAKE_ITEM_FROM_NEUTRAL_ITEM_STASH = 38,
+    MOVE_RELATIVE = 39,
 }
 
 /**
@@ -184,7 +186,7 @@ declare enum OverheadAlert {
     DEADLY_BLOW = 24,
 }
 
-declare const DOTA_HEROPICK_STATE_COUNT: 61;
+declare const DOTA_HEROPICK_STATE_COUNT: 62;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -253,6 +255,7 @@ declare enum HeroPickState {
     CUSTOMGAME_SELECT = 58,
     SELECT_PENALTY = 59,
     CUSTOM_PICK_RULES = 60,
+    SCENARIO = 61,
 }
 
 declare const DOTA_TEAM_FIRST: 2;
@@ -915,9 +918,9 @@ declare enum MinimapEventType {
 
 declare const DOTA_PLAYER_LOADOUT_START: 58;
 
-declare const DOTA_PLAYER_LOADOUT_END: 83;
+declare const DOTA_PLAYER_LOADOUT_END: 85;
 
-declare const DOTA_LOADOUT_TYPE_COUNT: 85;
+declare const DOTA_LOADOUT_TYPE_COUNT: 87;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -1012,10 +1015,12 @@ declare enum LoadoutType {
     TYPE_HEAD_EFFECT = 81,
     TYPE_MAP_EFFECT = 82,
     TYPE_COURIER_EFFECT = 83,
-    TYPE_NONE = 84,
+    TYPE_RADIANT_SIEGE_CREEPS = 84,
+    TYPE_DIRE_SIEGE_CREEPS = 85,
+    TYPE_NONE = 86,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 247;
+declare const MODIFIER_FUNCTION_LAST: 248;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -2005,6 +2010,10 @@ declare enum ModifierFunction {
      * Method Name: `OnPreDebuffApplied`
      */
     ON_PREDEBUFF_APPLIED = 246,
+    /**
+     * Method Name: `GetModifierPercentageCooldownStacking`
+     */
+    COOLDOWN_PERCENTAGE_STACKING = 247,
     INVALID = 255,
 }
 

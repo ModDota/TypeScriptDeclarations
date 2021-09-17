@@ -1587,6 +1587,21 @@ declare interface CDOTA_Ability_Nian_Roar extends CDOTABaseAbility {
     __kind__: 'instance';
 }
 
+declare const CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble: DotaConstructor<CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble>;
+
+/** @client */
+declare const C_DOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble: typeof CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble;
+
+declare interface CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble extends CDOTABaseAbility {
+    /**
+     * Sets the number of doubles to spawn.
+     *
+     * @both
+     */
+    SetNumDoubles(doubles: number): void;
+    __kind__: 'instance';
+}
+
 declare const CDOTA_BaseNPC: DotaConstructor<CDOTA_BaseNPC>;
 
 /** @client */
@@ -2130,6 +2145,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     IsBoss(): boolean;
     /**
+     * Is this unit a Boss Creature? (used by custom games).
+     */
+    IsBossCreature(): boolean;
+    /**
      * Is this unit a building?
      *
      * @both
@@ -2481,6 +2500,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * @param targets 0=all, 1=enemy, 2=ally
      */
     RemoveAllModifiers(targets: 0 | 1 | 2, now: boolean, permanent: boolean, death: boolean): void;
+    /**
+     * Removes all copies of a modifier.
+     */
+    RemoveAllModifiersOfName(scriptName: string): void;
     /**
      * Remove the given gesture activity.
      */
@@ -3839,6 +3862,14 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetAuraSearchType(): DOTA_UNIT_TARGET_TYPE;
     /**
+     * A Modifier that listens to MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE has to
+     * have a GetCritDamage implementation so we can know when to evaluate it. Value
+     * should be in 'times the original value format' e.g: 1.5 not 150.
+     *
+     * @both
+     */
+    GetCritDamage(): number;
+    /**
      * Return the attach type of the particle system from GetEffectName.
      *
      * @both
@@ -4648,6 +4679,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierPercentageCooldownOngoing?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageCooldownStacking?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
      * @both
@@ -5678,7 +5714,11 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * @both
      */
     GetBehaviorInt(): DOTA_ABILITY_BEHAVIOR;
-    /** @both */
+    /**
+     * Get the owner of this ability.
+     *
+     * @both
+     */
     GetCaster(): CDOTA_BaseNPC;
     GetCastPoint(): number;
     /**
@@ -5697,7 +5737,11 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetCooldown(level: number): number;
     GetCooldownTime(): number;
     GetCooldownTimeRemaining(): number;
-    /** @both */
+    /**
+     * The number of charges remaining on this ability.
+     *
+     * @both
+     */
     GetCurrentAbilityCharges(): number;
     GetCursorPosition(): Vector;
     GetCursorTarget(): CDOTA_BaseNPC | undefined;
@@ -5850,6 +5894,9 @@ declare interface CDOTABaseAbility extends CBaseEntity {
 declare const CDOTABaseGameMode: DotaConstructor<CDOTABaseGameMode>;
 
 declare interface CDOTABaseGameMode extends CBaseEntity {
+    /**
+     * Const char* pszAbilityName.
+     */
     AddAbilityUpgradeToWhitelist(abilityName: string): void;
     /**
      * Add an item to purchase at a custom shop.
@@ -5922,6 +5969,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Use to disable hud flip for this mod.
      */
     DisableHudFlip(disable: boolean): void;
+    /**
+     * Bool bEnabled.
+     */
     EnableAbilityUpgradeWhitelist(enabled: boolean): void;
     /**
      * Show the player hero's inventory in the HUD, regardless of what unit is
@@ -6052,6 +6102,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Are custom-defined XP values for hero level ups in use?
      */
     GetUseCustomHeroLevels(): boolean;
+    /**
+     * Const char* pszAbilityName.
+     */
     IsAbilityUpgradeWhitelisted(abilityName: string): boolean;
     /**
      * Enables or disables buyback completely.
@@ -6082,6 +6135,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
         context: TContext,
     ): void;
+    /**
+     * Const char* pszAbilityName.
+     */
     RemoveAbilityUpgradeFromWhitelist(abilityName: string): void;
     /**
      * Remove an item to purchase at a custom shop.
@@ -6164,6 +6220,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Sets the camera Z range.
      */
     SetCameraZRange(minZ: number, maxZ: number): void;
+    /**
+     * Bool bAllow.
+     */
     SetCanSellAnywhere(allow: boolean): void;
     /**
      * Modify derived stat value constants.
@@ -6295,6 +6354,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Allows clicks on friendly buildings to be handled normally.
      */
     SetFriendlyBuildingMoveToEnabled(enabled: boolean): void;
+    /**
+     * Bool bGive.
+     */
+    SetGiveFreeTPOnDeath(give: boolean): void;
     /**
      * Turn the sound when gold is acquired off/on.
      */
@@ -6492,6 +6555,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set if weather effects are disabled.
      */
     SetWeatherEffectsDisabled(disable: boolean): void;
+    ShouldGiveFreeTPOnDeath(): boolean;
     __kind__: 'instance';
 }
 
@@ -6581,6 +6645,22 @@ declare interface CDOTAGamerules {
         extraData6: number,
     ): boolean;
     /**
+     * Add the hero ID to the hero blacklist if it is not already present.
+     */
+    AddHeroIDToBlacklist(arg1: number): void;
+    /**
+     * Add the hero ID to the hero whitelist if it is not already present.
+     */
+    AddHeroIDToWhitelist(arg1: number): void;
+    /**
+     * Add the hero to the hero blacklist if it is not already present.
+     */
+    AddHeroToBlacklist(arg1: string): void;
+    /**
+     * Add the hero to the hero whitelist if it is not already present.
+     */
+    AddHeroToWhitelist(arg1: string): void;
+    /**
      * Add an item to the whitelist.
      */
     AddItemToWhiteList(itemName: string): void;
@@ -6621,6 +6701,18 @@ declare interface CDOTAGamerules {
      * Fills all the teams with bots if cheat mode is enabled.
      */
     BotPopulate(): void;
+    /**
+     * Clears the hero blacklist.
+     */
+    ClearHeroBlacklist(): void;
+    /**
+     * Clears the hero whitelist.
+     */
+    ClearHeroWhitelist(): void;
+    /**
+     * Clears the current river paint.
+     */
+    ClearRiverPaint(): void;
     /**
      * Kills the ancient, etc.
      */
@@ -6721,19 +6813,18 @@ declare interface CDOTAGamerules {
      */
     GetGameTime(): number;
     /**
+     * Get the time it takes to add a new item to stock.
+     *
+     * @both
+     */
+    GetIetmStockDuration(arg1: number, arg2: string, arg3: number): number;
+    /**
      * Get the stock count of the item.
      *
      * @param playerId Used only for items with "PlayerSpecificCooldown"
      * @both
      */
     GetItemStockCount(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
-    /**
-     * Get the time it takes to add a new item to stock.
-     *
-     * @param playerId Used only for items with "PlayerSpecificCooldown"
-     * @both
-     */
-    GetItemStockDuration(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
     /**
      * Get the time an item will be added to stock.
      *
@@ -6802,6 +6893,13 @@ declare interface CDOTAGamerules {
      */
     IsGamePaused(): boolean;
     /**
+     * Is the hero not blacklisted, and is it either whitelisted or the whitelist is
+     * empty?
+     *
+     * @both
+     */
+    IsHeroEnabledViaLists(arg1: string): boolean;
+    /**
      * Returns whether hero respawn is enabled.
      */
     IsHeroRespawnEnabled(): boolean;
@@ -6861,6 +6959,22 @@ declare interface CDOTAGamerules {
      * Removes a fake client.
      */
     RemoveFakeClient(playerId: PlayerID): void;
+    /**
+     * Remove the hero from the hero blacklist if present.
+     */
+    RemoveHeroFromBlacklist(arg1: string): void;
+    /**
+     * Remove the hero from the hero whitelist if present.
+     */
+    RemoveHeroFromWhitelist(arg1: string): void;
+    /**
+     * Remove the hero ID from the hero blacklist if present.
+     */
+    RemoveHeroIDFromBlacklist(arg1: number): void;
+    /**
+     * Remove the hero ID from the hero whitelist if present.
+     */
+    RemoveHeroIDFromWhitelist(arg1: number): void;
     /**
      * Remove an item from the whitelist.
      */
@@ -7020,6 +7134,10 @@ declare interface CDOTAGamerules {
      */
     SetHeroSelectPenaltyTime(arg1: number): void;
     /**
+     * Should blacklisted heroes be hidden, or just dimmed, in hero picking?
+     */
+    SetHideBlacklistedHeroes(arg1: boolean): void;
+    /**
      * Sets whether the multikill, streak, and first-blood banners appear at the top
      * of the screen.
      */
@@ -7056,6 +7174,10 @@ declare interface CDOTAGamerules {
      * Sets the amount of time players have between picking their hero and game start.
      */
     SetPreGameTime(time: number): void;
+    /**
+     * Paints the river for a duration.
+     */
+    SetRiverPaint(arg1: number, arg2: number): void;
     /**
      * Scale the rune icons on the minimap.
      */
@@ -7120,6 +7242,12 @@ declare interface CDOTAGamerules {
      * Item whitelist functionality enable/disable.
      */
     SetWhiteListEnabled(whiteListEnabled: boolean): void;
+    /**
+     * Are blacklisted heroes hidden, or just dimmed, in hero picking?
+     *
+     * @both
+     */
+    ShouldHideBlacklistedHeroes(): boolean;
     /**
      * Spawn and release the next creep wave from Dota lane style spawners.
      */
@@ -10098,6 +10226,17 @@ declare function SpawnEntityListFromTableAsynchronous(arg1: object, arg2: object
  * @both
  */
 declare function SpawnEntityListFromTableSynchronous(arg1: object): object;
+
+/**
+ * Spawn a mango tree.
+ */
+declare function SpawnMangoTree(
+    pos: Vector,
+    team: number,
+    duration: number,
+    mangoInterval: number,
+    initialMangoes: number,
+): object;
 
 /**
  * Very basic interpolation of v0 to v1 over t on [0,1].

@@ -211,6 +211,7 @@ interface GameEventDeclarations {
     dota_item_gifted: DotaItemGiftedEvent;
     dota_item_placed_in_neutral_stash: DotaItemPlacedInNeutralStashEvent;
     dota_rune_pickup: DotaRunePickupEvent;
+    dota_rune_deny: DotaRuneDenyEvent;
     dota_ward_killed: DotaWardKilledEvent;
     dota_rune_spotted: DotaRuneSpottedEvent;
     dota_item_spotted: DotaItemSpottedEvent;
@@ -445,6 +446,7 @@ interface GameEventDeclarations {
     dota_creature_gained_level: DotaCreatureGainedLevelEvent;
     dota_hero_teleport_to_unit: DotaHeroTeleportToUnitEvent;
     dota_neutral_creep_camp_cleared: DotaNeutralCreepCampClearedEvent;
+    dota_watch_tower_captured: DotaWatchTowerCapturedEvent;
     npc_spawned: NpcSpawnedEvent;
     npc_replaced: NpcReplacedEvent;
     entity_hurt: EntityHurtEvent;
@@ -1713,6 +1715,11 @@ interface DotaRunePickupEvent {
     bounty_amount: number;
 }
 
+interface DotaRuneDenyEvent {
+    userid: EntityIndex;
+    rune: number;
+}
+
 interface DotaWardKilledEvent {
     userid: EntityIndex;
     type: number;
@@ -2465,6 +2472,9 @@ interface DotaCombatEventMessageEvent {
     player_id: number;
     player_id2: number;
     value: number;
+    value1: number;
+    value2: number;
+    value3: number;
     int_value: number;
     ability_name: string;
     locstring_value: string;
@@ -2499,6 +2509,12 @@ interface DotaNeutralCreepCampClearedEvent {
     camp_name: string;
     camp_type: number;
     killer_player_id: number;
+}
+
+interface DotaWatchTowerCapturedEvent {
+    entindex: EntityIndex;
+    team_number: number;
+    old_team_number: number;
 }
 
 interface NpcSpawnedEvent {

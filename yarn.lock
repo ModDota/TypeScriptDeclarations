@@ -809,10 +809,10 @@
     "npmlog" "^4.1.2"
     "write-file-atomic" "^3.0.3"
 
-"@moddota/dota-data@^0.20.0":
-  "integrity" "sha512-d22ffeNO9E/rR1pZVeUdkzJPByDhTGn8FchQoDbHJBOvrb44hUnBH1S49aw8NjJpSiXlg+4ph9h5mR3le5wllQ=="
-  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.20.0.tgz"
-  "version" "0.20.0"
+"@moddota/dota-data@^0.21.0":
+  "integrity" "sha512-Ec43Bc0X2qIhAkDyHf5P4Z45b+M82mkuMVVLFyqlZkyMDrfihnUduUSR/y6HEkNlpSgNzlF6pKTCzCKrTnkpwA=="
+  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.21.0.tgz"
+  "version" "0.21.0"
   dependencies:
     "fs-extra" "^9.0.1"
     "got" "^11.6.0"
@@ -822,14 +822,14 @@
 
 "@moddota/dota-lua-types@file:C:\\Users\\Perry\\Code\\Dota 2\\TypeScriptDeclarations\\packages\\dota-lua-types":
   "resolved" "file:packages/dota-lua-types"
-  "version" "4.11.1"
+  "version" "4.12.1"
   dependencies:
     "lua-types" "^2.10.1"
     "tslib" "^2.0.3"
 
 "@moddota/panorama-types@file:C:\\Users\\Perry\\Code\\Dota 2\\TypeScriptDeclarations\\packages\\panorama-types":
   "resolved" "file:packages/panorama-types"
-  "version" "1.10.0"
+  "version" "1.11.0"
   dependencies:
     "tslib" "^2.0.3"
 
@@ -5999,7 +5999,7 @@
     "source-map" "^0.7.3"
     "typescript" "~4.3.2"
 
-"typescript-to-lua@0.42.0":
+"typescript-to-lua@0.42.0", "typescript-to-lua@0.42.0 || ^1.0.0":
   "integrity" "sha512-hkHYdeTQn2SNnyzEeOsrDST5TSiOjUiSmYMk5CcNGWcDuFj7ogd+v5GdDG47IO6Z0zk5sBVh2R/h2GZSYqv3/w=="
   "resolved" "https://registry.npmjs.org/typescript-to-lua/-/typescript-to-lua-0.42.0.tgz"
   "version" "0.42.0"

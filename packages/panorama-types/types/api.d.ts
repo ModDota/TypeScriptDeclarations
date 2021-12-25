@@ -1807,11 +1807,8 @@ interface DollarStatic {
     Localize(token: string, parent?: PanelBase): string;
     LocalizePlural(token: string, value: number, parent?: PanelBase): string;
     RegisterEventHandler(event: string, parent: PanelBase, handler: (...args: any[]) => void): void;
-    RegisterEventHandler(event: "DragStart", parent: PanelBase, handler: (panelID: string, settings: DragSettings) => boolean): void;
-    RegisterEventHandler(event: "DragEnd", parent: PanelBase, handler: (panelID: string, dragged: Panel) => boolean): void;
-    RegisterEventHandler(event: "DragDrop", parent: PanelBase, handler: (panelID: string, dragged: Panel) => boolean): void;
-    RegisterEventHandler(event: "DragEnter", parent: PanelBase, handler: (_: unknown, dragged: Panel) => boolean): void;
-    RegisterEventHandler(event: "DragLeave", parent: PanelBase, handler: (panelID: string, dragged: Panel) => boolean): void;
+    RegisterEventHandler(event: 'DragStart', parent: PanelBase, handler: (panelID: string, settings: DragSettings) => boolean): void;
+    RegisterEventHandler(event: 'DragEnd' | 'DragDrop' | 'DragEnter' | 'DragLeave', parent: PanelBase, handler: (panelID: string, dragged: Panel) => boolean): void;
     RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;

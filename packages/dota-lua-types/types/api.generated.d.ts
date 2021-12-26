@@ -10045,7 +10045,7 @@ declare function PrintLinkedConsoleMessage(message: string, tooltip: string): vo
  *
  * @both
  */
-declare function QSlerp(angle: QAngle, angle: QAngle, time: number): QAngle;
+declare function QSlerp(from_angle: QAngle, to_angle: QAngle, time: number): QAngle;
 
 /**
  * Get a random float within a range.

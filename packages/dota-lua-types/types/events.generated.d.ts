@@ -396,7 +396,6 @@ interface GameEventDeclarations {
     community_cached_names_updated: object;
     spec_item_pickup: SpecItemPickupEvent;
     spec_aegis_reclaim_time: SpecAegisReclaimTimeEvent;
-    account_trophies_changed: AccountTrophiesChangedEvent;
     account_all_hero_challenge_changed: AccountAllHeroChallengeChangedEvent;
     team_showcase_ui_update: TeamShowcaseUiUpdateEvent;
     dota_match_signout: object;
@@ -2311,10 +2310,6 @@ interface SpecAegisReclaimTimeEvent {
     reclaim_time: number;
 }
 
-interface AccountTrophiesChangedEvent {
-    account_id: number;
-}
-
 interface AccountAllHeroChallengeChangedEvent {
     account_id: number;
 }
@@ -2476,8 +2471,10 @@ interface DotaCombatEventMessageEvent {
     value2: number;
     value3: number;
     int_value: number;
+    int_value2: number;
     ability_name: string;
     locstring_value: string;
+    locstring_value2: string;
     string_replace_token: string;
 }
 

@@ -255,7 +255,7 @@ declare enum HeroPickState {
     CUSTOMGAME_SELECT = 58,
     SELECT_PENALTY = 59,
     CUSTOM_PICK_RULES = 60,
-    SCENARIO = 61,
+    SCENARIO_PICK = 61,
 }
 
 declare const DOTA_TEAM_FIRST: 2;
@@ -450,6 +450,7 @@ declare enum ModifyGoldReason {
     SHARED_GOLD = 18,
     ABILITY_GOLD = 19,
     WARD_KILL = 20,
+    COURIER_KILLED_BY_THIS_PLAYER = 21,
 }
 
 declare const DOTA_UNIT_ATTACK_CAPABILITY_BIT_COUNT: 3;
@@ -611,6 +612,7 @@ declare enum DamageFlag {
     NO_SPELL_LIFESTEAL = 4096,
     PROPERTY_FIRE = 8192,
     IGNORES_BASE_PHYSICAL_ARMOR = 16384,
+    SECONDARY_PROJECTILE_ATTACK = 32768,
 }
 
 /**
@@ -892,6 +894,8 @@ declare enum GameActivity {
     DOTA_CUSTOM_TOWER_IDLE_RARE = 1755,
     DOTA_CUSTOM_TOWER_TAUNT = 1756,
     DOTA_CUSTOM_TOWER_HIGH_FIVE = 1757,
+    DOTA_ATTACK_SPECIAL = 1758,
+    DOTA_TRANSITION_IDLE = 1759,
 }
 
 /**
@@ -2184,7 +2188,7 @@ declare enum CustomUiType {
     INVALID = -1,
 }
 
-declare const DOTA_DEFAULT_UI_ELEMENT_COUNT: 29;
+declare const DOTA_DEFAULT_UI_ELEMENT_COUNT: 30;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -2222,6 +2226,7 @@ declare enum DefaultUiElement {
     KILLCAM = 26,
     TOP_BAR = 27,
     CUSTOMUI_BEHIND_HUD_ELEMENTS = 28,
+    AGHANIMS_STATUS = 29,
 }
 
 /**

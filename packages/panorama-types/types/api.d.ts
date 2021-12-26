@@ -1807,6 +1807,16 @@ interface DollarStatic {
     Localize(token: string, parent?: PanelBase): string;
     LocalizePlural(token: string, value: number, parent?: PanelBase): string;
     RegisterEventHandler(event: string, parent: PanelBase, handler: (...args: any[]) => void): void;
+    RegisterEventHandler(
+        event: 'DragStart',
+        parent: PanelBase,
+        handler: (panelID: string, settings: DragSettings) => boolean,
+    ): void;
+    RegisterEventHandler(
+        event: 'DragEnd' | 'DragDrop' | 'DragEnter' | 'DragLeave',
+        parent: PanelBase,
+        handler: (panelID: string, dragged: Panel) => boolean,
+    ): void;
     RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
@@ -1856,6 +1866,13 @@ interface AsyncWebRequestData {
     success?(response: any, result: 'success', statusText: string): void;
     error?(data: AsyncWebRequestResponse, result: 'error', statusText: string): void;
     complete?(data: AsyncWebRequestResponse, result: 'success' | 'error'): void;
+}
+
+interface DragSettings {
+    displayPanel: Panel;
+    offsetX: number;
+    offsetY: number;
+    removePositionBeforeDrop: boolean;
 }
 
 declare var GameEvents: CDOTA_PanoramaScript_GameEvents;

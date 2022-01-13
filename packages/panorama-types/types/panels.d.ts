@@ -59,6 +59,7 @@ interface PanoramaPanelNameMap {
     CustomLayoutPanel: Panel;
 }
 
+// from https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Panorama/Events#Default_Event_Attributes
 type PanelEvent =
     | 'onactivate'
     | 'oncancel'
@@ -70,6 +71,9 @@ type PanelEvent =
     | 'onfindmatchend'
     | 'onfindmatchstart'
     | 'onfocus'
+    | 'onblur'
+    | 'ondescendantfocus'
+    | 'ondescendantblur'
     | 'oninputsubmit'
     | 'onload'
     | 'onmouseactivate'
@@ -84,8 +88,11 @@ type PanelEvent =
     | 'onpopupsdismissed'
     | 'onselect'
     | 'ontabforward'
+    | 'ontabbackward'
     | 'ontextentrychange'
     | 'ontextentrysubmit'
+    | 'onscrolledtobottom'
+    | 'onscrolledtorightedge'
     | 'ontooltiploaded'
     | 'onvaluechanged';
 

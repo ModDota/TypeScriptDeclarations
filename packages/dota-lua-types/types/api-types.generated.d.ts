@@ -371,6 +371,11 @@ declare interface ModifierOverrideAbilitySpecialEvent {
     ability_special_level: number;
 }
 
+declare interface ModifierAddedEvent {
+    unit: CDOTA_BaseNPC;
+    added_buff: CDOTA_Buff;
+}
+
 declare interface SpawnEntityFromTableOptions {
     origin?: string | Vector;
     angles?: string | QAngle;

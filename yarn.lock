@@ -809,10 +809,10 @@
     "npmlog" "^4.1.2"
     "write-file-atomic" "^3.0.3"
 
-"@moddota/dota-data@^0.22.2":
-  "integrity" "sha512-mbrZqKkfut7xlheVJrNDDCv306z8bNQU411NoFqsxYUvfnyhAmqiyXadIw7hVmPavZ76ifX/RgvLqoZHlgqsSg=="
-  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.22.2.tgz"
-  "version" "0.22.2"
+"@moddota/dota-data@^0.23.0":
+  "integrity" "sha512-HJbG6Q3WRmK/gUq8hXTPVDCdM4SW9UBZnIVpzbs3rmIzqakyYc7PPJaVrirqEMNXKoMH8H7puuurCyLCkcKPBw=="
+  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.23.0.tgz"
+  "version" "0.23.0"
   dependencies:
     "fs-extra" "^9.0.1"
     "got" "^11.6.0"

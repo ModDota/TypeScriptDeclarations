@@ -5200,7 +5200,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnModifierAdded?(): void;
+    OnModifierAdded?(event: ModifierAddedEvent): void;
     /**
      * @abstract
      * @both

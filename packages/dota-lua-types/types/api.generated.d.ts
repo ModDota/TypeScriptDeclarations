@@ -4567,7 +4567,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierManacostReduction_Constant?(): void;
+    GetModifierManacostReduction_Constant?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
      * @both

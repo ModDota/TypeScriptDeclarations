@@ -228,7 +228,8 @@ interface Panel extends PanelBase {
     ScrollToLeftEdge(): void;
     ScrollToRightEdge(): void;
 
-    ScrollParentToMakePanelFit(): void;
+    // Scroll behaviour is an enum?
+    ScrollParentToMakePanelFit(scrollBehaviour: number, unknown: boolean): void;
     BCanSeeInParentScroll(): boolean;
 
     GetAttributeInt(name: string, defaultValue: number): number;

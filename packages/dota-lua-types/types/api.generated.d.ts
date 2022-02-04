@@ -5260,7 +5260,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnTakeDamageKillCredit?(event: ModifierInstanceEvent): void;
+    OnTakeDamageKillCredit?(event: ModifierAttackEvent): void;
     /**
      * @abstract
      * @both

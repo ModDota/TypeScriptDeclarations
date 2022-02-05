@@ -48,8 +48,8 @@ declare global {
   }
 }
 
-assertType<string>(CustomNetTables.GetTableValue('custom_net_table', 'foo'));
-assertType<0 | 1>(CustomNetTables.GetTableValue('custom_net_table', 'bar'));
+assertType<string | null>(CustomNetTables.GetTableValue('custom_net_table', 'foo'));
+assertType<0 | 1 | null>(CustomNetTables.GetTableValue('custom_net_table', 'bar'));
 
 for (const pair of CustomNetTables.GetAllTableValues('custom_net_table')) {
   if (pair.key === 'foo') {

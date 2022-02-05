@@ -348,7 +348,7 @@ interface CDOTA_PanoramaScript_CustomNetTables {
     >(
         pTableName: TName,
         pKeyName: K,
-    ): NetworkedData<T[K]>;
+    ): NetworkedData<T[K]> | null;
 
     /**
      * Get all values from a custom net table

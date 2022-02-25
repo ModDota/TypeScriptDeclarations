@@ -19,14 +19,11 @@ interface GameEventDeclarations {
      * A server console var has changed.
      */
     server_cvar: ServerCvarEvent;
-    server_addban: ServerAddbanEvent;
-    server_removeban: ServerRemovebanEvent;
     player_activate: PlayerActivateEvent;
     /**
      * Player has sent final message in the connection sequence.
      */
     player_connect_full: PlayerConnectFullEvent;
-    player_say: PlayerSayEvent;
     player_full_update: PlayerFullUpdateEvent;
     /**
      * A new client connected.
@@ -47,19 +44,7 @@ interface GameEventDeclarations {
     player_team: PlayerTeamEvent;
     local_player_team: object;
     player_changename: PlayerChangenameEvent;
-    /**
-     * A player changed his class.
-     */
-    player_class: PlayerClassEvent;
-    /**
-     * Players scores changed.
-     */
-    player_score: PlayerScoreEvent;
     player_hurt: PlayerHurtEvent;
-    /**
-     * Player shoot his weapon.
-     */
-    player_shoot: PlayerShootEvent;
     /**
      * A public player chat.
      */
@@ -150,9 +135,7 @@ interface GameEventDeclarations {
     break_breakable: BreakBreakableEvent;
     break_prop: BreakPropEvent;
     entity_killed: EntityKilledEvent;
-    door_open: DoorOpenEvent;
     door_close: DoorCloseEvent;
-    door_unlocked: DoorUnlockedEvent;
     vote_started: VoteStartedEvent;
     vote_failed: VoteFailedEvent;
     vote_passed: VotePassedEvent;
@@ -163,7 +146,7 @@ interface GameEventDeclarations {
     achievement_earned: AchievementEarnedEvent;
     achievement_write_failed: object;
     bonus_updated: BonusUpdatedEvent;
-    spec_target_updated: object;
+    spec_target_updated: SpecTargetUpdatedEvent;
     entity_visible: EntityVisibleEvent;
     /**
      * The player pressed use but a use entity wasn't found.
@@ -549,52 +532,6 @@ interface ServerCvarEvent {
     cvarvalue: string;
 }
 
-interface ServerAddbanEvent {
-    /**
-     * Player name.
-     */
-    name: string;
-    /**
-     * User ID on server.
-     */
-    userid: EntityIndex;
-    /**
-     * Player network (i.e steam) id.
-     */
-    networkid: string;
-    /**
-     * IP address.
-     */
-    ip: string;
-    /**
-     * Length of the ban.
-     */
-    duration: string;
-    /**
-     * Banned by...
-     */
-    by: string;
-    /**
-     * Whether the player was also kicked.
-     */
-    kicked: 0 | 1;
-}
-
-interface ServerRemovebanEvent {
-    /**
-     * Player network (i.e steam) id.
-     */
-    networkid: string;
-    /**
-     * IP address.
-     */
-    ip: string;
-    /**
-     * Removed by...
-     */
-    by: string;
-}
-
 interface PlayerActivateEvent {
     /**
      * User ID on server.
@@ -607,25 +544,11 @@ interface PlayerActivateEvent {
  */
 interface PlayerConnectFullEvent {
     /**
-     * User ID on server.
+     * User ID on server (unique on server).
      */
     userid: EntityIndex;
-    /**
-     * Player slot (entity index-1).
-     */
     index: number;
     PlayerID: PlayerID;
-}
-
-interface PlayerSayEvent {
-    /**
-     * User ID on server.
-     */
-    userid: EntityIndex;
-    /**
-     * The say text.
-     */
-    text: string;
 }
 
 interface PlayerFullUpdateEvent {
@@ -648,10 +571,6 @@ interface PlayerConnectEvent {
      */
     name: string;
     /**
-     * Player slot (entity index-1).
-     */
-    index: number;
-    /**
      * User ID on server (unique on server).
      */
     userid: EntityIndex;
@@ -660,10 +579,18 @@ interface PlayerConnectEvent {
      */
     networkid: string;
     /**
+     * Steam id.
+     */
+    xuid: number;
+    /**
      * Ip:port.
      */
     address: string;
     bot: 0 | 1;
+    /**
+     * Player slot (entity index-1).
+     */
+    index: number;
 }
 
 /**
@@ -686,6 +613,10 @@ interface PlayerDisconnectEvent {
      * Player network (i.e steam) id.
      */
     networkid: string;
+    /**
+     * Steam id.
+     */
+    xuid: number;
     PlayerID: PlayerID;
 }
 
@@ -698,17 +629,13 @@ interface PlayerInfoEvent {
      */
     name: string;
     /**
-     * Player slot (entity index-1).
-     */
-    index: number;
-    /**
      * User ID on server (unique on server).
      */
     userid: EntityIndex;
     /**
      * Player network (i.e steam) id.
      */
-    networkid: string;
+    steamid: number;
     /**
      * True if player is a AI bot.
      */
@@ -719,16 +646,10 @@ interface PlayerInfoEvent {
  * Player spawned in game.
  */
 interface PlayerSpawnEvent {
-    /**
-     * User ID on server.
-     */
     userid: EntityIndex;
 }
 
 interface PlayerTeamEvent {
-    /**
-     * User ID on server.
-     */
     userid: EntityIndex;
     /**
      * Team id.
@@ -742,14 +663,6 @@ interface PlayerTeamEvent {
      * Team change because player disconnects.
      */
     disconnect: 0 | 1;
-    /**
-     * True if the player was auto assigned to the team.
-     */
-    autoteam: 0 | 1;
-    /**
-     * If true wont print the team join messages.
-     */
-    silent: 0 | 1;
     name: string;
     isbot: 0 | 1;
 }
@@ -769,73 +682,19 @@ interface PlayerChangenameEvent {
     newname: string;
 }
 
-/**
- * A player changed his class.
- */
-interface PlayerClassEvent {
-    /**
-     * User ID on server.
-     */
-    userid: EntityIndex;
-    /**
-     * New player class / model.
-     */
-    class: string;
-}
-
-/**
- * Players scores changed.
- */
-interface PlayerScoreEvent {
-    /**
-     * User ID on server.
-     */
-    userid: EntityIndex;
-    /**
-     * # of kills.
-     */
-    kills: number;
-    /**
-     * # of deaths.
-     */
-    deaths: number;
-    /**
-     * Total game score.
-     */
-    score: number;
-}
-
 interface PlayerHurtEvent {
     /**
-     * Player index who was hurt.
+     * Player who was hurt.
      */
     userid: EntityIndex;
     /**
-     * Player index who attacked.
+     * Player who attacked.
      */
-    attacker: number;
+    attacker: EntityIndex;
     /**
      * Remaining health points.
      */
     health: number;
-}
-
-/**
- * Player shoot his weapon.
- */
-interface PlayerShootEvent {
-    /**
-     * User ID on server.
-     */
-    userid: EntityIndex;
-    /**
-     * Weapon ID.
-     */
-    weapon: number;
-    /**
-     * Weapon mode.
-     */
-    mode: number;
 }
 
 /**
@@ -921,7 +780,7 @@ interface HltvCameramanEvent {
     /**
      * Camera man entity index.
      */
-    index: number;
+    userid: EntityIndex;
 }
 
 /**
@@ -931,11 +790,11 @@ interface HltvChaseEvent {
     /**
      * Primary traget index.
      */
-    target1: number;
+    target1: EntityIndex;
     /**
      * Secondary traget index or 0.
      */
-    target2: number;
+    target2: EntityIndex;
     /**
      * Camera distance.
      */
@@ -973,7 +832,7 @@ interface HltvRankCameraEvent {
     /**
      * Best/closest target entity.
      */
-    target: number;
+    target: EntityIndex;
 }
 
 /**
@@ -981,9 +840,9 @@ interface HltvRankCameraEvent {
  */
 interface HltvRankEntityEvent {
     /**
-     * Entity index.
+     * Player slot.
      */
-    index: number;
+    userid: EntityIndex;
     /**
      * Ranking, how interesting is this entity to view.
      */
@@ -991,7 +850,7 @@ interface HltvRankEntityEvent {
     /**
      * Best/closest target entity.
      */
-    target: number;
+    target: EntityIndex;
 }
 
 /**
@@ -1012,9 +871,9 @@ interface HltvFixedEvent {
     offset: number;
     fov: number;
     /**
-     * Follow this entity or 0.
+     * Follow this player.
      */
-    target: number;
+    target: EntityIndex;
 }
 
 /**
@@ -1190,7 +1049,7 @@ interface PlayerDeathEvent {
     /**
      * User ID who killed.
      */
-    attacker: number;
+    attacker: EntityIndex;
 }
 
 interface PlayerFootstepEvent {
@@ -1228,35 +1087,9 @@ interface EntityKilledEvent {
     damagebits: number;
 }
 
-interface DoorOpenEvent {
-    /**
-     * Who opened the door.
-     */
-    userid: EntityIndex;
-    /**
-     * Is the door a checkpoint door.
-     */
-    checkpoint: 0 | 1;
-    /**
-     * Was the door closed when it started opening?
-     */
-    closed: 0 | 1;
-}
-
 interface DoorCloseEvent {
     /**
      * Who closed the door.
-     */
-    userid: EntityIndex;
-    /**
-     * Is the door a checkpoint door.
-     */
-    checkpoint: 0 | 1;
-}
-
-interface DoorUnlockedEvent {
-    /**
-     * Who opened the door.
      */
     userid: EntityIndex;
     /**
@@ -1339,7 +1172,7 @@ interface AchievementEarnedEvent {
     /**
      * Entindex of the player.
      */
-    player: number;
+    player: EntityIndex;
     /**
      * Achievement ID.
      */
@@ -1351,6 +1184,17 @@ interface BonusUpdatedEvent {
     numbronze: number;
     numsilver: number;
     numgold: number;
+}
+
+interface SpecTargetUpdatedEvent {
+    /**
+     * Spectating player.
+     */
+    userid: EntityIndex;
+    /**
+     * Ehandle of the target.
+     */
+    target: EntityIndex;
 }
 
 interface EntityVisibleEvent {
@@ -1377,7 +1221,7 @@ interface EntityVisibleEvent {
  */
 interface PlayerUseMissEvent {
     /**
-     * Userid of user.
+     * Playerslot of user.
      */
     userid: EntityIndex;
 }
@@ -1453,7 +1297,7 @@ interface InstructorServerHintCreateEvent {
      */
     hint_target: number;
     /**
-     * Userid id of the activator.
+     * Playerslot of the activator.
      */
     hint_activator_userid: EntityIndex;
     /**

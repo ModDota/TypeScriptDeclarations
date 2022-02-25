@@ -11,6 +11,9 @@ const eventTypeMap: Record<string, string> = {
   float: 'number',
   uint64: 'number',
   local: 'any',
+  ehandle: 'EntityIndex', //  ???
+  player_controller: 'EntityIndex', // entindex of player owner
+  player_controller_and_pawn: 'EntityIndex', // entindex of player owner
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

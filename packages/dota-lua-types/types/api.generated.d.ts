@@ -295,6 +295,10 @@ declare interface CBaseEntity extends CEntityInstance {
      * @both
      */
     IsBaseNPC(): this is CDOTA_BaseNPC;
+    /**
+     * Is this entity a Dota NPC?
+     */
+    IsDOTANPC(): boolean;
     /** @both */
     IsInstance<T extends CBaseEntity>(classOrClassName: DotaConstructor<T>): this is T;
     /**
@@ -585,10 +589,6 @@ declare interface CBasePlayer extends CBaseCombatCharacter {
      */
     GetEquippedWeapons(): object;
     /**
-     * Returns the player's user id.
-     */
-    GetUserID(): number;
-    /**
      * Gets the number of weapons currently equipped.
      */
     GetWeaponCount(): number;
@@ -644,7 +644,7 @@ declare interface CBodyComponent {
      *
      * @both
      */
-    GetSequence(): unknown;
+    GetSequence(): number;
     /**
      * Is attached to parent.
      *
@@ -656,7 +656,7 @@ declare interface CBodyComponent {
      *
      * @both
      */
-    LookupSequence(arg1: string): unknown;
+    LookupSequence(arg1: string): number;
     /**
      * Returns the duration in seconds of the specified sequence.
      *
@@ -1328,7 +1328,7 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
     /** @both */
-    GetCastRangeBonus(target: object): number;
+    GetCastRangeBonus(target: object, pseudoCastRange: number): number;
     /**
      * Return channel animation of this ability.
      */
@@ -2603,7 +2603,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /**
      * Set this unit controllable by the player with the passed ID.
      */
-    SetControllableByPlayer(index: number, skipAdjustingPosition: boolean): void;
+    SetControllableByPlayer(playerId: PlayerID, skipAdjustingPosition: boolean): void;
     SetCursorCastTarget(entity: CDOTA_BaseNPC | undefined): void;
     SetCursorPosition(location: Vector): void;
     SetCursorTargetingNothing(targetingNothing: boolean): void;
@@ -4337,6 +4337,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierCastRangeBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierCastRangeBonusStacking?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
@@ -4463,6 +4468,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierHealthRegenPercentageUnique?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHPRegen_CanBeNegative?(): void;
     /**
      * @abstract
      * @both
@@ -4647,11 +4657,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierMoveSpeedBonus_Percentage_Unique_2?(): number;
-    /**
-     * @abstract
-     * @both
-     */
     GetModifierMoveSpeedBonus_Special_Boots?(): number;
     /**
      * @abstract
@@ -4791,6 +4796,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPhysicalArmorBonusPost?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPhysicalArmorBonusUnique?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -4862,6 +4872,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierProcAttack_BonusDamage_Pure?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_ConvertPhysicalToMagical?(): void;
     /**
      * @abstract
      * @both
@@ -5088,6 +5103,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnAssist?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnAttack?(event: ModifierAttackEvent): void;
     /**
      * Happens even if attack can't be issued.
@@ -5186,6 +5206,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnHeroKilled?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnKill?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnMagicDamageCalculated?(): void;
     /**
      * @abstract
      * @both
@@ -9681,7 +9711,7 @@ declare function GetLocalPlayerID(): PlayerID;
  *
  * @client
  */
-declare function GetLocalPlayerTeam(): DOTATeam_t;
+declare function GetLocalPlayerTeam(arg1: number): DOTATeam_t;
 
 /**
  * Get the name of the map.

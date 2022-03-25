@@ -73,7 +73,7 @@ const typePredicates: Record<string, string> = {
   TraceHull: 'query is TraceHullOutputs',
   TraceLine: 'query is TraceLineOutputs',
   'CBaseEntity.IsBaseNPC': 'this is CDOTA_BaseNPC',
-  'CBaseEntity.IsPlayer': 'this is CDOTAPlayer',
+  'CBaseEntity.IsPlayer': 'this is CDOTAPlayerController',
   'CDOTA_BaseNPC.IsBarracks': 'this is CDOTA_BaseNPC_Building',
   'CDOTA_BaseNPC.IsBuilding': 'this is CDOTA_BaseNPC_Building',
   'CDOTA_BaseNPC.IsClone': 'this is CDOTA_BaseNPC_Hero',

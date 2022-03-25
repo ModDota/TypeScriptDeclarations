@@ -306,9 +306,17 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     IsNPC(): boolean;
     /**
-     * Is this entity a player?
+     * Back compat: Is this entity a player pawn *or* controller?
      */
-    IsPlayer(): this is CDOTAPlayer;
+    IsPlayer(): this is CDOTAPlayerController;
+    /**
+     * Is this entity a player controller?
+     */
+    IsPlayerController(): boolean;
+    /**
+     * Is this entity a player pawn?
+     */
+    IsPlayerPawn(): boolean;
     Kill(): void;
     NextMovePeer(): CBaseEntity;
     /**
@@ -581,9 +589,23 @@ declare interface CBaseModelEntity extends CBaseEntity {
     __kind__: 'instance';
 }
 
-declare const CBasePlayer: DotaConstructor<CBasePlayer>;
+declare const CBasePlayerController: DotaConstructor<CBasePlayerController>;
 
-declare interface CBasePlayer extends CBaseCombatCharacter {
+declare interface CBasePlayerController extends CBaseEntity {
+    /**
+     * Returns the pawn for this controller.
+     */
+    GetPawn(): object;
+    __kind__: 'instance';
+}
+
+declare const CBasePlayerPawn: DotaConstructor<CBasePlayerPawn>;
+
+declare interface CBasePlayerPawn extends CBaseCombatCharacter {
+    /**
+     * Returns the controller for this pawn.
+     */
+    GetController(): object;
     /**
      * Returns an array of all the equipped weapons.
      */
@@ -714,7 +736,7 @@ declare interface CCustomGameEventManager {
         eventData: CCustomGameEventManager.InferEventType<T, never>,
     ): void;
     Send_ServerToPlayer<T extends string | object>(
-        player: CDOTAPlayer,
+        player: CDOTAPlayerController,
         eventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
         eventData: CCustomGameEventManager.InferEventType<T, never>,
     ): void;
@@ -2041,7 +2063,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /**
      * Returns the player that owns this unit.
      */
-    GetPlayerOwner(): CDOTAPlayer;
+    GetPlayerOwner(): CDOTAPlayerController;
     /**
      * Get the owner player ID for this unit.
      *
@@ -3082,10 +3104,6 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      */
     ModifyGold(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
     /**
-     * Gives this hero some gold, using the gold filter if extra filtering is on.
-     */
-    ModifyGoldFiltered(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
-    /**
      * Adds passed value to base attribute value, then calls CalculateStatBonus.
      */
     ModifyIntellect(newIntellect: number): void;
@@ -3099,6 +3117,11 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      * Respawn this hero.
      */
     RespawnHero(buyBack: boolean, respawnPenalty: boolean): void;
+    /**
+     * Gives this hero some gold, using the gold filter if extra filtering is on.
+     * Args: int nGoldChange, bool bReliable, int reason.
+     */
+    Script_ModifyGoldFiltered(goldChange: number, reliabe: boolean, reason: number): number;
     /**
      * Sets the current unspent ability points.
      */
@@ -5519,7 +5542,7 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
      * a single connection, so a different entity might be returned. When player is
      * disconnected nil would be returned.
      */
-    GetPlayer(playerId: PlayerID): CDOTAPlayer | undefined;
+    GetPlayer(playerId: PlayerID): CDOTAPlayerController | undefined;
     /**
      * Includes spectators and players not assigned to a team.
      */
@@ -5626,6 +5649,11 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
      * Replaces the player's hero with a new one of the specified class, gold and XP.
      */
     ReplaceHeroWith(playerId: PlayerID, heroClass: string, gold: number, xp: number): CDOTA_BaseNPC_Hero;
+    /**
+     * Replaces the player's hero with a new one of the specified class, gold and XP,
+     * without transferring items/abilities if same hero.
+     */
+    ReplaceHeroWithNoTransfer(playerId: PlayerID, heroClass: string, gold: number, xp: number): object;
     ResetBuybackCostTime(playerId: PlayerID): void;
     ResetTotalEarnedGold(playerId: PlayerID): void;
     SetBuybackCooldownTime(playerId: PlayerID, buybackCooldown: number): void;
@@ -5854,6 +5882,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetGoldCost(level: number): number;
     GetGoldCostForUpgrade(level: number): number;
     GetHeroLevelRequiredToUpgrade(): number;
+    GetInitialAbilityCharges(level: number): number;
     GetIntrinsicModifierName(): string;
     /**
      * Get the current level of the ability.
@@ -6004,7 +6033,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
     /**
      * Begin tracking a sequence of events using the real time combat analyzer.
      */
-    AddRealTimeCombatAnalyzerQuery(queryTable: object, player: CDOTAPlayer, queryName: string): CombatAnalyzerQueryID;
+    AddRealTimeCombatAnalyzerQuery(
+        queryTable: object,
+        player: CDOTAPlayerController,
+        queryName: string,
+    ): CombatAnalyzerQueryID;
     /**
      * Allocates an entity which can be used by custom games to control FoW occlusion
      * volumes.
@@ -6092,10 +6125,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
     /**
      * Get current derived stat value constant.
      */
-    GetCustomAttributeDerivedStatValue(
-        derivedStatType: AttributeDerivedStats,
-        hero: CDOTA_BaseNPC_Hero | undefined,
-    ): number;
+    GetCustomAttributeDerivedStatValue(derivedStatType: AttributeDerivedStats): number;
     /**
      * Get the current rate cooldown ticks down for items in the backpack.
      */
@@ -6201,6 +6231,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Are custom-defined XP values for hero level ups in use?
      */
     GetUseCustomHeroLevels(): boolean;
+    /**
+     * Gets the time from game start during which water runes spawn.
+     */
+    GetWaterRuneLastSpawnTime(): number;
     /**
      * Const char* pszAbilityName.
      */
@@ -6671,6 +6705,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetUseTurboCouriers(enabled: boolean): void;
     /**
+     * Sets the time from game start during which water runes spawn.
+     */
+    SetWaterRuneLastSpawnTime(value: number): void;
+    /**
      * Set if weather effects are disabled.
      */
     SetWeatherEffectsDisabled(disable: boolean): void;
@@ -6717,12 +6755,12 @@ declare interface CDOTAGameManager {
     __kind__: 'instance';
 }
 
-declare const GameRules: CDOTAGamerules;
+declare const GameRules: CDOTAGameRules;
 
 /** @both */
-declare const CDOTAGamerules: DotaConstructor<CDOTAGamerules>;
+declare const CDOTAGameRules: DotaConstructor<CDOTAGameRules>;
 
-declare interface CDOTAGamerules {
+declare interface CDOTAGameRules {
     /**
      * Spawn a bot player of the passed hero name, player name, and team.
      *
@@ -7074,7 +7112,7 @@ declare interface CDOTAGamerules {
     /**
      * Whether a player has custom game host privileges (shuffle teams, etc.).
      */
-    PlayerHasCustomGameHostPrivileges(player: CDOTAPlayer): boolean;
+    PlayerHasCustomGameHostPrivileges(player: CDOTAPlayerController): boolean;
     /**
      * Updates custom hero, unit and ability KeyValues in memory with the latest
      * values from disk.
@@ -7398,9 +7436,9 @@ declare interface CDOTAGamerules {
     __kind__: 'instance';
 }
 
-declare const CDOTAPlayer: DotaConstructor<CDOTAPlayer>;
+declare const CDOTAPlayerController: DotaConstructor<CDOTAPlayerController>;
 
-declare interface CDOTAPlayer extends CBaseAnimating {
+declare interface CDOTAPlayerController extends CBaseAnimating {
     /**
      * Attempt to spawn the appropriate couriers for this mode.
      */
@@ -7734,9 +7772,17 @@ declare interface CEntities {
      */
     First(): CBaseEntity;
     /**
-     * Get the local player.
+     * Get the local player controller (backcompat).
      */
-    GetLocalPlayer(): CDOTAPlayer;
+    GetLocalPlayer(): CDOTAPlayerController;
+    /**
+     * Get the local player controller.
+     */
+    GetLocalPlayerController(): object;
+    /**
+     * Get the local player pawn.
+     */
+    GetLocalPlayerPawn(): object;
     /**
      * Continue an iteration over the list of entities, providing reference to a
      * previously found entity.
@@ -8060,13 +8106,13 @@ declare interface Convars {
      *
      * @both
      */
-    GetCommandClient(): CDOTAPlayer;
+    GetCommandClient(): CDOTAPlayerController;
     /**
      * Returns the DOTA player who issued this console command.
      *
      * @both
      */
-    GetDOTACommandClient(): CDOTAPlayer;
+    GetDOTACommandClient(): CDOTAPlayerController;
     /**
      * Returns the convar as a float. May return null if no such convar.
      *
@@ -8388,7 +8434,7 @@ declare interface CScriptParticleManager {
         particleName: string,
         particleAttach: ParticleAttachment_t,
         owner: CBaseEntity | undefined,
-        player: CDOTAPlayer,
+        player: CDOTAPlayerController,
     ): ParticleID;
     /**
      * Creates a new particle effect that only plays for the specified team.
@@ -9006,7 +9052,7 @@ declare function CreateEffect(arg1: object): boolean;
  * Creates a DOTA hero by its dota_npc_units.txt name and sets it as the given
  * player's controlled hero.
  */
-declare function CreateHeroForPlayer(heroName: string, player: CDOTAPlayer): CDOTA_BaseNPC_Hero;
+declare function CreateHeroForPlayer(heroName: string, player: CDOTAPlayerController): CDOTA_BaseNPC_Hero;
 
 /**
  * Create an HTTP request.
@@ -9041,8 +9087,8 @@ declare function CreateIllusions(
  */
 declare function CreateItem(
     itemName: string,
-    owner: CDOTAPlayer | undefined,
-    purchaser: CDOTAPlayer | undefined,
+    owner: CDOTAPlayerController | undefined,
+    purchaser: CDOTAPlayerController | undefined,
 ): CDOTA_Item | undefined;
 
 /**
@@ -9119,7 +9165,8 @@ declare function CreateUniformRandomStream(seed: number): CScriptUniformRandomSt
  *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
  *                    will be automatically inferred from this entity. Can be
  *                    changed after spawn using SetOwner(entity). When spawning
- *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
+ *                    heroes, passing CDOTAPlayerController makes hero use owned
+ *                    wearables.
  */
 declare function CreateUnitByName(
     unitName: string,
@@ -9140,7 +9187,8 @@ declare function CreateUnitByName(
  *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
  *                    will be automatically inferred from this entity. Can be
  *                    changed after spawn using SetOwner(entity). When spawning
- *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
+ *                    heroes, passing CDOTAPlayerController makes hero use owned
+ *                    wearables.
  */
 declare function CreateUnitByNameAsync(
     unitName: string,
@@ -9190,7 +9238,7 @@ declare function DebugBreak(): void;
  * Creates a test unit controllable by the specified player.
  */
 declare function DebugCreateUnit(
-    playerOwner: CDOTAPlayer,
+    playerOwner: CDOTAPlayerController,
     unitName: string,
     team: DOTATeam_t,
     arg4: boolean,
@@ -9340,6 +9388,11 @@ declare function DeepPrintTable(table?: Record<any, any>): void;
  * Free a damageinfo object that was created with CreateDamageInfo().
  */
 declare function DestroyDamageInfo(damageInfo: CTakeDamageInfo): void;
+
+/**
+ * Kick a specific player from the game.
+ */
+declare function DisconnectClient(arg1: number, arg2: boolean): void;
 
 declare function DoCleaveAttack(
     attacker: CDOTA_BaseNPC,
@@ -9695,7 +9748,7 @@ declare function GetItemDefQuantity(arg1: number, arg2: number): number;
  *
  * @both
  */
-declare function GetListenServerHost(): CDOTAPlayer;
+declare function GetListenServerHost(): CDOTAPlayerController;
 
 declare function GetLobbyEventGameDetails(): object;
 
@@ -9824,6 +9877,11 @@ declare function GetWorldMinY(): number;
  * Get amount of XP required to reach the next level.
  */
 declare function GetXPNeededToReachNextLevel(level: number): number;
+
+/**
+ * Max out a hero's level and give them all appropriate abilities and talents.
+ */
+declare function HeroMaxLevel(arg1: object): void;
 
 /**
  * @deprecated InitLogFile is deprecated. Print to the console for logging instead.
@@ -10001,7 +10059,7 @@ declare function Plat_FloatTime(): number;
  *
  * @both
  */
-declare function PlayerInstanceFromIndex(entityIndex: EntityIndex): CDOTAPlayer | undefined;
+declare function PlayerInstanceFromIndex(entityIndex: EntityIndex): CDOTAPlayerController | undefined;
 
 /**
  * Precache an entity from KeyValues in table.
@@ -10235,11 +10293,11 @@ declare function ScreenShake(
 ): void;
 
 declare function SendOverheadEventMessage(
-    sendToPlayer: CDOTAPlayer | undefined,
+    sendToPlayer: CDOTAPlayerController | undefined,
     messageType: DOTA_OVERHEAD_ALERT,
     targetEntity: CDOTA_BaseNPC,
     value: number,
-    sourcePlayer: CDOTAPlayer | undefined,
+    sourcePlayer: CDOTAPlayerController | undefined,
 ): void;
 
 /**
@@ -10529,6 +10587,14 @@ declare function UnloadSpawnGroup(arg1: string): void;
 declare function UnloadSpawnGroupByHandle(handle: SpawnGroupHandle): void;
 
 declare function UpdateEventPoints(eventPointData: object): void;
+
+/**
+ * Turn a userid integer (typically, fields named 'userid' in game events) to an
+ * HScript representing the associated player controller's script instance.
+ *
+ * @both
+ */
+declare function UserIDToControllerHScript(arg1: number): object;
 
 /**
  * Sends colored text to one client.

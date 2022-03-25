@@ -147,6 +147,7 @@ interface GameEventDeclarations {
     achievement_write_failed: object;
     bonus_updated: BonusUpdatedEvent;
     spec_target_updated: SpecTargetUpdatedEvent;
+    spec_mode_updated: SpecModeUpdatedEvent;
     entity_visible: EntityVisibleEvent;
     /**
      * The player pressed use but a use entity wasn't found.
@@ -430,6 +431,7 @@ interface GameEventDeclarations {
     dota_neutral_creep_camp_cleared: DotaNeutralCreepCampClearedEvent;
     dota_watch_tower_captured: DotaWatchTowerCapturedEvent;
     npc_spawned: NpcSpawnedEvent;
+    npc_spawn_finished: NpcSpawnFinishedEvent;
     npc_replaced: NpcReplacedEvent;
     entity_hurt: EntityHurtEvent;
     /**
@@ -1195,6 +1197,13 @@ interface SpecTargetUpdatedEvent {
      * Ehandle of the target.
      */
     target: EntityIndex;
+}
+
+interface SpecModeUpdatedEvent {
+    /**
+     * Spectating player.
+     */
+    userid: EntityIndex;
 }
 
 interface EntityVisibleEvent {
@@ -2359,6 +2368,11 @@ interface DotaWatchTowerCapturedEvent {
 }
 
 interface NpcSpawnedEvent {
+    entindex: EntityIndex;
+    is_respawn: number;
+}
+
+interface NpcSpawnFinishedEvent {
     entindex: EntityIndex;
 }
 

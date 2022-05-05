@@ -269,6 +269,7 @@ declare interface ExecuteOrderFilterEvent {
     position_x: number;
     position_y: number;
     position_z: number;
+    shop_item_name?: string;
 }
 
 declare interface HealingFilterEvent {

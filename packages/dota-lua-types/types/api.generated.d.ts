@@ -3104,6 +3104,10 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      */
     ModifyGold(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
     /**
+     * Gives this hero some gold, using the gold filter if extra filtering is on.
+     */
+    ModifyGoldFiltered(goldChange: number, reliable: boolean, reason: EDOTA_ModifyGold_Reason): number;
+    /**
      * Adds passed value to base attribute value, then calls CalculateStatBonus.
      */
     ModifyIntellect(newIntellect: number): void;
@@ -3117,11 +3121,6 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      * Respawn this hero.
      */
     RespawnHero(buyBack: boolean, respawnPenalty: boolean): void;
-    /**
-     * Gives this hero some gold, using the gold filter if extra filtering is on.
-     * Args: int nGoldChange, bool bReliable, int reason.
-     */
-    Script_ModifyGoldFiltered(goldChange: number, reliabe: boolean, reason: number): number;
     /**
      * Sets the current unspent ability points.
      */
@@ -5218,12 +5217,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnHealReceived?(event: ModifierUnitEvent): void;
+    OnHealReceived?(event: ModifierHealEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnHealthGained?(event: ModifierUnitEvent): void;
+    OnHealthGained?(event: ModifierHealEvent): void;
     /**
      * @abstract
      * @both

@@ -269,7 +269,7 @@ declare interface ExecuteOrderFilterEvent {
     position_x: number;
     position_y: number;
     position_z: number;
-    shop_item_name?: string;
+    shop_item_name: string;
 }
 
 declare interface HealingFilterEvent {
@@ -375,6 +375,10 @@ declare interface ModifierOverrideAbilitySpecialEvent {
 declare interface ModifierAddedEvent {
     unit: CDOTA_BaseNPC;
     added_buff: CDOTA_Buff;
+}
+
+declare interface ModifierHealEvent extends ModifierUnitEvent {
+    gain: number;
 }
 
 declare interface SpawnEntityFromTableOptions {

@@ -208,14 +208,9 @@ interface Panel extends PanelBase {
     BHasDescendantKeyFocus(): boolean;
 
     BLoadLayout(path: string, overrideExisting: boolean, partialLayout: boolean): boolean;
-    BLoadLayoutFromString(layout: string, overrideExisting: boolean, partialLayout: boolean): boolean;
-    LoadLayoutFromStringAsync(layout: string, overrideExisting: boolean, partialLayout: boolean): void;
-    LoadLayoutAsync(path: string, overrideExisting: boolean, partialLayout: boolean): void;
 
     BLoadLayoutSnippet(snippetName: string): boolean;
     BHasLayoutSnippet(snippetName: string): boolean;
-
-    BCreateChildren(html: string): boolean;
 
     SetTopOfInputContext(): void; // ????
     SetDialogVariable(name: string, value: string): void;

@@ -17,6 +17,7 @@ interface PanoramaPanelNameMap {
     DOTAHeroMovie: HeroMovie;
 
     DOTAScenePanel: ScenePanel;
+    DOTAParticleScenePanel: ParticleScenePanel;
     DOTAEconItem: EconItemPanel;
 
     ProgressBar: ProgressBar;
@@ -324,6 +325,13 @@ interface ScenePanel extends Panel {
 
     ReloadScene(): void;
     ClearScene(unknown1: boolean): void;
+}
+
+interface ParticleScenePanel extends ScenePanel {
+    StartParticles(): void;
+    StopParticlesImmediately(b: boolean): void;
+    StopParticlesWithEndcaps(): void;
+    SetControlPoint(cp: number, x: number, y: number, z: number): void;
 }
 
 interface EconItemPanel extends Panel {

@@ -245,7 +245,7 @@ interface Panel extends PanelBase {
 
     SetPositionInPixels(x: number, y: number, z: number): void;
 
-    Data(): object;
+    Data<T = object>(): T;
 }
 
 interface LabelPanel extends Panel {

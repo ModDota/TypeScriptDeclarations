@@ -175,6 +175,7 @@ interface Panel extends PanelBase {
     FindChildTraverse(childId: string): Panel | null;
     FindChildInLayoutFile(childId: string): Panel | null;
     FindPanelInLayoutFile(id: string): Panel | null;
+    FindAncestor(id: string): Panel | null;
 
     RemoveAndDeleteChildren(): void;
 

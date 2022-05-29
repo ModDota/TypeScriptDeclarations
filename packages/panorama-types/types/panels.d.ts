@@ -251,6 +251,9 @@ interface Panel extends PanelBase {
 interface LabelPanel extends Panel {
     text: string;
     html: boolean;
+
+    SetLocString(token: string): void;
+    SetAlreadyLocalizedText(token: string): void;
 }
 
 type ScalingFunction =

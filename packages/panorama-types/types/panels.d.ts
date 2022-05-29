@@ -309,9 +309,9 @@ interface ScenePanel extends Panel {
     SetUnit(unitName: string, environment: string, drawBackground: boolean): void;
     GetPanoramaSurfacePanel(): Panel | null;
     SetRotateParams(yawMin: number, yawMax: number, pitchMin: number, pitchMax: number): void;
-    SpawnHeroInScenePanelByPlayerSlot(unknown1: string, unknown2: number, unknown3: string): boolean;
-    SpawnHeroInScenePanelByHeroId(unknown1: number, unknown2: string, unknown3: number): boolean;
-    SetScenePanelToPlayerHero(unknown1: string, unknown2: number): boolean;
+    SpawnHeroInScenePanelByPlayerSlot(match_id: string, slot: number, entityName: string): boolean;
+    SpawnHeroInScenePanelByHeroId(heroID: number, entityName: string, econId: number): boolean;
+    SetScenePanelToPlayerHero(heroName: string, player: PlayerID): boolean;
     SetScenePanelToLocalHero(heroId: HeroID): boolean;
     SetPostProcessFade(value: number): void;
     /**
@@ -319,8 +319,11 @@ interface ScenePanel extends Panel {
      * scenePanel.SetCustomPostProcessMaterial("materials/dev/deferred_post_process_graphic_ui.vmat")
      */
     SetCustomPostProcessMaterial(material: string): void;
-    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(unknown1: string, unknown2: number): boolean;
-    LerpToCameraEntity(unknown1: string, unknown2: number): void;
+    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(heroName: string, player: PlayerID): boolean;
+    LerpToCameraEntity(entityName: string, duration: number): void;
+
+    ReloadScene(): void;
+    ClearScene(unknown1: boolean): void;
 }
 
 interface EconItemPanel extends Panel {

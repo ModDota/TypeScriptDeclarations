@@ -201,6 +201,8 @@ declare interface CBaseEntity extends CEntityInstance {
     GetForwardVector(): Vector;
     /**
      * Get the health of this entity.
+     *
+     * @both
      */
     GetHealth(): number;
     /**
@@ -293,6 +295,10 @@ declare interface CBaseEntity extends CEntityInstance {
      * @both
      */
     IsBaseNPC(): this is CDOTA_BaseNPC;
+    /**
+     * Is this entity a Dota NPC?
+     */
+    IsDOTANPC(): boolean;
     /** @both */
     IsInstance<T extends CBaseEntity>(classOrClassName: DotaConstructor<T>): this is T;
     /**
@@ -300,9 +306,17 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     IsNPC(): boolean;
     /**
-     * Is this entity a player?
+     * Back compat: Is this entity a player pawn *or* controller?
      */
     IsPlayer(): this is CDOTAPlayerController;
+    /**
+     * Is this entity a player controller?
+     */
+    IsPlayerController(): boolean;
+    /**
+     * Is this entity a player pawn?
+     */
+    IsPlayerPawn(): boolean;
     Kill(): void;
     NextMovePeer(): CBaseEntity;
     /**
@@ -575,17 +589,27 @@ declare interface CBaseModelEntity extends CBaseEntity {
     __kind__: 'instance';
 }
 
-declare const CBasePlayer: DotaConstructor<CBasePlayer>;
+declare const CBasePlayerController: DotaConstructor<CBasePlayerController>;
 
-declare interface CBasePlayer extends CBaseCombatCharacter {
+declare interface CBasePlayerController extends CBaseEntity {
+    /**
+     * Returns the pawn for this controller.
+     */
+    GetPawn(): object;
+    __kind__: 'instance';
+}
+
+declare const CBasePlayerPawn: DotaConstructor<CBasePlayerPawn>;
+
+declare interface CBasePlayerPawn extends CBaseCombatCharacter {
+    /**
+     * Returns the controller for this pawn.
+     */
+    GetController(): object;
     /**
      * Returns an array of all the equipped weapons.
      */
     GetEquippedWeapons(): object;
-    /**
-     * Returns the player's user id.
-     */
-    GetUserID(): number;
     /**
      * Gets the number of weapons currently equipped.
      */
@@ -642,7 +666,7 @@ declare interface CBodyComponent {
      *
      * @both
      */
-    GetSequence(): unknown;
+    GetSequence(): number;
     /**
      * Is attached to parent.
      *
@@ -654,7 +678,7 @@ declare interface CBodyComponent {
      *
      * @both
      */
-    LookupSequence(arg1: string): unknown;
+    LookupSequence(arg1: string): number;
     /**
      * Returns the duration in seconds of the specified sequence.
      *
@@ -712,7 +736,7 @@ declare interface CCustomGameEventManager {
         eventData: CCustomGameEventManager.InferEventType<T, never>,
     ): void;
     Send_ServerToPlayer<T extends string | object>(
-        player: CDOTAPlayer,
+        player: CDOTAPlayerController,
         eventName: (T extends string ? T : string) | keyof CustomGameEventDeclarations,
         eventData: CCustomGameEventManager.InferEventType<T, never>,
     ): void;
@@ -1325,6 +1349,8 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * @both
      */
     GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
+    /** @both */
+    GetCastRangeBonus(target: object, pseudoCastRange: number): number;
     /**
      * Return channel animation of this ability.
      */
@@ -1370,6 +1396,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetCustomCastErrorTarget(target: CDOTA_BaseNPC): string;
     /**
+     * Return cast range of this ability, accounting for modifiers.
+     *
+     * @both
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
+    /**
      * Return gold cost at the given level (-1 is current).
      *
      * @both
@@ -1395,6 +1427,8 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
     IsCosmetic(entity: object): boolean;
     /**
      * Returns true if this ability can be used when not on the action panel.
+     *
+     * @both
      */
     IsHiddenAbilityCastable(): boolean;
     /**
@@ -1577,6 +1611,21 @@ declare interface CDOTA_Ability_Nian_Roar extends CDOTABaseAbility {
     __kind__: 'instance';
 }
 
+declare const CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble: DotaConstructor<CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble>;
+
+/** @client */
+declare const C_DOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble: typeof CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble;
+
+declare interface CDOTA_AghsFort_Ability_ArcWardenBoss_TempestDouble extends CDOTABaseAbility {
+    /**
+     * Sets the number of doubles to spawn.
+     *
+     * @both
+     */
+    SetNumDoubles(doubles: number): void;
+    __kind__: 'instance';
+}
+
 declare const CDOTA_BaseNPC: DotaConstructor<CDOTA_BaseNPC>;
 
 /** @client */
@@ -1620,10 +1669,11 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     AddSpeechBubble(bubble: number, speech: string, duration: number, unOffsetX: number, unOffsetY: number): void;
     AlertNearbyUnits(attacker: CDOTA_BaseNPC, ability: CDOTABaseAbility): void;
     AngerNearbyUnits(): void;
-    AttackNoEarlierThan(time: number): void;
+    AttackNoEarlierThan(time: number, timeDisparityTolerance: number): void;
     AttackReady(): boolean;
     BoundingRadius2D(): number;
     CalculateGenericBonuses(): void;
+    CanBeSeenByAnyOpposingTeam(): boolean;
     /**
      * Check FoW to see if an entity is visible.
      */
@@ -1773,6 +1823,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Returns the vision range before modifiers.
      */
     GetBaseDayTimeVisionRange(): number;
+    GetBaseHealthBarOffset(): number;
     GetBaseHealthRegen(): number;
     /**
      * Returns base magical armor value.
@@ -2012,7 +2063,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /**
      * Returns the player that owns this unit.
      */
-    GetPlayerOwner(): CDOTAPlayer;
+    GetPlayerOwner(): CDOTAPlayerController;
     /**
      * Get the owner player ID for this unit.
      *
@@ -2083,6 +2134,17 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     Heal(amount: number, inflictor: CDOTABaseAbility | undefined): void;
     /**
+     * Heal this unit (with more parameters).
+     */
+    HealWithParams(
+        amount: number,
+        inflictor: object,
+        lifesteal: boolean,
+        amplify: boolean,
+        source: object,
+        spellLifesteal: boolean,
+    ): void;
+    /**
      * Hold position.
      */
     Hold(): void;
@@ -2118,6 +2180,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * @both
      */
     IsBoss(): boolean;
+    /**
+     * Is this unit a Boss Creature? (used by custom games).
+     */
+    IsBossCreature(): boolean;
     /**
      * Is this unit a building?
      *
@@ -2305,6 +2371,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /** @both */
     IsUntargetable(): boolean;
     /**
+     * Is this entity an Undying Zombie?
+     */
+    IsZombie(): boolean;
+    /**
      * Kills this NPC, with the params Ability and Attacker.
      */
     Kill(ability: CDOTABaseAbility | undefined, attacker: CDOTA_BaseNPC | undefined): void;
@@ -2471,6 +2541,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     RemoveAllModifiers(targets: 0 | 1 | 2, now: boolean, permanent: boolean, death: boolean): void;
     /**
+     * Removes all copies of a modifier.
+     */
+    RemoveAllModifiersOfName(scriptName: string): void;
+    /**
      * Remove the given gesture activity.
      */
     RemoveGesture(activity: GameActivity_t): void;
@@ -2551,7 +2625,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /**
      * Set this unit controllable by the player with the passed ID.
      */
-    SetControllableByPlayer(index: number, skipAdjustingPosition: boolean): void;
+    SetControllableByPlayer(playerId: PlayerID, skipAdjustingPosition: boolean): void;
     SetCursorCastTarget(entity: CDOTA_BaseNPC | undefined): void;
     SetCursorPosition(location: Vector): void;
     SetCursorTargetingNothing(targetingNothing: boolean): void;
@@ -2564,12 +2638,14 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Set the XP bounty on this unit.
      */
     SetDeathXP(xpBounty: number): void;
+    SetFollowRange(followRange: number): void;
     SetForceAttackTarget(npc: CDOTA_BaseNPC | undefined): void;
     SetForceAttackTargetAlly(npc: CDOTA_BaseNPC | undefined): void;
     /**
      * Set if this unit has an inventory.
      */
     SetHasInventory(hasInventory: boolean): void;
+    SetHealthBarOffsetOverride(offset: number): void;
     /**
      * Set the collision hull radius of this NPC.
      */
@@ -2751,6 +2827,10 @@ declare interface CDOTA_BaseNPC_Creature extends CDOTA_BaseNPC {
      * Remove all item drops from this creature.
      */
     RemoveAllItemDrops(): void;
+    /**
+     * Does this creature aggro on the owner of the attacking unit when taking damage?
+     */
+    SetAggroOnOwnerOnDamage(aggro: boolean): void;
     /**
      * Set the armor gained per level on this creature.
      */
@@ -3151,6 +3231,8 @@ declare interface CDOTA_Buff {
         heroEffect: boolean,
         overheadEffect: boolean,
     ): void;
+    /** @both */
+    CheckStateToTable(table: object): void;
     /**
      * Decrease this modifier's stack count by 1.
      *
@@ -3239,6 +3321,8 @@ declare interface CDOTA_Buff {
     SendBuffRefreshToClients(): void;
     /** @both */
     SetDuration(duration: number, informClient: boolean): void;
+    /** @both */
+    SetOverheadEffectOffset(offset: number): boolean;
     /** @both */
     SetStackCount(count: number): void;
     /**
@@ -3460,6 +3544,27 @@ declare interface CDOTA_Item_DataDriven extends CDOTA_Item {
     __kind__: 'instance';
 }
 
+declare const CDOTA_Item_EmptyBottle: DotaConstructor<CDOTA_Item_EmptyBottle>;
+
+/** @client */
+declare const C_DOTA_Item_EmptyBottle: typeof CDOTA_Item_EmptyBottle;
+
+declare interface CDOTA_Item_EmptyBottle extends CDOTA_Item {
+    /**
+     * Clear the stored rune.
+     */
+    ClearStoredRune(): void;
+    /**
+     * Place a rune in the bottle.
+     */
+    OnRune(runeType: number): boolean;
+    /**
+     * Set the stored rune.
+     */
+    SetStoredRune(runeType: number): void;
+    __kind__: 'instance';
+}
+
 declare const CDOTA_Item_Lua: DotaConstructor<CDOTA_Item_Lua>;
 
 /** @client */
@@ -3564,6 +3669,12 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      * @both
      */
     GetCustomCastErrorTarget(target: CDOTA_BaseNPC): string;
+    /**
+     * Return cast range of this ability, taking modifiers into account.
+     *
+     * @both
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
     /**
      * Return gold cost at the given level (-1 is current).
      *
@@ -3818,6 +3929,14 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetAuraSearchType(): DOTA_UNIT_TARGET_TYPE;
+    /**
+     * A Modifier that listens to MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE has to
+     * have a GetCritDamage implementation so we can know when to evaluate it. Value
+     * should be in 'times the original value format' e.g: 1.5 not 150.
+     *
+     * @both
+     */
+    GetCritDamage(): number;
     /**
      * Return the attach type of the particle system from GetEffectName.
      *
@@ -4175,6 +4294,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierBaseAttackTimePercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierBaseDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -4231,6 +4355,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierCastRangeBonus?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierCastRangeBonusPercentage?(): void;
     /**
      * @abstract
      * @both
@@ -4365,6 +4494,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierHPRegen_CanBeNegative?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierHPRegenAmplify_Percentage?(): number;
     /**
      * @abstract
@@ -4465,7 +4599,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierManacostReduction_Constant?(): void;
+    GetModifierManacostReduction_Constant?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
      * @both
@@ -4545,11 +4679,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierMoveSpeedBonus_Percentage_Unique_2?(): number;
-    /**
-     * @abstract
-     * @both
-     */
     GetModifierMoveSpeedBonus_Special_Boots?(): number;
     /**
      * @abstract
@@ -4592,12 +4721,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierOverrideAbilitySpecial?(): void;
+    GetModifierOverrideAbilitySpecial?(event: ModifierOverrideAbilitySpecialEvent): 0 | 1;
     /**
      * @abstract
      * @both
      */
-    GetModifierOverrideAbilitySpecialValue?(): void;
+    GetModifierOverrideAbilitySpecialValue?(event: ModifierOverrideAbilitySpecialEvent): number;
     /**
      * @abstract
      * @both
@@ -4627,7 +4756,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPercentageCooldownStacking?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPercentageExpRateBoost?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageGoldRateBoost?(): void;
     /**
      * @abstract
      * @both
@@ -4675,6 +4814,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierPhysicalArmorBonus?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysicalArmorBonusPost?(): void;
     /**
      * @abstract
      * @both
@@ -4739,12 +4883,22 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierProcAttack_BonusDamage_Magical_Target?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierProcAttack_BonusDamage_Physical?(event: ModifierAttackEvent): number;
     /**
      * @abstract
      * @both
      */
     GetModifierProcAttack_BonusDamage_Pure?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProcAttack_ConvertPhysicalToMagical?(): void;
     /**
      * @abstract
      * @both
@@ -4971,6 +5125,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnAssist?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnAttack?(event: ModifierAttackEvent): void;
     /**
      * Happens even if attack can't be issued.
@@ -5033,7 +5192,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnBuildingKilled?(event: ModifierAttackEvent): void;
+    OnBuildingKilled?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5048,7 +5207,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnDeath?(event: ModifierAttackEvent): void;
+    OnDeath?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5058,17 +5217,27 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnHealReceived?(event: ModifierUnitEvent): void;
+    OnHealReceived?(event: ModifierHealEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnHealthGained?(event: ModifierUnitEvent): void;
+    OnHealthGained?(event: ModifierHealEvent): void;
     /**
      * @abstract
      * @both
      */
     OnHeroKilled?(event: ModifierAttackEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnKill?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnMagicDamageCalculated?(): void;
     /**
      * @abstract
      * @both
@@ -5083,12 +5252,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnModifierAdded?(): void;
+    OnModifierAdded?(event: ModifierAddedEvent): void;
     /**
      * @abstract
      * @both
      */
     OnOrder?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnPreDebuffApplied?(): void;
     /**
      * @abstract
      * @both
@@ -5133,7 +5307,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnTakeDamage?(event: ModifierAttackEvent): void;
+    OnTakeDamage?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -5192,8 +5366,6 @@ declare interface CDOTA_Modifier_Lua_Horizontal_Motion extends CDOTA_Modifier_Lu
     GetPriority(): modifierpriority;
     /**
      * Called when the motion gets interrupted.
-     *
-     * @both
      */
     OnHorizontalMotionInterrupted(): void;
     /**
@@ -5202,8 +5374,6 @@ declare interface CDOTA_Modifier_Lua_Horizontal_Motion extends CDOTA_Modifier_Lu
     SetPriority(motionPriority: modifierpriority): void;
     /**
      * Perform any motion from the given interval on the NPC.
-     *
-     * @both
      */
     UpdateHorizontalMotion(me: CDOTA_BaseNPC, dt: number): void;
     __kind__: 'instance';
@@ -5229,14 +5399,10 @@ declare interface CDOTA_Modifier_Lua_Motion_Both extends CDOTA_Modifier_Lua {
     GetPriority(): modifierpriority;
     /**
      * Called when the motion gets interrupted.
-     *
-     * @both
      */
     OnHorizontalMotionInterrupted(): void;
     /**
      * Called when the motion gets interrupted.
-     *
-     * @both
      */
     OnVerticalMotionInterrupted(): void;
     /**
@@ -5245,14 +5411,10 @@ declare interface CDOTA_Modifier_Lua_Motion_Both extends CDOTA_Modifier_Lua {
     SetPriority(motionPriority: modifierpriority): void;
     /**
      * Perform any motion from the given interval on the NPC.
-     *
-     * @both
      */
     UpdateHorizontalMotion(me: CDOTA_BaseNPC, dt: number): void;
     /**
      * Perform any motion from the given interval on the NPC.
-     *
-     * @both
      */
     UpdateVerticalMotion(me: CDOTA_BaseNPC, dt: number): void;
     __kind__: 'instance';
@@ -5273,8 +5435,6 @@ declare interface CDOTA_Modifier_Lua_Vertical_Motion extends CDOTA_Modifier_Lua 
     GetMotionPriority(): modifierpriority;
     /**
      * Called when the motion gets interrupted.
-     *
-     * @both
      */
     OnVerticalMotionInterrupted(): void;
     /**
@@ -5283,8 +5443,6 @@ declare interface CDOTA_Modifier_Lua_Vertical_Motion extends CDOTA_Modifier_Lua 
     SetMotionPriority(motionPriority: modifierpriority): void;
     /**
      * Perform any motion from the given interval on the NPC.
-     *
-     * @both
      */
     UpdateVerticalMotion(me: CDOTA_BaseNPC, dt: number): void;
     __kind__: 'instance';
@@ -5309,7 +5467,7 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     AddClaimedFarm(playerId: PlayerID, farmValue: number, earnedValue: boolean): void;
     AddGoldSpentOnSupport(playerId: PlayerID, cost: number): void;
     AddNeutralItemToStash(playerId: PlayerID, teamNumber: DOTATeam_t, item: CDOTA_Item): void;
-    AddRunePickup(playerId: PlayerID): void;
+    AddRunePickup(playerId: PlayerID, runes: number): void;
     AreUnitsSharedWithPlayerID(unitOwnerPlayerId: PlayerID, otherPlayerId: PlayerID): boolean;
     CanRepick(playerId: PlayerID): boolean;
     ClearKillsMatrix(playerId: PlayerID): void;
@@ -5337,6 +5495,10 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetDenies(playerId: PlayerID): number;
     GetEventGameCustomActionClaimCount(playerId: PlayerID, unActionId: number): number;
     GetEventGameCustomActionClaimCountByName(playerId: PlayerID, actionName: string): number;
+    /**
+     * (nPlayerID).
+     */
+    GetEventGameUpgrades(playerId: PlayerID): object;
     GetEventPointsForPlayerID(playerId: PlayerID): number;
     GetEventPremiumPoints(playerId: PlayerID): number;
     GetEventRanks(playerId: PlayerID): unknown;
@@ -5351,6 +5513,10 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     GetHeroDamageTaken(playerId: PlayerID, total: boolean): number;
     GetKills(playerId: PlayerID): number;
     GetKillsDoneToHero(playerId: PlayerID, victimId: PlayerID): number;
+    /**
+     * (nPlayerID).
+     */
+    GetLabyrinthEventGameHeroUnlocks(playerId: PlayerID): object;
     GetLastHitMultikill(playerId: PlayerID): number;
     GetLastHits(playerId: PlayerID): number;
     GetLastHitStreak(playerId: PlayerID): number;
@@ -5375,7 +5541,7 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
      * a single connection, so a different entity might be returned. When player is
      * disconnected nil would be returned.
      */
-    GetPlayer(playerId: PlayerID): CDOTAPlayer | undefined;
+    GetPlayer(playerId: PlayerID): CDOTAPlayerController | undefined;
     /**
      * Includes spectators and players not assigned to a team.
      */
@@ -5430,17 +5596,17 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     HasSetEventGameCustomActionClaimCount(): boolean;
     HaveAllPlayersJoined(): boolean;
     IncrementAssists(playerId: PlayerID, victimId: PlayerID): void;
-    IncrementClaimedDenies(playerId: PlayerID): void;
-    IncrementClaimedMisses(playerId: PlayerID): void;
+    IncrementClaimedDenies(playerId: PlayerID, value: number): void;
+    IncrementClaimedMisses(playerId: PlayerID, value: number): void;
     IncrementDeaths(playerId: PlayerID, killerId: PlayerID): void;
-    IncrementDenies(playerId: PlayerID): void;
+    IncrementDenies(playerId: PlayerID, value: number): void;
     IncrementKills(playerId: PlayerID, victimId: PlayerID): void;
-    IncrementLastHitMultikill(playerId: PlayerID): void;
-    IncrementLastHits(playerId: PlayerID): void;
-    IncrementLastHitStreak(playerId: PlayerID): void;
-    IncrementMisses(playerId: PlayerID): void;
-    IncrementNearbyCreepDeaths(playerId: PlayerID): void;
-    IncrementStreak(playerId: PlayerID): void;
+    IncrementLastHitMultikill(playerId: PlayerID, count: number): void;
+    IncrementLastHits(playerId: PlayerID, count: number): void;
+    IncrementLastHitStreak(playerId: PlayerID, count: number): void;
+    IncrementMisses(playerId: PlayerID, value: number): void;
+    IncrementNearbyCreepDeaths(playerId: PlayerID, creeps: number): void;
+    IncrementStreak(playerId: PlayerID, count: number): void;
     IncrementTotalEarnedXP(playerId: PlayerID, xp: number, reason: EDOTA_ModifyXP_Reason): void;
     IsBroadcaster(playerId: PlayerID): boolean;
     IsDisableHelpSetForPlayerID(playerId: PlayerID, otherPlayerId: PlayerID): boolean;
@@ -5463,10 +5629,30 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
         itemDefinitionIndex: number,
         chargeIncrementOrDecrement: number,
     ): void;
+    RecordEventActionGrant(
+        playerId: PlayerID,
+        event: number,
+        unActionId: number,
+        unAudit: number,
+        unQuantity: number,
+        unAuditData: number,
+    ): void;
+    RecordEventActionGrantForPrimaryEvent(
+        playerId: PlayerID,
+        actionName: string,
+        unAudit: number,
+        unQuantity: number,
+        unAuditData: number,
+    ): void;
     /**
      * Replaces the player's hero with a new one of the specified class, gold and XP.
      */
     ReplaceHeroWith(playerId: PlayerID, heroClass: string, gold: number, xp: number): CDOTA_BaseNPC_Hero;
+    /**
+     * Replaces the player's hero with a new one of the specified class, gold and XP,
+     * without transferring items/abilities if same hero.
+     */
+    ReplaceHeroWithNoTransfer(playerId: PlayerID, heroClass: string, gold: number, xp: number): object;
     ResetBuybackCostTime(playerId: PlayerID): void;
     ResetTotalEarnedGold(playerId: PlayerID): void;
     SetBuybackCooldownTime(playerId: PlayerID, buybackCooldown: number): void;
@@ -5548,6 +5734,20 @@ declare interface CDOTA_Unit_Courier extends CDOTA_BaseNPC {
 declare const CDOTA_Unit_CustomGameAnnouncer: DotaConstructor<CDOTA_Unit_CustomGameAnnouncer>;
 
 declare interface CDOTA_Unit_CustomGameAnnouncer extends CDOTA_BaseNPC {
+    /**
+     * Determines whether response criteria is matched on server or client.
+     */
+    SetServerAuthoritative(isServerAuthoritative: boolean): void;
+    __kind__: 'instance';
+}
+
+declare const CDOTA_Unit_CustomGameAnnouncerAghanim: DotaConstructor<CDOTA_Unit_CustomGameAnnouncerAghanim>;
+
+declare interface CDOTA_Unit_CustomGameAnnouncerAghanim extends CDOTA_BaseNPC {
+    /**
+     * Set the animation sequence for this entity.
+     */
+    SetAnimation(animation: string): void;
     /**
      * Determines whether response criteria is matched on server or client.
      */
@@ -5638,9 +5838,15 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * @both
      */
     GetBehaviorInt(): DOTA_ABILITY_BEHAVIOR;
-    /** @both */
+    /**
+     * Get the owner of this ability.
+     *
+     * @both
+     */
     GetCaster(): CDOTA_BaseNPC;
     GetCastPoint(): number;
+    /** @both */
+    GetCastPointModifier(): number;
     /**
      * Gets the cast range of the ability.
      */
@@ -5657,16 +5863,25 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetCooldown(level: number): number;
     GetCooldownTime(): number;
     GetCooldownTimeRemaining(): number;
-    /** @both */
+    /**
+     * The number of charges remaining on this ability.
+     *
+     * @both
+     */
     GetCurrentAbilityCharges(): number;
     GetCursorPosition(): Vector;
     GetCursorTarget(): CDOTA_BaseNPC | undefined;
     GetCursorTargetingNothing(): boolean;
     GetDuration(): number;
+    /**
+     * Gets the cast range of the ability, taking modifiers into account.
+     */
+    GetEffectiveCastRange(location: Vector, target: object): number;
     GetEffectiveCooldown(level: number): number;
     GetGoldCost(level: number): number;
     GetGoldCostForUpgrade(level: number): number;
     GetHeroLevelRequiredToUpgrade(): number;
+    GetInitialAbilityCharges(level: number): number;
     GetIntrinsicModifierName(): string;
     /**
      * Get the current level of the ability.
@@ -5806,6 +6021,9 @@ declare interface CDOTABaseAbility extends CBaseEntity {
 declare const CDOTABaseGameMode: DotaConstructor<CDOTABaseGameMode>;
 
 declare interface CDOTABaseGameMode extends CBaseEntity {
+    /**
+     * Const char* pszAbilityName.
+     */
     AddAbilityUpgradeToWhitelist(abilityName: string): void;
     /**
      * Add an item to purchase at a custom shop.
@@ -5814,7 +6032,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
     /**
      * Begin tracking a sequence of events using the real time combat analyzer.
      */
-    AddRealTimeCombatAnalyzerQuery(queryTable: object, player: CDOTAPlayer, queryName: string): CombatAnalyzerQueryID;
+    AddRealTimeCombatAnalyzerQuery(
+        queryTable: object,
+        player: CDOTAPlayerController,
+        queryName: string,
+    ): CombatAnalyzerQueryID;
     /**
      * Allocates an entity which can be used by custom games to control FoW occlusion
      * volumes.
@@ -5878,6 +6100,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Use to disable hud flip for this mod.
      */
     DisableHudFlip(disable: boolean): void;
+    /**
+     * Bool bEnabled.
+     */
     EnableAbilityUpgradeWhitelist(enabled: boolean): void;
     /**
      * Show the player hero's inventory in the HUD, regardless of what unit is
@@ -5899,10 +6124,7 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
     /**
      * Get current derived stat value constant.
      */
-    GetCustomAttributeDerivedStatValue(
-        derivedStatType: AttributeDerivedStats,
-        hero: CDOTA_BaseNPC_Hero | undefined,
-    ): number;
+    GetCustomAttributeDerivedStatValue(derivedStatType: AttributeDerivedStats): number;
     /**
      * Get the current rate cooldown ticks down for items in the backpack.
      */
@@ -5939,6 +6161,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Get the current custom scan cooldown.
      */
     GetCustomScanCooldown(): number;
+    /**
+     * Get the rate at which the day/night cycle advances (1.0 = default).
+     */
+    GetDaynightCycleAdvanceRate(): number;
     /**
      * Get the Game Seed passed from the GC.
      */
@@ -6004,6 +6230,13 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Are custom-defined XP values for hero level ups in use?
      */
     GetUseCustomHeroLevels(): boolean;
+    /**
+     * Gets the time from game start during which water runes spawn.
+     */
+    GetWaterRuneLastSpawnTime(): number;
+    /**
+     * Const char* pszAbilityName.
+     */
     IsAbilityUpgradeWhitelisted(abilityName: string): boolean;
     /**
      * Enables or disables buyback completely.
@@ -6034,6 +6267,9 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         func: (this: TContext, result: CombatAnalyzerQueryResult) => void,
         context: TContext,
     ): void;
+    /**
+     * Const char* pszAbilityName.
+     */
     RemoveAbilityUpgradeFromWhitelist(abilityName: string): void;
     /**
      * Remove an item to purchase at a custom shop.
@@ -6117,6 +6353,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetCameraZRange(minZ: number, maxZ: number): void;
     /**
+     * Bool bAllow.
+     */
+    SetCanSellAnywhere(allow: boolean): void;
+    /**
      * Modify derived stat value constants.
      */
     SetCustomAttributeDerivedStatValue(statType: AttributeDerivedStats, newValue: number): void;
@@ -6181,6 +6421,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
         context: TContext,
     ): void;
     /**
+     * Sets the rate at which the day/night cycle advances (1.0 = default).
+     */
+    SetDaynightCycleAdvanceRate(rate: number): void;
+    /**
      * Enable or disable the day/night cycle.
      */
     SetDaynightCycleDisabled(disable: boolean): void;
@@ -6219,6 +6463,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetFogOfWarDisabled(disabled: boolean): void;
     /**
+     * Specify a HUD skin that is forced on for this game mode.
+     */
+    SetForcedHUDSkin(value: string): void;
+    /**
      * Prevent users from using the right click deny setting.
      */
     SetForceRightClickAttackDisabled(disabled: boolean): void;
@@ -6243,6 +6491,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetFriendlyBuildingMoveToEnabled(enabled: boolean): void;
     /**
+     * Bool bGive.
+     */
+    SetGiveFreeTPOnDeath(give: boolean): void;
+    /**
      * Turn the sound when gold is acquired off/on.
      */
     SetGoldSoundDisabled(disabled: boolean): void;
@@ -6262,6 +6514,18 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set the HUD element visibility.
      */
     SetHUDVisible(hudElement: DOTAHUDVisibility_t, visible: boolean): void;
+    /**
+     * Set the amount blocked innately by melee heroes.
+     */
+    SetInnateMeleeDamageBlockAmount(amount: number): void;
+    /**
+     * Set the percent chance a melee hero will innately block damage.
+     */
+    SetInnateMeleeDamageBlockPercent(percent: number): void;
+    /**
+     * Set the amount innately blocked by melee heroes gained per level.
+     */
+    SetInnateMeleeDamageBlockPerLevelAmount(perLevelAmount: number): void;
     /**
      * Set a filter function to control what happens to items that are added to an
      * inventory, return false to cancel the event.
@@ -6336,6 +6600,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set pausing enabled/disabled.
      */
     SetPauseEnabled(enabled: boolean): void;
+    /**
+     * Bool bFilter.
+     */
+    SetPlayerHeroAvailabilityFiltered(filter: boolean): void;
     /**
      * Set power rune spawn rate.
      */
@@ -6432,9 +6700,18 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetUseDefaultDOTARuneSpawnLogic(enabled: boolean): void;
     /**
+     * Enables or disables turbo couriers.
+     */
+    SetUseTurboCouriers(enabled: boolean): void;
+    /**
+     * Sets the time from game start during which water runes spawn.
+     */
+    SetWaterRuneLastSpawnTime(value: number): void;
+    /**
      * Set if weather effects are disabled.
      */
     SetWeatherEffectsDisabled(disable: boolean): void;
+    ShouldGiveFreeTPOnDeath(): boolean;
     __kind__: 'instance';
 }
 
@@ -6477,12 +6754,12 @@ declare interface CDOTAGameManager {
     __kind__: 'instance';
 }
 
-declare const GameRules: CDOTAGamerules;
+declare const GameRules: CDOTAGameRules;
 
 /** @both */
-declare const CDOTAGamerules: DotaConstructor<CDOTAGamerules>;
+declare const CDOTAGameRules: DotaConstructor<CDOTAGameRules>;
 
-declare interface CDOTAGamerules {
+declare interface CDOTAGameRules {
     /**
      * Spawn a bot player of the passed hero name, player name, and team.
      *
@@ -6524,6 +6801,26 @@ declare interface CDOTAGamerules {
         extraData6: number,
     ): boolean;
     /**
+     * Add the hero ID to the hero blacklist if it is not already present.
+     */
+    AddHeroIDToBlacklist(arg1: number): void;
+    /**
+     * Add the hero ID to the hero whitelist if it is not already present.
+     */
+    AddHeroIDToWhitelist(arg1: number): void;
+    /**
+     * Add the hero to the hero blacklist if it is not already present.
+     */
+    AddHeroToBlacklist(arg1: string): void;
+    /**
+     * Adds hero of given ID to available heroes of player of given ID.
+     */
+    AddHeroToPlayerAvailability(arg1: number, arg2: number): void;
+    /**
+     * Add the hero to the hero whitelist if it is not already present.
+     */
+    AddHeroToWhitelist(arg1: string): void;
+    /**
      * Add an item to the whitelist.
      */
     AddItemToWhiteList(itemName: string): void;
@@ -6564,6 +6861,22 @@ declare interface CDOTAGamerules {
      * Fills all the teams with bots if cheat mode is enabled.
      */
     BotPopulate(): void;
+    /**
+     * Clears the hero blacklist.
+     */
+    ClearHeroBlacklist(): void;
+    /**
+     * Clears the hero whitelist.
+     */
+    ClearHeroWhitelist(): void;
+    /**
+     * Clears available heroes of player of given ID.
+     */
+    ClearPlayerHeroAvailability(arg1: number): void;
+    /**
+     * Clears the current river paint.
+     */
+    ClearRiverPaint(): void;
     /**
      * Kills the ancient, etc.
      */
@@ -6609,6 +6922,12 @@ declare interface CDOTAGamerules {
      * @both
      */
     GetBannedHeroes(): string[];
+    /**
+     * Returns the hero unit IDs banned in this game, if any.
+     *
+     * @both
+     */
+    GetBannedHeroIDs(): object;
     /**
      * Returns the difficulty level of the custom game mode.
      *
@@ -6658,19 +6977,18 @@ declare interface CDOTAGamerules {
      */
     GetGameTime(): number;
     /**
+     * Get the time it takes to add a new item to stock.
+     *
+     * @both
+     */
+    GetIetmStockDuration(arg1: number, arg2: string, arg3: number): number;
+    /**
      * Get the stock count of the item.
      *
      * @param playerId Used only for items with "PlayerSpecificCooldown"
      * @both
      */
     GetItemStockCount(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
-    /**
-     * Get the time it takes to add a new item to stock.
-     *
-     * @param playerId Used only for items with "PlayerSpecificCooldown"
-     * @both
-     */
-    GetItemStockDuration(team: DOTATeam_t, itemName: string, playerId: PlayerID): number;
     /**
      * Get the time an item will be added to stock.
      *
@@ -6734,10 +7052,19 @@ declare interface CDOTAGamerules {
      * Is it day time?
      */
     IsDaytime(): boolean;
+    /** @both */
+    IsDev(): boolean;
     /**
      * Returns whether the game is paused.
      */
     IsGamePaused(): boolean;
+    /**
+     * Is the hero not blacklisted, and is it either whitelisted or the whitelist is
+     * empty?
+     *
+     * @both
+     */
+    IsHeroEnabledViaLists(arg1: string): boolean;
     /**
      * Returns whether hero respawn is enabled.
      */
@@ -6784,7 +7111,7 @@ declare interface CDOTAGamerules {
     /**
      * Whether a player has custom game host privileges (shuffle teams, etc.).
      */
-    PlayerHasCustomGameHostPrivileges(player: CDOTAPlayer): boolean;
+    PlayerHasCustomGameHostPrivileges(player: CDOTAPlayerController): boolean;
     /**
      * Updates custom hero, unit and ability KeyValues in memory with the latest
      * values from disk.
@@ -6798,6 +7125,22 @@ declare interface CDOTAGamerules {
      * Removes a fake client.
      */
     RemoveFakeClient(playerId: PlayerID): void;
+    /**
+     * Remove the hero from the hero blacklist if present.
+     */
+    RemoveHeroFromBlacklist(arg1: string): void;
+    /**
+     * Remove the hero from the hero whitelist if present.
+     */
+    RemoveHeroFromWhitelist(arg1: string): void;
+    /**
+     * Remove the hero ID from the hero blacklist if present.
+     */
+    RemoveHeroIDFromBlacklist(arg1: number): void;
+    /**
+     * Remove the hero ID from the hero whitelist if present.
+     */
+    RemoveHeroIDFromWhitelist(arg1: number): void;
     /**
      * Remove an item from the whitelist.
      */
@@ -6905,6 +7248,10 @@ declare interface CDOTAGamerules {
      */
     SetCustomVictoryMessageDuration(duration: number): void;
     /**
+     * Allow alternate hero grids to be used (DOTA+, etc).  True by default.
+     */
+    SetEnableAlternateHeroGrids(arg1: boolean): void;
+    /**
      * Event-only.
      */
     SetEventMetadataCustomTable(metadataTable: object): boolean;
@@ -6957,6 +7304,10 @@ declare interface CDOTAGamerules {
      */
     SetHeroSelectPenaltyTime(arg1: number): void;
     /**
+     * Should blacklisted heroes be hidden, or just dimmed, in hero picking?
+     */
+    SetHideBlacklistedHeroes(arg1: boolean): void;
+    /**
      * Sets whether the multikill, streak, and first-blood banners appear at the top
      * of the screen.
      */
@@ -6993,6 +7344,10 @@ declare interface CDOTAGamerules {
      * Sets the amount of time players have between picking their hero and game start.
      */
     SetPreGameTime(time: number): void;
+    /**
+     * Paints the river for a duration.
+     */
+    SetRiverPaint(arg1: number, arg2: number): void;
     /**
      * Scale the rune icons on the minimap.
      */
@@ -7058,6 +7413,12 @@ declare interface CDOTAGamerules {
      */
     SetWhiteListEnabled(whiteListEnabled: boolean): void;
     /**
+     * Are blacklisted heroes hidden, or just dimmed, in hero picking?
+     *
+     * @both
+     */
+    ShouldHideBlacklistedHeroes(): boolean;
+    /**
      * Spawn and release the next creep wave from Dota lane style spawners.
      */
     SpawnAndReleaseCreeps(): void;
@@ -7074,13 +7435,13 @@ declare interface CDOTAGamerules {
     __kind__: 'instance';
 }
 
-declare const CDOTAPlayer: DotaConstructor<CDOTAPlayer>;
+declare const CDOTAPlayerController: DotaConstructor<CDOTAPlayerController>;
 
-declare interface CDOTAPlayer extends CBaseAnimating {
+declare interface CDOTAPlayerController extends CBaseAnimating {
     /**
      * Attempt to spawn the appropriate couriers for this mode.
      */
-    CheckForCourierSpawning(hero: CDOTA_BaseNPC_Hero): void;
+    CheckForCourierSpawning(hero: CDOTA_BaseNPC_Hero): object;
     /**
      * Get the player's hero.
      */
@@ -7410,9 +7771,17 @@ declare interface CEntities {
      */
     First(): CBaseEntity;
     /**
-     * Get the local player.
+     * Get the local player controller (backcompat).
      */
-    GetLocalPlayer(): CDOTAPlayer;
+    GetLocalPlayer(): CDOTAPlayerController;
+    /**
+     * Get the local player controller.
+     */
+    GetLocalPlayerController(): object;
+    /**
+     * Get the local player pawn.
+     */
+    GetLocalPlayerPawn(): object;
     /**
      * Continue an iteration over the list of entities, providing reference to a
      * previously found entity.
@@ -7736,13 +8105,13 @@ declare interface Convars {
      *
      * @both
      */
-    GetCommandClient(): CDOTAPlayer;
+    GetCommandClient(): CDOTAPlayerController;
     /**
      * Returns the DOTA player who issued this console command.
      *
      * @both
      */
-    GetDOTACommandClient(): CDOTAPlayer;
+    GetDOTACommandClient(): CDOTAPlayerController;
     /**
      * Returns the convar as a float. May return null if no such convar.
      *
@@ -7864,25 +8233,34 @@ declare interface CPointEntity extends CBaseEntity {
     __kind__: 'instance';
 }
 
+/** @both */
 declare const CPointTemplate: DotaConstructor<CPointTemplate>;
 
 declare interface CPointTemplate extends CBaseEntity {
     /**
      * Deletes any spawn groups that this point_template has spawned. Note: The
      * point_template will not be deleted by this.
+     *
+     * @both
      */
     DeleteCreatedSpawnGroups(): void;
     /**
      * Spawns all of the entities the point_template is pointing at.
+     *
+     * @both
      */
     ForceSpawn(): void;
     /**
      * Get the list of the most recent spawned entities.
+     *
+     * @both
      */
     GetSpawnedEntities(): object;
     /**
      * Set a callback for when the template spawns entities. The spawned entities will
      * be passed in as an array.
+     *
+     * @both
      */
     SetSpawnCallback(callbackFunc: object, callbackScope: object): void;
     __kind__: 'instance';
@@ -8055,7 +8433,7 @@ declare interface CScriptParticleManager {
         particleName: string,
         particleAttach: ParticleAttachment_t,
         owner: CBaseEntity | undefined,
-        player: CDOTAPlayer,
+        player: CDOTAPlayerController,
     ): ParticleID;
     /**
      * Creates a new particle effect that only plays for the specified team.
@@ -8175,39 +8553,27 @@ declare const CTakeDamageInfo: DotaConstructor<CTakeDamageInfo>;
 declare interface CTakeDamageInfo {
     AddDamage(addAmount: number): void;
     AddDamageType(bitsDamageType: number): void;
-    AllowFriendlyFire(): boolean;
-    CanBeBlocked(): boolean;
     GetAmmoType(): number;
     GetAttacker(): object;
     GetDamage(): number;
     GetDamageCustom(): number;
     GetDamageForce(): Vector;
     GetDamagePosition(): Vector;
-    GetDamageTaken(): number;
     GetDamageType(): number;
     GetInflictor(): object;
-    GetMaxDamage(): number;
     GetOriginalDamage(): number;
-    GetRadius(): number;
     GetReportedPosition(): Vector;
-    GetStabilityDamage(): number;
     HasDamageType(bitsToTest: number): boolean;
     ScaleDamage(scaleAmount: number): void;
-    SetAllowFriendlyFire(allow: boolean): void;
     SetAmmoType(ammoType: number): void;
     SetAttacker(attacker: object): void;
-    SetCanBeBlocked(block: boolean): void;
     SetDamage(damage: number): void;
     SetDamageCustom(damageCustom: number): void;
     SetDamageForce(damageForce: Vector): void;
     SetDamagePosition(damagePosition: Vector): void;
-    SetDamageTaken(damageTaken: number): void;
     SetDamageType(bitsDamageType: number): void;
-    SetMaxDamage(maxDamage: number): void;
     SetOriginalDamage(originalDamage: number): void;
-    SetRadius(radius: number): void;
     SetReportedPosition(reportedPosition: Vector): void;
-    SetStabilityDamage(stabilityDamage: number): void;
     __kind__: 'instance';
 }
 
@@ -8685,7 +9051,7 @@ declare function CreateEffect(arg1: object): boolean;
  * Creates a DOTA hero by its dota_npc_units.txt name and sets it as the given
  * player's controlled hero.
  */
-declare function CreateHeroForPlayer(heroName: string, player: CDOTAPlayer): CDOTA_BaseNPC_Hero;
+declare function CreateHeroForPlayer(heroName: string, player: CDOTAPlayerController): CDOTA_BaseNPC_Hero;
 
 /**
  * Create an HTTP request.
@@ -8720,8 +9086,8 @@ declare function CreateIllusions(
  */
 declare function CreateItem(
     itemName: string,
-    owner: CDOTAPlayer | undefined,
-    purchaser: CDOTAPlayer | undefined,
+    owner: CDOTAPlayerController | undefined,
+    purchaser: CDOTAPlayerController | undefined,
 ): CDOTA_Item | undefined;
 
 /**
@@ -8798,7 +9164,8 @@ declare function CreateUniformRandomStream(seed: number): CScriptUniformRandomSt
  *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
  *                    will be automatically inferred from this entity. Can be
  *                    changed after spawn using SetOwner(entity). When spawning
- *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
+ *                    heroes, passing CDOTAPlayerController makes hero use owned
+ *                    wearables.
  */
 declare function CreateUnitByName(
     unitName: string,
@@ -8819,7 +9186,8 @@ declare function CreateUnitByName(
  *                    GetOwnerEntity(). GetPlayerOwner() and GetPlayerOwnerID()
  *                    will be automatically inferred from this entity. Can be
  *                    changed after spawn using SetOwner(entity). When spawning
- *                    heroes, passing CDOTAPlayer makes hero use owned wearables.
+ *                    heroes, passing CDOTAPlayerController makes hero use owned
+ *                    wearables.
  */
 declare function CreateUnitByNameAsync(
     unitName: string,
@@ -8869,7 +9237,7 @@ declare function DebugBreak(): void;
  * Creates a test unit controllable by the specified player.
  */
 declare function DebugCreateUnit(
-    playerOwner: CDOTAPlayer,
+    playerOwner: CDOTAPlayerController,
     unitName: string,
     team: DOTATeam_t,
     arg4: boolean,
@@ -9019,6 +9387,11 @@ declare function DeepPrintTable(table?: Record<any, any>): void;
  * Free a damageinfo object that was created with CreateDamageInfo().
  */
 declare function DestroyDamageInfo(damageInfo: CTakeDamageInfo): void;
+
+/**
+ * Kick a specific player from the game.
+ */
+declare function DisconnectClient(arg1: number, arg2: boolean): void;
 
 declare function DoCleaveAttack(
     attacker: CDOTA_BaseNPC,
@@ -9374,7 +9747,7 @@ declare function GetItemDefQuantity(arg1: number, arg2: number): number;
  *
  * @both
  */
-declare function GetListenServerHost(): CDOTAPlayer;
+declare function GetListenServerHost(): CDOTAPlayerController;
 
 declare function GetLobbyEventGameDetails(): object;
 
@@ -9390,7 +9763,7 @@ declare function GetLocalPlayerID(): PlayerID;
  *
  * @client
  */
-declare function GetLocalPlayerTeam(): DOTATeam_t;
+declare function GetLocalPlayerTeam(arg1: number): DOTATeam_t;
 
 /**
  * Get the name of the map.
@@ -9473,6 +9846,13 @@ declare function GetTeamName(team: DOTATeam_t): string;
 declare function GetTreeIdForEntityIndex(entityIndex: EntityIndex): number;
 
 /**
+ * Get unit data by ability name.
+ *
+ * @both
+ */
+declare function GetUnitKeyValuesByName(arg1: string): object;
+
+/**
  * Gets the world's maximum X position.
  */
 declare function GetWorldMaxX(): number;
@@ -9496,6 +9876,11 @@ declare function GetWorldMinY(): number;
  * Get amount of XP required to reach the next level.
  */
 declare function GetXPNeededToReachNextLevel(level: number): number;
+
+/**
+ * Max out a hero's level and give them all appropriate abilities and talents.
+ */
+declare function HeroMaxLevel(arg1: object): void;
 
 /**
  * @deprecated InitLogFile is deprecated. Print to the console for logging instead.
@@ -9662,11 +10047,18 @@ declare function Msg(message: string): void;
 declare function PauseGame(paused: boolean): void;
 
 /**
+ * Get the current float time from the engine.
+ *
+ * @both
+ */
+declare function Plat_FloatTime(): number;
+
+/**
  * Get a script instance of a player by index.
  *
  * @both
  */
-declare function PlayerInstanceFromIndex(entityIndex: EntityIndex): CDOTAPlayer | undefined;
+declare function PlayerInstanceFromIndex(entityIndex: EntityIndex): CDOTAPlayerController | undefined;
 
 /**
  * Precache an entity from KeyValues in table.
@@ -9734,6 +10126,13 @@ declare function PrecacheUnitFromTableSync(arg1: object, context: CScriptPrecach
  * @both
  */
 declare function PrintLinkedConsoleMessage(message: string, tooltip: string): void;
+
+/**
+ * Spherical lerp of angle from->to based on time.
+ *
+ * @both
+ */
+declare function QSlerp(from_angle: QAngle, to_angle: QAngle, time: number): QAngle;
 
 /**
  * Get a random float within a range.
@@ -9893,11 +10292,11 @@ declare function ScreenShake(
 ): void;
 
 declare function SendOverheadEventMessage(
-    sendToPlayer: CDOTAPlayer | undefined,
+    sendToPlayer: CDOTAPlayerController | undefined,
     messageType: DOTA_OVERHEAD_ALERT,
     targetEntity: CDOTA_BaseNPC,
     value: number,
-    sourcePlayer: CDOTAPlayer | undefined,
+    sourcePlayer: CDOTAPlayerController | undefined,
 ): void;
 
 /**
@@ -9988,6 +10387,19 @@ declare function ShowMessage(arg1: string): void;
 declare function SpawnDOTAShopTriggerRadiusApproximate(origin: Vector, radius: number): CDOTA_ShopTrigger;
 
 /**
+ * Spawn an effigy of the target unit.
+ */
+declare function SpawnEffigyOfUnitOrModel(
+    arg1: string,
+    arg2: number,
+    arg3: Vector,
+    arg4: Vector,
+    arg5: number,
+    arg6: number,
+    arg7: number,
+): object;
+
+/**
  * Asynchronously spawns a single entity from a table.
  *
  * @both
@@ -10022,6 +10434,17 @@ declare function SpawnEntityListFromTableAsynchronous(arg1: object, arg2: object
  * @both
  */
 declare function SpawnEntityListFromTableSynchronous(arg1: object): object;
+
+/**
+ * Spawn a mango tree.
+ */
+declare function SpawnMangoTree(
+    pos: Vector,
+    team: number,
+    duration: number,
+    mangoInterval: number,
+    initialMangoes: number,
+): object;
 
 /**
  * Very basic interpolation of v0 to v1 over t on [0,1].
@@ -10163,6 +10586,14 @@ declare function UnloadSpawnGroup(arg1: string): void;
 declare function UnloadSpawnGroupByHandle(handle: SpawnGroupHandle): void;
 
 declare function UpdateEventPoints(eventPointData: object): void;
+
+/**
+ * Turn a userid integer (typically, fields named 'userid' in game events) to an
+ * HScript representing the associated player controller's script instance.
+ *
+ * @both
+ */
+declare function UserIDToControllerHScript(arg1: number): object;
 
 /**
  * Sends colored text to one client.

@@ -1394,6 +1394,8 @@ interface CScriptBindingPR_Game {
 
     IsGamePaused(): boolean;
 
+    IsDayTime(): boolean;
+
     IsInToolsMode(): boolean;
 
     IsInBanPhase(): boolean;
@@ -1584,6 +1586,8 @@ interface CScriptBindingPR_Game {
     SetDotaRefractHeroes(bEnabled: boolean): void;
 
     FinishGame(): void;
+
+    LeaveCurrentGame(): void;
 
     Disconnect(): void;
 

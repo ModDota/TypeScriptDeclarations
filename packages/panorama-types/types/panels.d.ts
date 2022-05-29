@@ -159,6 +159,7 @@ interface Panel extends PanelBase {
 
     SetDraggable(draggable: boolean): void;
     IsDraggable(): boolean;
+    IsSizeValid(): boolean;
 
     GetChildCount(): number;
     GetChild(index: number): Panel | null;

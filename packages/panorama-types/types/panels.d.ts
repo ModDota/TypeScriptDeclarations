@@ -17,6 +17,7 @@ interface PanoramaPanelNameMap {
     DOTAHeroMovie: HeroMovie;
 
     DOTAScenePanel: ScenePanel;
+    DOTAParticleScenePanel: ParticleScenePanel;
     DOTAEconItem: EconItemPanel;
 
     ProgressBar: ProgressBar;
@@ -159,6 +160,7 @@ interface Panel extends PanelBase {
 
     SetDraggable(draggable: boolean): void;
     IsDraggable(): boolean;
+    IsSizeValid(): boolean;
 
     GetChildCount(): number;
     GetChild(index: number): Panel | null;
@@ -174,6 +176,7 @@ interface Panel extends PanelBase {
     FindChildTraverse(childId: string): Panel | null;
     FindChildInLayoutFile(childId: string): Panel | null;
     FindPanelInLayoutFile(id: string): Panel | null;
+    FindAncestor(id: string): Panel | null;
 
     RemoveAndDeleteChildren(): void;
 
@@ -207,14 +210,9 @@ interface Panel extends PanelBase {
     BHasDescendantKeyFocus(): boolean;
 
     BLoadLayout(path: string, overrideExisting: boolean, partialLayout: boolean): boolean;
-    BLoadLayoutFromString(layout: string, overrideExisting: boolean, partialLayout: boolean): boolean;
-    LoadLayoutFromStringAsync(layout: string, overrideExisting: boolean, partialLayout: boolean): void;
-    LoadLayoutAsync(path: string, overrideExisting: boolean, partialLayout: boolean): void;
 
     BLoadLayoutSnippet(snippetName: string): boolean;
     BHasLayoutSnippet(snippetName: string): boolean;
-
-    BCreateChildren(html: string): boolean;
 
     SetTopOfInputContext(): void; // ????
     SetDialogVariable(name: string, value: string): void;
@@ -248,12 +246,15 @@ interface Panel extends PanelBase {
 
     SetPositionInPixels(x: number, y: number, z: number): void;
 
-    Data(): object;
+    Data<T = object>(): T;
 }
 
 interface LabelPanel extends Panel {
     text: string;
     html: boolean;
+
+    SetLocString(token: string): void;
+    SetAlreadyLocalizedText(token: string): void;
 }
 
 type ScalingFunction =
@@ -309,9 +310,9 @@ interface ScenePanel extends Panel {
     SetUnit(unitName: string, environment: string, drawBackground: boolean): void;
     GetPanoramaSurfacePanel(): Panel | null;
     SetRotateParams(yawMin: number, yawMax: number, pitchMin: number, pitchMax: number): void;
-    SpawnHeroInScenePanelByPlayerSlot(unknown1: string, unknown2: number, unknown3: string): boolean;
-    SpawnHeroInScenePanelByHeroId(unknown1: number, unknown2: string, unknown3: number): boolean;
-    SetScenePanelToPlayerHero(unknown1: string, unknown2: number): boolean;
+    SpawnHeroInScenePanelByPlayerSlot(match_id: string, slot: number, entityName: string): boolean;
+    SpawnHeroInScenePanelByHeroId(heroID: number, entityName: string, econId: number): boolean;
+    SetScenePanelToPlayerHero(heroName: string, player: PlayerID): boolean;
     SetScenePanelToLocalHero(heroId: HeroID): boolean;
     SetPostProcessFade(value: number): void;
     /**
@@ -319,8 +320,18 @@ interface ScenePanel extends Panel {
      * scenePanel.SetCustomPostProcessMaterial("materials/dev/deferred_post_process_graphic_ui.vmat")
      */
     SetCustomPostProcessMaterial(material: string): void;
-    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(unknown1: string, unknown2: number): boolean;
-    LerpToCameraEntity(unknown1: string, unknown2: number): void;
+    SpawnHeroInScenePanelByPlayerSlotWithFullBodyView(heroName: string, player: PlayerID): boolean;
+    LerpToCameraEntity(entityName: string, duration: number): void;
+
+    ReloadScene(): void;
+    ClearScene(unknown1: boolean): void;
+}
+
+interface ParticleScenePanel extends ScenePanel {
+    StartParticles(): void;
+    StopParticlesImmediately(b: boolean): void;
+    StopParticlesWithEndcaps(): void;
+    SetControlPoint(cp: number, x: number, y: number, z: number): void;
 }
 
 interface EconItemPanel extends Panel {
@@ -507,4 +518,9 @@ interface HUDOverlayMap extends Panel {
     fixedoffsetenabled: boolean;
     SetFixedOffset(x: number, y: number): void;
     SetFixedBackgroundTexturePosition(size: number, x: number, y: number): void;
+}
+
+interface AnimatedImageStrip extends ImagePanel {
+    StartAnimating(): void;
+    StopAnimating(): void;
 }

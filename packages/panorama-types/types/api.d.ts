@@ -1394,6 +1394,8 @@ interface CScriptBindingPR_Game {
 
     IsGamePaused(): boolean;
 
+    IsDayTime(): boolean;
+
     IsInToolsMode(): boolean;
 
     IsInBanPhase(): boolean;
@@ -1584,6 +1586,8 @@ interface CScriptBindingPR_Game {
     SetDotaRefractHeroes(bEnabled: boolean): void;
 
     FinishGame(): void;
+
+    LeaveCurrentGame(): void;
 
     Disconnect(): void;
 
@@ -1822,6 +1826,8 @@ interface DollarStatic {
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
     Each<T>(map: { [key: string]: T }, callback: (value: T, key: string) => void): void;
     Each<T>(map: { [key: number]: T }, callback: (value: T, key: number) => void): void;
+
+    /** @deprecated */
     AsyncWebRequest(url: string, data: AsyncWebRequestData): void;
 
     /**

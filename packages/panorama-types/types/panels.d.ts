@@ -519,3 +519,8 @@ interface HUDOverlayMap extends Panel {
     SetFixedOffset(x: number, y: number): void;
     SetFixedBackgroundTexturePosition(size: number, x: number, y: number): void;
 }
+
+interface AnimatedImageStrip extends ImagePanel {
+    StartAnimating(): void;
+    StopAnimating(): void;
+}

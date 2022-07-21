@@ -3394,7 +3394,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     /**
      * Get the parent for this item.
      */
-    GetParent(): object;
+    GetParent(): CDOTA_BaseNPC;
     /**
      * Get the purchaser for this item.
      */

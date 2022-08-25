@@ -102,6 +102,7 @@ interface GameEventDeclarations {
      */
     hltv_chat: HltvChatEvent;
     hltv_versioninfo: HltvVersioninfoEvent;
+    hltv_replay: HltvReplayEvent;
     demo_start: DemoStartEvent;
     demo_stop: object;
     demo_skip: DemoSkipEvent;
@@ -149,10 +150,6 @@ interface GameEventDeclarations {
     spec_target_updated: SpecTargetUpdatedEvent;
     spec_mode_updated: SpecModeUpdatedEvent;
     entity_visible: EntityVisibleEvent;
-    /**
-     * The player pressed use but a use entity wasn't found.
-     */
-    player_use_miss: PlayerUseMissEvent;
     gameinstructor_draw: object;
     gameinstructor_nodraw: object;
     flare_ignite_npc: FlareIgniteNpcEvent;
@@ -361,13 +358,11 @@ interface GameEventDeclarations {
     hero_picker_shown: object;
     hero_picker_hidden: object;
     dota_local_quickbuy_changed: object;
-    show_center_message: ShowCenterMessageEvent;
     hud_flip_changed: HudFlipChangedEvent;
     frosty_points_updated: object;
     defeated: DefeatedEvent;
     reset_defeated: object;
     booster_state_updated: object;
-    custom_game_difficulty: CustomGameDifficultyEvent;
     tree_cut: TreeCutEvent;
     ugc_details_arrived: UgcDetailsArrivedEvent;
     ugc_subscribed: UgcSubscribedEvent;
@@ -430,6 +425,7 @@ interface GameEventDeclarations {
     dota_hero_teleport_to_unit: DotaHeroTeleportToUnitEvent;
     dota_neutral_creep_camp_cleared: DotaNeutralCreepCampClearedEvent;
     dota_watch_tower_captured: DotaWatchTowerCapturedEvent;
+    dota_team_kill_credit: DotaTeamKillCreditEvent;
     npc_spawned: NpcSpawnedEvent;
     npc_spawn_finished: NpcSpawnFinishedEvent;
     npc_replaced: NpcReplacedEvent;
@@ -442,7 +438,6 @@ interface GameEventDeclarations {
      * The specified channel has had players leave or join.
      */
     chat_members_changed: ChatMembersChangedEvent;
-    dota_team_kill_credit: DotaTeamKillCreditEvent;
 }
 /**
  * Send once a server starts.
@@ -924,6 +919,17 @@ interface HltvVersioninfoEvent {
     version: number;
 }
 
+interface HltvReplayEvent {
+    /**
+     * Number of seconds in killer replay delay.
+     */
+    delay: number;
+    /**
+     * Reason for replay    (ReplayEventType_t).
+     */
+    reason: number;
+}
+
 interface DemoStartEvent {
     /**
      * CSVCMsgList_GameEvents that are combat log events.
@@ -1223,16 +1229,6 @@ interface EntityVisibleEvent {
      * Name of the entity they see.
      */
     entityname: string;
-}
-
-/**
- * The player pressed use but a use entity wasn't found.
- */
-interface PlayerUseMissEvent {
-    /**
-     * Playerslot of user.
-     */
-    userid: EntityIndex;
 }
 
 interface FlareIgniteNpcEvent {
@@ -1673,6 +1669,7 @@ interface DotaPlayerTakeTowerDamageEvent {
 interface DotaHudErrorMessageEvent {
     reason: number;
     message: string;
+    sequenceNumber: number;
 }
 
 interface DotaTeamNeutralStashItemsChangedEvent {
@@ -2093,22 +2090,12 @@ interface AntiaddictionToastEvent {
     duration: number;
 }
 
-interface ShowCenterMessageEvent {
-    message: string;
-    duration: number;
-    clear_message_queue: 0 | 1;
-}
-
 interface HudFlipChangedEvent {
     flipped: 0 | 1;
 }
 
 interface DefeatedEvent {
     entindex: EntityIndex;
-}
-
-interface CustomGameDifficultyEvent {
-    difficulty: number;
 }
 
 interface TreeCutEvent {
@@ -2367,6 +2354,13 @@ interface DotaWatchTowerCapturedEvent {
     old_team_number: number;
 }
 
+interface DotaTeamKillCreditEvent {
+    killer_userid: EntityIndex;
+    victim_userid: EntityIndex;
+    teamnumber: number;
+    herokills: number;
+}
+
 interface NpcSpawnedEvent {
     entindex: EntityIndex;
     is_respawn: number;
@@ -2401,11 +2395,4 @@ interface ChatNewMessageEvent {
  */
 interface ChatMembersChangedEvent {
     channel: number;
-}
-
-interface DotaTeamKillCreditEvent {
-    killer_userid: EntityIndex;
-    victim_userid: EntityIndex;
-    teamnumber: number;
-    herokills: number;
 }

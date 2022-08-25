@@ -206,6 +206,10 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     GetHealth(): number;
     /**
+     * Get the left vector of the entity.
+     */
+    GetLeftVector(): Vector;
+    /**
      * Get entity local pitch, yaw, roll as a QAngle.
      */
     GetLocalAngles(): QAngle;
@@ -250,7 +254,9 @@ declare interface CBaseEntity extends CEntityInstance {
      */
     GetOwnerEntity(): CBaseEntity;
     /**
-     * Get the right vector of the entity.
+     * Get the right vector of the entity. WARNING: This produces a left-handed
+     * coordinate system. Use GetLeftVector instead (which is aligned with the y axis
+     * of the entity).
      */
     GetRightVector(): Vector;
     /**
@@ -797,7 +803,7 @@ declare interface CDebugOverlayScriptHelper {
      *
      * @both
      */
-    Axis(arg1: Vector, arg2: never, arg3: number, arg4: boolean, arg5: number): void;
+    Axis(arg1: Vector, arg2: unknown, arg3: number, arg4: boolean, arg5: number): void;
     /**
      * Draws a world-space axis-aligned box. Specify bounds in world space.
      *
@@ -822,7 +828,7 @@ declare interface CDebugOverlayScriptHelper {
         arg1: Vector,
         arg2: Vector,
         arg3: Vector,
-        arg4: never,
+        arg4: unknown,
         arg5: number,
         arg6: number,
         arg7: number,
@@ -837,7 +843,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Capsule(
         arg1: Vector,
-        arg2: never,
+        arg2: unknown,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -854,7 +860,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Circle(
         arg1: Vector,
-        arg2: never,
+        arg2: unknown,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -932,7 +938,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Cross3DOriented(
         arg1: Vector,
-        arg2: never,
+        arg2: unknown,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -1119,7 +1125,7 @@ declare interface CDebugOverlayScriptHelper {
         arg2: Vector,
         arg3: Vector,
         arg4: Vector,
-        arg5: never,
+        arg5: unknown,
         arg6: number,
         arg7: number,
         arg8: number,
@@ -1182,7 +1188,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     VectorText3D(
         arg1: Vector,
-        arg2: never,
+        arg2: unknown,
         arg3: string,
         arg4: number,
         arg5: number,
@@ -1305,6 +1311,8 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * @both
      */
     CastFilterResultTarget(target: CDOTA_BaseNPC): UnitFilterResult;
+    /** @both */
+    GetAbilityChargeRestoreTime(level: number): number;
     /**
      * Allows code overriding of the ability texture shown in the HUD.
      *
@@ -1422,6 +1430,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetPlaybackRateOverride(): number;
     /**
+     * Is this ability an Attribute Bonus.
+     *
+     * @both
+     */
+    IsAttributeBonus(): boolean;
+    /**
      * Is this a cosmetic only ability?
      */
     IsCosmetic(entity: object): boolean;
@@ -1455,6 +1469,7 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * The ability was pinged.
      */
     OnAbilityPinged(playerId: PlayerID, ctrlHeld: boolean): void;
+    OnAbilityUpgrade(upgradeAbility: object): void;
     /**
      * Channel finished.
      */
@@ -2526,7 +2541,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Remove mana from this unit, this can be used for involuntary mana loss, not for
      * mana that is spent.
      */
-    ReduceMana(amount: number): void;
+    ReduceMana(amount: number): number;
     /**
      * Remove an ability from this unit by name.
      */
@@ -4454,6 +4469,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierExtraManaBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierExtraManaPercentage?(): void;
     /**
      * @abstract
@@ -4555,6 +4575,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierInvisibilityLevel?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIsRatPack?(): void;
     /**
      * @abstract
      * @both
@@ -4965,6 +4990,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierSpellRedirectTarget?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierSpellsRequireHP?(): number;
     /**
      * @abstract
@@ -5031,6 +5061,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierTurnRate_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTurnRateConstant?(): void;
     /**
      * @abstract
      * @both
@@ -5473,6 +5508,7 @@ declare interface CDOTA_PlayerResource extends CBaseEntity {
     ClearKillsMatrix(playerId: PlayerID): void;
     ClearLastHitMultikill(playerId: PlayerID): void;
     ClearLastHitStreak(playerId: PlayerID): void;
+    ClearPlayer(playerId: PlayerID): void;
     ClearRawPlayerDamageMatrix(playerId: PlayerID): void;
     ClearStreak(playerId: PlayerID): void;
     GetAegisPickups(playerId: PlayerID): number;
@@ -5799,11 +5835,13 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     ContinueCasting(): boolean;
     CreateVisibilityNode(location: Vector, radius: number, duration: number): void;
     DecrementModifierRefCount(): void;
+    EnableAbilityChargesOnTalentUpgrade(ability: object, talentName: string): void;
     EndChannel(interrupted: boolean): void;
     /**
      * Clear the cooldown remaining on this ability.
      */
     EndCooldown(): void;
+    GetAbilityChargeRestoreTime(level: number): number;
     GetAbilityDamage(): number;
     GetAbilityDamageType(): DAMAGE_TYPES;
     GetAbilityIndex(): number;
@@ -5878,6 +5916,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      */
     GetEffectiveCastRange(location: Vector, target: object): number;
     GetEffectiveCooldown(level: number): number;
+    GetEffectiveManaCost(level: number): number;
     GetGoldCost(level: number): number;
     GetGoldCostForUpgrade(level: number): number;
     GetHeroLevelRequiredToUpgrade(): number;
@@ -5984,10 +6023,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     ProcsMagicStick(): boolean;
     RefCountsModifiers(): boolean;
     RefreshCharges(): void;
-    /**
-     * Returns true if ability has intrinsic modifier.
-     */
-    RefreshIntrinsicModifier(): boolean;
+    RefreshIntrinsicModifier(): void;
     RefundManaCost(): void;
     RequiresFacing(): boolean;
     ResetToggleOnRespawn(): boolean;
@@ -6117,6 +6153,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Are in-game announcers disabled?
      */
     GetAnnouncerDisabled(): boolean;
+    /**
+     * Is the announcer announcing the mode / saying Choose Your Hero on start of
+     * custom games disabled?
+     */
+    GetAnnouncerGameModeAnnounceDisabled(): boolean;
     /**
      * Set a different camera distance; dota default is 1134.
      */
@@ -6307,6 +6348,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetAnnouncerDisabled(disabled: boolean): void;
     /**
+     * Disables the announcer announcing the mode / saying Choose Your Hero on start
+     * of custom games.
+     */
+    SetAnnouncerGameModeAnnounceDisabled(disabled: boolean): void;
+    /**
      * Set if the bots should try their best to push with a human player.
      */
     SetBotsAlwaysPushWithHuman(alwaysPush: boolean): void;
@@ -6433,6 +6479,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * hero dies.
      */
     SetDeathOverlayDisabled(disabled: boolean): void;
+    /**
+     * Disables chat tips on death.
+     */
+    SetDeathTipsDisabled(disabled: boolean): void;
     /**
      * Sets the default sticky item in the quickbuy.
      */
@@ -7082,6 +7132,14 @@ declare interface CDOTAGameRules {
      */
     IsNightstalkerNight(): boolean;
     /**
+     * Returns whether Dota Plus ability suggestions are enabled or disabled.
+     */
+    IsSuggestAbilitiesEnabled(): boolean;
+    /**
+     * Returns whether Dota Plus item suggestions are enabled or disabled.
+     */
+    IsSuggestItemsEnabled(): boolean;
+    /**
      * Is it temporarily night-time?
      */
     IsTemporaryNight(): boolean;
@@ -7153,6 +7211,10 @@ declare interface CDOTAGameRules {
      * Restart gametime from 0.
      */
     ResetGameTime(): void;
+    /**
+     * Resets the player of a given ID.
+     */
+    ResetPlayer(arg1: number): void;
     /**
      * Restart at custom game setup.
      */
@@ -7336,6 +7398,18 @@ declare interface CDOTAGameRules {
      */
     SetOverlayHealthBarUnit(unit: CDOTA_BaseNPC, style: number): void;
     /**
+     * Set columns to show in post game.
+     */
+    SetPostGameColumns(arg1: object): boolean;
+    /**
+     * Configure post game to be single or double column layout.
+     */
+    SetPostGameLayout(arg1: number): void;
+    /**
+     * Set score value for each team. First element is for DOTA_TEAM_GOODGUYS.
+     */
+    SetPostGameTeamScores(arg1: object): boolean;
+    /**
      * Sets the amount of time players have between the game ending and the server
      * disconnecting them.
      */
@@ -7382,6 +7456,14 @@ declare interface CDOTAGameRules {
      * the showcase phase.
      */
     SetStrategyTime(time: number): void;
+    /**
+     * Sets Dota Plus ability suggestions enabled or disabled.
+     */
+    SetSuggestAbilitiesEnabled(arg1: boolean): void;
+    /**
+     * Sets Dota Plus ability item enabled or disabled.
+     */
+    SetSuggestItemsEnabled(arg1: boolean): void;
     /**
      * Set the time of day.
      */

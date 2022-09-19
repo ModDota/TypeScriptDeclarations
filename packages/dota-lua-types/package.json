@@ -21,10 +21,11 @@
     "transformer/index.{js,d.ts}"
   ],
   "dependencies": {
-    "lua-types": "^2.10.1",
+    "lua-types": "^2.13.0",
     "tslib": "^2.0.3"
   },
   "peerDependencies": {
+    "@typescript-to-lua/language-extensions": "^1.0.0",
     "typescript": "^3.0.0 || ^4.0.0",
     "typescript-to-lua": "0.42.0 || ^1.0.0"
   }

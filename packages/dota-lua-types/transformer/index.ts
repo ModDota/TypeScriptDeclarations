@@ -32,7 +32,7 @@ const replaceNode: ts.Visitor = (node) => {
   }
 
   if (Object.prototype.hasOwnProperty.call(enumMembers, nameText)) {
-    return ts.createIdentifier(enumMembers[nameText]);
+    return ts.factory.createIdentifier(enumMembers[nameText]);
   }
 };
 

@@ -344,7 +344,7 @@ interface CDOTA_PanoramaScript_CustomNetTables {
     GetTableValue<
         TName extends keyof CustomNetTableDeclarations,
         T extends CustomNetTableDeclarations[TName],
-        K extends keyof T
+        K extends keyof T,
     >(
         pTableName: TName,
         pKeyName: K,
@@ -362,7 +362,7 @@ interface CDOTA_PanoramaScript_CustomNetTables {
      */
     SubscribeNetTableListener<
         TName extends keyof CustomNetTableDeclarations,
-        T extends CustomNetTableDeclarations[TName]
+        T extends CustomNetTableDeclarations[TName],
     >(
         tableName: TName,
         callback: (tableName: TName, key: keyof T, value: NetworkedData<T[keyof T]>) => void,

@@ -1,8 +1,14 @@
 {
-  "extends": "@ark120202/typescript-config/base.json",
   "files": ["index.d.ts"],
   "compilerOptions": {
     "noEmit": true,
-    "lib": ["esnext"]
+    "lib": ["esnext"],
+
+    "strict": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   }
 }

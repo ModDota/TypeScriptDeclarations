@@ -775,7 +775,7 @@ declare interface CCustomNetTableManager {
     GetTableValue<
         TName extends keyof CustomNetTableDeclarations,
         T extends CustomNetTableDeclarations[TName],
-        K extends keyof T
+        K extends keyof T,
     >(
         tableName: TName,
         keyName: K,
@@ -783,7 +783,7 @@ declare interface CCustomNetTableManager {
     SetTableValue<
         TName extends keyof CustomNetTableDeclarations,
         T extends CustomNetTableDeclarations[TName],
-        K extends keyof T
+        K extends keyof T,
     >(
         tableName: TName,
         keyName: K,
@@ -9590,7 +9590,7 @@ declare function Dynamic_Wrap<
                     : never
                 : never
             : never;
-    }[keyof T]
+    }[keyof T],
 >(context: T, name: K): T[K];
 
 /**

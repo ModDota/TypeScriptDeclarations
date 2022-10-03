@@ -43,12 +43,14 @@ interface GameEventDeclarations {
     player_spawn: PlayerSpawnEvent;
     player_team: PlayerTeamEvent;
     local_player_team: object;
+    local_player_controller_team: object;
     player_changename: PlayerChangenameEvent;
     player_hurt: PlayerHurtEvent;
     /**
      * A public player chat.
      */
     player_chat: PlayerChatEvent;
+    local_player_pawn_changed: object;
     /**
      * Emits a sound to everyone on a team.
      */

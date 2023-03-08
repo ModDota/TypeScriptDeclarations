@@ -313,10 +313,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@moddota/dota-data@^0.29.1":
-  "integrity" "sha512-LLErQNlpbpP55eY+T5AhtECLTJdsQJ2fEX0AEqREfbQDJKMc7nZFCEFsHVOOaN6nZZKnSYM7aetP1nN3qMaZQQ=="
-  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.29.1.tgz"
-  "version" "0.29.1"
+"@moddota/dota-data@^0.31.1":
+  "integrity" "sha512-NQJzn1m2B6EIyMPrRdFQl8UcL/Q5QM/Ja/yLWWSCqbSLTksREPlgq7zRi6HTxg7ijPmliUlLR3KxNWgzYMgAjA=="
+  "resolved" "https://registry.npmjs.org/@moddota/dota-data/-/dota-data-0.31.1.tgz"
+  "version" "0.31.1"
   dependencies:
     "fs-extra" "^9.0.1"
     "got" "^11.6.0"
@@ -326,7 +326,7 @@
 
 "@moddota/dota-lua-types@file:C:\\dev\\TypeScriptDeclarations\\packages\\dota-lua-types":
   "resolved" "file:packages/dota-lua-types"
-  "version" "4.21.0"
+  "version" "4.21.1"
   dependencies:
     "lua-types" "^2.13.0"
 
@@ -1567,9 +1567,9 @@
   "version" "2.8.9"
 
 "http-cache-semantics@^4.0.0":
-  "integrity" "sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ=="
-  "resolved" "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz"
-  "version" "4.1.0"
+  "integrity" "sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ=="
+  "resolved" "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz"
+  "version" "4.1.1"
 
 "http2-wrapper@^1.0.0-beta.5.2":
   "integrity" "sha512-V+23sDMr12Wnz7iTcDeJr3O6AIxlnvT/bmaAAAP/Xda35C90p9599p0F1eHR/N1KILWSoWVAiOMFjBBXaXSMxg=="
@@ -1792,16 +1792,16 @@
   "version" "1.0.1"
 
 "json5@^1.0.1":
-  "integrity" "sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow=="
-  "resolved" "https://registry.npmjs.org/json5/-/json5-1.0.1.tgz"
-  "version" "1.0.1"
+  "integrity" "sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA=="
+  "resolved" "https://registry.npmjs.org/json5/-/json5-1.0.2.tgz"
+  "version" "1.0.2"
   dependencies:
     "minimist" "^1.2.0"
 
 "json5@^2.2.1":
-  "integrity" "sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA=="
-  "resolved" "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
-  "version" "2.2.1"
+  "integrity" "sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg=="
+  "resolved" "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
+  "version" "2.2.3"
 
 "jsonfile@^6.0.1":
   "integrity" "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ=="

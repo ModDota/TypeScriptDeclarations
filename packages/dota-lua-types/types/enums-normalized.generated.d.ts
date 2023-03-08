@@ -8,7 +8,7 @@ declare const DOTA_ITEM_STASH_MIN: 9;
 
 declare const DOTA_ITEM_STASH_SIZE: 6;
 
-declare const DOTA_MAX_ABILITIES: 32;
+declare const DOTA_MAX_ABILITIES: 35;
 
 declare const FIND_UNITS_EVERYWHERE: -1;
 
@@ -81,13 +81,29 @@ declare const enum Attributes {
     MAX = 3,
 }
 
+/**
+ * @deprecated Non-normalized enum name. Defined only for library compatibility.
+ */
+type CLICK_BEHAVIORS = ClickBehaviors;
+
+declare const enum ClickBehaviors {
+    NONE = 0,
+    MOVE = 1,
+    ATTACK = 2,
+    CAST = 3,
+    DROP_ITEM = 4,
+    DROP_SHOP_ITEM = 5,
+    DRAG = 6,
+    LEARN_ABILITY = 7,
+    PATROL = 8,
+    VECTOR_CAST = 9,
+    UNUSED = 10,
+    RADAR = 11,
+    LAST = 12,
+}
+
 declare const enum ConVarFlags {
     NONE = 0,
-    /**
-     * If this is set, the convar will become anonymous and won't show up in the
-     * 'find' results.
-     */
-    UNREGISTERED = 1,
     DEVELOPMENTONLY = 2,
     HIDDEN = 16,
     /**
@@ -122,24 +138,11 @@ declare const enum ConVarFlags {
      */
     USERINFO = 512,
     /**
-     * Forces the ConVar to only have printable characters (no control characters).
-     *
-     * Reported as "print" by cvarlist.
-     */
-    PRINTABLEONLY = 1024,
-    /**
      * Don't log the ConVar changes to console/log files/users.
      *
      * Reported as "log" by cvarlist.
      */
     UNLOGGED = 2048,
-    /**
-     * Tells the engine to never print this variable as a string since it contains
-     * control sequences.
-     *
-     * Reported as "numeric" by cvarlist.
-     */
-    NEVER_AS_STRING = 4096,
     /**
      * For serverside ConVars, it will send its value to all clients. The ConVar with
      * the same name must also exist on the client!
@@ -153,7 +156,7 @@ declare const enum ConVarFlags {
      * Reported as "cheat" by cvarlist.
      */
     CHEAT = 16384,
-    SS = 32768,
+    PER_USER = 32768,
     /**
      * Force the ConVar to be recorded by demo recordings.
      *
@@ -170,7 +173,7 @@ declare const enum ConVarFlags {
      * Makes the ConVar not changeable while connected to a server or in singleplayer.
      */
     NOT_CONNECTED = 4194304,
-    VCONSOLE_SET_FOCUS = 1073741824,
+    VCONSOLE_SET_FOCUS = 134217728,
 }
 
 /**
@@ -207,6 +210,7 @@ declare const enum AbilityBehavior {
     LAST_RESORT_POINT = -2147483648,
     CAN_SELF_CAST = 0,
     FREE_DRAW_TARGETING = 0,
+    IGNORE_MUTED = 0,
     IGNORE_SILENCE = 0,
     NONE = 0,
     OVERSHOOT = 0,
@@ -364,6 +368,134 @@ declare const enum HeroPickState {
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
  */
+type DOTA_INVALID_ORDERS = InvalidOrders;
+
+declare const enum InvalidOrders {
+    ORDER_SUCCESS = -1,
+    INVALID_ORDER_NOT_CONTROLLABLE_BY_PLAYER = 0,
+    INVALID_ORDER_UNIT_IS_NOT_NPC = 1,
+    INVALID_ORDER_BAD_ABILITY_ENTITY = 2,
+    INVALID_ORDER_UNRECOGNIZED_ORDER = 3,
+    INVALID_ORDER_ABILITY_REQUIRED = 4,
+    INVALID_ORDER_NPC_TARGET_REQUIRED = 5,
+    INVALID_ORDER_TARGET_TREE_INDEX_NOT_A_TREE = 6,
+    INVALID_ORDER_TARGET_ENTITY_INDEX_OUT_OF_RANGE = 7,
+    INVALID_ORDER_ABILITY_NOT_AN_ITEM = 8,
+    INVALID_ORDER_PHYSICAL_ITEM_TARGET_REQUIRED = 9,
+    INVALID_ORDER_RUNE_TARGET_REQUIRED = 10,
+    INVALID_ORDER_ABILITY_NOT_OWNED_BY_UNIT = 11,
+    INVALID_ORDER_ABILITY_CANT_BE_UPGRADED = 12,
+    INVALID_ORDER_NO_POINTS_FOR_ABILITY_UPGRADE = 13,
+    INVALID_ORDER_NOT_ENOUGH_MANA = 14,
+    INVALID_ORDER_ABILITY_IN_COOLDOWN = 15,
+    INVALID_ORDER_ABILITY_NOT_LEARNED = 16,
+    INVALID_ORDER_CANT_CAST_PASSIVE_ABILITY = 17,
+    INVALID_ORDER_PHANTOM_TARGET = 18,
+    INVALID_ORDER_DEAD_TARGET = 19,
+    INVALID_ORDER_UNIT_IS_DEAD = 20,
+    INVALID_ORDER_TARGET_MAGIC_IMMUNE_ENEMY = 21,
+    INVALID_ORDER_TARGET_INVULNERABLE = 22,
+    INVALID_ORDER_TARGET_ATTACK_IMMUNE = 23,
+    INVALID_ORDER_UNIT_SILENCED = 24,
+    INVALID_ORDER_ABILITY_CANT_BE_TOGGLED = 25,
+    INVALID_ORDER_TARGET_CANT_BE_SEEN = 26,
+    INVALID_ORDER_TARGET_INVISIBLE = 27,
+    INVALID_ORDER_HERO_CANT_BE_DENIED = 28,
+    INVALID_ORDER_CANT_CAST_ON_TEAMMATE = 29,
+    INVALID_ORDER_CANT_CAST_ON_ENEMY = 30,
+    INVALID_ORDER_UNIT_CANT_MOVE = 31,
+    INVALID_ORDER_CANT_CAST_ON_ATTACK_IMMUNE = 32,
+    INVALID_ORDER_PURCHASE_INVALID_ITEM = 33,
+    INVALID_ORDER_ITEM_NOT_IN_INVENTORY = 34,
+    INVALID_ORDER_ITEM_NOT_IN_UNIT_INVENTORY = 35,
+    INVALID_ORDER_TARGET_UNSELECTABLE = 36,
+    INVALID_ORDER_ITEM_NOT_IN_ACTIVE_INVENTORY = 37,
+    INVALID_ORDER_UNIT_CANT_PICK_UP_RUNES = 38,
+    INVALID_ORDER_UNIT_CANT_MANIPULATE_ITEMS = 39,
+    INVALID_ORDER_UNIT_IS_ILLUSION = 40,
+    INVALID_ORDER_UNIT_CANT_ATTACK = 41,
+    INVALID_ORDER_ITEM_CANT_BE_DROPPED = 42,
+    INVALID_ORDER_TARGET_TREE_NOT_ACTIVE = 43,
+    INVALID_ORDER_ABILITY_CANT_AUTO_CAST = 44,
+    INVALID_ORDER_TARGET_POSITION_OFF_MAP = 45,
+    INVALID_ORDER_UNIT_CANT_MOVE_TARGET_OUT_OF_RANGE = 46,
+    INVALID_ORDER_CANT_CAST_ON_HERO = 47,
+    INVALID_ORDER_CANT_CAST_ON_OTHER = 48,
+    INVALID_ORDER_CANT_CAST_ON_BUILDING = 49,
+    INVALID_ORDER_CANT_CAST_ON_ANCIENT = 50,
+    INVALID_ORDER_ITEM_CANT_BE_MOVED_TO_STASH = 51,
+    INVALID_ORDER_ITEM_CANT_BE_MOVED_TO_SLOT = 52,
+    INVALID_ORDER_CANT_CAST_ON_MECHANICAL = 53,
+    INVALID_ORDER_CANT_ACCEPT_ATTACK_TARGET = 54,
+    INVALID_ORDER_CANT_CAST_NO_CHARGES = 55,
+    INVALID_ORDER_CANT_CAST_ON_CREEP = 56,
+    INVALID_ORDER_TARGET_CANT_TAKE_ITEMS = 57,
+    INVALID_ORDER_CANT_GIVE_ITEM_TO_ENEMY = 58,
+    INVALID_ORDER_CANT_CAST_ON_COURIER = 59,
+    INVALID_ORDER_ABILITY_IS_HIDDEN = 60,
+    INVALID_ORDER_ITEM_IN_COOLDOWN = 61,
+    INVALID_ORDER_SECRET_SHOP_NOT_IN_RANGE = 62,
+    INVALID_ORDER_NOT_ENOUGH_GOLD = 63,
+    INVALID_ORDER_PURCHASE_AUTOCOMBINE_RECIPE = 64,
+    INVALID_ORDER_CANT_DENY_HEALTH_TOO_HIGH = 65,
+    INVALID_ORDER_SIDE_SHOP_NOT_IN_RANGE = 66,
+    INVALID_ORDER_HOME_SHOP_NOT_IN_RANGE = 67,
+    INVALID_ORDER_CANT_PICK_UP_ITEM = 68,
+    INVALID_ORDER_CANT_SELL_NO_SHOP_IN_RANGE = 69,
+    INVALID_ORDER_CANT_SELL_ITEM = 70,
+    INVALID_ORDER_CANT_SELL_ITEM_WHILE_DEAD = 71,
+    INVALID_ORDER_TARGET_CANT_BE_DENIED = 72,
+    INVALID_ORDER_ABILITY_DISABLED_BY_ROOT = 73,
+    INVALID_ORDER_UNIT_COMMAND_RESTRICTED = 74,
+    INVALID_ORDER_UNIT_MUTED = 75,
+    INVALID_ORDER_CANT_CAST_ON_SUMMONED = 76,
+    INVALID_ORDER_TARGET_MAGIC_IMMUNE_ALLY = 77,
+    INVALID_ORDER_CANT_PURCHASE_DISALLOWED_ITEM = 78,
+    INVALID_ORDER_CANT_CAST_ON_DOMINATED = 79,
+    INVALID_ORDER_CAST_CUSTOM = 80,
+    INVALID_ORDER_ITEM_NOT_DISASSEMBLABLE = 81,
+    INVALID_ORDER_ITEM_OUT_OF_STOCK = 82,
+    INVALID_ORDER_ABILITY_CANT_BE_UPGRADED_AT_MAX = 83,
+    INVALID_ORDER_ABILITY_INACTIVE = 84,
+    INVALID_ORDER_ITEM_NOT_IN_MAIN_INVENTORY = 85,
+    INVALID_ORDER_CANT_GLYPH = 86,
+    INVALID_ORDER_CANT_DRAG_CHANNELING_ITEM = 87,
+    INVALID_ORDER_CANT_BUYBACK_UNIT_NOT_A_HERO = 88,
+    INVALID_ORDER_CANT_BUYBACK_UNIT_NOT_DEAD = 89,
+    INVALID_ORDER_CANT_BUYBACK_NOT_ENOUGH_GOLD = 90,
+    INVALID_ORDER_CANT_BUYBACK_IN_COOLDOWN = 91,
+    INVALID_ORDER_CANT_DISASSEMBLE_STASH_OUT_OF_RANGE = 92,
+    INVALID_ORDER_CANT_EJECT_ITEM_NOT_IN_STASH = 93,
+    INVALID_ORDER_GAME_IS_PAUSED = 94,
+    INVALID_ORDER_CANT_CAST_ON_CONSIDERED_HERO = 95,
+    INVALID_ORDER_CANT_SHOP_AUTO_BUY_ENABLED = 96,
+    INVALID_ORDER_ONLY_DELIBERATE_CHANNELING_CANCEL = 97,
+    INVALID_ORDER_CANT_BUYBACK_REAPERS_SCYTHE = 98,
+    INVALID_ORDER_CANT_BUYBACK_DISABLED_BY_GAME_MODE = 99,
+    INVALID_ORDER_CANT_ABILITY_PING_BAD_TEAM = 100,
+    INVALID_ORDER_ABILITY_NOT_POSITIONED = 101,
+    INVALID_ORDER_ABILITY_NOT_TARGETTED = 102,
+    INVALID_ORDER_ABILITY_REQUIRES_TARGET = 103,
+    INVALID_ORDER_CANT_RADAR = 104,
+    INVALID_ORDER_NO_COURIER = 105,
+    INVALID_ORDER_CUSTOM_SHOP_NOT_IN_RANGE = 106,
+    INVALID_ORDER_CANT_CAST_RIVER_PAINT = 107,
+    INVALID_ORDER_UNIT_OBSTRUCTED = 108,
+    INVALID_ORDER_CANT_CAST_DRAG_REQUIRED = 109,
+    INVALID_ORDER_ABILITY_DISABLED_BY_TETHER = 110,
+    INVALID_ORDER_ABILITY_NOT_UNLOCKED = 111,
+    INVALID_ORDER_CANT_FOUNTAIN_DROP_UNIT_NOT_DEAD = 112,
+    INVALID_ORDER_ITEM_NOT_IN_NEUTRAL_ITEM_STASH = 113,
+    INVALID_ORDER_ITEM_ALREADY_PURCHASED = 114,
+    INVALID_ORDER_BEYOND_PHYSICAL_ITEM_LIMIT = 115,
+    INVALID_ORDER_ABILITY_PING_DEAD_ALLY = 116,
+    INVALID_ORDER_CANT_LOCKCOMBINE_NEUTRAL_ITEMS = 117,
+    INVALID_ORDER_COUNT = 118,
+}
+
+/**
+ * @deprecated Non-normalized enum name. Defined only for library compatibility.
+ */
 type DOTA_MOTION_CONTROLLER_PRIORITY = MotionControllerPriority;
 
 declare const enum MotionControllerPriority {
@@ -502,6 +634,7 @@ declare const enum UnitTargetType {
     ALL = 55,
     TREE = 64,
     CUSTOM = 128,
+    SELF = 256,
 }
 
 /**
@@ -823,9 +956,9 @@ declare const enum InventorySlot {
 
 declare const DOTA_PLAYER_LOADOUT_START: 67;
 
-declare const DOTA_PLAYER_LOADOUT_END: 94;
+declare const DOTA_PLAYER_LOADOUT_END: 95;
 
-declare const DOTA_LOADOUT_TYPE_COUNT: 96;
+declare const DOTA_LOADOUT_TYPE_COUNT: 97;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -931,7 +1064,8 @@ declare const enum LoadoutType {
     TYPE_COURIER_EFFECT = 92,
     TYPE_RADIANT_SIEGE_CREEPS = 93,
     TYPE_DIRE_SIEGE_CREEPS = 94,
-    TYPE_NONE = 95,
+    TYPE_ROSHAN = 95,
+    TYPE_NONE = 96,
 }
 
 /**
@@ -1531,10 +1665,6 @@ declare const enum GameActivity {
     DUCK_DODGE = 395,
     DIE_BARNACLE_SWALLOW = 396,
     GESTURE_BARNACLE_STRANGLE = 397,
-    PHYSCANNON_DETACH = 398,
-    PHYSCANNON_ANIMATE = 399,
-    PHYSCANNON_ANIMATE_PRE = 400,
-    PHYSCANNON_ANIMATE_POST = 401,
     DIE_FRONTSIDE = 402,
     DIE_RIGHTSIDE = 403,
     DIE_BACKSIDE = 404,
@@ -2427,33 +2557,16 @@ declare const enum GameActivity {
     DOTA_VIPER_DIVE = 1762,
     DOTA_VIPER_DIVE_END = 1763,
     DOTA_MK_STRIKE_END = 1764,
-    DOTA_ARCANA_VOTE = 1766,
-    DOTA_SPIRIT_BREAKER_ULT_RUN = 1767,
-    DOTA_PUNCH = 1768,
-    DOTA_CAST_STATUE = 1769,
-    DOTA_ATTACK_STATUE = 1770,
-    DOTA_CAST_3_STATUE = 1771,
-    DOTA_CAST_1_STATUE = 1772,
-    DOTA_TELEPORT_STATUE = 1773,
-    DOTA_VICTORY_STATUE = 1774,
-    DOTA_TAUNT_STATUE = 1775,
-    DOTA_STATUE_SEQUENCE = 1776,
-    DOTA_RUN_STATUE = 1777,
-    DOTA_IDLE_STATUE = 1778,
-    DOTA_CAST_4_STATUE = 1779,
-    DOTA_FLAIL_STATUE = 1780,
-    DOTA_STUN_STATUE = 1781,
-    DOTA_TELEPORT_END_STATUE = 1782,
-    DOTA_DISABLED_END = 1784,
-    DOTA_RELAX_IN = 1785,
-    DOTA_RELAX_OUT = 1786,
-    DOTA_CAST_FENCE = 1787,
-    DOTA_RADIANT_CREEP_HAMMER = 1789,
-    DOTA_SPWN = 1790,
-    DOTA_RUN_ALT = 1791,
-    DOTA_VOODOO_REST = 1792,
-    DOTA_CYCLONE = 1793,
-    DOTA_IMPALE = 1794,
+    DOTA_DISABLED_END = 1766,
+    DOTA_RADIANT_CREEP_HAMMER = 1771,
+    DOTA_RELAX_IN = 1772,
+    DOTA_RELAX_OUT = 1773,
+    DOTA_CAST_FENCE = 1774,
+    DOTA_SPWN = 1775,
+    DOTA_CYCLONE = 1776,
+    DOTA_IMPALE = 1777,
+    DOTA_TORRENT = 1778,
+    DOTA_VOODOO_REST = 1779,
 }
 
 /**
@@ -2469,7 +2582,7 @@ declare const enum LuaModifierMotionType {
     INVALID = 4,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 258;
+declare const MODIFIER_FUNCTION_LAST: 262;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -3334,175 +3447,191 @@ declare const enum ModifierFunction {
      */
     MODEL_SCALE = 214,
     /**
+     * Method Name: `GetModifierModelScaleAnimateTime`
+     */
+    MODEL_SCALE_ANIMATE_TIME = 215,
+    /**
      * Always applies scepter when this property is active
      *
      *
      *
      * Method Name: `GetModifierScepter`.
      */
-    IS_SCEPTER = 215,
+    IS_SCEPTER = 216,
     /**
      * Method Name: `GetModifierShard`
      */
-    IS_SHARD = 216,
+    IS_SHARD = 217,
     /**
      * Method Name: `GetModifierRadarCooldownReduction`
      */
-    RADAR_COOLDOWN_REDUCTION = 217,
+    RADAR_COOLDOWN_REDUCTION = 218,
     /**
      * Method Name: `GetActivityTranslationModifiers`
      */
-    TRANSLATE_ACTIVITY_MODIFIERS = 218,
+    TRANSLATE_ACTIVITY_MODIFIERS = 219,
     /**
      * Method Name: `GetAttackSound`
      */
-    TRANSLATE_ATTACK_SOUND = 219,
+    TRANSLATE_ATTACK_SOUND = 220,
     /**
      * Method Name: `GetUnitLifetimeFraction`
      */
-    LIFETIME_FRACTION = 220,
+    LIFETIME_FRACTION = 221,
     /**
      * Method Name: `GetModifierProvidesFOWVision`
      */
-    PROVIDES_FOW_POSITION = 221,
+    PROVIDES_FOW_POSITION = 222,
     /**
      * Method Name: `GetModifierSpellsRequireHP`
      */
-    SPELLS_REQUIRE_HP = 222,
+    SPELLS_REQUIRE_HP = 223,
     /**
      * Method Name: `GetForceDrawOnMinimap`
      */
-    FORCE_DRAW_MINIMAP = 223,
+    FORCE_DRAW_MINIMAP = 224,
     /**
      * Method Name: `GetModifierDisableTurning`
      */
-    DISABLE_TURNING = 224,
+    DISABLE_TURNING = 225,
     /**
      * Method Name: `GetModifierIgnoreCastAngle`
      */
-    IGNORE_CAST_ANGLE = 225,
+    IGNORE_CAST_ANGLE = 226,
     /**
      * Method Name: `GetModifierChangeAbilityValue`
      */
-    CHANGE_ABILITY_VALUE = 226,
+    CHANGE_ABILITY_VALUE = 227,
     /**
      * Method Name: `GetModifierOverrideAbilitySpecial`
      */
-    OVERRIDE_ABILITY_SPECIAL = 227,
+    OVERRIDE_ABILITY_SPECIAL = 228,
     /**
      * Method Name: `GetModifierOverrideAbilitySpecialValue`
      */
-    OVERRIDE_ABILITY_SPECIAL_VALUE = 228,
+    OVERRIDE_ABILITY_SPECIAL_VALUE = 229,
     /**
      * Method Name: `GetModifierAbilityLayout`
      */
-    ABILITY_LAYOUT = 229,
+    ABILITY_LAYOUT = 230,
     /**
      * Method Name: `OnDominated`
      */
-    ON_DOMINATED = 230,
+    ON_DOMINATED = 231,
     /**
      * Method Name: `OnKill`
      */
-    ON_KILL = 231,
+    ON_KILL = 232,
     /**
      * Method Name: `OnAssist`
      */
-    ON_ASSIST = 232,
+    ON_ASSIST = 233,
     /**
      * Method Name: `GetModifierTempestDouble`
      */
-    TEMPEST_DOUBLE = 233,
+    TEMPEST_DOUBLE = 234,
     /**
      * Method Name: `PreserveParticlesOnModelChanged`
      */
-    PRESERVE_PARTICLES_ON_MODEL_CHANGE = 234,
+    PRESERVE_PARTICLES_ON_MODEL_CHANGE = 235,
     /**
      * Method Name: `OnAttackFinished`
      */
-    ON_ATTACK_FINISHED = 235,
+    ON_ATTACK_FINISHED = 236,
     /**
      * Method Name: `GetModifierIgnoreCooldown`
      */
-    IGNORE_COOLDOWN = 236,
+    IGNORE_COOLDOWN = 237,
     /**
      * Method Name: `GetModifierCanAttackTrees`
      */
-    CAN_ATTACK_TREES = 237,
+    CAN_ATTACK_TREES = 238,
     /**
      * Method Name: `GetVisualZDelta`
      */
-    VISUAL_Z_DELTA = 238,
-    INCOMING_DAMAGE_ILLUSION = 239,
+    VISUAL_Z_DELTA = 239,
+    /**
+     * Method Name: `GetVisualZSpeedBaseOverride`
+     */
+    VISUAL_Z_SPEED_BASE_OVERRIDE = 240,
+    INCOMING_DAMAGE_ILLUSION = 241,
     /**
      * Method Name: `GetModifierNoVisionOfAttacker`
      */
-    DONT_GIVE_VISION_OF_ATTACKER = 240,
+    DONT_GIVE_VISION_OF_ATTACKER = 242,
     /**
      * Method Name: `OnTooltip2`
      */
-    TOOLTIP2 = 241,
+    TOOLTIP2 = 243,
     /**
      * Method Name: `OnAttackRecordDestroy`
      */
-    ON_ATTACK_RECORD_DESTROY = 242,
+    ON_ATTACK_RECORD_DESTROY = 244,
     /**
      * Method Name: `OnProjectileObstructionHit`
      */
-    ON_PROJECTILE_OBSTRUCTION_HIT = 243,
+    ON_PROJECTILE_OBSTRUCTION_HIT = 245,
     /**
      * Method Name: `GetSuppressTeleport`
      */
-    SUPPRESS_TELEPORT = 244,
+    SUPPRESS_TELEPORT = 246,
     /**
      * Method Name: `OnAttackCancelled`
      */
-    ON_ATTACK_CANCELLED = 245,
+    ON_ATTACK_CANCELLED = 247,
     /**
      * Method Name: `GetSuppressCleave`
      */
-    SUPPRESS_CLEAVE = 246,
+    SUPPRESS_CLEAVE = 248,
     /**
      * Method Name: `BotAttackScoreBonus`
      */
-    BOT_ATTACK_SCORE_BONUS = 247,
+    BOT_ATTACK_SCORE_BONUS = 249,
     /**
      * Method Name: `GetModifierAttackSpeedReductionPercentage`
      */
-    ATTACKSPEED_REDUCTION_PERCENTAGE = 248,
+    ATTACKSPEED_REDUCTION_PERCENTAGE = 250,
     /**
      * Method Name: `GetModifierMoveSpeedReductionPercentage`
      */
-    MOVESPEED_REDUCTION_PERCENTAGE = 249,
-    ATTACK_WHILE_MOVING_TARGET = 250,
+    MOVESPEED_REDUCTION_PERCENTAGE = 251,
+    ATTACK_WHILE_MOVING_TARGET = 252,
     /**
      * Method Name: `GetModifierAttackSpeedPercentage`
      */
-    ATTACKSPEED_PERCENTAGE = 251,
+    ATTACKSPEED_PERCENTAGE = 253,
     /**
      * Method Name: `OnAttemptProjectileDodge`
      */
-    ON_ATTEMPT_PROJECTILE_DODGE = 252,
+    ON_ATTEMPT_PROJECTILE_DODGE = 254,
     /**
      * Method Name: `OnPreDebuffApplied`
      */
-    ON_PREDEBUFF_APPLIED = 253,
+    ON_PREDEBUFF_APPLIED = 255,
     /**
      * Method Name: `GetModifierPercentageCooldownStacking`
      */
-    COOLDOWN_PERCENTAGE_STACKING = 254,
+    COOLDOWN_PERCENTAGE_STACKING = 256,
     /**
      * Method Name: `GetModifierSpellRedirectTarget`
      */
-    SPELL_REDIRECT_TARGET = 255,
+    SPELL_REDIRECT_TARGET = 257,
     /**
      * Method Name: `GetModifierTurnRateConstant`
      */
-    TURN_RATE_CONSTANT = 256,
+    TURN_RATE_CONSTANT = 258,
     /**
      * Method Name: `GetModifierIsRatPack`
      */
-    RAT_PACK = 257,
+    RAT_PACK = 259,
+    /**
+     * Method Name: `GetModifierPhysicalDamageOutgoing_Percentage`
+     */
+    PHYSICALDAMAGEOUTGOING_PERCENTAGE = 260,
+    /**
+     * Method Name: `GetModifierKnockbackAmplification_Percentage`
+     */
+    KNOCKBACK_AMPLIFICATION_PERCENTAGE = 261,
     INVALID = 65535,
 }
 
@@ -3530,7 +3659,7 @@ declare const enum ModifierRemove {
     ALLY = 2,
 }
 
-declare const MODIFIER_STATE_LAST: 50;
+declare const MODIFIER_STATE_LAST: 52;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -3554,40 +3683,42 @@ declare const enum ModifierState {
     EVADE_DISABLED = 13,
     UNSELECTABLE = 14,
     CANNOT_TARGET_ENEMIES = 15,
-    CANNOT_MISS = 16,
-    SPECIALLY_DENIABLE = 17,
-    FROZEN = 18,
-    COMMAND_RESTRICTED = 19,
-    NOT_ON_MINIMAP = 20,
-    LOW_ATTACK_PRIORITY = 21,
-    NO_HEALTH_BAR = 22,
-    NO_HEALTH_BAR_FOR_ENEMIES = 23,
-    FLYING = 24,
-    NO_UNIT_COLLISION = 25,
-    NO_TEAM_MOVE_TO = 26,
-    NO_TEAM_SELECT = 27,
-    PASSIVES_DISABLED = 28,
-    DOMINATED = 29,
-    BLIND = 30,
-    OUT_OF_GAME = 31,
-    FAKE_ALLY = 32,
-    FLYING_FOR_PATHING_PURPOSES_ONLY = 33,
-    TRUESIGHT_IMMUNE = 34,
-    UNTARGETABLE = 35,
-    IGNORING_MOVE_AND_ATTACK_ORDERS = 36,
-    ALLOW_PATHING_THROUGH_TREES = 37,
-    NOT_ON_MINIMAP_FOR_ENEMIES = 38,
-    UNSLOWABLE = 39,
-    TETHERED = 40,
-    IGNORING_STOP_ORDERS = 41,
-    FEARED = 42,
-    TAUNTED = 43,
-    CANNOT_BE_MOTION_CONTROLLED = 44,
-    FORCED_FLYING_VISION = 45,
-    ATTACK_ALLIES = 46,
-    ALLOW_PATHING_THROUGH_CLIFFS = 47,
-    ALLOW_PATHING_THROUGH_FISSURE = 48,
-    SPECIALLY_UNDENIABLE = 49,
+    CANNOT_TARGET_BUILDINGS = 16,
+    CANNOT_MISS = 17,
+    SPECIALLY_DENIABLE = 18,
+    FROZEN = 19,
+    COMMAND_RESTRICTED = 20,
+    NOT_ON_MINIMAP = 21,
+    LOW_ATTACK_PRIORITY = 22,
+    NO_HEALTH_BAR = 23,
+    NO_HEALTH_BAR_FOR_ENEMIES = 24,
+    FLYING = 25,
+    NO_UNIT_COLLISION = 26,
+    NO_TEAM_MOVE_TO = 27,
+    NO_TEAM_SELECT = 28,
+    PASSIVES_DISABLED = 29,
+    DOMINATED = 30,
+    BLIND = 31,
+    OUT_OF_GAME = 32,
+    FAKE_ALLY = 33,
+    FLYING_FOR_PATHING_PURPOSES_ONLY = 34,
+    TRUESIGHT_IMMUNE = 35,
+    UNTARGETABLE = 36,
+    IGNORING_MOVE_AND_ATTACK_ORDERS = 37,
+    ALLOW_PATHING_THROUGH_TREES = 38,
+    NOT_ON_MINIMAP_FOR_ENEMIES = 39,
+    UNSLOWABLE = 40,
+    TETHERED = 41,
+    IGNORING_STOP_ORDERS = 42,
+    FEARED = 43,
+    TAUNTED = 44,
+    CANNOT_BE_MOTION_CONTROLLED = 45,
+    FORCED_FLYING_VISION = 46,
+    ATTACK_ALLIES = 47,
+    ALLOW_PATHING_THROUGH_CLIFFS = 48,
+    ALLOW_PATHING_THROUGH_FISSURE = 49,
+    SPECIALLY_UNDENIABLE = 50,
+    ALLOW_PATHING_THROUGH_OBSTRUCTIONS = 51,
 }
 
 declare const MAX_PATTACH_TYPES: 16;
@@ -3619,6 +3750,82 @@ declare const enum ParticleAttachment {
 
 declare const enum PseudoRandom {
     NONE = 0,
+    MAGNUS_SHARD = 1,
+    PHANTOMASSASSIN_CRIT = 2,
+    PHANTOMASSASSIN_DAGGER = 3,
+    PHANTOMLANCER_JUXTAPOSE = 4,
+    TINY_CRAGGY = 5,
+    COLD_REBUKE = 6,
+    WOLF_CRIT = 7,
+    AXE_HELIX = 8,
+    AXE_HELIX_ATTACK = 9,
+    LEGION_MOMENT = 10,
+    SLARDAR_BASH = 11,
+    OD_ESSENCE = 12,
+    DROW_MARKSMANSHIP = 13,
+    OGRE_MAGI_FIREBLAST = 14,
+    OGRE_ITEM_MULTICAST = 15,
+    SPIRITBREAKER_GREATERBASH = 16,
+    LONE_DRUID_ENTANGLE = 17,
+    FACELESS_BASH = 18,
+    FACELESS_EVADE_SPELL = 19,
+    FACELESS_EVADE_ATTACK = 20,
+    FACELESS_VOID_BACKTRACK = 21,
+    BREWMASTER_CRIT = 22,
+    BREWMASTER_CINDER_BREW = 23,
+    SNIPER_HEADSHOT = 24,
+    ATOS = 25,
+    JUGG_CRIT = 26,
+    DAZZLE_SCEPTER = 27,
+    CHAOS_CRIT = 28,
+    LYCAN_CRIT = 29,
+    TUSK_CRIT = 30,
+    CM_FREEZING_FIELD = 31,
+    GENERIC_BASHER = 32,
+    SKELETONKING_CRIT = 33,
+    SKELETONKING_CRIT_MORTAL = 34,
+    ITEM_GREATERCRIT = 35,
+    ITEM_LESSERCRIT = 36,
+    ITEM_BASHER = 37,
+    ITEM_SOLAR_CREST = 38,
+    ITEM_JAVELIN_ACCURACY = 39,
+    ITEM_TRIDENT = 40,
+    ITEM_ABYSSAL = 41,
+    ITEM_ABYSSAL_BLOCK = 42,
+    ITEM_STOUT = 43,
+    ITEM_VANGUARD = 44,
+    ITEM_CRIMSON_GUARD = 45,
+    ITEM_PMS = 46,
+    ITEM_HALBRED_MAIM = 47,
+    ITEM_SANGEYASHA_MAIM = 48,
+    ITEM_SANGEKAYA_MAIM = 49,
+    ITEM_SANGE_MAIM = 50,
+    ITEM_BUTTERFLY = 51,
+    ITEM_MAELSTROM = 52,
+    ITEM_MJOLLNIR = 53,
+    ITEM_MJOLLNIR_STATIC = 54,
+    ITEM_MKB = 55,
+    ITEM_SILVER_EDGE = 56,
+    ITEM_NAGINATA = 57,
+    TROLL_BASH = 58,
+    RIKI_SMOKE_SCREEN = 59,
+    CHAOS_DOUBLE_CRIT = 60,
+    CHAOS_TRIPLE_CRIT = 61,
+    GENERIC_EVASION = 62,
+    GENERIC_HEIGHT_MISS = 63,
+    GENERIC_MISS = 64,
+    ARMADILLO_HEARTPIERCER = 65,
+    MARS_SHIELD = 66,
+    ANTIMAGE_SILENT = 67,
+    NEUTRAL_DROP_TIER_1 = 68,
+    NEUTRAL_DROP_TIER_2 = 69,
+    NEUTRAL_DROP_TIER_3 = 70,
+    NEUTRAL_DROP_TIER_4 = 71,
+    NEUTRAL_DROP_TIER_5 = 72,
+    MARS_BULWARK = 73,
+    MUERTA_GUNSLINGER = 74,
+    BATRIDER_NAPALM = 75,
+    CUSTOM_GENERIC = 76,
     CUSTOM_GAME_1 = 77,
     CUSTOM_GAME_2 = 78,
     CUSTOM_GAME_3 = 79,
@@ -3662,56 +3869,45 @@ declare const enum SourceEngineAnimationEvent {
     SV_PLAYSOUND = 4,
     CL_STOPSOUND = 5,
     CL_PLAYSOUND_LOOPING = 6,
-    CLIENT_EFFECT_ATTACH = 7,
-    CL_CREATE_PARTICLE_EFFECT = 8,
-    CL_STOP_PARTICLE_EFFECT = 9,
-    CL_ADD_PARTICLE_EFFECT_CP = 10,
-    CL_CREATE_PARTICLE_EFFECT_CFG = 11,
-    CL_SUPPRESS_EVENTS_WITH_TAG = 12,
-    START_SCRIPTED_EFFECT = 13,
-    STOP_SCRIPTED_EFFECT = 14,
-    MUZZLEFLASH = 15,
-    SV_CREATE_PARTICLE_EFFECT_CFG = 16,
-    SV_STOP_PARTICLE_EFFECT = 17,
-    CL_HIDE_PARTICLE_EFFECT = 18,
-    CL_SHOW_PARTICLE_EFFECT = 19,
-    FOOTSTEP = 20,
-    CL_FOOTSTEP_LEFT = 21,
-    CL_FOOTSTEP_RIGHT = 22,
-    CL_MFOOTSTEP_LEFT = 23,
-    CL_MFOOTSTEP_RIGHT = 24,
-    CL_MFOOTSTEP_LEFT_LOUD = 25,
-    CL_MFOOTSTEP_RIGHT_LOUD = 26,
-    RAGDOLL = 27,
-    CL_ENABLE_BODYGROUP = 28,
-    CL_DISABLE_BODYGROUP = 29,
-    CL_BODYGROUP_SET_VALUE = 30,
-    SV_BODYGROUP_SET_VALUE = 31,
-    CL_BODYGROUP_SET_VALUE_CMODEL_WPN = 32,
-    WPN_PRIMARYATTACK = 33,
-    WPN_PLAYWPNSOUND = 34,
-    WPN_SECONDARYATTACK = 35,
-    CL_SPEECH = 36,
-    FIRE_INPUT = 37,
-    CL_CLOTH_ATTR = 38,
-    CL_CLOTH_GROUND_OFFSET = 39,
-    CL_CLOTH_STIFFEN = 40,
-    CL_CLOTH_EFFECT = 41,
-    CL_CREATE_ANIM_SCOPE_PROP = 42,
-    HAPTIC_PULSE = 43,
-    CL_DOTA_PLAY_STATUS_EFFECT = 44,
-    CL_DOTA_STOP_STATUS_EFFECT = 45,
-    CL_DOTA_NPC_CREATE_PARTICLE_EFFECT = 46,
-    CL_DOTA_RUBICK_ARCANA_CREATE_PARTICLE_EFFECT = 47,
-    DOTA_PET_ITEM_PICKUP = 48,
-    DOTA_PET_ITEM_DROP = 49,
-    DOTA_SUPPRESS_CONSTANT_LAYER = 50,
-    DOTA_PLAY_SOUND_ATTACK_SPECIAL = 51,
-    DOTA_CREATE_CLINKZ_ATTACK = 52,
-    DOTA_PLAY_SOUND_ATTACK_BACKSTAB = 53,
-    DOTA_DIE_PHANTOM_DEATH_PARTICLES = 54,
-    DOTA_SWITCH_ATTACK_COMBO = 55,
-    DOTA_PLAY_SOUND_ATTACK = 57,
+    CL_CREATE_PARTICLE_EFFECT = 7,
+    CL_STOP_PARTICLE_EFFECT = 8,
+    CL_CREATE_PARTICLE_EFFECT_CFG = 9,
+    SV_CREATE_PARTICLE_EFFECT_CFG = 10,
+    SV_STOP_PARTICLE_EFFECT = 11,
+    FOOTSTEP = 12,
+    RAGDOLL = 13,
+    CL_STOP_RAGDOLL_CONTROL = 14,
+    CL_ENABLE_BODYGROUP = 15,
+    CL_DISABLE_BODYGROUP = 16,
+    CL_BODYGROUP_SET_VALUE = 17,
+    SV_BODYGROUP_SET_VALUE = 18,
+    CL_BODYGROUP_SET_VALUE_CMODEL_WPN = 19,
+    WPN_PRIMARYATTACK = 20,
+    WPN_SECONDARYATTACK = 21,
+    FIRE_INPUT = 22,
+    CL_CLOTH_ATTR = 23,
+    CL_CLOTH_GROUND_OFFSET = 24,
+    CL_CLOTH_STIFFEN = 25,
+    CL_CLOTH_EFFECT = 26,
+    CL_CREATE_ANIM_SCOPE_PROP = 27,
+    CL_SUPPRESS_EVENTS_WITH_TAG = 28,
+    CL_HIDE_PARTICLE_EFFECT = 29,
+    CL_SHOW_PARTICLE_EFFECT = 30,
+    CL_ADD_PARTICLE_EFFECT_CP = 31,
+    CL_SPEECH = 32,
+    CL_DOTA_PLAY_STATUS_EFFECT = 33,
+    CL_DOTA_STOP_STATUS_EFFECT = 34,
+    CL_DOTA_NPC_CREATE_PARTICLE_EFFECT = 35,
+    CL_DOTA_RUBICK_ARCANA_CREATE_PARTICLE_EFFECT = 36,
+    DOTA_PET_ITEM_PICKUP = 37,
+    DOTA_PET_ITEM_DROP = 38,
+    DOTA_SUPPRESS_CONSTANT_LAYER = 39,
+    DOTA_PLAY_SOUND_ATTACK_SPECIAL = 40,
+    DOTA_CREATE_CLINKZ_ATTACK = 41,
+    DOTA_PLAY_SOUND_ATTACK_BACKSTAB = 42,
+    DOTA_DIE_PHANTOM_DEATH_PARTICLES = 43,
+    DOTA_SWITCH_ATTACK_COMBO = 44,
+    DOTA_PLAY_SOUND_ATTACK = 45,
 }
 
 /**

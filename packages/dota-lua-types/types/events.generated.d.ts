@@ -136,6 +136,7 @@ interface GameEventDeclarations {
     player_footstep: PlayerFootstepEvent;
     player_hintmessage: PlayerHintmessageEvent;
     break_breakable: BreakBreakableEvent;
+    broken_breakable: BrokenBreakableEvent;
     break_prop: BreakPropEvent;
     entity_killed: EntityKilledEvent;
     door_close: DoorCloseEvent;
@@ -662,6 +663,7 @@ interface PlayerTeamEvent {
      * Team change because player disconnects.
      */
     disconnect: 0 | 1;
+    silent: 0 | 1;
     name: string;
     isbot: 0 | 1;
 }
@@ -913,8 +915,11 @@ interface HltvTitleEvent {
  */
 interface HltvChatEvent {
     text: string;
-    name: string;
+    /**
+     * Steam id.
+     */
     steamID: number;
+    name: string;
 }
 
 interface HltvVersioninfoEvent {
@@ -1074,6 +1079,15 @@ interface PlayerHintmessageEvent {
 }
 
 interface BreakBreakableEvent {
+    entindex: EntityIndex;
+    userid: EntityIndex;
+    /**
+     * BREAK_GLASS, BREAK_WOOD, etc.
+     */
+    material: number;
+}
+
+interface BrokenBreakableEvent {
     entindex: EntityIndex;
     userid: EntityIndex;
     /**
@@ -1244,7 +1258,7 @@ interface PhysgunPickupEvent {
     /**
      * Entity picked up.
      */
-    entindex: EntityIndex;
+    target: EntityIndex;
 }
 
 interface InventoryUpdatedEvent {

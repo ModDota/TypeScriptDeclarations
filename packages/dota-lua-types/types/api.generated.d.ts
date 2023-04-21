@@ -677,37 +677,13 @@ declare interface CBodyComponent {
      */
     DetachFromParent(): void;
     /**
-     * Returns the active sequence.
-     *
-     * @both
-     */
-    GetSequence(): number;
-    /**
      * Is attached to parent.
      *
      * @both
      */
     IsAttachedToParent(): boolean;
-    /**
-     * Returns a sequence id given a name.
-     *
-     * @both
-     */
-    LookupSequence(arg1: string): number;
-    /**
-     * Returns the duration in seconds of the specified sequence.
-     *
-     * @both
-     */
-    SequenceDuration(arg1: string): number;
     /** @both */
     SetAngularVelocity(arg1: Vector): void;
-    /**
-     * Pass string for the animation to play on this model.
-     *
-     * @both
-     */
-    SetAnimation(arg1: string): void;
     /** @both */
     SetMaterialGroup(arg1: string): void;
     /** @both */
@@ -2003,12 +1979,6 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     GetLevel(): number;
     /**
-     * Returns current magical armor value.
-     *
-     * @both
-     */
-    GetMagicalArmorValue(): number;
-    /**
      * Returns the player ID of the controlling player.
      */
     GetMainControllingPlayer(): number;
@@ -2415,8 +2385,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     IsUnableToMiss(): boolean;
     /** @both */
     IsUnselectable(): boolean;
-    /** @both */
+    /** @client */
     IsUntargetable(): boolean;
+    /** @both */
+    IsUntargetableFrom(targettingSource: object): boolean;
     /**
      * Is this a Ward?
      */
@@ -2578,11 +2550,6 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
         callbackInfo: TCallbackInfo,
     ): void;
     /**
-     * Remove mana from this unit, this can be used for involuntary mana loss, not for
-     * mana that is spent.
-     */
-    ReduceMana(amount: number): number;
-    /**
      * Remove an ability from this unit by name.
      */
     RemoveAbility(abilityName: string): void;
@@ -2631,8 +2598,19 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * @both
      */
     Script_GetAttackRange(): number;
+    /**
+     * Returns current magical armor value.
+     *
+     * @both
+     */
+    Script_GetMagicalArmorValue(useExperimentalFormula: boolean, inflictor: object): number;
     /** @both */
     Script_IsDeniable(): boolean;
+    /**
+     * Remove mana from this unit, this can be used for involuntary mana loss, not for
+     * mana that is spent.
+     */
+    Script_ReduceMana(mana: number, ability: object): number;
     /**
      * Sells the passed item in this unit's inventory.
      */
@@ -3228,6 +3206,12 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      */
     UpgradeAbility(ability: CDOTABaseAbility): void;
     WillReincarnate(): boolean;
+    __kind__: 'instance';
+}
+
+declare const CDOTA_BaseNPC_MangoTree: DotaConstructor<CDOTA_BaseNPC_MangoTree>;
+
+declare interface CDOTA_BaseNPC_MangoTree extends CDOTA_BaseNPC_Building {
     __kind__: 'instance';
 }
 
@@ -4555,7 +4539,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierHealthBarPips?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierHealthBonus?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierHealthcostReduction_Constant?(): void;
     /**
      * @abstract
      * @both
@@ -4666,6 +4660,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierMagicalResistanceBonusIllusions?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMagicalResistanceBonusUnique?(): void;
     /**
      * @abstract
      * @both
@@ -4862,6 +4861,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPercentageHealthcost?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageHealthcostStacking?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPercentageManacost?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
@@ -5015,6 +5024,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierProjectileSpeedBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyIncomingDamage_Constant?(): void;
     /**
      * @abstract
      * @both
@@ -5323,6 +5337,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnDeathCompleted?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnDominated?(event: ModifierUnitEvent): void;
     /**
      * @abstract
@@ -5404,6 +5423,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnSpellTargetReady?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnSpentHealth?(): void;
     /**
      * @abstract
      * @both
@@ -5900,6 +5924,12 @@ declare interface CDOTA_Unit_Nian extends CDOTA_BaseNPC_Creature {
     __kind__: 'instance';
 }
 
+declare const CDOTA_Unit_Scout: DotaConstructor<CDOTA_Unit_Scout>;
+
+declare interface CDOTA_Unit_Scout extends CDOTA_BaseNPC {
+    __kind__: 'instance';
+}
+
 declare const CDOTABaseAbility: DotaConstructor<CDOTABaseAbility>;
 
 /** @client */
@@ -5965,6 +5995,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * Gets the cast range of the ability.
      */
     GetCastRange(location: Vector | undefined, target: CDOTA_BaseNPC | undefined): number;
+    GetChannelledHealthCostPerSecond(level: number): number;
     GetChannelledManaCostPerSecond(level: number): number;
     GetChannelStartTime(): number;
     GetChannelTime(): number;
@@ -5992,9 +6023,11 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      */
     GetEffectiveCastRange(location: Vector, target: object): number;
     GetEffectiveCooldown(level: number): number;
+    GetEffectiveHealthCost(level: number): number;
     GetEffectiveManaCost(level: number): number;
     GetGoldCost(level: number): number;
     GetGoldCostForUpgrade(level: number): number;
+    GetHealthCost(level: number): number;
     GetHeroLevelRequiredToUpgrade(): number;
     GetInitialAbilityCharges(level: number): number;
     GetIntrinsicModifierName(): string;
@@ -6094,12 +6127,14 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     OnUpgrade(): void;
     PayGoldCost(): void;
     PayGoldCostForUpgrade(): void;
+    PayHealthCost(): void;
     PayManaCost(): void;
     PlaysDefaultAnimWhenStolen(): boolean;
     ProcsMagicStick(): boolean;
     RefCountsModifiers(): boolean;
     RefreshCharges(): void;
     RefreshIntrinsicModifier(): void;
+    RefundHealthCost(): void;
     RefundManaCost(): void;
     RequiresFacing(): boolean;
     ResetToggleOnRespawn(): boolean;
@@ -6126,7 +6161,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     ToggleAbility(): void;
     ToggleAutoCast(): void;
     UpgradeAbility(supressSpeech: boolean): void;
-    UseResources(mana: boolean, gold: boolean, cooldown: boolean): void;
+    UseResources(mana: boolean, useHealth: boolean, gold: boolean, cooldown: boolean): void;
     __kind__: 'instance';
 }
 
@@ -6837,6 +6872,10 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      * Set if weather effects are disabled.
      */
     SetWeatherEffectsDisabled(disable: boolean): void;
+    /**
+     * Set xp rune spawn rate.
+     */
+    SetXPRuneSpawnInterval(interval: number): void;
     ShouldGiveFreeTPOnDeath(): boolean;
     __kind__: 'instance';
 }
@@ -7412,10 +7451,6 @@ declare interface CDOTAGameRules {
      */
     SetFirstBloodActive(active: boolean): void;
     /**
-     * Freeze the game time.
-     */
-    SetGameTimeFrozen(frozen: boolean): void;
-    /**
      * Makes the specified team win.
      */
     SetGameWinner(team: DOTATeam_t): void;
@@ -7756,10 +7791,6 @@ declare interface CDOTATutorial {
      */
     ForceGameStart(): void;
     /**
-     * Is our time frozen?
-     */
-    GetTimeFrozen(): boolean;
-    /**
      * Is this item currently in the white list.
      */
     IsItemInWhiteList(itemName: string): boolean;
@@ -7793,10 +7824,6 @@ declare interface CDOTATutorial {
      * Set the shop open or closed.
      */
     SetShopOpen(open: boolean): void;
-    /**
-     * Set if we should freeze time or not.
-     */
-    SetTimeFrozen(timeFrozen: boolean): void;
     /**
      * Set a tutorial convar.
      */

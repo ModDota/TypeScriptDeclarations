@@ -20,6 +20,9 @@
     "transformer/mappings.json",
     "transformer/index.{js,d.ts}"
   ],
+  "scripts": {
+    "postversion": "git add package.json & git commit -m \"@moddota/panorama-types %npm_package_version%\" & git tag panorama-types@%npm_package_version%"
+  },
   "dependencies": {
     "tslib": "^2.0.3"
   },

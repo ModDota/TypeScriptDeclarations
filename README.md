@@ -18,6 +18,5 @@ examples.
 6. Make a merge request
 
 ### Updating package versions (for maintainers)
-1. `cd` into `packages/dota-lua-types` or `packages/panorama-types`
-2. Update the package version with `npm version`
-3. Push
+1. Run `npm run bump:lua-types <major|minor|patch>` to update the lua types package, or `npm run bump:panorama-types <major|minor|patch>` to update the panorama types.
+2. Push with tags

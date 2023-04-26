@@ -1,5 +1,6 @@
 name: Publish Lua types
 on:
+  workflow_dispatch:
   push:
     tags: 'dota-lua-types@*'
 

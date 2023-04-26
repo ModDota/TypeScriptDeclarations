@@ -3495,7 +3495,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     IsSellable(): boolean;
     /** @both */
     IsStackable(): boolean;
-    LaunchLoot(autoUse: boolean, height: number, duration: number, endPoint: Vector): void;
+    LaunchLoot(autoUse: boolean, height: number, duration: number, endPoint: Vector, teleportOwner: object): void;
     LaunchLootInitialHeight(
         autoUse: boolean,
         initialHeight: number,
@@ -4325,6 +4325,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierAvoidDamage?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAvoidDamageAfterReductions?(): void;
     /**
      * @abstract
      * @both
@@ -5418,6 +5423,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnSetLocation?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnSpellAppliedSuccessfully?(): void;
     /**
      * @abstract
      * @both

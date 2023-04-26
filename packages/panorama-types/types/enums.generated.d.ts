@@ -2155,7 +2155,15 @@ declare enum modifierfunction {
      * Method Name: `GetModifierPropertyIncomingDamage_Constant`
      */
     MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT = 269,
-    MODIFIER_FUNCTION_LAST = 270,
+    /**
+     * Method Name: `OnSpellAppliedSuccessfully`
+     */
+    MODIFIER_EVENT_SPELL_APPLIED_SUCCESSFULLY = 270,
+    /**
+     * Method Name: `GetModifierAvoidDamageAfterReductions`
+     */
+    MODIFIER_PROPERTY_AVOID_DAMAGE_AFTER_REDUCTIONS = 271,
+    MODIFIER_FUNCTION_LAST = 272,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 

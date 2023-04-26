@@ -2702,7 +2702,7 @@ declare enum GameActivity_t {
     ACT_DOTA_FORCESTAFF_STATUE = 1773,
     ACT_DOTA_TELEPORT_STATUE = 1774,
     ACT_DOTA_VICTORY_STATUE = 1775,
-    ACT_DOTA_DISABLED_END = 1776,
+    ACT_DOTA_DISABLED_END = 1777,
     ACT_DOTA_RUN_ALT = 1781,
     ACT_DOTA_VOODOO_REST = 1782,
     ACT_DOTA_CYCLONE = 1783,
@@ -3814,7 +3814,15 @@ declare enum modifierfunction {
      * Method Name: `GetModifierPropertyIncomingDamage_Constant`
      */
     MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT = 269,
-    MODIFIER_FUNCTION_LAST = 270,
+    /**
+     * Method Name: `OnSpellAppliedSuccessfully`
+     */
+    MODIFIER_EVENT_SPELL_APPLIED_SUCCESSFULLY = 270,
+    /**
+     * Method Name: `GetModifierAvoidDamageAfterReductions`
+     */
+    MODIFIER_PROPERTY_AVOID_DAMAGE_AFTER_REDUCTIONS = 271,
+    MODIFIER_FUNCTION_LAST = 272,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 

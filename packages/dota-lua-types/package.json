@@ -1,6 +1,6 @@
 {
   "name": "@moddota/dota-lua-types",
-  "version": "4.23.0",
+  "version": "4.24.0",
   "description": "TypeScript definitions for Dota 2 Lua API",
   "keywords": [
     "dota",
@@ -21,7 +21,7 @@
     "transformer/index.{js,d.ts}"
   ],
   "dependencies": {
-    "lua-types": "^2.13.0"
+    "lua-types": "^2.13.1"
   },
   "peerDependencies": {
     "typescript": "^4.7.0",

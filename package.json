@@ -42,7 +42,7 @@
     "@types/node": "^14.14.7",
     "@types/prettier": "^2.1.5",
     "@types/wordwrap": "^1.0.0",
-    "dts-dom": "^3.6.0",
+    "dts-dom": "3.6.0",
     "eslint": "^7.13.0",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.20",

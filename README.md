@@ -8,14 +8,15 @@ API, generated from [dota-data](https://github.com/ark120202/dota-data) dumps.
 Check out our [addon template](https://github.com/ModDota/TypeScriptAddonTemplate) for usage
 examples.
 
-### Updating after a DOTA2 update
+### Updating after a DOTA2 update (for contributors)
 
 1. Update https://github.com/ModDota/dota-data and publish a new package version
 2. Update the `@moddota/dota-data` package version in `package.json`
 3. `yarn install`
 4. `yarn build`
-5. Commit
-6. If necessary, bump versions in `packages/dota-lua-types/package.json` and
-   `packages/panorama-types/package.json`
-7. Commit and push
-8. If necessary, run `publish-lua-types` and `publish-panorama-types` workflows
+5. Commit to a new branch
+6. Make a merge request
+
+### Updating package versions (for maintainers)
+1. Run `npm run bump:lua-types <major|minor|patch>` to update the lua types package, or `npm run bump:panorama-types <major|minor|patch>` to update the panorama types.
+2. Push with tags

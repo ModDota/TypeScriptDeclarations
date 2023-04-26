@@ -15,7 +15,9 @@
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check .",
     "prepublishOnly": "yarn build",
-    "test": "tsc -b test"
+    "test": "tsc -b test",
+    "bump:lua-types": "ts-node scripts/bump-version.ts packages/dota-lua-types",
+    "bump:panorama-types": "ts-node scripts/bump-version.ts packages/panorama-types"
   },
   "prettier": {
     "printWidth": 100,

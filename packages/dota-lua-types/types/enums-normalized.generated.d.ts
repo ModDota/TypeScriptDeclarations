@@ -2575,7 +2575,7 @@ declare const enum GameActivity {
     DOTA_FORCESTAFF_STATUE = 1773,
     DOTA_TELEPORT_STATUE = 1774,
     DOTA_VICTORY_STATUE = 1775,
-    DOTA_DISABLED_END = 1777,
+    DOTA_DISABLED_END = 1776,
     DOTA_RUN_ALT = 1781,
     DOTA_VOODOO_REST = 1782,
     DOTA_CYCLONE = 1783,
@@ -3680,7 +3680,7 @@ declare const enum ModifierFunction {
      */
     HEALTHBAR_PIPS = 268,
     /**
-     * Method Name: `GetModifierPropertyIncomingDamage_Constant`
+     * Method Name: `GetModifierIncomingDamageConstant`
      */
     INCOMING_DAMAGE_CONSTANT = 269,
     /**

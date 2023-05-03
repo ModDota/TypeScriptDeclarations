@@ -1349,6 +1349,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      */
     GetChannelAnimation(): GameActivity_t;
     /**
+     * Return health cost per second of channeling at the given level (-1 is current).
+     *
+     * @both
+     */
+    GetChannelledHealthCostPerSecond(level: number): number;
+    /**
      * Return mana cost at the given level per second while channeling (-1 is current).
      *
      * @both
@@ -1412,6 +1418,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
      * @both
      */
     GetGoldCost(level: number): number;
+    /**
+     * Return health cost at the given level (-1 is current).
+     *
+     * @both
+     */
+    GetHealthCost(level: number): number;
     /**
      * Returns the name of the modifier applied passively by this ability.
      */
@@ -3675,6 +3687,12 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      */
     GetCastRange(location: Vector, target: CDOTA_BaseNPC | undefined): number;
     /**
+     * Return health cost per second of channeling at the given level (-1 is current).
+     *
+     * @both
+     */
+    GetChannelledHealthCostPerSecond(level: number): number;
+    /**
      * Return mana cost at the given level per second while channeling (-1 is current).
      *
      * @both
@@ -3738,6 +3756,12 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      * @both
      */
     GetGoldCost(level: number): number;
+    /**
+     * Return health cost at the given level (-1 is current).
+     *
+     * @both
+     */
+    GetHealthCost(level: number): number;
     /**
      * Returns the name of the modifier applied passively by this ability.
      */
@@ -4609,6 +4633,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierIncomingDamageConstant?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierIncomingPhysicalDamage_Percentage?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5029,11 +5058,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierProjectileSpeedBonusPercentage?(): void;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierPropertyIncomingDamage_Constant?(): void;
     /**
      * @abstract
      * @both

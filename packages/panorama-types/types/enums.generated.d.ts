@@ -2152,7 +2152,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_HEALTHBAR_PIPS = 268,
     /**
-     * Method Name: `GetModifierPropertyIncomingDamage_Constant`
+     * Method Name: `GetModifierIncomingDamageConstant`
      */
     MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT = 269,
     /**

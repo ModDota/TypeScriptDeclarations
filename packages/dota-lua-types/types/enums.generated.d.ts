@@ -2988,11 +2988,23 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_PERCENTAGE = 60,
     /**
-     * Method Name: `GetModifierIncomingPhysicalDamageConstant`
+     * This property controls 'physical' shield, if defined both on client and server.
+     * Return value on client should be current shield health, as a positive integer,
+     * on server - amount of damage blocked.
+     *
+     *
+     *
+     * Method Name: `GetModifierIncomingPhysicalDamageConstant`.
      */
     MODIFIER_PROPERTY_INCOMING_PHYSICAL_DAMAGE_CONSTANT = 61,
     /**
-     * Method Name: `GetModifierIncomingSpellDamageConstant`
+     * This property controls 'spell' shield, if defined both on client and server.
+     * Return value on client should be current shield health, as a positive integer,
+     * on server - amount of damage blocked.
+     *
+     *
+     *
+     * Method Name: `GetModifierIncomingSpellDamageConstant`.
      */
     MODIFIER_PROPERTY_INCOMING_SPELL_DAMAGE_CONSTANT = 62,
     /**
@@ -3807,11 +3819,21 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_KNOCKBACK_AMPLIFICATION_PERCENTAGE = 267,
     /**
-     * Method Name: `GetModifierHealthBarPips`
+     * Return value is a count of pips.
+     *
+     *
+     *
+     * Method Name: `GetModifierHealthBarPips`.
      */
     MODIFIER_PROPERTY_HEALTHBAR_PIPS = 268,
     /**
-     * Method Name: `GetModifierIncomingDamageConstant`
+     * This property controls 'universal' shield, if defined both on client and
+     * server. Return value on client should be current shield health, as a positive
+     * integer, on server - amount of damage blocked.
+     *
+     *
+     *
+     * Method Name: `GetModifierIncomingDamageConstant`.
      */
     MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT = 269,
     /**

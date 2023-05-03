@@ -4353,7 +4353,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierAvoidDamageAfterReductions?(): void;
+    GetModifierAvoidDamageAfterReductions?(event: ModifierAttackEvent): number;
     /**
      * @abstract
      * @both
@@ -4565,10 +4565,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierHealAmplify_PercentageTarget?(): void;
     /**
+     * Return value is a count of pips.
+     *
      * @abstract
      * @both
      */
-    GetModifierHealthBarPips?(): void;
+    GetModifierHealthBarPips?(event: ModifierAttackEvent): number;
     /**
      * @abstract
      * @both
@@ -4630,21 +4632,33 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      */
     GetModifierIncomingDamage_Percentage?(event: ModifierAttackEvent): number;
     /**
+     * This property controls 'universal' shield, if defined both on client and
+     * server. Return value on client should be current shield health, as a positive
+     * integer, on server - amount of damage blocked.
+     *
      * @abstract
      * @both
      */
-    GetModifierIncomingDamageConstant?(): void;
+    GetModifierIncomingDamageConstant?(event: ModifierAttackEvent): number;
     /**
      * @abstract
      * @both
      */
     GetModifierIncomingPhysicalDamage_Percentage?(event: ModifierAttackEvent): number;
     /**
+     * This property controls 'physical' shield, if defined both on client and server.
+     * Return value on client should be current shield health, as a positive integer,
+     * on server - amount of damage blocked.
+     *
      * @abstract
      * @both
      */
     GetModifierIncomingPhysicalDamageConstant?(event: ModifierAttackEvent): number;
     /**
+     * This property controls 'spell' shield, if defined both on client and server.
+     * Return value on client should be current shield health, as a positive integer,
+     * on server - amount of damage blocked.
+     *
      * @abstract
      * @both
      */
@@ -4895,12 +4909,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierPercentageHealthcost?(): void;
+    GetModifierPercentageHealthcost?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
      * @both
      */
-    GetModifierPercentageHealthcostStacking?(): void;
+    GetModifierPercentageHealthcostStacking?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
      * @both
@@ -5451,7 +5465,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnSpellAppliedSuccessfully?(): void;
+    OnSpellAppliedSuccessfully?(event: ModifierAbilityEvent): void;
     /**
      * @abstract
      * @both
@@ -5461,7 +5475,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnSpentHealth?(): void;
+    OnSpentHealth?(event: ModifierAbilityEvent): void;
     /**
      * @abstract
      * @both

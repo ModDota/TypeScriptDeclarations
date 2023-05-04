@@ -13,8 +13,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - run: yarn --frozen-lockfile
-      - run: yarn build
-      - run: yarn check-generated
-      - run: yarn test
-      - run: yarn lint
+      - run: npm ci
+      - run: npm run build
+      - run: npm run check-generated
+      - run: npm run test
+      - run: npm run lint

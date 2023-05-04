@@ -16,7 +16,7 @@ jobs:
           scope: '@moddota'
       - run: npm ci
       - run: npm run build
-      - run: npm publish 
+      - run: npm publish
         working-directory: packages/panorama-types
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}

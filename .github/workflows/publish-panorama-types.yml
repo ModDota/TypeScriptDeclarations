@@ -14,8 +14,9 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
           scope: '@moddota'
-      - run: yarn --frozen-lockfile
-      - run: yarn build
-      - run: yarn publish packages/panorama-types --access public
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish
+        working-directory: packages/panorama-types
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}

@@ -187,6 +187,7 @@ interface GameEventDeclarations {
     dota_tower_kill: DotaTowerKillEvent;
     dota_effigy_kill: DotaEffigyKillEvent;
     dota_roshan_kill: DotaRoshanKillEvent;
+    dota_miniboss_kill: DotaMinibossKillEvent;
     dota_courier_lost: DotaCourierLostEvent;
     dota_courier_respawned: DotaCourierRespawnedEvent;
     dota_glyph_used: DotaGlyphUsedEvent;
@@ -1534,6 +1535,12 @@ interface DotaEffigyKillEvent {
 }
 
 interface DotaRoshanKillEvent {
+    teamnumber: number;
+    gold: number;
+}
+
+interface DotaMinibossKillEvent {
+    shard_recipient_id: number;
     teamnumber: number;
     gold: number;
 }

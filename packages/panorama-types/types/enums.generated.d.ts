@@ -2185,7 +2185,11 @@ declare enum modifierfunction {
      * Method Name: `GetModifierAvoidDamageAfterReductions`
      */
     MODIFIER_PROPERTY_AVOID_DAMAGE_AFTER_REDUCTIONS = 271,
-    MODIFIER_FUNCTION_LAST = 272,
+    /**
+     * Method Name: `GetModifierDamageOutgoing_PercentageMultiplicative`
+     */
+    MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE_MULTIPLICATIVE = 272,
+    MODIFIER_FUNCTION_LAST = 273,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 

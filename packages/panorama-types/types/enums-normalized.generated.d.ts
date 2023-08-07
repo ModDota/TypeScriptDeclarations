@@ -1092,7 +1092,7 @@ declare enum LoadoutType {
     TYPE_NONE = 96,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 272;
+declare const MODIFIER_FUNCTION_LAST: 273;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -2204,6 +2204,10 @@ declare enum ModifierFunction {
      * Method Name: `GetModifierAvoidDamageAfterReductions`
      */
     AVOID_DAMAGE_AFTER_REDUCTIONS = 271,
+    /**
+     * Method Name: `GetModifierDamageOutgoing_PercentageMultiplicative`
+     */
+    DAMAGEOUTGOING_PERCENTAGE_MULTIPLICATIVE = 272,
     INVALID = 65535,
 }
 

@@ -72,6 +72,7 @@ declare const enum AttributeDerivedStats {
     INTELLIGENCE_MANA = 7,
     INTELLIGENCE_MANA_REGEN = 8,
     INTELLIGENCE_MAGIC_RESIST = 9,
+    ALL_DAMAGE = 10,
 }
 
 declare const enum Attributes {
@@ -2575,16 +2576,16 @@ declare const enum GameActivity {
     DOTA_FORCESTAFF_STATUE = 1773,
     DOTA_TELEPORT_STATUE = 1774,
     DOTA_VICTORY_STATUE = 1775,
-    DOTA_DISABLED_END = 1776,
-    DOTA_RUN_ALT = 1781,
-    DOTA_VOODOO_REST = 1782,
-    DOTA_CYCLONE = 1783,
-    DOTA_IMPALE = 1784,
-    DOTA_TORRENT = 1785,
-    DOTA_RELAX_IN = 1786,
-    DOTA_RELAX_OUT = 1787,
-    DOTA_CAST_FENCE = 1788,
-    DOTA_RADIANT_CREEP_HAMMER = 1790,
+    DOTA_DISABLED_END = 1777,
+    DOTA_RELAX_IN = 1778,
+    DOTA_RELAX_OUT = 1779,
+    DOTA_CAST_FENCE = 1780,
+    DOTA_RUN_ALT = 1784,
+    DOTA_RADIANT_CREEP_HAMMER = 1786,
+    DOTA_VOODOO_REST = 1787,
+    DOTA_CYCLONE = 1788,
+    DOTA_IMPALE = 1789,
+    DOTA_TORRENT = 1790,
     DOTA_SPWN = 1791,
 }
 
@@ -2601,7 +2602,7 @@ declare const enum LuaModifierMotionType {
     INVALID = 4,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 272;
+declare const MODIFIER_FUNCTION_LAST: 273;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -3713,6 +3714,10 @@ declare const enum ModifierFunction {
      * Method Name: `GetModifierAvoidDamageAfterReductions`
      */
     AVOID_DAMAGE_AFTER_REDUCTIONS = 271,
+    /**
+     * Method Name: `GetModifierDamageOutgoing_PercentageMultiplicative`
+     */
+    DAMAGEOUTGOING_PERCENTAGE_MULTIPLICATIVE = 272,
     INVALID = 65535,
 }
 

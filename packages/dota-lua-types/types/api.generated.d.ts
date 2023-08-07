@@ -2258,6 +2258,8 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     IsCurrentlyHorizontalMotionControlled(): boolean;
     IsCurrentlyVerticalMotionControlled(): boolean;
     /** @both */
+    IsDebuffImmune(): boolean;
+    /** @both */
     IsDisarmed(): boolean;
     /** @both */
     IsDominated(): boolean;
@@ -4504,6 +4506,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierDamageOutgoing_Percentage_Illusion_Amplify?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierDamageOutgoing_PercentageMultiplicative?(): void;
     /**
      * @abstract
      * @both

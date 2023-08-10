@@ -195,6 +195,7 @@ declare enum dotaunitorder_t {
     DOTA_UNIT_ORDER_DROP_ITEM_AT_FOUNTAIN = 37,
     DOTA_UNIT_ORDER_TAKE_ITEM_FROM_NEUTRAL_ITEM_STASH = 38,
     DOTA_UNIT_ORDER_MOVE_RELATIVE = 39,
+    DOTA_UNIT_ORDER_CAST_TOGGLE_ALT = 40,
 }
 
 /**
@@ -584,6 +585,7 @@ declare enum DOTA_ABILITY_BEHAVIOR {
     DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE = 137438953472,
     DOTA_ABILITY_BEHAVIOR_OVERSHOOT = 274877906944,
     DOTA_ABILITY_BEHAVIOR_IGNORE_MUTED = 549755813888,
+    DOTA_ABILITY_BEHAVIOR_ALT_CASTABLE = 1099511627776,
 }
 
 /**
@@ -1978,7 +1980,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_MODEL_SCALE_ANIMATE_TIME = 221,
     /**
-     * Always applies scepter when this property is active
+     * Applies scepter when this property is active
      *
      *
      *
@@ -1986,7 +1988,11 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_IS_SCEPTER = 222,
     /**
-     * Method Name: `GetModifierShard`
+     * Applies shard when this property is active
+     *
+     *
+     *
+     * Method Name: `GetModifierShard`.
      */
     MODIFIER_PROPERTY_IS_SHARD = 223,
     /**
@@ -2189,7 +2195,27 @@ declare enum modifierfunction {
      * Method Name: `GetModifierDamageOutgoing_PercentageMultiplicative`
      */
     MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE_MULTIPLICATIVE = 272,
-    MODIFIER_FUNCTION_LAST = 273,
+    /**
+     * Method Name: `GetModifierSlowResistance`
+     */
+    MODIFIER_PROPERTY_SLOW_RESISTANCE = 273,
+    /**
+     * Method Name: `GetModifierAoEBonusPercentage`
+     */
+    MODIFIER_PROPERTY_AOE_BONUS_PERCENTAGE = 274,
+    /**
+     * Method Name: `GetModifierProjectileSpeed`
+     */
+    MODIFIER_PROPERTY_PROJECTILE_SPEED = 275,
+    /**
+     * Method Name: `GetModifierBecomeUniversal`
+     */
+    MODIFIER_PROPERTY_BECOME_UNIVERSAL = 276,
+    /**
+     * Method Name: `OnForceProcMagicStick`
+     */
+    MODIFIER_EVENT_ON_FORCE_PROC_MAGIC_STICK = 277,
+    MODIFIER_FUNCTION_LAST = 278,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 
@@ -2258,7 +2284,8 @@ declare enum modifierstate {
     MODIFIER_STATE_DEBUFF_IMMUNE = 56,
     MODIFIER_STATE_NO_INVISIBILITY_VISUALS = 57,
     MODIFIER_STATE_ALLOW_PATHING_THROUGH_BASE_BLOCKER = 58,
-    MODIFIER_STATE_LAST = 59,
+    MODIFIER_STATE_IGNORING_MOVE_ORDERS = 59,
+    MODIFIER_STATE_LAST = 60,
 }
 
 /**

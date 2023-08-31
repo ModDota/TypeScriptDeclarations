@@ -1849,7 +1849,11 @@ interface DollarStatic {
     DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
     DispatchEventAsync(delay: number, event: string, panel: PanelBase, ...args: any[]): void;
     Language(): string;
+    /**
+     * Localize a string. Optionally accepts Quantity, Precision, and Panel arguments.
+     */
     Localize(token: string, parent?: PanelBase): string;
+    Localize(token: string, value: number, parent?: PanelBase): string;
     /**
      * @deprecated
      */

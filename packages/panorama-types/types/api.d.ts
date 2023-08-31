@@ -1823,8 +1823,6 @@ interface DollarStatic {
     ): PanoramaPanelNameMap[K];
     CreatePanelWithProperties(type: string, root: PanelBase, id: string, properties: Record<string, any>): Panel;
 
-    CreatePanelWithCurrentContext(root?: PanelBase): Panel;
-
     /**
      * Log a message
      */

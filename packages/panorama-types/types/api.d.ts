@@ -1762,8 +1762,13 @@ interface DollarStatic {
     (selector: string): Panel;
     FindChildInContext(selector: string): Panel;
 
-    CreatePanel<K extends keyof PanoramaPanelNameMap>(type: K, root: PanelBase, id: string): PanoramaPanelNameMap[K];
-    CreatePanel(type: string, root: PanelBase, id: string): Panel;
+    CreatePanel<K extends keyof PanoramaPanelNameMap>(
+        type: K,
+        root: PanelBase,
+        id: string,
+        properties?: Record<string, any>,
+    ): PanoramaPanelNameMap[K];
+    CreatePanel(type: string, root: PanelBase, id: string, properties?: Record<string, any>): Panel;
 
     /**
      * @param properties An object with XML-style properties added to the created panel.
@@ -1773,6 +1778,7 @@ interface DollarStatic {
      *     text: "Button",
      *     onactivate: "$.Msg('Button Pressed')",
      * });
+     * @deprecated
      */
     CreatePanelWithProperties<K extends keyof PanoramaPanelNameMap>(
         type: K,

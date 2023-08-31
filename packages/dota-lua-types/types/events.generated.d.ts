@@ -1808,7 +1808,6 @@ interface MatchHistoryUpdatedEvent {
 
 interface MatchDetailsUpdatedEvent {
     matchID: number;
-    result: number;
 }
 
 interface TeamDetailsUpdatedEvent {
@@ -2292,7 +2291,11 @@ interface DotaHeroInventoryItemChangeEvent {
     player_id: number;
     hero_entindex: EntityIndex;
     item_entindex: EntityIndex;
+    item_ability_id: number;
     removed: 0 | 1;
+    dropped: 0 | 1;
+    sold: 0 | 1;
+    in_sellback_windown: 0 | 1;
 }
 
 interface AegisEventEvent {

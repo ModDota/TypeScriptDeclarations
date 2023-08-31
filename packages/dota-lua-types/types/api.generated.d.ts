@@ -2105,6 +2105,12 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     /** @both */
     GetUnitLabel(): string;
     /**
+     * Get the localization token for this unit's name.
+     *
+     * @client
+     */
+    GetUnitLocToken(): string;
+    /**
      * Get the name of this unit.
      *
      * @both
@@ -4144,7 +4150,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      *
      * @both
      */
-    OnRemoved(): void;
+    OnRemoved(death: boolean): void;
     /**
      * Runs when stack count changes (param is old count).
      *
@@ -4789,6 +4795,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierModelScaleConstant?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierModelScaleUseInOutEase?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierMoveSpeed_Absolute?(): number;
     /**
      * @abstract
@@ -5048,6 +5064,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPrereduceIncomingDamage_Mult?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierProcAttack_BonusDamage_Magical?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5094,6 +5115,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierProjectileSpeedBonusPercentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropetyFailAttack?(): void;
     /**
      * @abstract
      * @both
@@ -5192,7 +5218,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierSuppressFullscreenDeathFX?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierTempestDouble?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierTickGold_Multiplier?(): void;
     /**
      * @abstract
      * @both
@@ -5298,6 +5334,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetVisualZSpeedBaseOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    MODIFIER_PROPERTY_INCOMING_DAMAGE_CONSTANT_POST?(): void;
     /**
      * @abstract
      * @both
@@ -5560,6 +5601,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     PreserveParticlesOnModelChanged?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    ReincarnateSuppressFX?(): void;
     /**
      * @abstract
      * @both
@@ -6985,6 +7031,12 @@ declare interface CDOTAGameManager {
      */
     GetHeroIDByName(heroName: string): number;
     /**
+     * Get the localization token for the given hero ID.
+     *
+     * @both
+     */
+    GetHeroLocTokenByID(arg1: number): string;
+    /**
      * Get the hero name given a hero ID.
      *
      * @both
@@ -8145,7 +8197,11 @@ declare interface CEntityInstance {
      * @both
      */
     GetIntAttr(arg1: string): number;
-    /** @both */
+    /**
+     * Get the entity name.
+     *
+     * @both
+     */
     GetName(): string;
     /**
      * Retrieve, creating if necessary, the private per-instance script-side data
@@ -8594,10 +8650,6 @@ declare interface CSceneEntity extends CBaseEntity {
      * Returns length of this scene in seconds.
      */
     EstimateLength(): number;
-    /**
-     * Get the camera.
-     */
-    FindCamera(): object;
     /**
      * Given an entity reference, such as !target, get actual entity from scene object.
      */
@@ -10236,14 +10288,14 @@ declare function IsDedicatedServer(): boolean;
  *
  * @client
  */
-declare function IsDotaAltPressed(): unknown;
+declare function IsDotaAltPressed(): boolean;
 
 /**
  * Returns true if whatever ctrl is remapped to is pressed.
  *
  * @client
  */
-declare function IsDotaCtrlPressed(): unknown;
+declare function IsDotaCtrlPressed(): boolean;
 
 /**
  * Returns true if this is lua running within tools mode.
@@ -10479,10 +10531,15 @@ declare function QSlerp(from_angle: QAngle, to_angle: QAngle, time: number): QAn
 
 /**
  * Get a random float within a range.
+ */
+declare function RandomFloat(min: number, max: number): number;
+
+/**
+ * Generate a random floating point number within a range, inclusive.
  *
  * @both
  */
-declare function RandomFloat(min: number, max: number): number;
+declare function RandomFloatWrapper(arg1: number, arg2: number): number;
 
 /**
  * Get a random int within a range.
@@ -10606,6 +10663,13 @@ declare function ScreenShake(
     command: 0 | 1,
     airShake: boolean,
 ): void;
+
+/**
+ * Get a random float within a range.
+ *
+ * @both
+ */
+declare function Script_RandomFloat(arg1: number, arg2: number): number;
 
 /**
  * RemapValClamped.

@@ -98,6 +98,7 @@ type PanelEvent =
     | 'onvaluechanged';
 
 interface PanelBase {
+    readonly type: string;
     readonly paneltype: string;
     rememberchildfocus: boolean;
 
@@ -247,6 +248,8 @@ interface Panel extends PanelBase {
     SetPositionInPixels(x: number, y: number, z: number): void;
 
     Data<T = object>(): T;
+
+    SetSendScrollPositionChangedEvents(value: boolean): void;
 }
 
 interface LabelPanel extends Panel {
@@ -277,6 +280,8 @@ interface ImagePanel extends Panel {
      */
     SetImage(path: string): void;
     SetScaling(scale: ScalingFunction): void;
+
+    SetImageFromPanel(sourcePanel: Panel, unknown1: boolean): void;
 }
 
 interface AbilityImage extends ImagePanel {
@@ -305,7 +310,7 @@ interface ContextMenuScriptPanel extends Panel {
 
 type WeekendTourneyTrophyScene = ScenePanel;
 interface ScenePanel extends Panel {
-    FireEntityInput(entityID: string, inputName: string, value: string): void;
+    FireEntityInput(entityName: string, inputName: string, value: string): void;
     PlayEntitySoundEvent(arg1: any, arg2: any): number;
     SetUnit(unitName: string, environment: string, drawBackground: boolean): void;
     GetPanoramaSurfacePanel(): Panel | null;
@@ -325,6 +330,10 @@ interface ScenePanel extends Panel {
 
     ReloadScene(): void;
     ClearScene(unknown1: boolean): void;
+
+    SetAnimgraphParameterOnEntityInt(entityName: string, name: string, value: number): void;
+    SetAnimgraphParameterOnEntityFloat(entityName: string, name: string, value: number): void;
+    SetAnimgraphParameterOnEntityEnum(entityName: string, name: string, value: string): void;
 }
 
 interface ParticleScenePanel extends ScenePanel {
@@ -401,6 +410,8 @@ interface DropDown extends Panel {
 
     AccessDropDownMenu(): Panel;
     FindDropDownMenuChild(string: string): Panel;
+
+    SetSelectedIndex(index: number): void;
 }
 
 type SlottedSlider = SliderPanel;
@@ -423,6 +434,8 @@ interface ProgressBar extends Panel {
     value: number;
     min: number;
     max: number;
+    hasNotches: boolean;
+    valuePerNotch: boolean;
 }
 
 // Needs _BG and _FG styles, see lower hud hero exp

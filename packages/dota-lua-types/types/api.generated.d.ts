@@ -3515,7 +3515,13 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     IsSellable(): boolean;
     /** @both */
     IsStackable(): boolean;
-    LaunchLoot(autoUse: boolean, height: number, duration: number, endPoint: Vector, teleportOwner: object): void;
+    LaunchLoot(
+        autoUse: boolean,
+        height: number,
+        duration: number,
+        endPoint: Vector,
+        teleportOwner: CDOTA_BaseNPC_Hero | undefined,
+    ): void;
     LaunchLootInitialHeight(
         autoUse: boolean,
         initialHeight: number,

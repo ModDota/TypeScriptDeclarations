@@ -340,6 +340,7 @@ declare interface ModifierAttackEvent {
     no_attack_cooldown: boolean;
     record: number;
     fail_type: attackfail;
+    report_max?: boolean;
 }
 
 declare interface ModifierInstanceEvent {

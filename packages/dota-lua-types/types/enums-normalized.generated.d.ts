@@ -2580,17 +2580,17 @@ declare const enum GameActivity {
     DOTA_FORCESTAFF_STATUE = 1773,
     DOTA_TELEPORT_STATUE = 1774,
     DOTA_VICTORY_STATUE = 1775,
-    DOTA_DISABLED_END = 1777,
-    DOTA_VOODOO_REST = 1781,
-    DOTA_RADIANT_CREEP_HAMMER = 1783,
-    DOTA_RELAX_IN = 1784,
-    DOTA_RELAX_OUT = 1785,
-    DOTA_CAST_FENCE = 1786,
-    DOTA_SPWN = 1787,
-    DOTA_CYCLONE = 1788,
-    DOTA_IMPALE = 1789,
-    DOTA_TORRENT = 1790,
-    DOTA_RUN_ALT = 1791,
+    DOTA_DISABLED_END = 1776,
+    DOTA_RELAX_IN = 1778,
+    DOTA_RELAX_OUT = 1779,
+    DOTA_CAST_FENCE = 1780,
+    DOTA_RADIANT_CREEP_HAMMER = 1782,
+    DOTA_SPWN = 1783,
+    DOTA_RUN_ALT = 1787,
+    DOTA_VOODOO_REST = 1788,
+    DOTA_CYCLONE = 1789,
+    DOTA_IMPALE = 1790,
+    DOTA_TORRENT = 1791,
 }
 
 /**
@@ -2606,7 +2606,7 @@ declare const enum LuaModifierMotionType {
     INVALID = 4,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 286;
+declare const MODIFIER_FUNCTION_LAST: 287;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -3778,6 +3778,10 @@ declare const enum ModifierFunction {
      * Method Name: `OnForceProcMagicStick`
      */
     ON_FORCE_PROC_MAGIC_STICK = 285,
+    /**
+     * Method Name: `GetModifierDoNotSinkAfterDeath`
+     */
+    DO_NOT_SINK_AFTER_DEATH = 286,
     INVALID = 65535,
 }
 
@@ -4192,9 +4196,9 @@ declare const enum SourceEngineSoundData {
     MELEE_MISS = 5,
     MELEE_HIT = 6,
     MELEE_HIT_WORLD = 7,
-    SPECIAL_1 = 9,
-    SPECIAL_2 = 10,
-    SPECIAL_3 = 11,
+    SPECIAL_1 = 10,
+    SPECIAL_2 = 11,
+    SPECIAL_3 = 12,
 }
 
 /**

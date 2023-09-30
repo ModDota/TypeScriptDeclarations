@@ -2248,7 +2248,11 @@ declare enum modifierfunction {
      * Method Name: `OnForceProcMagicStick`
      */
     MODIFIER_EVENT_ON_FORCE_PROC_MAGIC_STICK = 285,
-    MODIFIER_FUNCTION_LAST = 286,
+    /**
+     * Method Name: `GetModifierDoNotSinkAfterDeath`
+     */
+    MODIFIER_PROPERTY_DO_NOT_SINK_AFTER_DEATH = 286,
+    MODIFIER_FUNCTION_LAST = 287,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 

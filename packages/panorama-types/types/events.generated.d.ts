@@ -105,6 +105,7 @@ interface GameEventDeclarations {
     hltv_chat: HltvChatEvent;
     hltv_versioninfo: HltvVersioninfoEvent;
     hltv_replay: HltvReplayEvent;
+    hltv_replay_status: HltvReplayStatusEvent;
     demo_start: DemoStartEvent;
     demo_stop: object;
     demo_skip: DemoSkipEvent;
@@ -396,7 +397,6 @@ interface GameEventDeclarations {
     dota_team_player_list_changed: object;
     dota_player_connection_state_changed: object;
     dota_player_details_changed: object;
-    player_profile_stats_updated: PlayerProfileStatsUpdatedEvent;
     custom_game_player_count_updated: CustomGamePlayerCountUpdatedEvent;
     custom_game_friends_played_updated: CustomGameFriendsPlayedUpdatedEvent;
     custom_games_friends_play_updated: object;
@@ -934,6 +934,13 @@ interface HltvReplayEvent {
     delay: number;
     /**
      * Reason for replay    (ReplayEventType_t).
+     */
+    reason: number;
+}
+
+interface HltvReplayStatusEvent {
+    /**
+     * Reason for hltv replay status change ().
      */
     reason: number;
 }
@@ -2199,10 +2206,6 @@ interface DotaPlayerSpawnedEvent {
 
 interface DotaHeroUndoselectionEvent {
     playerid1: PlayerID;
-}
-
-interface PlayerProfileStatsUpdatedEvent {
-    account_id: number;
 }
 
 interface CustomGamePlayerCountUpdatedEvent {

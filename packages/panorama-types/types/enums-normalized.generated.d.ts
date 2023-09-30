@@ -1095,7 +1095,7 @@ declare enum LoadoutType {
     TYPE_NONE = 97,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 286;
+declare const MODIFIER_FUNCTION_LAST: 287;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -2267,6 +2267,10 @@ declare enum ModifierFunction {
      * Method Name: `OnForceProcMagicStick`
      */
     ON_FORCE_PROC_MAGIC_STICK = 285,
+    /**
+     * Method Name: `GetModifierDoNotSinkAfterDeath`
+     */
+    DO_NOT_SINK_AFTER_DEATH = 286,
     INVALID = 65535,
 }
 

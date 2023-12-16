@@ -186,9 +186,11 @@ interface GameEventDeclarations {
     dota_player_deny: DotaPlayerDenyEvent;
     dota_barracks_kill: DotaBarracksKillEvent;
     dota_tower_kill: DotaTowerKillEvent;
+    dota_tower_deny: DotaTowerDenyEvent;
     dota_effigy_kill: DotaEffigyKillEvent;
     dota_roshan_kill: DotaRoshanKillEvent;
     dota_miniboss_kill: DotaMinibossKillEvent;
+    dota_banner_planted: DotaBannerPlantedEvent;
     dota_courier_lost: DotaCourierLostEvent;
     dota_courier_respawned: DotaCourierRespawnedEvent;
     dota_glyph_used: DotaGlyphUsedEvent;
@@ -1537,6 +1539,10 @@ interface DotaTowerKillEvent {
     gold: number;
 }
 
+interface DotaTowerDenyEvent {
+    killer_userid: EntityIndex;
+}
+
 interface DotaEffigyKillEvent {
     owner_userid: EntityIndex;
 }
@@ -1550,6 +1556,10 @@ interface DotaMinibossKillEvent {
     shard_recipient_id: number;
     teamnumber: number;
     gold: number;
+}
+
+interface DotaBannerPlantedEvent {
+    teamnumber: number;
 }
 
 interface DotaCourierLostEvent {

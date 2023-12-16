@@ -1824,9 +1824,9 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     GetAttackRangeBuffer(): number;
     /** @both */
-    GetAttackSpeed(): number;
+    GetAttackSpeed(ignoreTempAttackSpeed: boolean): number;
     /** @both */
-    GetAttacksPerSecond(): number;
+    GetAttacksPerSecond(ignoreTempAttackSpeed: boolean): number;
     GetAttackTarget(): CDOTA_BaseNPC | undefined;
     /**
      * Returns the average value of the minimum and maximum damage values.
@@ -1962,7 +1962,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     GetIdealSpeedNoSlows(): number;
     /** @both */
-    GetIncreasedAttackSpeed(): number;
+    GetIncreasedAttackSpeed(ignoreTempAttackSpeed: boolean): number;
     /**
      * Returns the initial waypoint goal for this NPC.
      */
@@ -2093,7 +2093,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
     GetRangeToUnit(npc: CDOTA_BaseNPC): number;
     GetRemainingPathLength(): number;
     /** @both */
-    GetSecondsPerAttack(): number;
+    GetSecondsPerAttack(ignoreTempAttackSpeed: boolean): number;
     GetSpellAmplification(baseOnly: boolean): number;
     GetStatusResistance(): number;
     /**
@@ -3057,7 +3057,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
     /**
      * Hero attack speed is also affected by agility.
      */
-    GetIncreasedAttackSpeed(): number;
+    GetIncreasedAttackSpeed(ignoreTempAttackSpeed: boolean): number;
     /** @both */
     GetIntellect(): number;
     GetIntellectGain(): number;
@@ -4257,6 +4257,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetBonusDayVisionPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetBonusNightVision?(): number;
     /**
      * @abstract
@@ -4308,6 +4313,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierAbilityLayout?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAoEBonusConstant?(): void;
     /**
      * @abstract
      * @both
@@ -4592,6 +4602,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierForceMaxHealth?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierHealAmplify_PercentageSource?(): void;
     /**
      * @abstract
@@ -4782,6 +4797,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierMaxDebuffDuration?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMinPhysicalArmor?(): void;
     /**
      * @abstract
      * @both
@@ -5451,6 +5471,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnDamageHPLoss?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnDamagePrevented?(): void;
     /**
      * @abstract
@@ -5461,7 +5486,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnDeathCompleted?(): void;
+    OnDeathCompleted?(event: ModifierInstanceEvent): void;
     /**
      * @abstract
      * @both
@@ -6086,6 +6111,7 @@ declare interface CDOTABaseAbility extends CBaseEntity {
      * Clear the cooldown remaining on this ability.
      */
     EndCooldown(): void;
+    ForceSetFrozenCooldown(value: number): void;
     GetAbilityChargeRestoreTime(level: number): number;
     GetAbilityDamage(): number;
     GetAbilityDamageType(): DAMAGE_TYPES;

@@ -836,6 +836,8 @@ interface CScriptBindingPR_Entities {
 
     IsBoss(nEntityIndex: EntityIndex): boolean;
 
+    IsBossCreature(nEntityIndex: EntityIndex): boolean;
+
     IsRoshan(nEntityIndex: EntityIndex): boolean;
 
     IsBuilding(nEntityIndex: EntityIndex): boolean;
@@ -1039,7 +1041,7 @@ interface CScriptBindingPR_Entities {
 
     ManaFraction(nEntityIndex: EntityIndex): number;
 
-    GetClassname(nEntityIndex: EntityIndex): string;
+    GetClassNameAsCStr(nEntityIndex: EntityIndex): string;
 
     GetDisplayedUnitName(nEntityIndex: EntityIndex): string;
 

@@ -527,7 +527,7 @@ interface VCSSStyleDeclaration {
      * overflow: squish squish; // squishes contents in horizontal and vertical directions
      * overflow: squish scroll; // scrolls contents in the Y direction
      */
-    overflow: 'squish' | 'clip' | 'scroll' | null;
+    overflow: 'squish' | 'clip' | 'scroll' | 'squish squish' | 'squish clip ' | 'squish scroll' | 'clip clip' | 'clip squish' | 'clip scroll' | 'scroll scroll' | 'scroll squish' | 'scroll clip' | null;
 
     padding: string | null;
     paddingBottom: string | null;

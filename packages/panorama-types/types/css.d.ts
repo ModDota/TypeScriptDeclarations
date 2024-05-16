@@ -14,6 +14,7 @@ interface VCSSStyleDeclaration {
     animation: string | null;
     animationDelay: string | null;
     animationDirection: string | null;
+    animationFillMode: string | null;
     animationDuration: string | null;
     animationIterationCount: string | null;
     animationName: string | null;

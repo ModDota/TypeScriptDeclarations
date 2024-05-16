@@ -1,6 +1,6 @@
 const hero = HeroList.GetHero(0)!;
 
-CDOTA_BaseNPC.GetAttackSpeed.call(hero);
+CDOTA_BaseNPC.GetAttackSpeed.call(hero, true);
 // @ts-ignore TODO: Expect error
 CDOTA_BaseNPC.GetAttackSpeed();
 // @ts-ignore TODO: Expect error

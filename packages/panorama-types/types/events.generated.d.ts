@@ -348,7 +348,6 @@ interface GameEventDeclarations {
     dota_tutorial_lesson_start: object;
     dota_tutorial_task_advance: object;
     dota_tutorial_shop_toggled: DotaTutorialShopToggledEvent;
-    map_location_updated: object;
     richpresence_custom_updated: object;
     game_end_visible: object;
     enable_china_logomark: object;
@@ -412,6 +411,10 @@ interface GameEventDeclarations {
     dota_bounty: DotaBountyEvent;
     dota_candy: DotaCandyEvent;
     dota_ad_randomed: DotaAdRandomedEvent;
+    dota_custom_camera_updated: DotaCustomCameraUpdatedEvent;
+    dota_event_game_camera_zoom_updated: DotaEventGameCameraZoomUpdatedEvent;
+    dota_event_game_camera_position_updated: DotaEventGameCameraPositionUpdatedEvent;
+    dota_custom_camera_pitch_updated: DotaCustomCameraPitchUpdatedEvent;
     colorblind_mode_changed: object;
     dota_report_submitted: DotaReportSubmittedEvent;
     client_reload_game_keyvalues: object;
@@ -444,6 +447,10 @@ interface GameEventDeclarations {
      * The specified channel has had players leave or join.
      */
     chat_members_changed: ChatMembersChangedEvent;
+    /**
+     * An NPC has gained aggro (is attacking) a hero.
+     */
+    dota_hero_on_gain_aggro: DotaHeroOnGainAggroEvent;
 }
 /**
  * Send once a server starts.
@@ -1528,19 +1535,34 @@ interface DotaPlayerDenyEvent {
 
 interface DotaBarracksKillEvent {
     barracks_id: number;
-    killer_playerid: PlayerID;
+    barracks_type: number;
+    teamnumber: number;
+    killer_userid: EntityIndex;
     killer_team: number;
-    bounty_amount: number;
+    gold: number;
+    pos_x: number;
+    pos_y: number;
+    pos_z: number;
 }
 
 interface DotaTowerKillEvent {
     killer_userid: EntityIndex;
     teamnumber: number;
     gold: number;
+    tier: number;
+    pos_x: number;
+    pos_y: number;
+    pos_z: number;
 }
 
 interface DotaTowerDenyEvent {
     killer_userid: EntityIndex;
+    teamnumber: number;
+    gold: number;
+    tier: number;
+    pos_x: number;
+    pos_y: number;
+    pos_z: number;
 }
 
 interface DotaEffigyKillEvent {
@@ -1927,6 +1949,7 @@ interface DotaPlayerKilledEvent {
 
 interface DotaAssistEarnedEvent {
     entindex_hero: EntityIndex;
+    playerid_victim: PlayerID;
 }
 
 interface DotaItemPurchasedEvent {
@@ -2294,6 +2317,44 @@ interface DotaAdRandomedEvent {
     item_ability_id: number;
 }
 
+interface DotaCustomCameraUpdatedEvent {
+    /**
+     * DOTACustomCameraEventFlags_t.
+     */
+    flags: number;
+    zoom: number;
+    x: number;
+    y: number;
+    extra_yaw: number;
+    pitch: number;
+    duration: number;
+    /**
+     * Only used if associated flag is set.
+     */
+    player_id: number;
+}
+
+interface DotaEventGameCameraZoomUpdatedEvent {
+    zoom: number;
+    /**
+     * 0 - instantaneous camera update.
+     */
+    duration: number;
+}
+
+interface DotaEventGameCameraPositionUpdatedEvent {
+    x: number;
+    y: number;
+    /**
+     * 0 - instantaneous camera update.
+     */
+    duration: number;
+}
+
+interface DotaCustomCameraPitchUpdatedEvent {
+    pitch: number;
+}
+
 interface DotaReportSubmittedEvent {
     result: number;
     report_flags: number;
@@ -2434,4 +2495,12 @@ interface ChatNewMessageEvent {
  */
 interface ChatMembersChangedEvent {
     channel: number;
+}
+
+/**
+ * An NPC has gained aggro (is attacking) a hero.
+ */
+interface DotaHeroOnGainAggroEvent {
+    entindex_attacker: EntityIndex;
+    entindex_hero: EntityIndex;
 }

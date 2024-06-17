@@ -9703,7 +9703,7 @@ declare function CreateIllusions(
 declare function CreateItem(
     itemName: string,
     owner: CDOTAPlayerController | undefined,
-    purchaser: CDOTA_BaseNPC_Hero | undefined,
+    purchaser: CDOTAPlayerController | undefined,
 ): CDOTA_Item | undefined;
 
 /**

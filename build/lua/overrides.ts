@@ -89,11 +89,6 @@ export const overrides: Record<string, ApiOverride> = {
     },
   },
 
-  CreateItem: {
-    args: {
-      purchaser: 'CDOTA_BaseNPC_Hero | undefined',
-    },
-  },
   EntIndexToHScript: {
     generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
     return: 'T | undefined',

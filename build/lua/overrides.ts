@@ -104,75 +104,40 @@ export const overrides: Record<string, ApiOverride> = {
     generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
     return: 'T | undefined',
   },
-  'CEntities.FindAllByName': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllByNameWithin': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllByTarget': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllByClassname': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllByClassnameWithin': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllByModel': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindAllInSphere': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T[]',
-  },
-  'CEntities.FindByClassname': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByClassnameNearest': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByClassnameWithin': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByModel': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByModelWithin': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByName': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByNameNearest': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByNameWithin': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindByTarget': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
-  'CEntities.FindInSphere': {
-    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
-    return: 'T | undefined',
-  },
 };
+
+for (const name of [
+  'FindAllByName',
+  'FindAllByNameWithin',
+  'FindAllByTarget',
+  'FindAllByClassname',
+  'FindAllByClassnameWithin',
+  'FindAllByModel',
+  'FindAllInSphere',
+]) {
+  overrides[`CEntities.${name}`] = {
+    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
+    return: 'T[]',
+  };
+}
+
+for (const name of [
+  'FindByClassname',
+  'FindByClassnameNearest',
+  'FindByClassnameWithin',
+  'FindByModel',
+  'FindByModelWithin',
+  'FindByName',
+  'FindByNameNearest',
+  'FindByNameWithin',
+  'FindByTarget',
+  'FindInSphere',
+]) {
+  overrides[`CEntities.${name}`] = {
+    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
+    return: 'T | undefined',
+  };
+}
 
 for (const name of ['QueueConcept', 'QueueTeamConcept', 'QueueTeamConceptNoSpectators']) {
   overrides[`CDOTA_BaseNPC.${name}`] = {

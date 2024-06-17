@@ -89,12 +89,6 @@ export const overrides: Record<string, ApiOverride> = {
     },
   },
 
-  'CBaseEntity.IsPlayerController': {
-    return: 'this is CDOTAPlayerController',
-  },
-  'CBaseEntity.IsPlayerPawn': {
-    return: 'this is CBasePlayerPawn',
-  },
   CreateItem: {
     args: {
       purchaser: 'CDOTA_BaseNPC_Hero | undefined',

@@ -89,6 +89,8 @@ const typePredicates: Record<string, string> = {
   'CDOTA_PlayerResource.IsValidPlayerID': 'playerId is PlayerID',
   'CDOTA_PlayerResource.IsValidTeamPlayer': 'playerId is PlayerID',
   'CDOTA_PlayerResource.IsValidTeamPlayerID': 'playerId is PlayerID',
+  'CBaseEntity.IsPlayerController': 'this is CDOTAPlayerController',
+  'CBaseEntity.IsPlayerPawn': 'this is CBasePlayerPawn',
   'CDOTABaseAbility.IsItem': 'this is CDOTA_Item',
   'ProjectileManager.IsValidProjectile': 'value is ProjectileID',
 };

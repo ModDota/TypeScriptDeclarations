@@ -3373,6 +3373,12 @@ declare interface CDOTA_Buff {
     IsDebuff(): boolean;
     /** @both */
     IsHexDebuff(): boolean;
+    /**
+     * Has underlying C++ entity object been deleted?
+     *
+     * @both
+     */
+    IsNull(): boolean;
     /** @both */
     IsStunDebuff(): boolean;
     SendBuffRefreshToClients(): void;
@@ -9703,7 +9709,7 @@ declare function CreateIllusions(
 declare function CreateItem(
     itemName: string,
     owner: CDOTAPlayerController | undefined,
-    purchaser: CDOTAPlayerController | undefined,
+    purchaser: CDOTA_BaseNPC_Hero | undefined,
 ): CDOTA_Item | undefined;
 
 /**

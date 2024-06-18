@@ -327,11 +327,11 @@ declare interface CBaseEntity extends CEntityInstance {
     /**
      * Is this entity a player controller?
      */
-    IsPlayerController(): boolean;
+    IsPlayerController(): this is CDOTAPlayerController;
     /**
      * Is this entity a player pawn?
      */
-    IsPlayerPawn(): boolean;
+    IsPlayerPawn(): this is CBasePlayerPawn;
     Kill(): void;
     NextMovePeer(): CBaseEntity;
     /**
@@ -8250,95 +8250,117 @@ declare interface CEntities {
      * Finds all entities by class name. Returns an array containing all the found
      * entities.
      */
-    FindAllByClassname(className: string): CBaseEntity[];
+    FindAllByClassname<T extends CBaseEntity = CBaseEntity>(className: string): T[];
     /**
      * Find entities by class name within a radius.
      */
-    FindAllByClassnameWithin(className: string, location: Vector, radius: number): CBaseEntity[];
+    FindAllByClassnameWithin<T extends CBaseEntity = CBaseEntity>(
+        className: string,
+        location: Vector,
+        radius: number,
+    ): T[];
     /**
      * Find entities by model name.
      */
-    FindAllByModel(modelName: string): CBaseEntity[];
+    FindAllByModel<T extends CBaseEntity = CBaseEntity>(modelName: string): T[];
     /**
      * Find all entities by name. Returns an array containing all the found entities
      * in it.
      */
-    FindAllByName(name: string): CBaseEntity[];
+    FindAllByName<T extends CBaseEntity = CBaseEntity>(name: string): T[];
     /**
      * Find entities by name within a radius.
      */
-    FindAllByNameWithin(name: string, location: Vector, radius: number): CBaseEntity[];
+    FindAllByNameWithin<T extends CBaseEntity = CBaseEntity>(name: string, location: Vector, radius: number): T[];
     /**
      * Find entities by targetname.
      */
-    FindAllByTarget(target: string): CBaseEntity[];
+    FindAllByTarget<T extends CBaseEntity = CBaseEntity>(target: string): T[];
     /**
      * Find entities within a radius.
      */
-    FindAllInSphere(location: Vector, radius: number): CBaseEntity[];
+    FindAllInSphere<T extends CBaseEntity = CBaseEntity>(location: Vector, radius: number): T[];
     /**
      * Find entities by class name. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
      */
-    FindByClassname(previous: CBaseEntity | undefined, className: string): CBaseEntity | undefined;
+    FindByClassname<T extends CBaseEntity = CBaseEntity>(
+        previous: CBaseEntity | undefined,
+        className: string,
+    ): T | undefined;
     /**
      * Find entities by class name nearest to a point.
      */
-    FindByClassnameNearest(className: string, location: Vector, radius: number): CBaseEntity | undefined;
+    FindByClassnameNearest<T extends CBaseEntity = CBaseEntity>(
+        className: string,
+        location: Vector,
+        radius: number,
+    ): T | undefined;
     /**
      * Find entities by class name within a radius. Pass 'null' to start an iteration,
      * or reference to a previously found entity to continue a search.
      */
-    FindByClassnameWithin(
+    FindByClassnameWithin<T extends CBaseEntity = CBaseEntity>(
         previous: CBaseEntity | undefined,
         className: string,
         location: Vector,
         radius: number,
-    ): CBaseEntity | undefined;
+    ): T | undefined;
     /**
      * Find entities by model name. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
      */
-    FindByModel(previous: CBaseEntity | undefined, modelName: string): CBaseEntity | undefined;
+    FindByModel<T extends CBaseEntity = CBaseEntity>(
+        previous: CBaseEntity | undefined,
+        modelName: string,
+    ): T | undefined;
     /**
      * Find entities by model name within a radius. Pass 'null' to start an iteration,
      * or reference to a previously found entity to continue a search.
      */
-    FindByModelWithin(
+    FindByModelWithin<T extends CBaseEntity = CBaseEntity>(
         previous: CBaseEntity | undefined,
         modelName: string,
         location: Vector,
         radius: number,
-    ): CBaseEntity | undefined;
+    ): T | undefined;
     /**
      * Find entities by name. Pass 'null' to start an iteration, or reference to a
      * previously found entity to continue a search.
      */
-    FindByName(previous: CBaseEntity | undefined, name: string): CBaseEntity | undefined;
+    FindByName<T extends CBaseEntity = CBaseEntity>(previous: CBaseEntity | undefined, name: string): T | undefined;
     /**
      * Find entities by name nearest to a point.
      */
-    FindByNameNearest(name: string, location: Vector, radius: number): CBaseEntity | undefined;
+    FindByNameNearest<T extends CBaseEntity = CBaseEntity>(
+        name: string,
+        location: Vector,
+        radius: number,
+    ): T | undefined;
     /**
      * Find entities by name within a radius. Pass 'null' to start an iteration, or
      * reference to a previously found entity to continue a search.
      */
-    FindByNameWithin(
+    FindByNameWithin<T extends CBaseEntity = CBaseEntity>(
         previous: CBaseEntity | undefined,
         name: string,
         location: Vector,
         radius: number,
-    ): CBaseEntity | undefined;
+    ): T | undefined;
     /**
      * Find entities by targetname. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
      */
-    FindByTarget(previous: CBaseEntity | undefined, target: string): CBaseEntity | undefined;
+    FindByTarget<T extends CBaseEntity = CBaseEntity>(previous: CBaseEntity | undefined, target: string): T | undefined;
     /**
      * Find entities within a radius. Pass 'null' to start an iteration, or reference
      * to a previously found entity to continue a search.
      */
-    FindInSphere(previous: CBaseEntity | undefined, location: Vector, radius: number): CBaseEntity | undefined;
+    FindInSphere<T extends CBaseEntity = CBaseEntity>(
+        previous: CBaseEntity | undefined,
+        location: Vector,
+        radius: number,
+    ): T | undefined;
     /**
      * Begin an iteration over the list of entities.
      *
@@ -10195,7 +10217,7 @@ declare function EmitSoundOnLocationWithCaster(location: Vector, soundName: stri
  *
  * @both
  */
-declare function EntIndexToHScript(entityIndex: EntityIndex): CBaseEntity | undefined;
+declare function EntIndexToHScript<T extends CBaseEntity = CBaseEntity>(entityIndex: EntityIndex): T | undefined;
 
 /**
  * Issue an order from a script table.

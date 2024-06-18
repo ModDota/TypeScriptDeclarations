@@ -88,7 +88,45 @@ export const overrides: Record<string, ApiOverride> = {
       },
     },
   },
+
+  EntIndexToHScript: {
+    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
+    return: 'T | undefined',
+  },
 };
+
+for (const name of [
+  'FindAllByName',
+  'FindAllByNameWithin',
+  'FindAllByTarget',
+  'FindAllByClassname',
+  'FindAllByClassnameWithin',
+  'FindAllByModel',
+  'FindAllInSphere',
+]) {
+  overrides[`CEntities.${name}`] = {
+    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
+    return: 'T[]',
+  };
+}
+
+for (const name of [
+  'FindByClassname',
+  'FindByClassnameNearest',
+  'FindByClassnameWithin',
+  'FindByModel',
+  'FindByModelWithin',
+  'FindByName',
+  'FindByNameNearest',
+  'FindByNameWithin',
+  'FindByTarget',
+  'FindInSphere',
+]) {
+  overrides[`CEntities.${name}`] = {
+    generics: [{ name: 'T', extend: 'CBaseEntity = CBaseEntity' }],
+    return: 'T | undefined',
+  };
+}
 
 for (const name of ['QueueConcept', 'QueueTeamConcept', 'QueueTeamConceptNoSpectators']) {
   overrides[`CDOTA_BaseNPC.${name}`] = {

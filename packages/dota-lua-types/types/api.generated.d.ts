@@ -3491,7 +3491,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     /** @both */
     IsInBackpack(): boolean;
     /** @both */
-    IsItem(): boolean;
+    IsItem(): this is CDOTA_Item;
     /** @both */
     IsKillable(): boolean;
     /** @both */

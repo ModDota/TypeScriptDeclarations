@@ -1,9 +1,21 @@
 {
-  "extends": "@ark120202/typescript-config/node/10.json",
   "files": ["index.ts"],
   "compilerOptions": {
+    "moduleResolution": "node",
     "composite": true,
     "sourceMap": false,
-    "declarationMap": false
+    "declarationMap": false,
+
+    "target": "es2018",
+    "lib": ["es2018"],
+
+    "types": ["@types/node"],
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }

@@ -3570,7 +3570,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     SetSellable(sellable: boolean): void;
     SetShareability(shareability: EShareAbility): void;
     SetStacksWithOtherOwners(stacksWithOtherOwners: boolean): void;
-    SpendCharge(): void;
+    SpendCharge(delayRemove: number): void;
     StacksWithOtherOwners(): boolean;
     /**
      * Think this item.
@@ -4258,6 +4258,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetBaseAttackPostBonus?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetBonusDayVision?(): number;
     /**
      * @abstract
@@ -4293,6 +4298,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetDisableManaGain?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetFixedDayVision?(): number;
     /**
      * @abstract
@@ -4309,6 +4319,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetIsIllusion?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetMagicalArmorPiercingPercentageTarget?(): void;
     /**
      * @abstract
      * @both
@@ -4847,6 +4862,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierInnateDamageBlockPctOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierInventorySlotRestricted?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierInvisibilityAttackBehaviorException?(): void;
     /**
      * @abstract
@@ -5365,6 +5390,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierSpellAmplify_PercentageTarget?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierSpellAmplify_PercentageUnique?(): number;
     /**
      * @abstract
@@ -5440,6 +5470,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierTotal_ConstantBlockStacking?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierTotalDamageOutgoing_Percentage?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5500,7 +5535,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetPhysicalArmorPiercingPercentageTarget?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetPrimaryStatDamageMultiplier?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetRedirectSpell?(): void;
     /**
      * @abstract
      * @both
@@ -5530,6 +5575,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetTierTokenReroll?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetTriggerCosmeticAndEndAttack?(): void;
     /**
      * @abstract
@@ -5540,12 +5590,22 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetVisionDegreeRestriction?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetVisualZDelta?(): number;
     /**
      * @abstract
      * @both
      */
     GetVisualZSpeedBaseOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    MinAttributeLevel?(): void;
     /**
      * @abstract
      * @both
@@ -5643,6 +5703,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnBuildingKilled?(event: ModifierInstanceEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnCleaveAttackLanded?(): void;
     /**
      * @abstract
      * @both
@@ -5827,12 +5892,22 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnTierTokenRerolled?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnTooltip?(): number;
     /**
      * @abstract
      * @both
      */
     OnTooltip2?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    OnTreeCutDown?(): void;
     /**
      * @abstract
      * @both

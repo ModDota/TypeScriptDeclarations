@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@ark120202/eslint-config": "^2.5.0",
-    "@moddota/dota-data": "^0.42.0",
+    "@moddota/dota-data": "^0.43.0",
     "@types/fs-extra": "^9.0.4",
     "@types/lodash": "^4.14.165",
     "@types/node": "^20.14.8",

@@ -173,6 +173,7 @@ interface GameEventDeclarations {
     set_instructor_group_enabled: SetInstructorGroupEnabledEvent;
     clientside_lesson_closed: ClientsideLessonClosedEvent;
     dynamic_shadow_light_changed: object;
+    bot_takeover: BotTakeoverEvent;
     /**
      * Shot of a single entity.
      */
@@ -222,7 +223,6 @@ interface GameEventDeclarations {
     dota_player_take_tower_damage: DotaPlayerTakeTowerDamageEvent;
     dota_hud_error_message: DotaHudErrorMessageEvent;
     dota_action_success: object;
-    dota_starting_position_changed: object;
     dota_team_neutral_stash_items_changed: DotaTeamNeutralStashItemsChangedEvent;
     dota_team_neutral_stash_items_acknowledged_changed: DotaTeamNeutralStashItemsAcknowledgedChangedEvent;
     dota_money_changed: object;
@@ -232,7 +232,6 @@ interface GameEventDeclarations {
     dota_force_portrait_update: object;
     dota_inventory_changed: object;
     dota_item_suggestions_changed: object;
-    dota_estimated_match_duration_changed: object;
     dota_hero_ability_points_changed: object;
     dota_item_picked_up: DotaItemPickedUpEvent;
     dota_item_physical_destroyed: DotaItemPhysicalDestroyedEvent;
@@ -435,6 +434,9 @@ interface GameEventDeclarations {
     dota_neutral_creep_camp_cleared: DotaNeutralCreepCampClearedEvent;
     dota_watch_tower_captured: DotaWatchTowerCapturedEvent;
     dota_team_kill_credit: DotaTeamKillCreditEvent;
+    dota_alchemist_granted_scepter: DotaAlchemistGrantedScepterEvent;
+    dota_protector_spawned: DotaProtectorSpawnedEvent;
+    dota_crafting_xp: DotaCraftingXpEvent;
     npc_spawned: NpcSpawnedEvent;
     npc_spawn_finished: NpcSpawnFinishedEvent;
     npc_replaced: NpcReplacedEvent;
@@ -1442,6 +1444,14 @@ interface SetInstructorGroupEnabledEvent {
 
 interface ClientsideLessonClosedEvent {
     lesson_name: string;
+}
+
+interface BotTakeoverEvent {
+    userid: EntityIndex;
+    botid: EntityIndex;
+    p: number;
+    y: number;
+    r: number;
 }
 
 /**
@@ -2459,6 +2469,21 @@ interface DotaTeamKillCreditEvent {
     victim_userid: EntityIndex;
     teamnumber: number;
     herokills: number;
+}
+
+interface DotaAlchemistGrantedScepterEvent {
+    alchemist_userid: EntityIndex;
+    grantee_userid: EntityIndex;
+}
+
+interface DotaProtectorSpawnedEvent {
+    player_id: number;
+}
+
+interface DotaCraftingXpEvent {
+    userid: EntityIndex;
+    type: number;
+    xp: number;
 }
 
 interface NpcSpawnedEvent {

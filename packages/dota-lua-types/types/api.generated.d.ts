@@ -335,10 +335,6 @@ declare interface CBaseEntity extends CEntityInstance {
     Kill(): void;
     NextMovePeer(): CBaseEntity;
     /**
-     * Takes duration, value for a temporary override.
-     */
-    OverrideFriction(duration: number, friction: number): void;
-    /**
      * Precache a sound for later playing.
      */
     PrecacheScriptSound(soundname: string): void;
@@ -2805,7 +2801,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      */
     TakeItem(item: CDOTA_Item): CDOTA_Item;
     TimeUntilNextAttack(): number;
-    TriggerModifierDodge(): boolean;
+    TriggerModifierDodge(ability: object, buff: object): boolean;
     TriggerSpellAbsorb(ability: CDOTABaseAbility): boolean;
     /**
      * Trigger the Lotus Orb-like effect.(hAbility).
@@ -3221,9 +3217,9 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
     __kind__: 'instance';
 }
 
-declare const CDOTA_BaseNPC_MangoTree: DotaConstructor<CDOTA_BaseNPC_MangoTree>;
+declare const CDOTA_BaseNPC_LotusPool: DotaConstructor<CDOTA_BaseNPC_LotusPool>;
 
-declare interface CDOTA_BaseNPC_MangoTree extends CDOTA_BaseNPC_Building {
+declare interface CDOTA_BaseNPC_LotusPool extends CDOTA_BaseNPC_Building {
     __kind__: 'instance';
 }
 
@@ -3478,6 +3474,7 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
      * Get the number of valueless charges this item currently has.
      */
     GetValuelessCharges(): number;
+    IsActiveNeutral(): boolean;
     /** @both */
     IsAlertableItem(): boolean;
     /** @both */
@@ -3496,7 +3493,6 @@ declare interface CDOTA_Item extends CDOTABaseAbility {
     IsKillable(): boolean;
     /** @both */
     IsMuted(): boolean;
-    IsNeutralDrop(): boolean;
     /**
      * Is this a permanent item?
      *
@@ -4288,6 +4284,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetConvertAttackPhysicalToPure?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetCriticalStrikeBonus?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetDisableAutoAttack?(): 0 | 1;
     /**
      * @abstract
@@ -4329,6 +4335,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetMinHealth?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetMinMana?(): void;
     /**
      * @abstract
      * @both
@@ -4419,6 +4430,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierAttackSpeedReductionPercentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierAvoidAttackProcs?(): void;
     /**
      * @abstract
      * @both
@@ -5027,6 +5043,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierMoveSpeed_MaxOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMoveSpeed_MinOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierMoveSpeedBonus_Constant?(): number;
     /**
      * @abstract
@@ -5062,7 +5088,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierMoveSpeedMax_BonusConstant?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierMoveSpeedOverride?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    'GetModifierMoveSpeedPostMultiplierBonus_Constant '?(): void;
     /**
      * @abstract
      * @both
@@ -5073,6 +5109,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierMPRegenAmplify_Percentage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierMPRegenAmplify_Percentage_Unique?(): void;
     /**
      * Total amplify value is clamped to 0.
      *
@@ -5085,6 +5126,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierNegativeEvasion_Constant?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierNeutralEnhancementOptions?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierNeutralTrinketOptions?(): void;
     /**
      * @abstract
      * @both
@@ -5281,6 +5332,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPreserveNeutralItemPassives?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierProcAttack_BonusDamage_Magical?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5336,6 +5392,16 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierProperty_MagicalLifesteal?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierProperty_PhysicalLifesteal?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPropetyFailAttack?(): void;
     /**
      * @abstract
@@ -5380,6 +5446,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierSlowResistanceAppliesToAttacks?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierSpellAmplify_Percentage?(event: ModifierAttackEvent): number;
     /**
      * @abstract
@@ -5401,6 +5472,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierSpellLifestealRegenAmplify_Percentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSpellLifestealRegenAmplify_Percentage_Unique?(): void;
     /**
      * @abstract
      * @both
@@ -5515,6 +5591,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierXPFountainCountdownTimeOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModofierPropertyPseudoRandomBonus?(): void;
     /**
      * @abstract
@@ -5556,6 +5637,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetSkipAttackRegulator?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetSuppressAttackProcs?(): void;
     /**
      * @abstract
      * @both
@@ -5631,6 +5717,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnAbilityStart?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAbilityToggled?(): void;
     /**
      * @abstract
      * @both
@@ -5752,6 +5843,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnFoWTeamChanged?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnHealReceived?(event: ModifierHealEvent): void;
     /**
      * @abstract
@@ -5807,6 +5903,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnNightStarted?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnOrder?(event: ModifierUnitEvent): void;
     /**
      * @abstract
@@ -5832,7 +5933,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnPureDamageCalculated?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnRespawn?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnRuneSpawn?(): void;
     /**
      * @abstract
      * @both
@@ -8733,7 +8844,7 @@ declare interface CMarkupVolumeTagged extends CBaseEntity {
     /**
      * Does this volume have the given tag.
      */
-    HasTag(tagName: string): boolean;
+    HasTag(tagName: unknown): boolean;
     __kind__: 'instance';
 }
 
@@ -8857,10 +8968,6 @@ declare interface CPhysicsProp extends CBaseAnimatingActivity {
      * Enable motion for the prop.
      */
     EnableMotion(): void;
-    /**
-     * Enable/disable dynamic vs dynamic continuous collision traces.
-     */
-    SetDynamicVsDynamicContinuous(isDynamicVsDynamicContinuousEnabled: boolean): void;
     __kind__: 'instance';
 }
 
@@ -9226,19 +9333,19 @@ declare const CTakeDamageInfo: DotaConstructor<CTakeDamageInfo>;
 
 declare interface CTakeDamageInfo {
     AddDamage(addAmount: number): void;
-    AddDamageType(bitsDamageType: number): void;
+    AddDamageType(damageType: number): void;
     GetAmmoType(): number;
     GetAttacker(): object;
     GetDamage(): number;
     GetDamageCustom(): number;
     GetDamageForce(): Vector;
     GetDamagePosition(): Vector;
-    GetDamageType(): number;
+    GetDamageType(): unknown;
     GetInflictor(): object;
     GetOriginalDamage(): number;
     GetReportedPosition(): Vector;
     GetTotalledDamage(): number;
-    HasDamageType(bitsToTest: number): boolean;
+    HasDamageType(damageType: number): boolean;
     ScaleDamage(scaleAmount: number): void;
     SetAmmoType(ammoType: number): void;
     SetAttacker(attacker: object): void;
@@ -9246,7 +9353,7 @@ declare interface CTakeDamageInfo {
     SetDamageCustom(damageCustom: number): void;
     SetDamageForce(damageForce: Vector): void;
     SetDamagePosition(damagePosition: Vector): void;
-    SetDamageType(bitsDamageType: number): void;
+    SetDamageType(damageType: number): void;
     SetOriginalDamage(originalDamage: number): void;
     SetReportedPosition(reportedPosition: Vector): void;
     __kind__: 'instance';

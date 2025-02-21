@@ -21,6 +21,7 @@ execSync(`npm version ${bumpType} --git-tag-version false`, { cwd: packageDirect
 const packageVersion = require(path.resolve(path.join(packageDirectory, 'package.json'))).version;
 
 execSync(`git add ${path.join(packageDirectory, 'package.json')}`);
+execSync(`git add ${path.join(packageDirectory, 'package-lock.json')}`);
 execSync(`git commit -m "${packageName} ${packageVersion}"`);
 execSync(`git tag ${packageName}@${packageVersion}`);
 

@@ -1444,7 +1444,7 @@ interface CScriptBindingPR_Game {
     IsInBanPhase(): boolean;
 
     GetConvarBool(name: string): boolean;
-    
+
     GetConvarInt(name: string): number;
 
     GetConvarFloat(name: string): number;

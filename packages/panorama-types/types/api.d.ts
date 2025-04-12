@@ -1159,6 +1159,8 @@ interface CScriptBindingPR_Abilities {
 
     GetCurrentCharges(nEntityIndex: AbilityEntityIndex): number;
 
+    GetCurrentAbilityCharges(nEntityIndex: AbilityEntityIndex): number;
+
     GetEffectiveLevel(nEntityIndex: AbilityEntityIndex): number;
 
     GetHeroLevelRequiredToUpgrade(nEntityIndex: AbilityEntityIndex): number;
@@ -1225,6 +1227,8 @@ interface CScriptBindingPR_Abilities {
 
     IsToggle(nEntityIndex: AbilityEntityIndex): boolean;
 
+    UsesAbilityCharges(nEntityIndex: AbilityEntityIndex): boolean;
+
     GetAOERadius(nEntityIndex: AbilityEntityIndex): number;
 
     GetBackswingTime(nEntityIndex: AbilityEntityIndex): number;
@@ -1246,6 +1250,8 @@ interface CScriptBindingPR_Abilities {
     GetDuration(nEntityIndex: AbilityEntityIndex): number;
 
     GetUpgradeBlend(nEntityIndex: AbilityEntityIndex): number;
+
+    GetAbilityChargeRestoreTimeRemaining(nEntityIndex: AbilityEntityIndex): number;
 
     /**
      * Get the local player's current active ability. (Pre-cast targetting state.)

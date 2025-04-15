@@ -2015,7 +2015,7 @@ interface DollarStatic {
     /**
      * Return true if a file exists.  Path will usually start with 'file://{images}'
      */
-    BImageFileExists(path: string): void;
+    BImageFileExists(path: string): boolean;
 }
 
 interface AsyncWebRequestResponse {

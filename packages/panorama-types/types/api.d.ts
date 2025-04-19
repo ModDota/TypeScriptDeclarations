@@ -140,6 +140,23 @@ interface ScreenEntity {
     accurateCollision: boolean;
 }
 
+interface ContextualTip {
+    TipAnnotation?: string;
+    DisplayDuration?: number;
+    PanoramaClasses?: string[];
+    PanoramaSnippet?: string;
+    ReferencedAbilities?: string[];
+    ReferencedUnits: string[];
+    Variant?: number;
+    ForceAnnotation?: boolean;
+    IntParameter?: number;
+    IntParameter2?: number;
+    FloatParameter?: number;
+    FloatParameter2?: number;
+    StringParameter?: string;
+    StringParameter2?: string;
+}
+
 interface CDOTA_PanoramaScript_GameUI {
     /**
      * Control whether the default UI is enabled
@@ -359,12 +376,15 @@ interface CDOTA_PanoramaScript_GameUI {
      */
     TipPlayer(iPlayerID: number): void;
 
-    DisplayCustomContextualTip(...args: unknown[]): void;
+    /**
+     * Display a custom contextual tip (wizard tip) with specific loc string and duration
+     */
+    DisplayCustomContextualTip(tip: ContextualTip): void;
 
     /**
      * Set the text of a passed label for a DOTA Talent using ability values.
      */
-    SetupDOTATalentNameLabel(...args: unknown[]): void;
+    SetupDOTATalentNameLabel(panel: LabelPanel, sAbilityName: string): void;
 
     /**
      * Returns true if the passed ability is a talent.
@@ -750,8 +770,14 @@ interface CScriptBindingPR_Players {
      */
     IsSpectator(iPlayerID: PlayerID): boolean;
 
+    /**
+     * Player portrait click event.
+     */
     PlayerPortraitClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
+    /**
+     * Player portrait double click event.
+     */
     PlayerPortraitDoubleClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
     BuffClicked(nEntity: EntityIndex, nBuffSerial: number, bAlert: boolean): void;
@@ -1762,9 +1788,9 @@ interface CScriptBindingPR_Game {
 
     PlayDataDrivenCamera(pszCameraName: string): number;
 
-    SetJoyFocusPanel(...pPanelArg: unknown[]): void;
+    SetJoyFocusPanel(pPanelArg?: Panel): void;
 
-    PushJoyFocusPanel(...pPanelArg: unknown[]): void;
+    PushJoyFocusPanel(pPanelArg?: Panel): void;
 
     PopJoyFocusPanel(): void;
 

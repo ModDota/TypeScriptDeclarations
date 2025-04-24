@@ -140,6 +140,23 @@ interface ScreenEntity {
     accurateCollision: boolean;
 }
 
+interface ContextualTip {
+    TipAnnotation?: string;
+    DisplayDuration?: number;
+    PanoramaClasses?: string[];
+    PanoramaSnippet?: string;
+    ReferencedAbilities?: string[];
+    ReferencedUnits: string[];
+    Variant?: number;
+    ForceAnnotation?: boolean;
+    IntParameter?: number;
+    IntParameter2?: number;
+    FloatParameter?: number;
+    FloatParameter2?: number;
+    StringParameter?: string;
+    StringParameter2?: string;
+}
+
 interface CDOTA_PanoramaScript_GameUI {
     /**
      * Control whether the default UI is enabled
@@ -343,6 +360,36 @@ interface CDOTA_PanoramaScript_GameUI {
      * Creates a localized version of the number
      */
     ConstructNumberString(n: number): string;
+
+    /**
+     * Query to check if Tips are available for the local player
+     */
+    AreTipsAvailable(): boolean;
+
+    /**
+     * Query to see if the local player can tip a specific player
+     */
+    IsPlayerTippable(iPlayerID: number): boolean;
+
+    /**
+     * Tip a player
+     */
+    TipPlayer(iPlayerID: number): void;
+
+    /**
+     * Display a custom contextual tip (wizard tip) with specific loc string and duration
+     */
+    DisplayCustomContextualTip(tip: ContextualTip): void;
+
+    /**
+     * Set the text of a passed label for a DOTA Talent using ability values.
+     */
+    SetupDOTATalentNameLabel(panel: LabelPanel, sAbilityName: string): void;
+
+    /**
+     * Returns true if the passed ability is a talent.
+     */
+    IsAbilityDOTATalent(pszAbilityName: string): boolean;
 }
 
 /**
@@ -694,6 +741,11 @@ interface CScriptBindingPR_Players {
     GetTeam(iPlayerID: PlayerID): DOTATeam_t;
 
     /**
+     * Get the player's selected hero id.
+     */
+    GetSelectedHeroID(iPlayerID: PlayerID): HeroID;
+
+    /**
      * Average gold earned per minute for this player.
      */
     GetGoldPerMin(iPlayerID: PlayerID): number;
@@ -718,7 +770,15 @@ interface CScriptBindingPR_Players {
      */
     IsSpectator(iPlayerID: PlayerID): boolean;
 
+    /**
+     * Player portrait click event.
+     */
     PlayerPortraitClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
+
+    /**
+     * Player portrait double click event.
+     */
+    PlayerPortraitDoubleClicked(nClickedPlayerID: PlayerID, bHoldingCtrl: boolean, bHoldingAlt: boolean): void;
 
     BuffClicked(nEntity: EntityIndex, nBuffSerial: number, bAlert: boolean): void;
 
@@ -1116,6 +1176,11 @@ interface CScriptBindingPR_Entities {
      * Get the item contained in this physical item container.
      */
     GetContainedItem(nEntityIndex: EntityIndex): ItemEntityIndex;
+
+    /**
+     * Set the minimap icon on this client.
+     */
+    SetMinimapIcon(nEntityIndex: number, pszMinimapIcon: string): void;
 }
 
 interface CScriptBindingPR_Abilities {
@@ -1158,6 +1223,8 @@ interface CScriptBindingPR_Abilities {
     GetChannelledManaCostPerSecond(nEntityIndex: AbilityEntityIndex): number;
 
     GetCurrentCharges(nEntityIndex: AbilityEntityIndex): number;
+
+    GetCurrentAbilityCharges(nEntityIndex: AbilityEntityIndex): number;
 
     GetEffectiveLevel(nEntityIndex: AbilityEntityIndex): number;
 
@@ -1225,6 +1292,8 @@ interface CScriptBindingPR_Abilities {
 
     IsToggle(nEntityIndex: AbilityEntityIndex): boolean;
 
+    UsesAbilityCharges(nEntityIndex: AbilityEntityIndex): boolean;
+
     GetAOERadius(nEntityIndex: AbilityEntityIndex): number;
 
     GetBackswingTime(nEntityIndex: AbilityEntityIndex): number;
@@ -1246,6 +1315,8 @@ interface CScriptBindingPR_Abilities {
     GetDuration(nEntityIndex: AbilityEntityIndex): number;
 
     GetUpgradeBlend(nEntityIndex: AbilityEntityIndex): number;
+
+    GetAbilityChargeRestoreTimeRemaining(nEntityIndex: AbilityEntityIndex): number;
 
     /**
      * Get the local player's current active ability. (Pre-cast targetting state.)
@@ -1281,6 +1352,9 @@ interface CScriptBindingPR_Abilities {
      * Returns the keybind (as a string) for the specified ability.
      */
     GetKeybind(nAbilityEntIndex: AbilityEntityIndex): string;
+
+    /** Get the max ability charge count. */
+    GetMaxAbilityCharges(nAbilityEntIndex: number): number;
 }
 
 interface CScriptBindingPR_Items {
@@ -1436,6 +1510,12 @@ interface CScriptBindingPR_Game {
     IsInToolsMode(): boolean;
 
     IsInBanPhase(): boolean;
+
+    GetConvarBool(name: string): boolean;
+
+    GetConvarInt(name: string): number;
+
+    GetConvarFloat(name: string): number;
 
     /**
      * Return the team id of the winning team.
@@ -1685,6 +1765,54 @@ interface CScriptBindingPR_Game {
      * Registers a keybind that can be listened to with Game.AddCommand
      */
     CreateCustomKeyBind(keyName: string, commandName: string): void;
+
+    NemesticeGetGameplayTipNumber(): number;
+
+    NemesticeSetGameplayTipNumber(nGameplayTipNumber: number): void;
+
+    NemesticeShouldShowGameInfo(): boolean;
+
+    NemesticeSetShowGameInfo(bShowGameInfo: boolean): void;
+
+    Winter2022ShouldShowGameInfo(): boolean;
+
+    Winter2022SetShowGameInfo(bShowGameInfo: boolean): void;
+
+    Winter2022GetGameplayTipNumber(): number;
+
+    Winter2022SetGameplayTipNumber(nGameplayTipNumber: number): void;
+
+    ForceCustomUILoad(): void;
+
+    CutToDefaultCamera(): void;
+
+    PlayDataDrivenCamera(pszCameraName: string): number;
+
+    SetJoyFocusPanel(pPanelArg?: Panel): void;
+
+    PushJoyFocusPanel(pPanelArg?: Panel): void;
+
+    PopJoyFocusPanel(): void;
+
+    /**
+     *Whether the local player has muted voice chat for the specified player id
+     */
+    IsPlayerMutedVoice(nPlayerID: number): boolean;
+
+    /**
+     * Set whether the local player has muted voice chat for the specified player id
+     */
+    SetPlayerMutedVoice(nPlayerID: number, bMutedVoice: boolean): void;
+
+    /**
+     * Whether the local player has muted text chat for the specified player id
+     */
+    IsPlayerMutedText(nPlayerID: number): boolean;
+
+    /**
+     * Set whether the local player has muted text chat for the specified player id
+     */
+    SetPlayerMutedText(nPlayerID: number, bMutedText: boolean): void;
 }
 
 interface CPanoramaScript_SteamUGC {
@@ -1909,6 +2037,11 @@ interface DollarStatic {
      * Convert a string to HTML-safe
      */
     HTMLEscape(string: string): string;
+
+    /**
+     * Return true if a file exists.  Path will usually start with 'file://{images}'
+     */
+    BImageFileExists(path: string): boolean;
 }
 
 interface AsyncWebRequestResponse {

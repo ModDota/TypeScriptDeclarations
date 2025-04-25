@@ -6,11 +6,10 @@ $.DispatchEvent('BrowserGoToURL', 'test');
 $.DispatchEvent('AddStyle', $('#test'), 'test_class');
 $.DispatchEvent('DOTAGlobalSceneSetCameraEntity', 'ModelBackground', 'dashboard_cam', 4);
 $.DispatchEvent('PlaySoundEffect', 'playercard.card_to_dust');
+$.DispatchEvent('PlaySoundEffect', $.GetContextPanel(), 'playercard.card_to_dust');
 
 // @ts-expect-error
 $.DispatchEvent('AddStyle', $('#test'));
-// @ts-expect-error
-$.DispatchEvent('PlaySoundEffect', $.GetContextPanel(), 'playercard.card_to_dust');
 
 /**
  * The following code are syntactically legal
@@ -32,5 +31,7 @@ $.DispatchEvent('TestCustomEvent', $('#test'), 'some string');
 $.DispatchEvent('TestCustomEvent', $('#test'), 2);
 // @ts-expect-error
 $.DispatchEvent('TestCustomEvent', $('#test'), 2);
+// @ts-expect-error
+$.DispatchEvent('TestCustomEvent', $('#test'), 'string', 2);
 
 export {};

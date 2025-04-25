@@ -33,7 +33,7 @@ declare namespace PanoramaEvents {
     type PanoramaEventName = keyof PanoramaEvent;
     type InferPanoramaEventParams<T extends string, TUntyped> = T extends PanoramaEventName
         ? PanoramaEvent[T] extends (...args: infer P) => void
-            ? P
+            ? P | [PanelBase, ...P]
             : TUntyped
         : TUntyped;
 }

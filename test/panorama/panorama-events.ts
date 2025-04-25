@@ -10,6 +10,8 @@ $.DispatchEvent('PlaySoundEffect', $.GetContextPanel(), 'playercard.card_to_dust
 
 // @ts-expect-error
 $.DispatchEvent('AddStyle', $('#test'));
+// @ts-expect-error
+$.DispatchEvent('DOTAGlobalSceneSetCameraEntity', 'ModelBackground', 'dashboard_cam', '4');
 
 /**
  * The following code are syntactically legal
@@ -18,6 +20,20 @@ $.DispatchEvent('AddStyle', $('#test'));
  */
 $.DispatchEvent('DOTASetCurrentDashboardPageFullscreen', true);
 $.DispatchEvent('UnknownEvent', 'test');
+
+/**
+ * Test of register event handlers
+ */
+$.RegisterEventHandler('DragStart', $('#test'), (panelId, settings) => {});
+$.RegisterEventHandler('DragStart', $('#test'), () => {});
+// @ts-expect-error
+$.RegisterEventHandler('DragStart', $('#test'), (panelId, settings, badParam) => {});
+
+$.RegisterEventHandler('UnknownEvent', $('#test'), () => {});
+
+$.RegisterForUnhandledEvent('DOTAHUDBuffClicked', () => {});
+// @ts-expect-error
+$.RegisterForUnhandledEvent('DOTAHUDBuffClicked', (panel) => {});
 
 // users can define their own events and parameters.
 declare global {

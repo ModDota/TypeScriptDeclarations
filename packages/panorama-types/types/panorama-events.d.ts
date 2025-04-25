@@ -347,4 +347,13 @@ declare interface PanoramaEvent {
 
     /** Show the dropped item tooltip */
     DOTAShowDroppedItemTooltip(x: number, y: number, abilityName: string, playerId: PlayerID, unknown: boolean): void;
+
+    /**
+     * Drag events
+     */
+    DragStart(panel: PanelBase, settings: DragSettings): void;
+    DragEnter(panel: PanelBase, displayPanel: PanelBase): void;
+    DragLeave(panel: PanelBase, displayPanel: PanelBase): void;
+    DragDrop(panel: PanelBase, displayPanel: PanelBase): void;
+    DragEnd(panel: PanelBase, displayPanel: PanelBase): void;
 }

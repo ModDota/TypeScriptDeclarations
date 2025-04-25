@@ -29,6 +29,15 @@ declare namespace GameEvents {
         : InferCustomGameEventType<T, TUntyped>;
 }
 
+declare namespace PanoramaEvents {
+    type PanoramaEventName = keyof PanoramaEvent;
+    type InferPanoramaEventParams<T extends string, TUntyped> = T extends PanoramaEventName
+        ? PanoramaEvent[T] extends (...args: infer P) => void
+            ? P
+            : TUntyped
+        : TUntyped;
+}
+
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event.
@@ -1972,10 +1981,16 @@ interface DollarStatic {
     GetContextPanel(): Panel;
     Schedule(time: number, callback: () => void): ScheduleID;
     CancelScheduled(scheduledEvent: ScheduleID): void;
-    DispatchEvent(event: string, panelID?: string, ...args: any[]): void;
-    DispatchEvent(event: string, panel: PanelBase, ...args: any[]): void;
-    DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
-    DispatchEventAsync(delay: number, event: string, panel: PanelBase, ...args: any[]): void;
+
+    DispatchEvent<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        ...args: PanoramaEvents.InferPanoramaEventParams<E, any[]>
+    ): void;
+    DispatchEventAsync<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        ...args: PanoramaEvents.InferPanoramaEventParams<E, any[]>
+    ): void;
+
     Language(): string;
     /**
      * Localize a string. Optionally accepts Quantity, Precision, and Panel arguments.

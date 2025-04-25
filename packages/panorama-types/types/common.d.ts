@@ -2,6 +2,7 @@
 /// <reference path="css.d.ts" />
 /// <reference path="events.generated.d.ts" />
 /// <reference path="panels.d.ts" />
+/// <reference path="panorama-events.d.ts" />
 /// <reference path="stack-trace-api.d.ts" />
 
 type EntityIndex = number & { _entityIndex: never };

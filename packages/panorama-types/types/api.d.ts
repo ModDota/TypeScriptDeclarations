@@ -29,6 +29,20 @@ declare namespace GameEvents {
         : InferCustomGameEventType<T, TUntyped>;
 }
 
+declare namespace PanoramaEvents {
+    type PanoramaEventName = keyof PanoramaEvent;
+    type InferPanoramaEventParams<T extends string, TUntyped> = T extends PanoramaEventName
+        ? PanoramaEvent[T] extends (...args: infer P) => void
+            ? P | [PanelBase, ...P]
+            : TUntyped
+        : TUntyped;
+    type InferPanoramaCallback<T extends string> = T extends PanoramaEventName
+        ? PanoramaEvent[T] extends (...args: infer P) => void
+            ? (...args: P) => void
+            : (...args: any[]) => void
+        : (...args: any[]) => void;
+}
+
 interface CDOTA_PanoramaScript_GameEvents {
     /**
      * Subscribe to a game event.
@@ -1972,10 +1986,16 @@ interface DollarStatic {
     GetContextPanel(): Panel;
     Schedule(time: number, callback: () => void): ScheduleID;
     CancelScheduled(scheduledEvent: ScheduleID): void;
-    DispatchEvent(event: string, panelID?: string, ...args: any[]): void;
-    DispatchEvent(event: string, panel: PanelBase, ...args: any[]): void;
-    DispatchEventAsync(delay: number, event: string, panelID?: string, ...args: any[]): void;
-    DispatchEventAsync(delay: number, event: string, panel: PanelBase, ...args: any[]): void;
+
+    DispatchEvent<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        ...args: PanoramaEvents.InferPanoramaEventParams<E, any[]>
+    ): void;
+    DispatchEventAsync<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        ...args: PanoramaEvents.InferPanoramaEventParams<E, any[]>
+    ): void;
+
     Language(): string;
     /**
      * Localize a string. Optionally accepts Quantity, Precision, and Panel arguments.
@@ -1986,18 +2006,16 @@ interface DollarStatic {
      * @deprecated
      */
     LocalizePlural(token: string, value: number, parent?: PanelBase): string;
-    RegisterEventHandler(
-        event: 'DragStart',
-        parent: PanelBase,
-        handler: (panelID: string, settings: DragSettings) => boolean,
+
+    RegisterEventHandler<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        panel: PanelBase | string,
+        callback: PanoramaEvents.InferPanoramaCallback<E>,
     ): void;
-    RegisterEventHandler(
-        event: 'DragEnd' | 'DragDrop' | 'DragEnter' | 'DragLeave',
-        parent: PanelBase,
-        handler: (panelID: string, dragged: Panel) => boolean,
-    ): void;
-    RegisterEventHandler(event: string, parent: PanelBase, handler: (...args: any[]) => void): void;
-    RegisterForUnhandledEvent(event: string, handler: (...args: any[]) => void): UnhandledEventListenerID;
+    RegisterForUnhandledEvent<E extends PanoramaEvents.PanoramaEventName | string>(
+        eventName: E extends PanoramaEvents.PanoramaEventName ? E : string,
+        callback: PanoramaEvents.InferPanoramaCallback<E>,
+    ): UnhandledEventListenerID;
     UnregisterForUnhandledEvent(event: string, handle: UnhandledEventListenerID): void;
     Each<T>(list: T[], callback: (item: T, index: number) => void): void;
     Each<T>(map: { [key: string]: T }, callback: (value: T, key: string) => void): void;

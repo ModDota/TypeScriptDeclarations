@@ -553,7 +553,7 @@ declare interface CBaseModelEntity extends CBaseEntity {
     /**
      * Sets a bodygroup.
      */
-    SetBodygroup(group: number, value: number): void;
+    SetBodygroup(bodyGroup: number, choice: number): void;
     /**
      * Sets a bodygroup by name.
      */
@@ -5402,6 +5402,41 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPropertyConsumableUseSpeed?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyForbidIllusions?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyHealingAmplificationUnique?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyManacostOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyRestorationAmplification?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyRestorationAmplificationUnique?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyUpgradeNeutralArtifacts?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPropetyFailAttack?(): void;
     /**
      * @abstract
@@ -5652,6 +5687,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetSuppressCrit?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetSuppressIncomingCrit?(): void;
     /**
      * @abstract
      * @both

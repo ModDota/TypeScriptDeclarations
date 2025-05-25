@@ -231,7 +231,6 @@ interface GameEventDeclarations {
     dota_portrait_unit_modifiers_changed: DotaPortraitUnitModifiersChangedEvent;
     dota_force_portrait_update: object;
     dota_inventory_changed: object;
-    dota_item_suggestions_changed: object;
     dota_hero_ability_points_changed: object;
     dota_item_picked_up: DotaItemPickedUpEvent;
     dota_item_physical_destroyed: DotaItemPhysicalDestroyedEvent;
@@ -437,6 +436,7 @@ interface GameEventDeclarations {
     dota_alchemist_granted_scepter: DotaAlchemistGrantedScepterEvent;
     dota_protector_spawned: DotaProtectorSpawnedEvent;
     dota_crafting_xp: DotaCraftingXpEvent;
+    dota_roshan_roar: DotaRoshanRoarEvent;
     npc_spawned: NpcSpawnedEvent;
     npc_spawn_finished: NpcSpawnFinishedEvent;
     npc_replaced: NpcReplacedEvent;
@@ -594,10 +594,6 @@ interface PlayerConnectEvent {
      * Steam id.
      */
     xuid: number;
-    /**
-     * Ip:port.
-     */
-    address: string;
     bot: 0 | 1;
     /**
      * Player slot (entity index-1).
@@ -2484,6 +2480,10 @@ interface DotaCraftingXpEvent {
     userid: EntityIndex;
     type: number;
     xp: number;
+}
+
+interface DotaRoshanRoarEvent {
+    teamnumber: number;
 }
 
 interface NpcSpawnedEvent {

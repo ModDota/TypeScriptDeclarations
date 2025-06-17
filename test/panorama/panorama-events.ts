@@ -32,8 +32,9 @@ $.RegisterEventHandler('DragStart', $('#test'), (panelId, settings, badParam) =>
 $.RegisterEventHandler('UnknownEvent', $('#test'), () => {});
 
 $.RegisterForUnhandledEvent('DOTAHUDBuffClicked', () => {});
-// @ts-expect-error
 $.RegisterForUnhandledEvent('DOTAHUDBuffClicked', (panel) => {});
+// @ts-expect-error
+$.RegisterForUnhandledEvent('DOTAHUDBuffClicked', (panel, badParam) => {});
 
 // users can define their own events and parameters.
 declare global {

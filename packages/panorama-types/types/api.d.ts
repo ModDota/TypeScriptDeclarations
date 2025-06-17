@@ -38,7 +38,7 @@ declare namespace PanoramaEvents {
         : TUntyped;
     type InferPanoramaCallback<T extends string> = T extends PanoramaEventName
         ? PanoramaEvent[T] extends (...args: infer P) => void
-            ? (...args: P) => void
+            ? ((...args: P) => void) | ((...args: [PanelBase, ...P]) => void)
             : (...args: any[]) => void
         : (...args: any[]) => void;
 }

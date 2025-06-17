@@ -351,9 +351,9 @@ declare interface PanoramaEvent {
     /**
      * Drag events
      */
-    DragStart(panel: PanelBase, settings: DragSettings): void;
-    DragEnter(panel: PanelBase, displayPanel: PanelBase): void;
-    DragLeave(panel: PanelBase, displayPanel: PanelBase): void;
-    DragDrop(panel: PanelBase, displayPanel: PanelBase): void;
-    DragEnd(panel: PanelBase, displayPanel: PanelBase): void;
+    DragStart(settings: DragSettings): void;
+    DragEnter(displayPanel: PanelBase): void;
+    DragLeave(displayPanel: PanelBase): void;
+    DragDrop(displayPanel: PanelBase): void;
+    DragEnd(displayPanel: PanelBase): void;
 }

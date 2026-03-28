@@ -48,42 +48,19 @@ declare interface CBaseAnimatingActivity extends CBaseModelEntity {
     __kind__: 'instance';
 }
 
+declare const CBaseAnimatingOverlay: DotaConstructor<CBaseAnimatingOverlay>;
+
+/** @client */
+declare const C_BaseAnimatingOverlay: typeof CBaseAnimatingOverlay;
+
+declare interface CBaseAnimatingOverlay extends CBaseAnimatingActivity {
+    __kind__: 'instance';
+}
+
 /** @both */
 declare const CBaseAnimGraph: DotaConstructor<CBaseAnimGraph>;
 
 declare interface CBaseAnimGraph extends CBaseModelEntity {
-    /**
-     * Get the value of the given animGraph parameter.
-     */
-    GetGraphParameter(param: string): object;
-    /**
-     * Pass the desired look target in world space to the graph.
-     */
-    SetGraphLookTarget(value: Vector): void;
-    /**
-     * Set the specific param value, type is inferred from the type in script.
-     */
-    SetGraphParameter(param: string, svArg: object): void;
-    /**
-     * Set the specific param on or off.
-     */
-    SetGraphParameterBool(name: string, value: boolean): void;
-    /**
-     * Pass the enum (int) value to the specified param.
-     */
-    SetGraphParameterEnum(name: string, value: number): void;
-    /**
-     * Pass the float value to the specified param.
-     */
-    SetGraphParameterFloat(name: string, value: number): void;
-    /**
-     * Pass the int value to the specified param.
-     */
-    SetGraphParameterInt(name: string, value: number): void;
-    /**
-     * Pass the vector value to the specified param in the graph.
-     */
-    SetGraphParameterVector(name: string, value: Vector): void;
     __kind__: 'instance';
 }
 
@@ -92,7 +69,7 @@ declare const CBaseCombatCharacter: DotaConstructor<CBaseCombatCharacter>;
 /** @client */
 declare const C_BaseCombatCharacter: typeof CBaseCombatCharacter;
 
-declare interface CBaseCombatCharacter extends CBaseFlex {
+declare interface CBaseCombatCharacter extends CBaseAnimatingOverlay {
     __kind__: 'instance';
 }
 
@@ -485,27 +462,6 @@ declare interface CBaseEntity extends CEntityInstance {
     __kind__: 'instance';
 }
 
-declare const CBaseFlex: DotaConstructor<CBaseFlex>;
-
-/** @client */
-declare const C_BaseFlex: typeof CBaseFlex;
-
-declare interface CBaseFlex extends CBaseAnimatingActivity {
-    /**
-     * Returns the instance of the oldest active scene entity (if any).
-     */
-    GetCurrentScene(): CSceneEntity | undefined;
-    /**
-     * Returns the instance of the scene entity at the specified index.
-     */
-    GetSceneByIndex(index: number): CSceneEntity | undefined;
-    /**
-     * Play specified vcd file.
-     */
-    ScriptPlayScene(scene: string, delay: number): number;
-    __kind__: 'instance';
-}
-
 declare const CBaseModelEntity: DotaConstructor<CBaseModelEntity>;
 
 /** @client */
@@ -780,7 +736,7 @@ declare interface CDebugOverlayScriptHelper {
      *
      * @both
      */
-    Axis(arg1: Vector, arg2: unknown, arg3: number, arg4: boolean, arg5: number): void;
+    Axis(arg1: Vector, arg2: Vector, arg3: number, arg4: boolean, arg5: number): void;
     /**
      * Draws a world-space axis-aligned box. Specify bounds in world space.
      *
@@ -805,7 +761,7 @@ declare interface CDebugOverlayScriptHelper {
         arg1: Vector,
         arg2: Vector,
         arg3: Vector,
-        arg4: unknown,
+        arg4: Vector,
         arg5: number,
         arg6: number,
         arg7: number,
@@ -820,7 +776,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Capsule(
         arg1: Vector,
-        arg2: unknown,
+        arg2: Vector,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -837,7 +793,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Circle(
         arg1: Vector,
-        arg2: unknown,
+        arg2: Vector,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -915,7 +871,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     Cross3DOriented(
         arg1: Vector,
-        arg2: unknown,
+        arg2: Vector,
         arg3: number,
         arg4: number,
         arg5: number,
@@ -1102,7 +1058,7 @@ declare interface CDebugOverlayScriptHelper {
         arg2: Vector,
         arg3: Vector,
         arg4: Vector,
-        arg5: unknown,
+        arg5: Vector,
         arg6: number,
         arg7: number,
         arg8: number,
@@ -1165,7 +1121,7 @@ declare interface CDebugOverlayScriptHelper {
      */
     VectorText3D(
         arg1: Vector,
-        arg2: unknown,
+        arg2: Vector,
         arg3: string,
         arg4: number,
         arg5: number,
@@ -1632,7 +1588,7 @@ declare const CDOTA_BaseNPC: DotaConstructor<CDOTA_BaseNPC>;
 /** @client */
 declare const C_DOTA_BaseNPC: typeof CDOTA_BaseNPC;
 
-declare interface CDOTA_BaseNPC extends CBaseFlex {
+declare interface CDOTA_BaseNPC extends CBaseAnimatingOverlay {
     /**
      * Add an ability to this unit by name.
      */
@@ -2605,7 +2561,7 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      *
      * @both
      */
-    Script_GetMagicalArmorValue(useExperimentalFormula: boolean, inflictor: object): number;
+    Script_GetMagicalArmorValue(inflictor: object): number;
     /** @both */
     Script_IsDeniable(): boolean;
     /**
@@ -2657,6 +2613,10 @@ declare interface CDOTA_BaseNPC extends CBaseFlex {
      * Set whether or not this unit is allowed to sell items (bCanSellItems).
      */
     SetCanSellItems(canSell: boolean): void;
+    /**
+     * Set this unit controllable by all players.
+     */
+    SetControllableByAllPlayers(controllableByAllPlayers: boolean): void;
     /**
      * Set this unit controllable by the player with the passed ID.
      */
@@ -2954,6 +2914,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
         reason: EDOTA_ModifyXP_Reason,
         applyBotDifficultyScaling: boolean,
         incrementTotal: boolean,
+        cloneCount: number,
     ): boolean;
     /**
      * Spend the gold and buyback with this hero.
@@ -3092,7 +3053,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
     /**
      * Get wearable entity in slot (slot).
      */
-    GetTogglableWearable(slotType: DOTASlotType_t): CBaseFlex | undefined;
+    GetTogglableWearable(slotType: DOTASlotType_t): CBaseAnimatingActivity | undefined;
     HasAnyAvailableInventorySpace(): boolean;
     HasFlyingVision(): boolean;
     HasOwnerAbandoned(): boolean;
@@ -3138,7 +3099,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      * Value is stored in PlayerResource.
      */
     IncrementStreak(): void;
-    IsBuybackDisabledByReapersScythe(): boolean;
+    IsBuybackDisabledByDevilsBargain(): boolean;
     IsReincarnating(): boolean;
     IsStashEnabled(): boolean;
     KilledHero(hero: CDOTA_BaseNPC_Hero, inflictor: CDOTABaseAbility | undefined): void;
@@ -3180,7 +3141,7 @@ declare interface CDOTA_BaseNPC_Hero extends CDOTA_BaseNPC {
      * Sets the buyback cooldown time.
      */
     SetBuybackCooldownTime(time: number): void;
-    SetBuyBackDisabledByReapersScythe(buybackDisabled: boolean): void;
+    SetBuyBackDisabledByDevilsBargain(buybackDisabled: boolean): void;
     /**
      * Set the amount of time gold gain is limited after buying back.
      */
@@ -4284,6 +4245,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetBuffAmplification?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetConvertAttackPhysicalToPure?(): void;
     /**
      * @abstract
@@ -4454,7 +4420,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierBaseArmorPerAgiBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierBaseAttack_BonusDamage?(): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseAttackSpeedPerAgiBonusPercentage?(): void;
     /**
      * @abstract
      * @both
@@ -4480,6 +4456,21 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierBaseDamageOutgoing_PercentageUnique?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseHpRegenPerStrBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseMagicResistPerIntBonusPercentage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierBaseManaRegenPerIntBonusPercentage?(): void;
     /**
      * @abstract
      * @both
@@ -4510,26 +4501,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierBonusDamageOutgoing_Percentage?(): void;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierBonusLotusHeal?(): void;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierBonusLotusHeal?(): void;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierBonusLotusHeal?(): void;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierBonusLotusHeal?(): void;
     /**
      * @abstract
      * @both
@@ -4801,7 +4772,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    GetModifierHPRegen_CanBeNegative?(): void;
+    GetModifierHeroLevelScale?(): void;
     /**
      * @abstract
      * @both
@@ -4879,6 +4850,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierInnateDamageBlockPctOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierIntellectNone?(): void;
     /**
      * @abstract
      * @both
@@ -4974,11 +4950,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierMaxAttackRange?(): number;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierMaxDebuffDuration?(): void;
     /**
      * @abstract
      * @both
@@ -5165,12 +5136,37 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierOverrideBaseDamage?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideCreepBounty?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideUntargetableFrom?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierOverrideUntargetableTo?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPercentageAttackAnimTime?(): number;
     /**
      * @abstract
      * @both
      */
     GetModifierPercentageCasttime?(event: ModifierAbilityEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPercentageConvertExpToGold?(): void;
     /**
      * @abstract
      * @both
@@ -5215,6 +5211,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPercentageKillAssistGoldBoost?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPercentageManacost?(event: ModifierAbilityEvent): number;
     /**
      * @abstract
@@ -5236,6 +5237,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierPhysical_ConstantBlock?(event: ModifierAttackEvent): number;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPhysical_ConstantBlockBonus?(): void;
     /**
      * @abstract
      * @both
@@ -5432,6 +5438,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetModifierPropertySuppressInvalidMoveAttackOrders?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetModifierPropertyUpgradeNeutralArtifacts?(): void;
     /**
      * @abstract
@@ -5487,11 +5498,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierSpellAmplify_Percentage?(event: ModifierAttackEvent): number;
-    /**
-     * @abstract
-     * @both
-     */
-    GetModifierSpellAmplify_PercentageCreep?(): void;
     /**
      * @abstract
      * @both
@@ -5552,6 +5558,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierSuperIllusion?(): 0 | 1;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierSuperIllusionWithItems?(): void;
     /**
      * @abstract
      * @both
@@ -5671,6 +5682,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    GetRequiredLevel?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     GetSkipAttackRegulator?(): void;
     /**
      * @abstract
@@ -5731,6 +5747,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    HasBonusNeutralItemPassive?(): void;
+    /**
+     * @abstract
+     * @both
+     */
     MinAttributeLevel?(): void;
     /**
      * @abstract
@@ -5761,12 +5782,17 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnAbilityToggled?(): void;
+    OnAbilitySwapped?(event: ModifierAbilityEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnAssist?(): void;
+    OnAbilityToggled?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnAssist?(event: ModifierUnitEvent): void;
     /**
      * @abstract
      * @both
@@ -5848,12 +5874,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnDamageHPLoss?(): void;
+    OnDamageHPLoss?(event: ModifierAttackEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnDamagePrevented?(): void;
+    OnDamagePrevented?(event: ModifierAttackEvent): void;
     /**
      * @abstract
      * @both
@@ -5898,7 +5924,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnHeroBeginDying?(): void;
+    OnHeroBeginDying?(event: ModifierAttackEvent): void;
     /**
      * @abstract
      * @both
@@ -5908,12 +5934,22 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnKill?(): void;
+    OnIllusionCreated?(event: ModifierUnitEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnMagicDamageCalculated?(): void;
+    OnKill?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnKnockbackAttempted?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnMagicDamageCalculated?(event: ModifierAttackEvent): void;
     /**
      * @abstract
      * @both
@@ -5933,7 +5969,12 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnModifierRemoved?(): void;
+    OnModifierRefreshed?(event: ModifierAddedEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnModifierRemoved?(event: ModifierAddedEvent): void;
     /**
      * @abstract
      * @both
@@ -5953,7 +5994,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnPreDebuffApplied?(): void;
+    OnOrderReceived?(): void;
     /**
      * @abstract
      * @both
@@ -5978,17 +6019,32 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
+    OnPurged?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
     OnRespawn?(event: ModifierUnitEvent): void;
     /**
      * @abstract
      * @both
      */
-    OnRuneSpawn?(): void;
+    OnRuneSpawn?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnScepterUpgradeSelected?(): void;
     /**
      * @abstract
      * @both
      */
     OnSetLocation?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnShardUpgradeSelected?(): void;
     /**
      * @abstract
      * @both
@@ -6004,6 +6060,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnSpentHealth?(event: ModifierAbilityEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnSpentItemCharge?(): void;
     /**
      * @abstract
      * @both
@@ -6058,7 +6119,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnTreeCutDown?(): void;
+    OnTreeCutDown?(event: ModifierUnitEvent): void;
     /**
      * @abstract
      * @both
@@ -7218,6 +7279,11 @@ declare interface CDOTABaseGameMode extends CBaseEntity {
      */
     SetFogOfWarDisabled(disabled: boolean): void;
     /**
+     * Caps the number of players spawned when the game is reset. Used in tutorials
+     * where players are spawned in the script.
+     */
+    SetForcedHeroCapOnReset(cap: number): void;
+    /**
      * Specify a HUD skin that is forced on for this game mode.
      */
     SetForcedHUDSkin(value: string): void;
@@ -7622,7 +7688,7 @@ declare interface CDOTAGameRules {
     /**
      * Begin temporary night.
      */
-    BeginTemporaryNight(duration: number): void;
+    BeginTemporaryNight(duration: number, arg2: number): void;
     /**
      * Fills all the teams with bots if cheat mode is enabled.
      */
@@ -8396,6 +8462,10 @@ declare interface CDOTATutorial {
      */
     IsItemInWhiteList(itemName: string): boolean;
     /**
+     * Moves the camera to a position.
+     */
+    MoveCameraToLocation(arg1: Vector): void;
+    /**
      * Remove an item from the shop whitelist.
      */
     RemoveShopWhitelistItem(itemName: string): void;
@@ -8450,7 +8520,7 @@ declare interface CDOTATutorial {
 
 declare const CDotaTutorialNPCBlocker: DotaConstructor<CDotaTutorialNPCBlocker>;
 
-declare interface CDotaTutorialNPCBlocker extends CBaseFlex {
+declare interface CDotaTutorialNPCBlocker extends CBaseAnimatingOverlay {
     SetEnabled(enabled: boolean): void;
     SetOtherBlocker(blocker: object): void;
     __kind__: 'instance';
@@ -8486,7 +8556,7 @@ declare interface CEntities {
     /**
      * Find entities by class name within a radius.
      */
-    FindAllByClassnameWithin(className: string, location: Vector, radius: number): CBaseEntity[];
+    FindAllByClassnameWithin(arg1: string, location: Vector, arg3: number): object;
     /**
      * Find entities by model name.
      */
@@ -8499,7 +8569,7 @@ declare interface CEntities {
     /**
      * Find entities by name within a radius.
      */
-    FindAllByNameWithin(name: string, location: Vector, radius: number): CBaseEntity[];
+    FindAllByNameWithin(arg1: string, location: Vector, arg3: number): object;
     /**
      * Find entities by targetname.
      */
@@ -8507,7 +8577,7 @@ declare interface CEntities {
     /**
      * Find entities within a radius.
      */
-    FindAllInSphere(location: Vector, radius: number): CBaseEntity[];
+    FindAllInSphere(location: Vector, arg2: number): object;
     /**
      * Find entities by class name. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
@@ -8516,17 +8586,12 @@ declare interface CEntities {
     /**
      * Find entities by class name nearest to a point.
      */
-    FindByClassnameNearest(className: string, location: Vector, radius: number): CBaseEntity | undefined;
+    FindByClassnameNearest(arg1: string, location: Vector, arg3: number): object;
     /**
      * Find entities by class name within a radius. Pass 'null' to start an iteration,
      * or reference to a previously found entity to continue a search.
      */
-    FindByClassnameWithin(
-        previous: CBaseEntity | undefined,
-        className: string,
-        location: Vector,
-        radius: number,
-    ): CBaseEntity | undefined;
+    FindByClassnameWithin(arg1: object, arg2: string, location: Vector, arg4: number): object;
     /**
      * Find entities by model name. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
@@ -8536,12 +8601,7 @@ declare interface CEntities {
      * Find entities by model name within a radius. Pass 'null' to start an iteration,
      * or reference to a previously found entity to continue a search.
      */
-    FindByModelWithin(
-        previous: CBaseEntity | undefined,
-        modelName: string,
-        location: Vector,
-        radius: number,
-    ): CBaseEntity | undefined;
+    FindByModelWithin(arg1: object, arg2: string, location: Vector, arg4: number): object;
     /**
      * Find entities by name. Pass 'null' to start an iteration, or reference to a
      * previously found entity to continue a search.
@@ -8550,17 +8610,12 @@ declare interface CEntities {
     /**
      * Find entities by name nearest to a point.
      */
-    FindByNameNearest(name: string, location: Vector, radius: number): CBaseEntity | undefined;
+    FindByNameNearest(arg1: string, location: Vector, arg3: number): object;
     /**
      * Find entities by name within a radius. Pass 'null' to start an iteration, or
      * reference to a previously found entity to continue a search.
      */
-    FindByNameWithin(
-        previous: CBaseEntity | undefined,
-        name: string,
-        location: Vector,
-        radius: number,
-    ): CBaseEntity | undefined;
+    FindByNameWithin(arg1: object, arg2: string, location: Vector, arg4: number): object;
     /**
      * Find entities by targetname. Pass 'null' to start an iteration, or reference to
      * a previously found entity to continue a search.
@@ -8570,7 +8625,7 @@ declare interface CEntities {
      * Find entities within a radius. Pass 'null' to start an iteration, or reference
      * to a previously found entity to continue a search.
      */
-    FindInSphere(previous: CBaseEntity | undefined, location: Vector, radius: number): CBaseEntity | undefined;
+    FindInSphere(arg1: object, location: Vector, arg3: number): object;
     /**
      * Begin an iteration over the list of entities.
      *
@@ -8749,32 +8804,6 @@ declare interface CEnvEntityMaker extends CBaseEntity {
      * Create an entity at the location of a named entity.
      */
     SpawnEntityAtNamedEntityOrigin(name: string): void;
-    __kind__: 'instance';
-}
-
-declare const CEnvProjectedTexture: DotaConstructor<CEnvProjectedTexture>;
-
-declare interface CEnvProjectedTexture extends CBaseEntity {
-    /**
-     * Set light maximum range.
-     */
-    SetFarRange(range: number): void;
-    /**
-     * Set light linear attenuation value.
-     */
-    SetLinearAttenuation(atten: number): void;
-    /**
-     * Set light minimum range.
-     */
-    SetNearRange(range: number): void;
-    /**
-     * Set light quadratic attenuation value.
-     */
-    SetQuadraticAttenuation(atten: number): void;
-    /**
-     * Turn on/off light volumetrics.
-     */
-    SetVolumetrics(on: boolean, intensity: number, noise: number, planes: number, planeOffset: number): void;
     __kind__: 'instance';
 }
 
@@ -9122,10 +9151,6 @@ declare interface CSceneEntity extends CBaseEntity {
      */
     IsPlayingBack(): boolean;
     /**
-     * Given a dummy scene name and a vcd string, load the scene.
-     */
-    LoadSceneFromString(arg1: string, arg2: string): boolean;
-    /**
      * Removes a team (by index) from the broadcast list.
      */
     RemoveBroadcastTeamTarget(arg1: number): void;
@@ -9380,7 +9405,7 @@ declare interface CTakeDamageInfo {
     GetDamageCustom(): number;
     GetDamageForce(): Vector;
     GetDamagePosition(): Vector;
-    GetDamageType(): unknown;
+    GetDamageType(): DAMAGE_TYPES;
     GetInflictor(): object;
     GetOriginalDamage(): number;
     GetReportedPosition(): Vector;
@@ -10054,6 +10079,11 @@ declare function cvar_setf(arg1: string, arg2: number): boolean;
  * @both
  */
 declare function DebugBreak(): void;
+
+/**
+ * Changes the team of the hero.
+ */
+declare function DebugChangeTeam(arg1: object): void;
 
 /**
  * Creates a unit with a specified hero variant, controllable by the specified

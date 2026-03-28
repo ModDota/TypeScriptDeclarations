@@ -437,6 +437,9 @@ interface GameEventDeclarations {
     dota_protector_spawned: DotaProtectorSpawnedEvent;
     dota_crafting_xp: DotaCraftingXpEvent;
     dota_roshan_roar: DotaRoshanRoarEvent;
+    dota_unit_aghshard_status_change: DotaUnitAghshardStatusChangeEvent;
+    dota_stone_of_recall_used: DotaStoneOfRecallUsedEvent;
+    dota_blessing_chosen: DotaBlessingChosenEvent;
     npc_spawned: NpcSpawnedEvent;
     npc_spawn_finished: NpcSpawnFinishedEvent;
     npc_replaced: NpcReplacedEvent;
@@ -453,6 +456,7 @@ interface GameEventDeclarations {
      * An NPC has gained aggro (is attacking) a hero.
      */
     dota_hero_on_gain_aggro: DotaHeroOnGainAggroEvent;
+    dota_ancient_decoration_event: DotaAncientDecorationEventEvent;
 }
 /**
  * Send once a server starts.
@@ -2486,6 +2490,21 @@ interface DotaRoshanRoarEvent {
     teamnumber: number;
 }
 
+interface DotaUnitAghshardStatusChangeEvent {
+    entindex: EntityIndex;
+    has_scepter: 0 | 1;
+    has_shard: 0 | 1;
+}
+
+interface DotaStoneOfRecallUsedEvent {
+    caster_userid: EntityIndex;
+}
+
+interface DotaBlessingChosenEvent {
+    blessing_receipient_id: number;
+    blessing: number;
+}
+
 interface NpcSpawnedEvent {
     entindex: EntityIndex;
     is_respawn: number;
@@ -2528,4 +2547,10 @@ interface ChatMembersChangedEvent {
 interface DotaHeroOnGainAggroEvent {
     entindex_attacker: EntityIndex;
     entindex_hero: EntityIndex;
+}
+
+interface DotaAncientDecorationEventEvent {
+    entindex: EntityIndex;
+    teamnumber: number;
+    eventname: string;
 }

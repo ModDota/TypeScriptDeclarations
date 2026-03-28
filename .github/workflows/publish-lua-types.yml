@@ -4,6 +4,10 @@ on:
   push:
     tags: 'dota-lua-types@*'
 
+permissions:
+  id-token: write # Required for trusted publishing
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,12 +15,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
           scope: '@moddota'
       - run: npm ci
       - run: npm run build
       - run: npm publish
         working-directory: packages/dota-lua-types
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}

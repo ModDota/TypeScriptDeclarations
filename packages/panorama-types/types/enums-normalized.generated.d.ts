@@ -1134,7 +1134,7 @@ declare enum LoadoutType {
     TYPE_NONE = 102,
 }
 
-declare const MODIFIER_FUNCTION_LAST: 398;
+declare const MODIFIER_FUNCTION_LAST: 399;
 
 /**
  * @deprecated Non-normalized enum name. Defined only for library compatibility.
@@ -2087,25 +2087,25 @@ declare enum ModifierFunction {
      */
     ON_HEAL_RECEIVED = 233,
     /**
+     * Method Name: `OnRedirectHealthGain`
+     */
+    ON_REDIRECT_HEALTH_GAIN = 234,
+    /**
      * Method Name: `OnBuildingKilled`
      */
-    ON_BUILDING_KILLED = 234,
+    ON_BUILDING_KILLED = 235,
     /**
      * Method Name: `OnModelChanged`
      */
-    ON_MODEL_CHANGED = 235,
+    ON_MODEL_CHANGED = 236,
     /**
      * Method Name: `OnModifierAdded`
      */
-    ON_MODIFIER_ADDED = 236,
+    ON_MODIFIER_ADDED = 237,
     /**
      * Method Name: `OnModifierRemoved`
      */
-    ON_MODIFIER_REMOVED = 237,
-    /**
-     * Method Name: `OnKnockbackAttempted`
-     */
-    ON_KNOCKBACK_ATTEMPTED = 238,
+    ON_MODIFIER_REMOVED = 238,
     /**
      * Method Name: `OnScepterUpgradeSelected`
      */
@@ -2671,7 +2671,7 @@ declare enum ModifierFunction {
      */
     MOVESPEED_MAX_BONUS_CONSTANT = 376,
     /**
-     * Method Name: `GetModifierMoveSpeedPostMultiplierBonus_Constant `
+     * Method Name: `GetModifierMoveSpeedPostMultiplierBonus_Constant`
      */
     MOVESPEED_POST_MULTIPLIER_BONUS_CONSTANT = 377,
     /**
@@ -2695,65 +2695,69 @@ declare enum ModifierFunction {
      */
     HEAL_AMPLIFY_PERCENTAGE_SOURCE_UNIQUE = 382,
     /**
+     * Method Name: `GetModifierPropertyRedirectHealthGain`
+     */
+    REDIRECT_HEALTH_GAIN = 383,
+    /**
      * Method Name: `GetSuppressIncomingCrit`
      */
-    SUPPRESS_INCOMING_CRIT = 383,
+    SUPPRESS_INCOMING_CRIT = 384,
     /**
      * Method Name: `GetModifierPropertyUpgradeNeutralArtifacts`
      */
-    UPGRADE_NEUTRAL_ARTIFACTS = 384,
+    UPGRADE_NEUTRAL_ARTIFACTS = 385,
     /**
      * Method Name: `GetModifierPropertySuppressInvalidMoveAttackOrders`
      */
-    SUPPRESS_INVALID_MOVE_ATTACK_ORDERS = 385,
+    SUPPRESS_INVALID_MOVE_ATTACK_ORDERS = 386,
     /**
      * Method Name: `GetModifierPropertyConsumableUseSpeed`
      */
-    CONSUMABLE_USE_SPEED = 386,
+    CONSUMABLE_USE_SPEED = 387,
     /**
      * Method Name: `GetRequiredLevel`
      */
-    REQUIRED_LEVEL = 387,
+    REQUIRED_LEVEL = 388,
     /**
      * Method Name: `OnModifierRefreshed`
      */
-    ON_MODIFIER_REFRESHED = 388,
+    ON_MODIFIER_REFRESHED = 389,
     /**
      * Method Name: `OnAbilitySwapped`
      */
-    ON_ABILITY_SWAPPED = 389,
+    ON_ABILITY_SWAPPED = 390,
     /**
      * Method Name: `GetModifierOverrideCreepBounty`
      */
-    OVERRIDE_CREEP_BOUNTY = 390,
+    OVERRIDE_CREEP_BOUNTY = 391,
     /**
      * Method Name: `GetModifierOverrideBaseDamage`
      */
-    OVERRIDE_BASE_DAMAGE = 391,
+    OVERRIDE_BASE_DAMAGE = 392,
     /**
      * Method Name: `GetModifierOverrideUntargetableFrom`
      */
-    UNTARGETABLE_FROM = 392,
+    UNTARGETABLE_FROM = 393,
     /**
      * Method Name: `GetModifierOverrideUntargetableTo`
      */
-    UNTARGETABLE_TO = 393,
+    UNTARGETABLE_TO = 394,
     /**
      * Method Name: `GetModifierSuperIllusionWithItems`
      */
-    SUPER_ILLUSION_WITH_ITEMS = 394,
+    SUPER_ILLUSION_WITH_ITEMS = 395,
     /**
      * Method Name: `OnPurged`
      */
-    ON_PURGE = 395,
+    ON_PURGE = 396,
     /**
      * Method Name: `OnIllusionCreated`
      */
-    ON_ILLUSION_CREATED = 396,
+    ON_ILLUSION_CREATED = 397,
     /**
      * Method Name: `GetModifierHeroLevelScale`
      */
-    HEROLEVELSCALE = 397,
+    HEROLEVELSCALE = 398,
     INVALID = 65535,
 }
 

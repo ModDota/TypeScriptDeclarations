@@ -2775,18 +2775,18 @@ declare enum GameActivity_t {
     ACT_DOTA_TAUNT_STATUE = 1790,
     ACT_DOTA_IDLE_STATUE = 1791,
     ACT_DOTA_DISABLED_END = 1792,
-    ACT_DOTA_CAST3_STATUE = 1793,
-    ACT_DOTA_CAST4_STATUE = 1794,
-    ACT_DOTA_CAST5_STATUE = 1795,
-    ACT_DOTA_RELAX_IN = 1796,
-    ACT_DOTA_RELAX_OUT = 1797,
-    ACT_DOTA_CAST_FENCE = 1798,
-    ACT_DOTA_RADIANT_CREEP_HAMMER = 1800,
-    ACT_DOTA_SPWN = 1801,
-    ACT_DOTA_RUN_ALT = 1805,
-    ACT_DOTA_VOODOO_REST = 1806,
-    ACT_DOTA_CYCLONE = 1807,
-    ACT_DOTA_IMPALE = 1808,
+    ACT_DOTA_VOODOO_REST = 1793,
+    ACT_DOTA_CYCLONE = 1794,
+    ACT_DOTA_IMPALE = 1795,
+    ACT_DOTA_TORRENT = 1796,
+    ACT_DOTA_RADIANT_CREEP_HAMMER = 1798,
+    ACT_DOTA_RELAX_IN = 1799,
+    ACT_DOTA_RELAX_OUT = 1800,
+    ACT_DOTA_CAST_FENCE = 1801,
+    ACT_DOTA_SPWN = 1802,
+    ACT_DOTA_CAST3_STATUE = 1803,
+    ACT_DOTA_CAST4_STATUE = 1804,
+    ACT_DOTA_CAST5_STATUE = 1805,
 }
 
 /**
@@ -3759,25 +3759,25 @@ declare enum modifierfunction {
      */
     MODIFIER_EVENT_ON_HEAL_RECEIVED = 233,
     /**
+     * Method Name: `OnRedirectHealthGain`
+     */
+    MODIFIER_EVENT_ON_REDIRECT_HEALTH_GAIN = 234,
+    /**
      * Method Name: `OnBuildingKilled`
      */
-    MODIFIER_EVENT_ON_BUILDING_KILLED = 234,
+    MODIFIER_EVENT_ON_BUILDING_KILLED = 235,
     /**
      * Method Name: `OnModelChanged`
      */
-    MODIFIER_EVENT_ON_MODEL_CHANGED = 235,
+    MODIFIER_EVENT_ON_MODEL_CHANGED = 236,
     /**
      * Method Name: `OnModifierAdded`
      */
-    MODIFIER_EVENT_ON_MODIFIER_ADDED = 236,
+    MODIFIER_EVENT_ON_MODIFIER_ADDED = 237,
     /**
      * Method Name: `OnModifierRemoved`
      */
-    MODIFIER_EVENT_ON_MODIFIER_REMOVED = 237,
-    /**
-     * Method Name: `OnKnockbackAttempted`
-     */
-    MODIFIER_EVENT_ON_KNOCKBACK_ATTEMPTED = 238,
+    MODIFIER_EVENT_ON_MODIFIER_REMOVED = 238,
     /**
      * Method Name: `OnScepterUpgradeSelected`
      */
@@ -4343,7 +4343,7 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_MOVESPEED_MAX_BONUS_CONSTANT = 376,
     /**
-     * Method Name: `GetModifierMoveSpeedPostMultiplierBonus_Constant `
+     * Method Name: `GetModifierMoveSpeedPostMultiplierBonus_Constant`
      */
     MODIFIER_PROPERTY_MOVESPEED_POST_MULTIPLIER_BONUS_CONSTANT = 377,
     /**
@@ -4367,66 +4367,70 @@ declare enum modifierfunction {
      */
     MODIFIER_PROPERTY_HEAL_AMPLIFY_PERCENTAGE_SOURCE_UNIQUE = 382,
     /**
+     * Method Name: `GetModifierPropertyRedirectHealthGain`
+     */
+    MODIFIER_PROPERTY_REDIRECT_HEALTH_GAIN = 383,
+    /**
      * Method Name: `GetSuppressIncomingCrit`
      */
-    MODIFIER_PROPERTY_SUPPRESS_INCOMING_CRIT = 383,
+    MODIFIER_PROPERTY_SUPPRESS_INCOMING_CRIT = 384,
     /**
      * Method Name: `GetModifierPropertyUpgradeNeutralArtifacts`
      */
-    MODIFIER_PROPERTY_UPGRADE_NEUTRAL_ARTIFACTS = 384,
+    MODIFIER_PROPERTY_UPGRADE_NEUTRAL_ARTIFACTS = 385,
     /**
      * Method Name: `GetModifierPropertySuppressInvalidMoveAttackOrders`
      */
-    MODIFIER_PROPERTY_SUPPRESS_INVALID_MOVE_ATTACK_ORDERS = 385,
+    MODIFIER_PROPERTY_SUPPRESS_INVALID_MOVE_ATTACK_ORDERS = 386,
     /**
      * Method Name: `GetModifierPropertyConsumableUseSpeed`
      */
-    MODIFIER_PROPERTY_CONSUMABLE_USE_SPEED = 386,
+    MODIFIER_PROPERTY_CONSUMABLE_USE_SPEED = 387,
     /**
      * Method Name: `GetRequiredLevel`
      */
-    MODIFIER_PROPERTY_REQUIRED_LEVEL = 387,
+    MODIFIER_PROPERTY_REQUIRED_LEVEL = 388,
     /**
      * Method Name: `OnModifierRefreshed`
      */
-    MODIFIER_EVENT_ON_MODIFIER_REFRESHED = 388,
+    MODIFIER_EVENT_ON_MODIFIER_REFRESHED = 389,
     /**
      * Method Name: `OnAbilitySwapped`
      */
-    MODIFIER_EVENT_ON_ABILITY_SWAPPED = 389,
+    MODIFIER_EVENT_ON_ABILITY_SWAPPED = 390,
     /**
      * Method Name: `GetModifierOverrideCreepBounty`
      */
-    MODIFIER_PROPERTY_OVERRIDE_CREEP_BOUNTY = 390,
+    MODIFIER_PROPERTY_OVERRIDE_CREEP_BOUNTY = 391,
     /**
      * Method Name: `GetModifierOverrideBaseDamage`
      */
-    MODIFIER_PROPERTY_OVERRIDE_BASE_DAMAGE = 391,
+    MODIFIER_PROPERTY_OVERRIDE_BASE_DAMAGE = 392,
     /**
      * Method Name: `GetModifierOverrideUntargetableFrom`
      */
-    MODIFIER_PROPERTY_UNTARGETABLE_FROM = 392,
+    MODIFIER_PROPERTY_UNTARGETABLE_FROM = 393,
     /**
      * Method Name: `GetModifierOverrideUntargetableTo`
      */
-    MODIFIER_PROPERTY_UNTARGETABLE_TO = 393,
+    MODIFIER_PROPERTY_UNTARGETABLE_TO = 394,
     /**
      * Method Name: `GetModifierSuperIllusionWithItems`
      */
-    MODIFIER_PROPERTY_SUPER_ILLUSION_WITH_ITEMS = 394,
+    MODIFIER_PROPERTY_SUPER_ILLUSION_WITH_ITEMS = 395,
     /**
      * Method Name: `OnPurged`
      */
-    MODIFIER_EVENT_ON_PURGE = 395,
+    MODIFIER_EVENT_ON_PURGE = 396,
     /**
      * Method Name: `OnIllusionCreated`
      */
-    MODIFIER_EVENT_ON_ILLUSION_CREATED = 396,
+    MODIFIER_EVENT_ON_ILLUSION_CREATED = 397,
     /**
      * Method Name: `GetModifierHeroLevelScale`
      */
-    MODIFIER_PROPERTY_HEROLEVELSCALE = 397,
-    MODIFIER_FUNCTION_LAST = 398,
+    MODIFIER_PROPERTY_HEROLEVELSCALE = 398,
+    MODIFIER_FUNCTION_LAST = 399,
     MODIFIER_FUNCTION_INVALID = 65535,
 }
 

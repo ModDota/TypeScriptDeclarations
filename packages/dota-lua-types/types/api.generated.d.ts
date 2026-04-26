@@ -1517,6 +1517,12 @@ declare interface CDOTA_Ability_Lua extends CDOTABaseAbility {
     OnUpgrade(): void;
     OtherAbilitiesAlwaysInterruptChanneling(): boolean;
     /**
+     * Return if an ability and its modifiers should pierce debuff immunity.
+     *
+     * @both
+     */
+    PiercesDebuffImmunity(): boolean;
+    /**
      * Returns true if this ability will generate magic stick charges for nearby
      * enemies.
      */
@@ -3784,9 +3790,10 @@ declare interface CDOTA_Item_Lua extends CDOTA_Item {
      */
     OnChannelThink(interval: number): void;
     /**
-     * Runs when item's charge count changes.
+     * Runs when item's charge count changes. bSpent is true when the charge count
+     * change is coming from SpendCharge.
      */
-    OnChargeCountChanged(): void;
+    OnChargeCountChanged(spent: boolean): void;
     /**
      * Caster (hero only) gained a level, skilled an ability, or received a new stat
      * bonus.
@@ -4126,6 +4133,13 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnStackCountChanged(stackCount: number): void;
+    /**
+     * Returns true or false on if the effects of this modifier should pierce debuff
+     * immunity. By default uses the setting from the ability.
+     *
+     * @both
+     */
+    PiercesDebuffImmunity(): boolean;
     /**
      * True/false if this modifier is removed when the parent dies.
      *
@@ -5069,7 +5083,7 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    'GetModifierMoveSpeedPostMultiplierBonus_Constant '?(): void;
+    GetModifierMoveSpeedPostMultiplierBonus_Constant?(): void;
     /**
      * @abstract
      * @both
@@ -5424,6 +5438,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     GetModifierPropertyManacostOverride?(): void;
+    /**
+     * @abstract
+     * @both
+     */
+    GetModifierPropertyRedirectHealthGain?(): void;
     /**
      * @abstract
      * @both
@@ -5944,11 +5963,6 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @abstract
      * @both
      */
-    OnKnockbackAttempted?(): void;
-    /**
-     * @abstract
-     * @both
-     */
     OnMagicDamageCalculated?(event: ModifierAttackEvent): void;
     /**
      * @abstract
@@ -6020,6 +6034,11 @@ declare interface CDOTA_Modifier_Lua extends CDOTA_Buff {
      * @both
      */
     OnPurged?(event: ModifierUnitEvent): void;
+    /**
+     * @abstract
+     * @both
+     */
+    OnRedirectHealthGain?(): void;
     /**
      * @abstract
      * @both
@@ -6616,6 +6635,10 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     GetAbilityTargetTeam(): DOTA_UNIT_TARGET_TEAM;
     GetAbilityTargetType(): DOTA_UNIT_TARGET_TYPE;
     GetAbilityType(): number;
+    /**
+     * Gets the current Alt Cast State.
+     */
+    GetAltCastState(): boolean;
     GetAnimationIgnoresModelScale(): boolean;
     GetAOERadius(): number;
     GetAssociatedPrimaryAbilities(): string;
@@ -6791,6 +6814,10 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     ResetToggleOnRespawn(): boolean;
     SetAbilityIndex(index: number): void;
     SetActivated(activated: boolean): void;
+    /**
+     * Set Alt Cast State to a specific value (true for on, false for off).
+     */
+    SetAltCastState(altCastEnabled: boolean): void;
     SetChanneling(channeling: boolean): void;
     SetCurrentAbilityCharges(charges: number): void;
     SetFrozenCooldown(frozenCooldown: boolean): void;
@@ -6805,11 +6832,20 @@ declare interface CDOTABaseAbility extends CBaseEntity {
     SetStealable(stealable: boolean): void;
     SetStolen(stolen: boolean): void;
     SetUpgradeRecommended(upgradeRecommended: boolean): void;
+    /**
+     * This is what the Alt Cast State of the ability was when it was initially cast.
+     * Updated during Execute Orders.
+     */
+    ShouldAltCast(): boolean;
     ShouldUseResources(): boolean;
     SpeakAbilityConcept(concept: number): void;
     SpeakTrigger(): unknown;
     StartCooldown(cooldown: number): void;
     ToggleAbility(): void;
+    /**
+     * Toggle the Alt Cast State of an Ability.
+     */
+    ToggleAltCast(): void;
     ToggleAutoCast(): void;
     UpgradeAbility(supressSpeech: boolean): void;
     UseResources(mana: boolean, useHealth: boolean, gold: boolean, cooldown: boolean): void;
